@@ -22,12 +22,17 @@
 
 [
   {
-    name: 'GCAM. Global Change Assessment Model'
-  },
-  {
     name: 'EPS. Energy Policy Solutions Model'
   },
   {
     name: 'E3 Pathways Model'
   }
 ].each { |model_attrs| Model.create(model_attrs.merge(team: @team_amazing))}
+
+@gcam = Model.create(name: 'GCAM. Global Change Assessment Model', team: @team_amazing)
+
+[
+  'GCAM-Reference', 'GCAM-Paris', 'GCAM-Paris Plus', 'RCP 2.6', 'RCP 6.0'
+].each do |scenario_name|
+  Scenario.create(name: scenario_name, model: @gcam)
+end

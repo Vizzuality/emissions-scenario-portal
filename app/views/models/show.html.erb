@@ -1,1 +1,16 @@
 <%= @model.name %>
+
+<ul>
+  <li>Scenarios:
+    <% @scenarios.each do |scenario| %>
+      <%= scenario.name %>
+    <% end %>
+    <%= link_to 'SEE ALL', model_scenarios_url(@model) %>
+  </li>
+  <li>Indicators:
+
+  </li>
+  <li>Updates:
+
+  </li>
+</ul>

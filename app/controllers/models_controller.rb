@@ -10,6 +10,7 @@ class ModelsController < ApplicationController
 
   def show
     @model = Model.find(params[:id])
+    @scenarios = @model.scenarios.limit(5)
   end
 
   private
