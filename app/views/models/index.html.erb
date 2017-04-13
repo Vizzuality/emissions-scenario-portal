@@ -1,0 +1,9 @@
+<ul>
+  <% @models.each do |model| %>
+  <li>
+    <p><%= model.name %></p>
+    <p>Last updated on <%= model.updated_at.to_formatted_s(:short) %></p>
+    <span><%= link_to 'SELECT THIS MODEL', model_url(model) %></span>
+  </li>
+  <% end %>
+</ul>
