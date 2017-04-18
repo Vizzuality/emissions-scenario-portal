@@ -6,6 +6,9 @@ module ModelAttributes
   included do
     validates :abbreviation, presence: true, uniqueness: true
     validates :full_name, presence: true
+    # TODO development_year
+    # TODO base_year
+    # TODO url
   end
 
   # def key_for_name(attribute_symbol)
