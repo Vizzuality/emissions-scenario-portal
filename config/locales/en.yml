@@ -20,4 +20,10 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  models:
+    abbreviation:
+      name: "Abbreviation"
+      definition: "What is the model abbreviation?"
+    full_name:
+      name: "Full Name"
+      definition: "What is the full model name?"
