@@ -3,4 +3,6 @@ Rails.application.routes.draw do
   resources :models, only: [:index, :show] do
     resources :scenarios, only: [:index], shallow: true
   end
+
+  root to: 'models#index'
 end
