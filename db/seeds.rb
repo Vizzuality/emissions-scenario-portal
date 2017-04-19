@@ -31,7 +31,17 @@
   }
 ].each { |model_attrs| Model.create(model_attrs.merge(team: @team_amazing))}
 
-@gcam = Model.create(abbreviation: 'GCAM', full_name: 'Global Change Assessment Model', team: @team_amazing)
+@gcam = Model.create(
+  abbreviation: 'GCAM',
+  full_name: 'Global Change Assessment Model',
+  current_version: '4',
+  development_year: 2012,
+  programming_language: ['Python'],
+  maintainer_type: 'private',
+  maintainer_name: 'Pacific Northwest National Laboratory (PNNL)',
+  license: 'Free and Open Source',
+  team: @team_amazing
+)
 
 [
   'GCAM-Reference', 'GCAM-Paris', 'GCAM-Paris Plus', 'RCP 2.6', 'RCP 6.0'

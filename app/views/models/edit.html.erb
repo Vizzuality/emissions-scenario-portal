@@ -1,1 +1,11 @@
 <%= render 'header' %>
+
+<ul>
+  <% Model.attribute_symbols.each do |attribute_symbol| %>
+  <li>
+    <%= attribute_name(attribute_symbol) %>
+    (<%= attribute_definition(attribute_symbol) %>)
+    <%= attribute_input(attribute_symbol) %>
+  </li>
+  <% end %>
+</ul>
