@@ -1,4 +1,4 @@
-<%= @model.abbreviation %>. <%= @model.full_name %>
+<%= render 'header' %>
 
 <ul>
   <li>Scenarios:
@@ -14,3 +14,5 @@
 
   </li>
 </ul>
+
+<%= link_to 'EDIT', edit_model_url(@model) %>

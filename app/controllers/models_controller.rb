@@ -13,6 +13,10 @@ class ModelsController < ApplicationController
     @scenarios = @model.scenarios.limit(5)
   end
 
+  def edit
+    @model = Model.find(params[:id])
+  end
+
   private
 
   def set_team
