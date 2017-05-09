@@ -1,6 +1,8 @@
 <%= render 'header' %>
 
 <%= form_for @model do |f| %>
+  <%= link_to 'CANCEL', models_url %>
+  <%= f.submit 'SAVE' %>
   <ul>
     <% Model.attribute_symbols.each do |attribute_symbol| %>
     <li>

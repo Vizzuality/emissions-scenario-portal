@@ -25,4 +25,16 @@ RSpec.describe ModelsController, type: :controller do
     end
   end
 
+  describe "PUT update" do
+    it "renders edit when validation errors present" do
+      put :update, params: {id: model.id, model: {abbreviation: nil}}
+      expect(response).to render_template(:edit)
+    end
+
+    it "redirects to model when successful" do
+      put :update, params: {id: model.id, model: {abbreviation: 'ABC'}}
+      expect(response).to redirect_to(model_url(model))
+    end
+  end
+
 end

@@ -6,9 +6,14 @@ module ModelAttributes
   included do
     validates :abbreviation, presence: true, uniqueness: true
     validates :full_name, presence: true
-    # TODO development_year
-    # TODO base_year
-    # TODO url
+    validates :development_year,
+      numericality: {only_integer: true, allow_nil: true},
+      inclusion: {in: 1900..Date.today.year, allow_nil: true}
+    validates :base_year,
+      numericality: {only_integer: true, allow_nil: true},
+      inclusion: {in: 1900..Date.today.year, allow_nil: true}
+    validates_format_of :url, :with => URI::regexp(%w(http https)),
+      allow_blank: true
   end
 
   def key_for_name(attribute_symbol)
@@ -86,6 +91,16 @@ module ModelAttributes
 
     def attribute_symbols
       ALL_ATTRIBUTES.map{ |a| a[:name] }
+    end
+
+    def attribute_symbols_for_strong_params
+      ALL_ATTRIBUTES.map do |a|
+        if a[:multiple]
+          {a[:name] => []}
+        else
+          a[:name]
+        end
+      end
     end
 
     def is_picklist_attribute?(attribute_symbol)
