@@ -25,7 +25,6 @@ module ModelAttributes
   end
 
   class_methods do
-
     ALL_ATTRIBUTES = [
       {name: :abbreviation},
       {name: :full_name},
@@ -110,6 +109,5 @@ module ModelAttributes
     def is_multiple_attribute?(attribute_symbol)
       MULTIPLE_ATTRIBUTES.include?(attribute_symbol)
     end
-
   end
 end

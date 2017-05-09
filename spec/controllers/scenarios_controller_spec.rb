@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe ScenariosController, type: :controller do
-
   let(:model) { FactoryGirl.create(:model) }
   let!(:scenario) { FactoryGirl.create(:scenario, model: model) }
 
@@ -11,5 +10,4 @@ RSpec.describe ScenariosController, type: :controller do
       expect(response).to render_template(:index)
     end
   end
-
 end

@@ -13,8 +13,7 @@ class ModelsController < ApplicationController
     @scenarios = @model.scenarios.limit(5)
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @model.update_attributes(model_params)

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe ModelsController, type: :controller do
-
   let(:team) { FactoryGirl.create(:team) }
   let!(:model) { FactoryGirl.create(:model, team: team) }
 
@@ -36,5 +35,4 @@ RSpec.describe ModelsController, type: :controller do
       expect(response).to redirect_to(model_url(model))
     end
   end
-
 end
