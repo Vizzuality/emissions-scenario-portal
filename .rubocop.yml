@@ -5,4 +5,8 @@ AllCops:
     - 'db/schema.rb'
     - 'db/migrate/*'
     - 'config/environments/*'
+    - 'config/initializers/*'
     - 'config/*'
+
+Style/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: no_space

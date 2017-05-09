@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ScenariosController, type: :controller do
 
   let(:model) { FactoryGirl.create(:model) }
-  let!(:scenario) { FactoryGirl.create(:scenario, model: model)}
+  let!(:scenario) { FactoryGirl.create(:scenario, model: model) }
 
   describe 'GET index' do
     it 'renders index' do

@@ -15,6 +15,6 @@ RSpec.describe Model, type: :model do
   it 'should be inmvalid when team not present' do
     expect(
       FactoryGirl.build(:model, team: nil)
-    ).to have(1).errors_on(:team)   
+    ).to have(1).errors_on(:team)
   end
 end

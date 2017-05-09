@@ -29,7 +29,7 @@
     abbreviation: 'E3',
     full_name: 'E3 Pathways Model'
   }
-].each { |model_attrs| Model.create(model_attrs.merge(team: @team_amazing))}
+].each { |model_attrs| Model.create(model_attrs.merge(team: @team_amazing)) }
 
 @gcam = Model.create(
   abbreviation: 'GCAM',

@@ -82,15 +82,15 @@ module ModelAttributes
     ]
 
     PICKLIST_ATTRIBUTES = Set.new(
-      ALL_ATTRIBUTES.select{ |a| a[:picklist] == true }.map{ |a| a[:name] }
+      ALL_ATTRIBUTES.select { |a| a[:picklist] == true }.map { |a| a[:name] }
     )
 
     MULTIPLE_ATTRIBUTES = Set.new(
-      ALL_ATTRIBUTES.select{ |a| a[:multiple] == true }.map{ |a| a[:name] }
+      ALL_ATTRIBUTES.select { |a| a[:multiple] == true }.map { |a| a[:name] }
     )
 
     def attribute_symbols
-      ALL_ATTRIBUTES.map{ |a| a[:name] }
+      ALL_ATTRIBUTES.map { |a| a[:name] }
     end
 
     def attribute_symbols_for_strong_params

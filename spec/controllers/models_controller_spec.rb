@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ModelsController, type: :controller do
 
-  let(:team){ FactoryGirl.create(:team) }
+  let(:team) { FactoryGirl.create(:team) }
   let!(:model) { FactoryGirl.create(:model, team: team) }
 
   describe 'GET index' do
