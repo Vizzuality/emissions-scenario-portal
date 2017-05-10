@@ -1,23 +1,7 @@
 <div class="c-wri-header">
   <svg class="icon"><use xlink:href="#icon-WRI"></use></svg>
 </div>
-<div class="c-landing-header -no-nav">
-  <div class="row">
-    <div class="small-9 columns"></div>
-    <div class="small-3 columns">
-      <div class="c-landing-header__buttons">
-        <div class="c-user-button">
-          <div class="f-ff1-s">John Doe</div>
-          <svg class="icon"><use xlink:href="#icon-avatar"></use></svg>
-        </div>
-        <div class="c-settings-button">
-          <div class="f-ff1-s">Settings</div>
-          <svg class="icon"><use xlink:href="#icon-settings"></use></svg>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<%= render 'shared/components/c-landing-header', withNav: false %>
 <div class="l-models">
   <div class="row">
     <div class="small-12 columns">
@@ -27,13 +11,10 @@
   <div class="row">
     <% @models.each do |model| %>
       <div class="small-4 columns">
-        <div class="c-model-card">
-          <div class="f-ff2-m"><%= model.abbreviation %>. <%= model.full_name %></div>
-          <div class="f-ff1-s">Last updated on <%= model.updated_at.to_formatted_s(:short) %></div>
-          <%= link_to model_url(model) do %>
-            <div class="c-button"><span>Select this model</span></div>
-          <% end %>
-        </div>
+        <%= render 'shared/components/c-model-card',
+          title: "#{model.abbreviation}. #{model.full_name}",
+          description: "Last updated on #{model.updated_at.to_formatted_s(:short)}",
+          button_url: model_url(model) %>
       </div>
     <% end %>
   </div>
