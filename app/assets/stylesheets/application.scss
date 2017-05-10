@@ -13,4 +13,14 @@
  *= require_self
  */
 
+/*
+ * Settings
+ */
 @import "wri_styles/components";
+@import "base";
+
+
+/*
+ * Layouts
+ */
+@import "layouts/*";
