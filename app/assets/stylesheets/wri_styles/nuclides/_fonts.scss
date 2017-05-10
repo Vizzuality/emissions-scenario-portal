@@ -20,50 +20,64 @@ $ff3-size-m: 23px;
 @font-face {
   font-family: $font-family-1;
   font-weight: $font-weight-regular;
-  src: url('/assets/fonts/AcuminPro.otf') format('embedded-opentype'),
-  url('/assets/fonts/AcuminPro.otf');
+  src: url('AcuminPro-Regular.eot');
+  src: url('AcuminPro-Regular.eot?#iefix') format('embedded-opentype'),
+  url('AcuminPro-Regular.woff') format('woff'),
+  url('AcuminPro-Regular.ttf') format('truetype');
 }
 
 @font-face {
   font-family: $font-family-1;
   font-weight: $font-weight-bold;
-  src: url('/assets/fonts/AcuminPro-Bold.otf') format('embedded-opentype'),
-  url('/assets/fonts/AcuminPro-Bold.otf');
+  src: url('AcuminPro-Bold.eot');
+  src: url('AcuminPro-Bold.eot?#iefix') format('embedded-opentype'),
+  url('AcuminPro-Bold.woff') format('woff'),
+  url('AcuminPro-Bold.ttf') format('truetype');
 }
 
 @font-face {
   font-family: $font-family-2;
   font-weight: $font-weight-regular;
-  src: url('/assets/fonts/AcuminProSemiCond.otf') format('embedded-opentype'),
-  url('/assets/fonts/AcuminProSemiCond.otf');
+  src: url('AcuminProSemiCond-Regular.eot');
+  src: url('AcuminProSemiCond-Regular.eot?#iefix') format('embedded-opentype'),
+  url('AcuminProSemiCond-Regular.woff') format('woff'),
+  url('AcuminProSemiCond-Regular.ttf') format('truetype');
 }
 
 @font-face {
   font-family: $font-family-2;
   font-weight: $font-weight-semibold;
-  src: url('/assets/fonts/AcuminProSemiCond-Semibold.otf') format('embedded-opentype'),
-  url('/assets/fonts/AcuminProSemiCond-Semibold.otf');
+  src: url('AcuminProSemiCond-Semibold.eot');
+  src: url('AcuminProSemiCond-Semibold.eot?#iefix') format('embedded-opentype'),
+  url('AcuminProSemiCond-Semibold.woff') format('woff'),
+  url('AcuminProSemiCond-Semibold.ttf') format('truetype');
 }
 
 @font-face {
   font-family: $font-family-2;
   font-weight: $font-weight-extralight;
-  src: url('/assets/fonts/AcuminProSemiCond-ExtraLight.otf') format('embedded-opentype'),
-  url('/assets/fonts/AcuminProSemiCond-ExtraLight.otf');
+  src: url('AcuminProSemiCond-ExtraLight.eot');
+  src: url('AcuminProSemiCond-ExtraLight.eot?#iefix') format('embedded-opentype'),
+  url('AcuminProSemiCond-ExtraLight.woff') format('woff'),
+  url('AcuminProSemiCond-ExtraLight.ttf') format('truetype');
 }
 
 @font-face {
   font-family: $font-family-3;
   font-weight: $font-weight-regular;
-  src: url('/assets/fonts/AcuminProCond.otf') format('embedded-opentype'),
-  url('/assets/fonts/AcuminProCond.otf');
+  src: url('AcuminProCond-Regular.eot');
+  src: url('AcuminProCond-Regular.eot?#iefix') format('embedded-opentype'),
+  url('AcuminProCond-Regular.woff') format('woff'),
+  url('AcuminProCond-Regular.ttf') format('truetype');
 }
 
 @font-face {
   font-family: $font-family-3;
   font-weight: $font-weight-bold;
-  src: url('/assets/fonts/AcuminProCond-Bold.otf') format('embedded-opentype'),
-  url('/assets/fonts/AcuminProCond-Bold.otf');
+  src: url('AcuminProCond-Bold.eot');
+  src: url('AcuminProCond-Bold.eot?#iefix') format('embedded-opentype'),
+  url('AcuminProCond-Bold.woff') format('woff'),
+  url('AcuminProCond-Bold.ttf') format('truetype');
 }
 
 body {
