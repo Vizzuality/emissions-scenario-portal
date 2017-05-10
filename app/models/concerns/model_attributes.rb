@@ -6,14 +6,21 @@ module ModelAttributes
   included do
     validates :abbreviation, presence: true, uniqueness: true
     validates :full_name, presence: true
-    validates :development_year,
+    validates(
+      :development_year,
       numericality: {only_integer: true, allow_nil: true},
       inclusion: {in: 1900..Date.today.year, allow_nil: true}
-    validates :base_year,
+    )
+    validates(
+      :base_year,
       numericality: {only_integer: true, allow_nil: true},
       inclusion: {in: 1900..Date.today.year, allow_nil: true}
-    validates_format_of :url, :with => URI::regexp(%w(http https)),
+    )
+    validates_format_of(
+      :url,
+      with: URI.regexp(%w(http https)),
       allow_blank: true
+    )
   end
 
   def key_for_name(attribute_symbol)
@@ -71,14 +78,18 @@ module ModelAttributes
       {name: :input_data},
       {name: :calibration_and_validation},
       {name: :languages, picklist: true, multiple: true},
-      {name: :tutorial_and_training_opportunities, picklist: true, multiple: true},
+      {
+        name: :tutorial_and_training_opportunities,
+        picklist: true,
+        multiple: true
+      },
       {name: :system_requirements},
       {name: :run_time},
       {name: :publications_and_notable_projects},
       {name: :citation},
       {name: :url},
       {name: :point_of_contact}
-    ]
+    ].freeze
 
     PICKLIST_ATTRIBUTES = Set.new(
       ALL_ATTRIBUTES.select { |a| a[:picklist] == true }.map { |a| a[:name] }
@@ -102,11 +113,11 @@ module ModelAttributes
       end
     end
 
-    def is_picklist_attribute?(attribute_symbol)
+    def picklist_attribute?(attribute_symbol)
       PICKLIST_ATTRIBUTES.include?(attribute_symbol)
     end
 
-    def is_multiple_attribute?(attribute_symbol)
+    def multiple_attribute?(attribute_symbol)
       MULTIPLE_ATTRIBUTES.include?(attribute_symbol)
     end
   end

@@ -3,5 +3,6 @@ class User < ApplicationRecord
 
   validates :email, presence: true, uniqueness: true
   validates :team, presence: true, unless: :admin?
-  # TODO format validation: to be decided when registration / auth style determined
+  # TODO: format validation: to be decided when registration / auth style
+  # determined
 end

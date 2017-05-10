@@ -4,9 +4,7 @@ class ModelsController < ApplicationController
 
   def index
     @models = @team.models
-    if @models.length == 1
-      redirect_to model_url(@models.first) and return
-    end
+    redirect_to model_url(@models.first) and return if @models.length == 1
   end
 
   def show
