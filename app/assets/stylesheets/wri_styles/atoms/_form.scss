@@ -1,0 +1,102 @@
+/**
+ * @atom Text input
+ * @section Form items
+ * @modifiers
+ *  .-small limit the max width to 140px
+ *  .-large limit the max width to 500px
+ * @markup
+ *  <input type="text" value="Global Change Assessment Model" class="c-input-text"/>
+ */
+.c-input-text {
+  display: block;
+  width: 100%;
+  height: rem(35px);
+  padding: 0 rem(10px);
+  border-radius: 4px;
+  border: solid 1px $color-app-5;
+  font-family: $font-family-1;
+  font-size: $ff1-size-s;
+  line-height: 36px;
+  letter-spacing: 0.2px;
+  color: $color-app-2;
+  background-color: transparent;
+  outline: none;
+
+  &.-small {
+    max-width: rem(140px);
+  }
+
+  &.-large {
+    max-width: rem(500px);
+  }
+}
+
+/**
+ * @atom Select
+ * @section Form items
+ * @modifiers
+ *  .-small limit the max width to 140px
+ *  .-large limit the max width to 230px
+ * @markup
+ *  <div style="width: 100%; background-color: #eeeeee; padding: 50px;">
+ *    <div class="c-select">
+ *      <select>
+ *        <option selected>2012</option>
+ *        <option>2013</option>
+ *        <option>2014</option>
+ *        <option>2015</option>
+ *        <option>2016</option>
+ *        <option>2017</option>
+ *      </select>
+ *    </div>
+ *  </div>
+ */
+
+.c-select {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  border-radius: 4px;
+  background-color: $color-app-1;
+  box-shadow: 0 1px 0 0 $color-app-5;
+
+  select {
+    position: relative;
+    width: 100%;
+    height: rem(35px);
+    padding: 0 rem(10px);
+    border-radius: 4px;
+    background-color: transparent;
+    border: 0;
+    -webkit-appearance: none;
+    outline: none;
+    font-family: $font-family-1;
+    font-size: $ff1-size-s;
+    font-weight: $font-weight-bold;
+    line-height: 1.14;
+    letter-spacing: 0.2px;
+    color: $color-app-2;
+    z-index: 2;
+  }
+
+  &.-small {
+    max-width: rem(140px);
+  }
+
+  &.-large {
+    max-width: rem(230px);
+  }
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 16px;
+    right: 14px;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid $color-app-2;
+    z-index: 1;
+  }
+}

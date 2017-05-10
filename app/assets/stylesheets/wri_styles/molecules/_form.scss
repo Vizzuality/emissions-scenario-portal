@@ -1,0 +1,51 @@
+/**
+ * @molecule Form text input
+ * @section Form items
+ * @markup
+ *  <div class="c-form-item">
+ *    <div class="f-ff1-m-bold">Full Name</div>
+ *    <svg class="icon"><use xlink:href="#icon-info"></use></svg>
+ *    <input type="text" value="Global Change Assessment Model" class="c-input-text"/>
+ *  </div>
+ */
+.c-form-item {
+
+  .f-ff1-m-bold {
+    display: inline-block;
+    margin-bottom: rem(-2px);
+    line-height: 1.63;
+  }
+
+  .icon {
+    display: inline-block;
+    position: relative;
+    top: rem(2px);
+    width: rem(16px);
+    height: rem(16px);
+    margin-left: rem(4px);
+    fill: rgba($color-app-2, 0.3);
+  }
+}
+
+/**
+ * @molecule Form select
+ * @section Form items
+ * @markup
+ *  <div style="width: 100%; background-color: #eeeeee; padding: 50px;">
+ *    <div class="c-form-item">
+ *      <div class="f-ff1-m-bold">Development Year</div>
+ *      <svg class="icon"><use xlink:href="#icon-info"></use></svg>
+ *      <div class="c-select">
+ *        <select>
+ *          <option selected>2012</option>
+ *          <option>2013</option>
+ *          <option>2014</option>
+ *          <option>2015</option>
+ *          <option>2016</option>
+ *          <option>2017</option>
+ *        </select>
+ *      </div>
+ *    </div>
+ *  </div>
+ */
+//
