@@ -1,0 +1,16 @@
+<%
+  card_title ||= ''
+  values ||= nil
+%>
+<div class="c-model-news-card">
+  <div class="c-item-header -color-2">
+    <div class="f-ff1-xs"><%= card_title %></div>
+  </div>
+  <ul class="c-model-card-list f-ff1-m">
+    <% if values.present? %>
+      <% values.each do |news| %>
+        <li>9.41am - 3 scenarios added</li>
+      <% end %>
+    <% end %>
+  </ul>
+</div>

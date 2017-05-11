@@ -2,20 +2,25 @@
 <%= render 'shared/components/c-landing-header',
   title: "#{@model.abbreviation}. #{@model.full_name}",
   no_settings: true %>
-
-<ul>
-  <li>Scenarios:
-    <% @scenarios.each do |scenario| %>
-      <%= scenario.name %>
-    <% end %>
-    <%= link_to 'SEE ALL', model_scenarios_url(@model) %>
-  </li>
-  <li>Indicators:
-
-  </li>
-  <li>Updates:
-
-  </li>
-</ul>
-
-<%= link_to 'EDIT', edit_model_url(@model) %>
+<div class="l-model-overview">
+  <div class="row">
+    <div class="small-4 columns">
+      <%= render 'shared/components/c-model-overview-card',
+        model: @model,
+        card_title: 'Scenarios',
+        values: @scenarios
+      %>
+    </div>
+    <div class="small-4 columns">
+      <%= render 'shared/components/c-model-overview-card',
+        model: @model,
+        card_title: 'Indicators'
+      %>
+    </div>
+    <div class="small-4 columns">
+      <%= render 'shared/components/c-model-news-card',
+        card_title: 'Latest updates'
+      %>
+    </div>
+  </div>
+</div>
