@@ -7,19 +7,27 @@
     <div class="small-4 columns">
       <%= render 'shared/components/c-model-overview-card',
         model: @model,
-        card_title: 'Scenarios',
+        title: 'Scenarios',
         values: @scenarios
       %>
     </div>
     <div class="small-4 columns">
       <%= render 'shared/components/c-model-overview-card',
         model: @model,
-        card_title: 'Indicators'
+        title: 'Indicators'
       %>
     </div>
     <div class="small-4 columns">
       <%= render 'shared/components/c-model-news-card',
-        card_title: 'Latest updates'
+        title: 'Latest updates'
+      %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="small-12 columns">
+      <%= render 'shared/components/c-4-columns-table',
+        model: @model,
+        title: 'Metadata'
       %>
     </div>
   </div>

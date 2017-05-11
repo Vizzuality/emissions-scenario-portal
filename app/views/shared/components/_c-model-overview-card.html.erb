@@ -1,5 +1,5 @@
 <%
-  card_title ||= ''
+  title ||= ''
   values ||= nil
   values_limit = 4
   values_count = values.present? ? values.count : 0
@@ -9,8 +9,10 @@
 %>
 <div class="c-model-overview-card">
   <div class="c-item-header -color-1">
-    <div class="f-ff1-xs"><%= card_title %></div>
-    <div class="f-ff1-s"><%= values_count %></div>
+    <div class="f-ff1-xs"><%= title %></div>
+    <div class="c-item-header__actions">
+      <div class="f-ff1-s"><%= values_count %></div>
+    </div>
   </div>
   <% if values.present? %>
     <ul class="c-model-card-list f-ff1-m">
