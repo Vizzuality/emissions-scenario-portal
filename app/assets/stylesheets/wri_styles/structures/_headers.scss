@@ -1,0 +1,110 @@
+/**
+ * @structure WRI header
+ * @section Headers
+ * @markup
+ *  <div class="c-wri-header">
+ *    <svg class="icon"><use xlink:href="#icon-WRI"></use></svg>
+ *  </div>
+ */
+.c-wri-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: rem(35px);
+  background-color: $color-app-2;
+  padding: 0 rem(20px);
+
+  .icon {
+    width: rem(211px);
+    height: rem(17px);
+  }
+}
+
+/**
+ * @structure Landing header 1
+ * @section Headers
+ * @markup
+ *  <div style="width: 100%; background-color: #eeeeee; padding: 15px;">
+ *    <div class="c-landing-header">
+ *      <div class="row">
+ *        <div class="small-9 columns">
+ *        <div class="f-ff2-xl-extralight">GCAM. Global Change Assessment Model</div>
+ *        </div>
+ *        <div class="small-3 columns">
+ *          <div class="c-landing-header__buttons">
+ *            <div class="c-user-button">
+ *              <div class="f-ff1-s">John Doe</div>
+ *              <svg class="icon"><use xlink:href="#icon-avatar"></use></svg>
+ *            </div>
+ *          </div>
+ *        </div>
+ *        <div class="small-12 columns">
+ *          <ul class="c-landing-nav f-ff1-xs">
+ *            <li class="-selected"><a href="#">Overview</a></li>
+ *            <li><a href="#">Scenarios</a></li>
+ *            <li><a href="#">Indicators</a></li>
+ *          </ul>
+ *        </div>
+ *      </div>
+ *    </div>
+ *  </div>
+ */
+.c-landing-header {
+  padding-top: rem(16px);
+  background-color: $color-app-1;
+  box-shadow: 0 1px 0 0 $color-app-5;
+
+  .f-ff2-xl-extralight {
+    position: relative;
+    top: rem(6px);
+  }
+
+  .c-landing-header__buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100%;
+
+    > *:not(:first-child) {
+      margin-left: rem(40px);
+    }
+
+    .f-ff1-s {
+      line-height: 1.64;
+    }
+  }
+
+  .c-landing-nav {
+    margin-top: rem(8px);
+  }
+
+  &.-no-nav {
+    padding: 18px 0;
+  }
+}
+
+/**
+ * @structure Landing header 2
+ * @section Headers
+ * @markup
+ *  <div style="width: 100%; background-color: #eeeeee; padding: 15px;">
+ *    <div class="c-landing-header -no-nav">
+ *      <div class="row">
+ *        <div class="small-9 columns"></div>
+ *        <div class="small-3 columns">
+ *          <div class="c-landing-header__buttons">
+ *            <div class="c-user-button">
+ *              <div class="f-ff1-s">John Doe</div>
+ *              <svg class="icon"><use xlink:href="#icon-avatar"></use></svg>
+ *            </div>
+ *            <div class="c-settings-button">
+ *              <div class="f-ff1-s">Settings</div>
+ *              <svg class="icon"><use xlink:href="#icon-settings"></use></svg>
+ *            </div>
+ *          </div>
+ *        </div>
+ *      </div>
+ *    </div>
+ *  </div>
+ */
+//

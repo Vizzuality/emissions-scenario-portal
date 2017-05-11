@@ -1,9 +1,21 @@
-<ul>
-  <% @models.each do |model| %>
-  <li>
-    <p><%= model.abbreviation %>. <%= model.full_name %></p>
-    <p>Last updated on <%= model.updated_at.to_formatted_s(:short) %></p>
-    <span><%= link_to 'SELECT THIS MODEL', model_url(model) %></span>
-  </li>
-  <% end %>
-</ul>
+<div class="c-wri-header">
+  <svg class="icon"><use xlink:href="#icon-WRI"></use></svg>
+</div>
+<%= render 'shared/components/c-landing-header', withNav: false %>
+<div class="l-models">
+  <div class="row">
+    <div class="small-12 columns">
+      <div class="l-models__title f-ff3-m-bold">Select the model you want to manage</div>
+    </div>
+  </div>
+  <div class="row">
+    <% @models.each do |model| %>
+      <div class="small-4 columns">
+        <%= render 'shared/components/c-model-card',
+          title: "#{model.abbreviation}. #{model.full_name}",
+          description: "Last updated on #{model.updated_at.to_formatted_s(:short)}",
+          button_url: model_url(model) %>
+      </div>
+    <% end %>
+  </div>
+</div>

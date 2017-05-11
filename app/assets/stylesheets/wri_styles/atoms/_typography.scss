@@ -1,0 +1,107 @@
+/**
+ * @atom AcuminPro M
+ * @section Typography
+ * @markup
+ *  <div class="f-ff1-m">Biomass w CCS</div>
+ */
+.f-ff1-m {
+  font-family: $font-family-1;
+  font-size: $ff1-size-m;
+  line-height: 1;
+  letter-spacing: 0.1px;
+  color: $color-app-2;
+}
+
+/**
+ * @atom AcuminPro M Bold
+ * @section Typography
+ * @markup
+ *  <div class="f-ff1-m-bold">Scenario</div>
+ */
+.f-ff1-m-bold {
+  font-family: $font-family-1;
+  font-size: $ff1-size-m;
+  font-weight: $font-weight-bold;
+  line-height: 1;
+  letter-spacing: 0.1px;
+  color: $color-app-2;
+}
+
+/**
+ * @atom AcuminPro S
+ * @section Typography
+ * @markup
+ *  <div class="f-ff1-s">Last utpdated on Mar 6</div>
+ */
+.f-ff1-s {
+  font-family: $font-family-1;
+  font-size: $ff1-size-s;
+  line-height: 1;
+  letter-spacing: 0.5px;
+  color: rgba($color-app-2, 0.5);
+
+  a {
+    color: inherit;
+  }
+}
+
+/**
+ * @atom AcuminPro XS
+ * @section Typography
+ * @markup
+ *  <div class="f-ff1-xs">General Info</div>
+ */
+.f-ff1-xs {
+  font-family: $font-family-1;
+  font-size: $ff1-size-xs;
+  line-height: 1;
+  letter-spacing: 0.5px;
+  color: $color-app-2;
+  text-transform: uppercase;
+}
+
+/**
+ * @atom AcuminProSemiCond XL Extra Light
+ * @section Typography
+ * @markup
+ *  <div class="f-ff2-xl-extralight">GCAM. Global Change Assessment Model</div>
+ */
+.f-ff2-xl-extralight {
+  font-family: $font-family-2;
+  font-size: $ff2-size-xl;
+  font-weight: $font-weight-extralight;
+  line-height: 1;
+  color: $color-app-2;
+}
+
+/**
+ * @atom AcuminProSemiCond M
+ * @section Typography
+ * @markup
+ *  <div class="f-ff2-m">GCAM. Global Change Assessment Model</div>
+ */
+.f-ff2-m {
+  font-family: $font-family-2;
+  font-size: $ff2-size-m;
+  line-height: 1;
+  color: $color-app-2;
+}
+
+/**
+ * @atom AcuminProCond M Bold
+ * @section Typography
+ * @markup
+ *  <div class="f-ff3-m-bold">Select the model you want to manage <span>(8)</span></div>
+ */
+.f-ff3-m-bold {
+  font-family: $font-family-3;
+  font-size: $ff3-size-m;
+  font-weight: $font-weight-bold;
+  line-height: 1;
+  letter-spacing: 0.2px;
+  color: $color-app-2;
+
+  span {
+    color: rgba($color-app-2, 0.3);
+  }
+}

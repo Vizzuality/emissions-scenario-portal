@@ -1,0 +1,49 @@
+/**
+ * @structure Form
+ * @section Form
+ * @markup
+ *  <div class="c-form">
+ *    <div class="c-item-header -color-2">
+ *      <div class="f-ff1-xs">Gereral Info</div>
+ *    </div>
+ *    <div class="c-form-items">
+ *      <div class="c-form-item">
+ *        <div class="f-ff1-m-bold">Abbreviation</div>
+ *        <svg class="icon"><use xlink:href="#icon-info"></use></svg>
+ *        <input type="text" value="GCAM" class="c-input-text -small"/>
+ *      </div>
+ *      <div class="c-form-item">
+ *        <div class="f-ff1-m-bold">Full Name</div>
+ *        <svg class="icon"><use xlink:href="#icon-info"></use></svg>
+ *        <input type="text" value="Global Change Assessment Model" class="c-input-text -large"/>
+ *      </div>
+ *      <div class="c-form-item">
+ *        <div class="f-ff1-m-bold">Development Year</div>
+ *        <svg class="icon"><use xlink:href="#icon-info"></use></svg>
+ *        <div class="c-select -small">
+ *          <select>
+ *            <option selected>2012</option>
+ *            <option>2013</option>
+ *            <option>2014</option>
+ *            <option>2015</option>
+ *            <option>2016</option>
+ *            <option>2017</option>
+ *          </select>
+ *        </div>
+ *      </div>
+ *    </div>
+ *  </div>
+ */
+.c-form {
+  border-radius: 2px;
+  background-color: $color-app-3;
+  border: solid 1px $color-app-5;
+
+  .c-form-items {
+    padding: rem(24px) rem(19px) rem(20px) rem(19px);
+  }
+
+  .c-form-item:not(:first-child) {
+    margin-top: rem(23px);
+  }
+}

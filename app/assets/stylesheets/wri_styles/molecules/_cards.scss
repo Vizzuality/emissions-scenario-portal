@@ -1,0 +1,145 @@
+%card-common {
+  position: relative;
+  width: 100%;
+  border-radius: 2px;
+  background-color: $color-app-1;
+  box-shadow: 0 1px 0 0 $color-app-5;
+
+  .c-model-card-list {
+    margin: 0;
+    padding: rem(19px) rem(20px) 0 rem(20px);
+    list-style: none;
+  }
+
+  .c-button {
+    position: absolute;
+    bottom: rem(25px);
+    left: rem(20px);
+    width: calc(100% - #{rem(40px)});
+  }
+}
+
+/**
+ * @molecule Model card
+ * @section Cards
+ * @markup
+ *  <div style="width: 440px; background-color: #eeeeee; padding: 50px;">
+ *    <div class="c-model-card">
+ *      <div class="f-ff2-m">GCAM. Global Change Assessment Model</div>
+ *      <div class="f-ff1-s">Last utpdated on Mar 6</div>
+ *      <div class="c-button"><span>Select this model</span></div>
+ *    </div>
+ *  </div>
+ */
+.c-model-card {
+  @extend %card-common;
+  min-height: rem(220px);
+  padding: rem(26px) rem(20px) rem(70px) rem(20px);
+
+  .f-ff2-m {
+    line-height: 1.18;
+  }
+
+  .f-ff1-s {
+    margin-top: 10px;
+    line-height: 1.64;
+  }
+}
+
+/**
+ * @molecule Model overview card
+ * @section Cards
+ * @markup
+ *  <div style="width: 440px; background-color: #eeeeee; padding: 50px;">
+ *    <div class="c-model-overview-card">
+ *      <div class="c-item-header -color-1">
+ *        <div class="f-ff1-xs">Indicators</div>
+ *        <div class="f-ff1-s">40</div>
+ *      </div>
+ *      <ul class="c-model-card-list f-ff1-m">
+ *        <li>GCAM-Reference</li>
+ *        <li>GCAM-Paris</li>
+ *        <li>GCAM-Paris Plus</li>
+ *        <li>RCP 2.6</li>
+ *        <li>&#8230;</li>
+ *      </ul>
+ *      <div class="c-button"><span>See all</span></div>
+ *    </div>
+ *  </div>
+ */
+.c-model-overview-card {
+  @extend %card-common;
+  min-height: rem(257px);
+  padding-bottom: rem(67px);
+
+  .f-ff1-m {
+    line-height: 1.63;
+  }
+
+  .f-ff1-s {
+    line-height: 1.64;
+  }
+
+  .f-ff1-xs {
+    line-height: 1.64;
+  }
+}
+
+/**
+ * @molecule Model news card
+ * @section Cards
+ * @markup
+ *  <div style="width: 440px; background-color: #eeeeee; padding: 50px;">
+ *    <div class="c-model-news-card">
+ *      <div class="c-item-header -color-2">
+ *        <div class="f-ff1-xs">Latest updates</div>
+ *      </div>
+ *      <ul class="c-model-card-list f-ff1-m">
+ *        <li>9.41am - 3 scenarios added</li>
+ *        <li>March 1 - 16 indicators updated</li>
+ *        <li>Feb 26 - Model information changed</li>
+ *      </ul>
+ *    </div>
+ *  </div>
+ */
+.c-model-news-card {
+  @extend %card-common;
+  min-height: rem(257px);
+  padding-bottom: rem(30px);
+  background-color: $color-app-3;
+
+  .f-ff1-m {
+    line-height: 1.63;
+  }
+}
+
+/**
+ * @molecule Upload card
+ * @section Cards
+ * @markup
+ *  <div style="width: 620px; background-color: #eeeeee; padding: 50px;">
+ *    <div class="c-upload-card">
+ *      <div class="c-button"><span>Upload Scenario Meta Information</span></div>
+ *      <div class="f-ff1-s">Please follow <a href="#">this structure</a></div>
+ *    </div>
+ *  </div>
+ */
+.c-upload-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: rem(22px) rem(20px) rem(8px) rem(20px);
+  border: 2px dashed rgba($color-app-2, 0.3);
+  border-radius: 8px;
+
+  .c-button {
+    max-width: rem(340px);
+  }
+
+  .f-ff1-s {
+    margin-top: rem(11px);
+    line-height: 1.64;
+  }
+}
