@@ -1,5 +1,7 @@
 <%= render 'shared/components/c-wri-header' %>
-<%= render 'header' %>
+<%= render 'shared/components/c-landing-header',
+  title: "#{@model.abbreviation}. #{@model.full_name}",
+  no_settings: true %>
 
 <ul>
   <li>Scenarios:
