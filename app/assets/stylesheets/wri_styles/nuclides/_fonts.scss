@@ -1,0 +1,86 @@
+$font-family-1: 'AcuminPro';
+$font-family-2: 'AcuminProSemiCond';
+$font-family-3: 'AcuminProCond';
+
+$font-weight-extralight: 200;
+$font-weight-regular: 400;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+$ff1-size-xs: 13px;
+$ff1-size-s: 14px;
+$ff1-size-m: 16px;
+
+$ff2-size-s: 13px;
+$ff2-size-m: 22px;
+$ff2-size-xl: 30px;
+
+$ff3-size-m: 23px;
+
+@font-face {
+  font-family: $font-family-1;
+  font-weight: $font-weight-regular;
+  src: url('AcuminPro-Regular.eot');
+  src: url('AcuminPro-Regular.eot?#iefix') format('embedded-opentype'),
+  url('AcuminPro-Regular.woff') format('woff'),
+  url('AcuminPro-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: $font-family-1;
+  font-weight: $font-weight-bold;
+  src: url('AcuminPro-Bold.eot');
+  src: url('AcuminPro-Bold.eot?#iefix') format('embedded-opentype'),
+  url('AcuminPro-Bold.woff') format('woff'),
+  url('AcuminPro-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: $font-family-2;
+  font-weight: $font-weight-regular;
+  src: url('AcuminProSemiCond-Regular.eot');
+  src: url('AcuminProSemiCond-Regular.eot?#iefix') format('embedded-opentype'),
+  url('AcuminProSemiCond-Regular.woff') format('woff'),
+  url('AcuminProSemiCond-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: $font-family-2;
+  font-weight: $font-weight-semibold;
+  src: url('AcuminProSemiCond-Semibold.eot');
+  src: url('AcuminProSemiCond-Semibold.eot?#iefix') format('embedded-opentype'),
+  url('AcuminProSemiCond-Semibold.woff') format('woff'),
+  url('AcuminProSemiCond-Semibold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: $font-family-2;
+  font-weight: $font-weight-extralight;
+  src: url('AcuminProSemiCond-ExtraLight.eot');
+  src: url('AcuminProSemiCond-ExtraLight.eot?#iefix') format('embedded-opentype'),
+  url('AcuminProSemiCond-ExtraLight.woff') format('woff'),
+  url('AcuminProSemiCond-ExtraLight.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: $font-family-3;
+  font-weight: $font-weight-regular;
+  src: url('AcuminProCond-Regular.eot');
+  src: url('AcuminProCond-Regular.eot?#iefix') format('embedded-opentype'),
+  url('AcuminProCond-Regular.woff') format('woff'),
+  url('AcuminProCond-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: $font-family-3;
+  font-weight: $font-weight-bold;
+  src: url('AcuminProCond-Bold.eot');
+  src: url('AcuminProCond-Bold.eot?#iefix') format('embedded-opentype'),
+  url('AcuminProCond-Bold.woff') format('woff'),
+  url('AcuminProCond-Bold.ttf') format('truetype');
+}
+
+body {
+  font-family: $font-family-1;
+  font-size: $ff1-size-m;
+}

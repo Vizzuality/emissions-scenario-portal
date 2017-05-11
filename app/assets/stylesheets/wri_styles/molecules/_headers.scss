@@ -1,0 +1,33 @@
+/**
+ * @molecule Item header
+ * @section Headers
+ * @markup
+ *   <div class="c-item-header -color-2">
+ *    <div class="f-ff1-xs">Indicators</div>
+ *    <div class="f-ff1-s">40</div>
+ *   </div>
+ */
+.c-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: rem(12px) rem(20px) rem(6px) rem(20px);
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+
+  &.-color-1 {
+    background-color: $color-app-1;
+    border-bottom: solid 1px $color-app-4;
+  }
+
+  &.-color-2 {
+    background-color: $color-app-3;
+    border-bottom: solid 1px $color-app-5;
+  }
+
+  .f-ff1-s {
+    color: rgba($color-app-2, 0.3);
+    line-height: 1.64;
+  }
+}
