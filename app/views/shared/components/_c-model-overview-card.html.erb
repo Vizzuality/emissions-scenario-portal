@@ -1,9 +1,9 @@
 <%
   card_title ||= ''
   values ||= nil
-  values_count = values.count
   values_limit = 4
-  if values.count > values_limit
+  values_count = values.present? ? values.count : 0
+  if values.present? && values.count > values_limit
     values = values[0...4]
   end
 %>
@@ -12,15 +12,17 @@
     <div class="f-ff1-xs"><%= card_title %></div>
     <div class="f-ff1-s"><%= values_count %></div>
   </div>
-  <ul class="c-model-card-list f-ff1-m">
-    <% values.each do |scenario| %>
-      <li><%= scenario.name %></li>
+  <% if values.present? %>
+    <ul class="c-model-card-list f-ff1-m">
+      <% values.each do |scenario| %>
+        <li><%= scenario.name %></li>
+      <% end %>
+      <% if values.count == values_limit %>
+        <li>&#8230;</li>
+      <% end %>
+    </ul>
+    <%= link_to model_scenarios_url(model) do %>
+      <div class="c-button"><span>See all</span></div>
     <% end %>
-    <% if values.count == values_limit %>
-      <li>&#8230;</li>
-    <% end %>
-  </ul>
-  <%= link_to model_scenarios_url(model) do %>
-    <div class="c-button"><span>See all</span></div>
   <% end %>
 </div>
