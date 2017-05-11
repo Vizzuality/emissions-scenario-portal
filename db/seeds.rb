@@ -48,3 +48,36 @@
 ].each do |scenario_name|
   Scenario.create(name: scenario_name, model: @gcam)
 end
+
+[
+  {
+    category: 'Energy',
+    stack_family: 'Energy use by fuel',
+    name: 'Biomass w CSS',
+    definition: 'Bio-energy with carbon capture and storage (BECCS) is a future greenhouse gas mitigation technology which produces negative carbon dioxide emissions by combining bioenergy (energy from biomass) use with geologic carbon capture and storage.',
+    unit: 'EJ/yr'
+  },
+  {
+    category: 'Energy',
+    stack_family: 'Energy use by fuel',
+    name: 'Biomass w/o CSS',
+    definition: 'Bio-energy without carbon capture and storage (BECCS) is a future greenhouse gas mitigation technology which produces negative carbon dioxide emissions.',
+    unit: 'EJ/yr'
+  },
+  {
+    category: 'Energy',
+    stack_family: 'Energy use by fuel',
+    name: 'Oil w CSS',
+    definition: 'Carbon capture and storage (CCS) (or carbon capture and sequestration) is the process of capturing waste carbon dioxide (CO2).',
+    unit: 'EJ/yr'
+  },
+  {
+    category: 'Energy',
+    stack_family: 'Energy use by fuel',
+    name: 'Oil w/o CSS',
+    definition: 'An oil is any neutral, nonpolar chemical substance that is a viscous liquid at ambient temperatures...',
+    unit: 'EJ/yr'
+  }
+].each do |indicator_attrs|
+  Indicator.create(indicator_attrs)
+end
