@@ -1,9 +1,9 @@
 <%
   user ||= nil
-  withNav ||= true
-  withSettings ||= true
+  no_nav ||= false
+  no_settings ||= false
 %>
-<div class="c-landing-header <% if !withNav %>-no-nav<% end %>">
+<div class="c-landing-header <% if no_nav %>-no-nav<% end %>">
   <div class="row">
     <div class="small-9 columns"></div>
     <div class="small-3 columns">
@@ -14,7 +14,7 @@
             <svg class="icon"><use xlink:href="#icon-avatar"></use></svg>
           </div>
         <% end %>
-        <% if withSettings %>
+        <% if !no_settings %>
           <div class="c-settings-button">
             <div class="f-ff1-s">Settings</div>
             <svg class="icon"><use xlink:href="#icon-settings"></use></svg>
