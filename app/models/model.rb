@@ -1,5 +1,7 @@
 class Model < ApplicationRecord
-  ALL_ATTRIBUTES = YAML.load_file(Rails.root.join('db', 'models_metadata.yml')).freeze
+  ALL_ATTRIBUTES = YAML.load_file(
+    Rails.root.join('db', 'models_metadata.yml')
+  ).freeze
   include MetadataAttributes
 
   belongs_to :team
