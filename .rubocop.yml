@@ -50,3 +50,14 @@ Bundler/OrderedGems:
 
 Style/Documentation:
   Enabled: false
+
+Style/AndOr:
+  Enabled: false
+
+Metrics/AbcSize:
+  Exclude:
+    - 'lib/modules/*'
+
+Metrics/MethodLength:
+  Exclude:
+    - 'lib/modules/*'
