@@ -1,3 +1,10 @@
+<%= form_tag(upload_time_series_model_scenarios_url(@model), method: :post, multipart: true) do %>
+  <%= file_field_tag 'time_series_file' %>
+  <%= submit_tag 'UPLOAD SCENARIO TIME SERIES' %>
+<% end %>
+
+Please follow <%= link_to 'this structure', '/esp_time_series_template.csv' %>
+
 <ul>
   <% @scenarios.each do |scenario| %>
     <li><%= scenario.name %>
