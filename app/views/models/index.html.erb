@@ -1,5 +1,5 @@
-<%= render 'shared/components/c-wri-header' %>
-<%= render 'shared/components/c-landing-header', no_nav: true %>
+<%= render 'shared/components/c_wri_header' %>
+<%= render 'shared/components/c_landing_header', no_nav: true %>
 <div class="l-models">
   <div class="row">
     <div class="small-12 columns">
@@ -9,7 +9,7 @@
   <div class="row">
     <% @models.each do |model| %>
       <div class="small-4 columns">
-        <%= render 'shared/components/c-model-card',
+        <%= render 'shared/components/c_model_card',
           title: "#{model.abbreviation}. #{model.full_name}",
           description: "Last updated on #{model.updated_at.to_formatted_s(:short)}",
           button_url: model_url(model) %>

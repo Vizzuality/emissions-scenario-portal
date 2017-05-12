@@ -1,11 +1,11 @@
-<%= render 'shared/components/c-wri-header' %>
-<%= render 'shared/components/c-landing-header',
+<%= render 'shared/components/c_wri_header' %>
+<%= render 'shared/components/c_landing_header',
   title: "#{@model.abbreviation}. #{@model.full_name}",
   no_settings: true %>
 <div class="l-model-overview">
   <div class="row">
     <div class="small-4 columns">
-      <%= render 'shared/components/c-model-overview-card',
+      <%= render 'shared/components/c_model_overview_card',
         model: @model,
         title: 'Scenarios',
         values: @scenarios,
@@ -13,7 +13,7 @@
       %>
     </div>
     <div class="small-4 columns">
-      <%= render 'shared/components/c-model-overview-card',
+      <%= render 'shared/components/c_model_overview_card',
         model: @model,
         title: 'Indicators',
         values: @indicators,
@@ -21,14 +21,14 @@
       %>
     </div>
     <div class="small-4 columns">
-      <%= render 'shared/components/c-model-news-card',
+      <%= render 'shared/components/c_model_news_card',
         title: 'Latest updates'
       %>
     </div>
   </div>
   <div class="row">
     <div class="small-12 columns">
-      <%= render 'shared/components/c-4-columns-table',
+      <%= render 'shared/components/c_4_columns_table',
         model: @model,
         title: 'Metadata'
       %>
