@@ -1,0 +1,14 @@
+dist: trusty
+sudo: false
+language: ruby
+rvm:
+  - 2.4.1
+addons:
+  postgresql: 9.5
+before_script:
+- psql -c 'create database "emissions-scenario-portal_test"' -U postgres
+- RAILS_ENV=test bundle exec rake db:migrate
+script:
+- bundle exec rspec spec
+notifications:
+  slack: vizzuality:jd7HURe31GqlUW0nHF5n7fm0
