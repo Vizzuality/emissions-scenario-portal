@@ -1,3 +1,27 @@
+%button-common {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: rem(35px);
+  padding: 0 rem(10px);
+  border-radius: 4px;
+  cursor: pointer;
+  outline: none;
+  text-decoration: none;
+  font-family: $font-family-2;
+  font-size: $ff2-size-s;
+  font-weight: $font-weight-semibold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  line-height: 1;
+
+  span {
+    line-height: 1;
+    text-align: center;
+  }
+}
+
 /**
  * @atom Default button
  * @section Buttons
@@ -7,29 +31,10 @@
  *  </div>
  */
 .c-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: rem(35px);
-  padding: 0 rem(10px);
+  @extend %button-common;
   background-color: $color-app-6;
-  border-radius: 4px;
-  cursor: pointer;
-  outline: none;
-  text-decoration: none;
   border: 0;
-
-  span {
-    font-family: $font-family-2;
-    font-size: $ff2-size-s;
-    font-weight: $font-weight-semibold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    line-height: 1;
-    text-align: center;
-    color: $color-app-1;
-  }
+  color: $color-app-1;
 
   &:hover {
     background-color: rgba($color-app-6, 0.7);
@@ -45,35 +50,13 @@
  *  </div>
  */
 .c-hollow-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: rem(35px);
-  padding: 0 rem(10px);
-  border-radius: 4px;
-  cursor: pointer;
-  outline: none;
-  text-decoration: none;
+  @extend %button-common;
   border: solid 1px $color-app-6;
-
-  span {
-    font-family: $font-family-2;
-    font-size: $ff2-size-s;
-    font-weight: $font-weight-semibold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    line-height: 1;
-    text-align: center;
-    color: $color-app-2;
-  }
+  color: $color-app-2;
 
   &:hover {
     background-color: $color-app-6;
-
-    span {
-      color: $color-app-1;
-    }
+    color: $color-app-1;
   }
 }
 

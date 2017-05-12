@@ -1,0 +1,14 @@
+<div class="c-form">
+  <div class="c-item-header -color-2">
+    <div class="f-ff1-xs"><%= title %></div>
+  </div>
+  <div class="c-form-items">
+    <% attributes.each do |attribute_symbol| %>
+      <div class="c-form-item">
+        <div class="f-ff1-m-bold"><%= attribute_name(attribute_symbol) %></div>
+        <svg class="icon" data-tooltip-text="<%= attribute_definition(attribute_symbol) %>"><use xlink:href="#icon-info"></use></svg>
+        <%= attribute_input(f, attribute_symbol) %>
+      </div>
+    <% end %>
+  </div>
+</div>
