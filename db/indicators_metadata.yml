@@ -1,0 +1,9 @@
+- name: category
+  picklist: true
+- name: stack_family
+  picklist: true
+- name: :name
+- name: :definition
+- name: :unit
+  picklist: true
+- name: :notes

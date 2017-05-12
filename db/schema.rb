@@ -10,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170418121003) do
+ActiveRecord::Schema.define(version: 20170510110451) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "indicators", force: :cascade do |t|
+    t.text     "category"
+    t.text     "stack_family"
+    t.text     "name"
+    t.text     "definition"
+    t.text     "unit"
+    t.text     "notes"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
 
   create_table "models", force: :cascade do |t|
     t.integer  "team_id"

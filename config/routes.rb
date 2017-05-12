@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :models, only: [:index, :show, :edit, :update] do
     resources :scenarios, only: [:index], shallow: true
   end
+  resources :indicators, only: [:index, :new, :edit, :destroy]
 
   root to: 'models#index'
 end

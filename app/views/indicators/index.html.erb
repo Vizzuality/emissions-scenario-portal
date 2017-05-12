@@ -1,0 +1,41 @@
+<%= link_to 'CREATE NEW INDICATOR', new_indicator_url %>
+<div>
+  <%= select_tag 'filters[type]', types_for_select %>
+  <%= select_tag 'filters[category]', categories_for_select %>
+</div>
+<div>
+  <%= text_field_tag 'search', nil, placeholder: 'Search' %>
+</div>
+<table>
+  <thead>
+    <tr>
+      <th>Indicator</th>
+      <th>Category</th>
+      <th>Stack family</th>
+      <th>Unit</th>
+      <th>Description</th>
+      <th>Added by</th>
+      <th>Models using it</th>
+      <th>Scenarios using it</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @indicators.each do |indicator| %>
+    <tr>
+      <th><%= indicator.name %></th>
+      <th><%= indicator.category %></th>
+      <th><%= indicator.stack_family %></th>
+      <th><%= indicator.unit %></th>
+      <th><%= indicator.definition %></th>
+      <th>TODO</th>
+      <th>TODO</th>
+      <th>TODO</th>
+      <th>
+        <%= link_to 'DELETE', indicator_url(indicator), method: :delete %>
+        <%= link_to 'EDIT', edit_indicator_url(indicator) %>
+      </th>
+    <%= indicator.name %>
+  <% end %>
+  </tbody>
+</table>

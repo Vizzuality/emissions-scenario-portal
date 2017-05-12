@@ -8,13 +8,16 @@
       <%= render 'shared/components/c-model-overview-card',
         model: @model,
         title: 'Scenarios',
-        values: @scenarios
+        values: @scenarios,
+        button_url: model_scenarios_url(@model)
       %>
     </div>
     <div class="small-4 columns">
       <%= render 'shared/components/c-model-overview-card',
         model: @model,
-        title: 'Indicators'
+        title: 'Indicators',
+        values: @indicators,
+        button_url: indicators_url(@model)
       %>
     </div>
     <div class="small-4 columns">
