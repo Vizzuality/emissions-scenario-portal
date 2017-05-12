@@ -1,21 +1,37 @@
-<%= render 'header' %>
-
-<ul>
-  <li>Scenarios:
-    <% @scenarios.each do |scenario| %>
-      <%= scenario.name %>
-    <% end %>
-    <%= link_to 'SEE ALL', model_scenarios_url(@model) %>
-  </li>
-  <li>Indicators:
-    <% @indicators.each do |indicator| %>
-      <%= indicator.name %>
-    <% end %>
-    <%= link_to 'SEE ALL', indicators_url %>
-  </li>
-  <li>Updates:
-
-  </li>
-</ul>
-
-<%= link_to 'EDIT', edit_model_url(@model) %>
+<%= render 'shared/components/c_wri_header' %>
+<%= render 'shared/components/c_landing_header',
+  title: "#{@model.abbreviation}. #{@model.full_name}",
+  no_settings: true %>
+<div class="l-model-overview">
+  <div class="row">
+    <div class="small-4 columns">
+      <%= render 'shared/components/c_model_overview_card',
+        model: @model,
+        title: 'Scenarios',
+        values: @scenarios,
+        button_url: model_scenarios_url(@model)
+      %>
+    </div>
+    <div class="small-4 columns">
+      <%= render 'shared/components/c_model_overview_card',
+        model: @model,
+        title: 'Indicators',
+        values: @indicators,
+        button_url: indicators_url(@model)
+      %>
+    </div>
+    <div class="small-4 columns">
+      <%= render 'shared/components/c_model_news_card',
+        title: 'Latest updates'
+      %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="small-12 columns">
+      <%= render 'shared/components/c_4_columns_table',
+        model: @model,
+        title: 'Metadata'
+      %>
+    </div>
+  </div>
+</div>
