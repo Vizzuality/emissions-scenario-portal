@@ -13,4 +13,24 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-//= require_tree .
+//= require underscore/underscore
+//= require backbone/backbone
+//= require_self
+
+//= require_tree ./views/
+//= require_tree ./controllers/
+
+//= require router
+//= require dispatcher
+
+(function() {
+
+  'use strict';
+
+  this.App = {
+    Events: _.extend(Backbone.Events),
+    View: {},
+    Controller: {}
+  };
+
+}).call(this);
