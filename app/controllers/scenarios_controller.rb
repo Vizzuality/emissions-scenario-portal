@@ -5,6 +5,10 @@ class ScenariosController < ApplicationController
     @scenarios = @model.scenarios
   end
 
+  def upload_meta_data
+    #  TODO: implement
+  end
+
   private
 
   def set_model
