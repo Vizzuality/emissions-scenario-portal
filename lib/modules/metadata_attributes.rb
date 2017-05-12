@@ -38,10 +38,12 @@ module MetadataAttributes
   end
 
   def key_for_name(attribute_symbol)
-    ['models', attribute_symbol, 'name'].join('.')
+    [self.class.name.downcase.pluralize, attribute_symbol, 'name'].join('.')
   end
 
   def key_for_definition(attribute_symbol)
-    ['models', attribute_symbol, 'definition'].join('.')
+    [
+      self.class.name.downcase.pluralize, attribute_symbol, 'definition'
+    ].join('.')
   end
 end

@@ -1,0 +1,13 @@
+<%= form_for @indicator do |f| %>
+  <%= link_to 'CANCEL', indicators_url %>
+  <%= f.submit 'SAVE' %>
+  <ul>
+    <% Indicator.attribute_symbols.each do |attribute_symbol| %>
+    <li>
+      <%= attribute_name(@indicator, attribute_symbol) %>
+      (<%= attribute_definition(@indicator, attribute_symbol) %>)
+      <%= attribute_input(@indicator, f, attribute_symbol) %>
+    </li>
+    <% end %>
+  </ul>
+<% end %>

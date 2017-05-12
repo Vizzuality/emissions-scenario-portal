@@ -6,9 +6,9 @@
   <ul>
     <% Model.attribute_symbols.each do |attribute_symbol| %>
     <li>
-      <%= attribute_name(attribute_symbol) %>
-      (<%= attribute_definition(attribute_symbol) %>)
-      <%= attribute_input(f, attribute_symbol) %>
+      <%= attribute_name(@model, attribute_symbol) %>
+      (<%= attribute_definition(@model, attribute_symbol) %>)
+      <%= attribute_input(@model, f, attribute_symbol) %>
     </li>
     <% end %>
   </ul>
