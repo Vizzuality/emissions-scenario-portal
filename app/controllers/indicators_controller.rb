@@ -37,6 +37,8 @@ class IndicatorsController < ApplicationController
   end
 
   def indicator_params
-    params.require(:indicator).permit(*Indicator.attribute_symbols_for_strong_params)
+    params.require(:indicator).permit(
+      *Indicator.attribute_symbols_for_strong_params
+    )
   end
 end
