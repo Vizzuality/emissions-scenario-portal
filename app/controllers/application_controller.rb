@@ -7,9 +7,9 @@ class ApplicationController < ActionController::Base
 
   def set_nav_links
     @nav_links = [
-      {name: "Overview", path: root_path, key: "models"},
-      {name: "Scenarios", path: "#", key: "scenarios"},
-      {name: "Indicators", path: "#", key: "indicators"},
+      {name: 'Overview', path: root_path, key: 'models'},
+      {name: 'Scenarios', path: '#', key: 'scenarios'},
+      {name: 'Indicators', path: '#', key: 'indicators'}
     ]
   end
 end
