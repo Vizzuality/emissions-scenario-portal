@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170510110451) do
+ActiveRecord::Schema.define(version: 20170515081107) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -100,6 +100,17 @@ ActiveRecord::Schema.define(version: 20170510110451) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "time_series_values", force: :cascade do |t|
+    t.integer  "scenario_id"
+    t.integer  "indicator_id"
+    t.integer  "year"
+    t.decimal  "value"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["indicator_id"], name: "index_time_series_values_on_indicator_id", using: :btree
+    t.index ["scenario_id"], name: "index_time_series_values_on_scenario_id", using: :btree
+  end
+
   create_table "users", force: :cascade do |t|
     t.text     "email"
     t.text     "name"
@@ -112,5 +123,7 @@ ActiveRecord::Schema.define(version: 20170510110451) do
 
   add_foreign_key "models", "teams"
   add_foreign_key "scenarios", "models"
+  add_foreign_key "time_series_values", "indicators"
+  add_foreign_key "time_series_values", "scenarios"
   add_foreign_key "users", "teams"
 end
