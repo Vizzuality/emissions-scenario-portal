@@ -59,5 +59,10 @@ Metrics/AbcSize:
     - 'lib/modules/*'
 
 Metrics/MethodLength:
+  Max: 15
   Exclude:
     - 'lib/modules/*'
+
+Style/BlockDelimiters:
+  Exclude:
+    - 'spec/**/*'
