@@ -36,11 +36,13 @@ module MetadataAttributes
       end
 
       def self.category_attribute(attribute_symbol)
+        output = 'Miscellany'
         self::ALL_ATTRIBUTES.select do |a|
-          return a['category'] if a['name'] == attribute_symbol && a['category'].present?
+          output = a['category'] if
+            a['name'] == attribute_symbol && a['category'].present?
         end
 
-        return 'Miscellany'
+        return output
       end
 
       def self.attributes_with_flag_set(flag_name)
