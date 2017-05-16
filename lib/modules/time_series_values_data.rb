@@ -4,7 +4,7 @@ class TimeSeriesValuesData
   def initialize(path)
     @path = path
     @headers = TimeSeriesValuesHeaders.new(@path)
-    @number_of_rows = File.foreach(@path).inject(0) { |c| c + 1 } - 1
+    @number_of_rows = File.foreach(@path).inject(0) { |acc| acc + 1 } - 1
     @number_of_rows_failed, @errors =
       if @headers.errors.any?
         [@number_of_rows, @headers.errors]
