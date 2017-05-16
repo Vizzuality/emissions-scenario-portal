@@ -39,9 +39,7 @@ module MetadataAttributes
 
       def self.category_attribute(attribute_symbol)
         self::ALL_ATTRIBUTES.select do |a|
-          if a['name'] == attribute_symbol && a['category'].present?
-            return a['category']
-          end
+          return a['category'] if a['name'] == attribute_symbol && a['category'].present?
         end
 
         return 'Miscellany'

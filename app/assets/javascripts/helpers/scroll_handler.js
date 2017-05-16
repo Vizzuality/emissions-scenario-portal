@@ -19,7 +19,7 @@
       if(isAnimated){
         this._animatedScroll(offsetTop);
       } else {
-        this._unanimatedScroll(offsetTop)
+        this._unanimatedScroll(offsetTop);
       }
     },
 

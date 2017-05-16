@@ -66,7 +66,7 @@
 
     // Start listening changes in routes
     Backbone.history.start({ pushState: true });
-  };
+  }
 
   /*
    * As we will using turbolinks, we will listen to the turbolinks
