@@ -31,9 +31,7 @@ module MetadataAttributes
 
       def self.size_attribute(attribute_symbol)
         self::ALL_ATTRIBUTES.select do |a|
-          if a['name'] == attribute_symbol
-            return a['size']
-          end
+          return a['size'] if a['name'] == attribute_symbol
         end
       end
 
