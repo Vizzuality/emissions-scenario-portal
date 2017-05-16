@@ -1,9 +1,9 @@
 Model,Scenario,Region,Category,Stack family,Name,Standardized Unit,Unit of Entry,Conversion factor,Definition,2005,2010,2015,2020,2025,2030,2035,2040,2045,2050,2055,2060,2065,2070
-GCAM,GCAM-Reference,Poland,Energy,Energy use by fuel,Biomass w CSS,EJ/yr,EJ/yr,,,10.0,15.0,20.0,,,,,,,,,,,
-GCAM,GCAM-Reference,Poland,Energy,Energy use by fuel,Biomass w/o CSS,EJ/yr,EJ/yr,,,10.0,15.0,20.0,,,,,,,,,,,
-GCAM,GCAM-Reference,Portugal,Energy,Energy use by fuel,Biomass w CSS,EJ/yr,EJ/yr,,,10.0,15.0,20.0,,,,,,,,,,,
+GCAM,GCAM-Reference,Poland,Energy,Energy use by fuel,Biomass w CSS,EJ/yr,EJ/year,,,10.0,15.0,20.0,,,,,,,,,,,
+GCAM,GCAM-Referenced,Poland,Energy,Energy use by fuel,Biomass w/o CSS,EJ/yr,EJ/yr,,,10.0,15.0,20.0,,,,,,,,,,,
+GCAM,GCAM-Reference,Portugall,Energy,Energy use by fuel,Biomass w CSS,EJ/yr,EJ/yr,,,10.0,15.0,20.0,,,,,,,,,,,
 GCAM,GCAM-Reference,Portugal,Energy,Energy use by fuel,Biomass w/o CSS,EJ/yr,EJ/yr,,,10.0,15.0,20.0,,,,,,,,,,,
 GCAM,GCAM-Paris,Poland,Energy,Energy use by fuel,Biomass w CSS,EJ/yr,EJ/yr,,,10.0,15.0,20.0,,,,,,,,,,,
 GCAM,GCAM-Paris,Poland,Energy,Energy use by fuel,Biomass w/o CSS,EJ/yr,EJ/yr,,,10.0,15.0,20.0,,,,,,,,,,,
 GCAM,GCAM-Paris,Portugal,Energy,Energy use by fuel,Biomass w CSS,EJ/yr,EJ/yr,,,10.0,15.0,20.0,,,,,,,,,,,
-GCAM,GCAM-Paris,Portugal,Energy,Energy use by fuel,Biomass w/o CSS,EJ/yr,EJ/yr,,,10.0,15.0,20.0,,,,,,,,,,,
+GCAM,GCAM-Paris,Portugal,Energy,Energy use by fuel,Biomass w/o CSS,EJ/yr,EJ/yr,,,10.0,15.0,abc,,,,,,,,,,,
