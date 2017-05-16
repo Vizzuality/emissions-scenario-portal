@@ -29,7 +29,13 @@ RSpec.describe UploadTimeSeriesValues do
       )
     }
     it 'should have saved all rows' do
-      expect(subject.number_of_rows_saved).to eq(2)
+      expect { subject }.to change { TimeSeriesValue.count }.by(2)
+    end
+    it 'should report all rows saved' do
+      expect(subject.number_of_rows_saved).to eq(1) # 1 row with 2 values
+    end
+    it 'should report no rows failed' do
+      expect(subject.number_of_rows_failed).to eq(0)
     end
   end
 
@@ -46,7 +52,13 @@ RSpec.describe UploadTimeSeriesValues do
     }
 
     it 'should not have saved any rows' do
+      expect { subject }.not_to(change { TimeSeriesValue.count })
+    end
+    it 'should report no rows saved' do
       expect(subject.number_of_rows_saved).to eq(0)
+    end
+    it 'should report all rows failed' do
+      expect(subject.number_of_rows_failed).to eq(1)
     end
   end
 
@@ -63,7 +75,13 @@ RSpec.describe UploadTimeSeriesValues do
     }
 
     it 'should not have saved any rows' do
+      expect { subject }.not_to(change { TimeSeriesValue.count })
+    end
+    it 'should report no rows saved' do
       expect(subject.number_of_rows_saved).to eq(0)
+    end
+    it 'should report all rows failed' do
+      expect(subject.number_of_rows_failed).to eq(1)
     end
   end
 end

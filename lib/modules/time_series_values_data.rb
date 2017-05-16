@@ -1,17 +1,21 @@
 class TimeSeriesValuesData
-  attr_reader :number_of_rows_read, :number_of_rows_saved, :errors
+  attr_reader :number_of_rows, :number_of_rows_failed, :errors
 
-  def initialize(path, headers)
+  def initialize(path)
     @path = path
-    @headers = headers
-    @number_of_rows_read = 0
-    @number_of_rows_saved = 0
-    @errors = {}
+    @headers = TimeSeriesValuesHeaders.new(@path)
+    @number_of_rows = File.foreach(@path).inject(0) { |c| c + 1 } - 1
+    @number_of_rows_failed, @errors =
+      if @headers.errors.any?
+        [@number_of_rows, @headers.errors]
+      else
+        [0, {}]
+      end
   end
 
   def process
+    return if @headers.errors.any?
     CSV.open(@path, 'r', headers: true).each_with_index do |row, row_no|
-      @number_of_rows_read += 1
       process_row(row, row_no)
     end
   end
@@ -24,13 +28,14 @@ class TimeSeriesValuesData
     # region = value_for(row, :region)
     unit = value_for(row, :unit)
     conversion_factor = value_for(row, :conversion_factor)
-
-    @headers.year_headers.each do |h|
+    row_failed = false
+    year_values = @headers.year_headers.map do |h|
       year = h[:display_name].to_i
       value = row[@headers.actual_index_of_year(h[:display_name])]
       value *= conversion_factor if indicator.present? && unit != indicator.unit
-      next if value.blank?
-
+      value.blank? ? nil : [year, value]
+    end.compact
+    year_values.each do |year, value|
       tsv = TimeSeriesValue.new(
         scenario: scenario,
         indicator: indicator,
@@ -38,12 +43,14 @@ class TimeSeriesValuesData
         year: year,
         value: value
       )
-      if tsv.valid? && tsv.save
-        @number_of_rows_saved += 1
+      if tsv.valid?
+        tsv.save
       else
-        @errors[row_no] << tsv.errors
+        row_failed = true
+        @errors[row_no][year] = tsv.errors
       end
     end
+    @number_of_rows_failed += 1 if row_failed
   end
 
   def value_for(row, property_name)
