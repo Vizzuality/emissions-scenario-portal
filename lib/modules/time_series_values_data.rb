@@ -15,7 +15,7 @@ class TimeSeriesValuesData
 
   def process
     return if @headers.errors.any?
-    CSV.open(@path, 'r', headers: true).each_with_index do |row, row_no|
+    CSV.open(@path, 'r', headers: true).each.with_index(2) do |row, row_no|
       process_row(row, row_no)
     end
   end
@@ -27,7 +27,6 @@ class TimeSeriesValuesData
     location = location(row, @errors[row_no])
     unit = value_for(row, :unit)
     conversion_factor = value_for(row, :conversion_factor)
-    row_failed = false
     year_values = @headers.year_headers.map do |h|
       year = h[:display_name].to_i
       value = row[@headers.actual_index_of_year(h[:display_name])]
@@ -42,14 +41,9 @@ class TimeSeriesValuesData
         year: year,
         value: value
       )
-      if tsv.valid?
-        tsv.save
-      else
-        row_failed = true
-        @errors[row_no][year] = tsv.errors
-      end
+      @errors[row_no][year] = tsv.errors unless tsv.save
     end
-    @number_of_rows_failed += 1 if row_failed
+    @number_of_rows_failed += 1 if @errors[row_no].any?
   end
 
   def value_for(row, property_name)
