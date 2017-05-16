@@ -10,7 +10,9 @@
      * @type {Object}
      */
     routes: {
-      '/models/:id/edit': 'Models#edit',
+      '': 'Models#index',
+      'models/:id': 'Models#show',
+      'models/:id/edit': 'Models#edit',
       '*notFound': 'Error#index'
     },
 

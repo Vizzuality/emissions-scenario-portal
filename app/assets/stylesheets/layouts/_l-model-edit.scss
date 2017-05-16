@@ -11,6 +11,11 @@
 
   .c-vertical-nav {
     padding-top: rem(9px);
+
+    &.-fixed {
+      position: fixed;
+      top: 0;
+    }
   }
 
   .c-form {

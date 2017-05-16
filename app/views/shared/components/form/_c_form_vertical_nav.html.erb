@@ -1,5 +1,5 @@
 <ul class="c-vertical-nav f-ff1-m">
   <% form_blocks.each_with_index do |block, i| %>
-    <li class="<% if i == 0 %>-selected<% end %>" data-block-key="<%= Digest::MD5.hexdigest(block[0]) %>"><%= block[0] %></li>
+    <li class="js-form-block-anchor <% if i == 0 %>-selected<% end %>" data-block-belongs="<%= Digest::MD5.hexdigest(block[0]) %>"><%= block[0] %></li>
   <% end %>
 </ul>

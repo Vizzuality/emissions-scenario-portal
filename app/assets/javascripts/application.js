@@ -17,6 +17,7 @@
 //= require backbone/backbone
 //= require_self
 
+//= require_tree ./helpers/
 //= require_tree ./views/
 //= require_tree ./controllers/
 
