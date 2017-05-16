@@ -7,9 +7,12 @@ class UploadTimeSeriesValues
 
   def call(uploaded_io)
     store_file(uploaded_io) # TODO: record the fact of the upload?
-    data = TimeSeriesValuesData.new(@path)
-    data.process
-    discard_file
+    begin
+      data = TimeSeriesValuesData.new(@path)
+      data.process
+    ensure
+      discard_file
+    end
     FileUploadStatus.new(
       data.number_of_rows,
       data.number_of_rows_failed,
