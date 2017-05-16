@@ -7,7 +7,7 @@
   <%
     form_blocks = Hash.new
     Model.attribute_symbols.each do |attribute_symbol|
-      category = attribute_category(attribute_symbol)
+      category = attribute_category(@model, attribute_symbol)
 
       form_blocks[category] ||= Array.new
       form_blocks[category].push(attribute_symbol)
@@ -18,7 +18,7 @@
       <div class="small-12 columns">
         <div class="row align-right">
           <div class="small-2 columns">
-            <%= link_to models_url, class: 'l-model-edit__form-action' do %>
+            <%= link_to model_url(@model), class: 'l-model-edit__form-action' do %>
               <div class="c-hollow-button"><span>Cancel</span></div>
             <% end %>
           </div>
