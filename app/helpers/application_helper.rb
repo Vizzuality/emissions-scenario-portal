@@ -30,7 +30,6 @@ module ApplicationHelper
     options = {prompt: 'Please select'}
     html_options = {}
     html_options[:multiple] = true if is_multiple
-    form.select attribute_symbol, picklist_values, options, html_options
 
     content_tag :div, class: "c-select -#{size}" do
       form.select attribute_symbol, picklist_values, options, html_options
