@@ -177,3 +177,22 @@ en:
     point_of_contact:
       name: "Point-of-Contact"
       definition:  "Who is the point-of-contact for the model?"
+  indicators:
+    category:
+      name: 'Category'
+      definition: 'TODO'
+    stack_family:
+      name: 'Stack family'
+      definition: 'TODO'
+    name:
+      name: 'Name'
+      definition: 'TODO'
+    definition:
+      name: 'Description'
+      definition: 'TODO'
+    unit:
+      name: 'Unit'
+      definition: 'TODO'
+    notes:
+      name: 'Notes'
+      definition: 'TODO'

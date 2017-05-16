@@ -1,0 +1,21 @@
+<h1>Indicator <%= @indicator.name %></h1>
+
+Category: <%= @indicator.category %>
+Unit: <%= @indicator.unit %>
+Added by: TODO
+Description: <%= @indicator.definition %>
+<%= link_to 'EDIT', edit_indicator_url(@indicator) %>
+
+<p>Models using this indicator: <i>TODO: all models for now</i></p>
+<ul>
+<% Model.all.each do |model| %>
+  <li><%= model.full_name %> <%=link_to 'EDIT', edit_model_url(model) %></li>
+<% end %>
+</ul>
+
+<p>Scenarios using this indicator: <i>TODO: all scenarios for now</i></p>
+<ul>
+<% Scenario.all.each do |scenario| %>
+  <li><%= scenario.name %> <%=link_to 'EDIT TODO link', '#' %></li>
+<% end %>
+</ul>

@@ -23,7 +23,7 @@
   <tbody>
   <% @indicators.each do |indicator| %>
     <tr>
-      <th><%= indicator.name %></th>
+      <th><%= link_to indicator.name, indicator_url(indicator) %></th>
       <th><%= indicator.category %></th>
       <th><%= indicator.stack_family %></th>
       <th><%= indicator.unit %></th>
