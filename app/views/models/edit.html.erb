@@ -36,6 +36,7 @@
       <div class="small-9 columns">
         <% form_blocks.each do |block| %>
           <%= render 'shared/components/form/c_form',
+            object: @model,
             f: f,
             title: block[0],
             attributes: block[1] %>
