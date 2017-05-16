@@ -11,11 +11,17 @@ module ApplicationHelper
     if object.class.picklist_attribute?(attribute_symbol)
       picklist_input(object, form, attribute_symbol)
     else
-      form.text_field attribute_symbol
+      size = object.class.size_attribute(attribute_symbol)
+      form.text_field attribute_symbol, class: "c-input-text -#{size}"
     end
   end
 
+  def attribute_category(object, attribute_symbol)
+    object.class.category_attribute(attribute_symbol)
+  end
+
   def picklist_input(object, form, attribute_symbol)
+    size = object.class.size_attribute(attribute_symbol)
     is_multiple = object.class.multiple_attribute?(attribute_symbol)
     picklist_values = object.class.
       distinct.order(attribute_symbol).pluck(attribute_symbol)
@@ -24,6 +30,9 @@ module ApplicationHelper
     options = {prompt: 'Please select'}
     html_options = {}
     html_options[:multiple] = true if is_multiple
-    form.select attribute_symbol, picklist_values, options, html_options
+
+    content_tag :div, class: "c-select -#{size}" do
+      form.select attribute_symbol, picklist_values, options, html_options
+    end
   end
 end

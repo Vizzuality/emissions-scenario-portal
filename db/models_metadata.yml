@@ -1,90 +1,194 @@
 - name: :abbreviation
+  size: 'small'
+  category: 'General Info'
 - name: :full_name
+  size: 'large'
+  category: 'General Info'
 - name: :current_version
+  size: 'small'
+  category: 'General Info'
 - name: :linkages_and_extensions
+  size: 'large'
+  category: 'General Info'
 - name: :development_year
+  size: 'small'
+  category: 'General Info'
 - name: :programming_language
   picklist: true
   multiple: true
+  size: 'large'
+  category: 'General Info'
 - name: :maintainer_type
   picklist: true
+  size: 'small'
+  category: 'General Info'
 - name: :maintainer_name
+  size: 'large'
+  category: 'General Info'
 - name: :license
   picklist: true
+  size: 'large'
+  category: 'Usage & License'
 - name: :license_detailed
+  size: 'large'
+  category: 'Usage & License'
 - name: :availability
   picklist: true
+  size: 'large'
+  category: 'Usage & License'
 - name: :expertise
   picklist: true
+  size: 'large'
+  category: 'Usage & License'
 - name: :expertise_detailed
+  size: 'large'
+  category: 'Usage & License'
 - name: :platform
   picklist: true
   multiple: true
+  size: 'large'
+  category: 'Details & Description'
 - name: :platform_detailed
+  size: 'large'
+  category: 'Details & Description'
 - name: :category
   picklist: true
+  size: 'large'
+  category: 'Details & Description'
 - name: :category_detailed
+  size: 'large'
+  category: 'Details & Description'
 - name: :hybrid_classification
   picklist: true
+  size: 'large'
+  category: 'Details & Description'
 - name: :hybrid_classification_detailed
+  size: 'large'
+  category: 'Details & Description'
 - name: :purpose_or_objective
+  size: 'large'
+  category: 'Details & Description'
 - name: :description
+  size: 'large'
+  category: 'Details & Description'
 - name: :key_usage
   picklist: true
   multiple: true
+  size: 'large'
+  category: 'Details & Description'
 - name: :scenario_coverage
   picklist: true
+  size: 'large'
+  category: 'Coverage'
 - name: :scenario_coverage_details
   picklist: true
   multiple: true
+  size: 'large'
+  category: 'Coverage'
 - name: :geographic_coverage
   picklist: true
+  size: 'large'
+  category: 'Coverage'
 - name: :geographic_coverage_region
   picklist: true
   multiple: true
+  size: 'large'
+  category: 'Coverage'
 - name: :geographic_coverage_country
   picklist: true
   multiple: true
+  size: 'large'
+  category: 'Coverage'
 - name: :sectoral_coverage
   picklist: true
   multiple: true
+  size: 'large'
+  category: 'Coverage'
 - name: :gas_and_pollutant_coverage
   picklist: true
   multiple: true
+  size: 'large'
+  category: 'Coverage'
 - name: :policy_coverage
   picklist: true
   multiple: true
+  size: 'large'
+  category: 'Coverage'
 - name: :technology_coverage
   picklist: true
   multiple: true
+  size: 'large'
+  category: 'Coverage'
 - name: :technology_coverage_detailed
+  size: 'large'
+  category: 'Coverage'
 - name: :energy_resource_coverage
   picklist: true
   multiple: true
+  size: 'large'
+  category: 'Coverage'
 - name: :time_horizon
   picklist: true
+  size: 'large'
+  category: 'Time'
 - name: :time_step
   picklist: true
+  size: 'large'
+  category: 'Time'
 - name: :equilibrium_type
   picklist: true
+  size: 'large'
+  category: 'Assumptions'
 - name: :foresight
   picklist: true
+  size: 'large'
+  category: 'Assumptions'
 - name: :spatial_resolution
+  size: 'large'
+  category: 'Assumptions'
 - name: :population_assumptions
+  size: 'large'
+  category: 'Assumptions'
 - name: :gdp_assumptions
+  size: 'large'
+  category: 'Assumptions'
 - name: :other_assumptions
+  size: 'large'
+  category: 'Assumptions'
 - name: :base_year
+  size: 'large'
+  category: 'Requirements'
 - name: :input_data
+  size: 'large'
+  category: 'Requirements'
 - name: :calibration_and_validation
+  size: 'large'
+  category: 'Requirements'
 - name: :languages
   picklist: true
   multiple: true
+  size: 'large'
+  category: 'Requirements'
 - name: :tutorial_and_training_opportunities
   picklist: true,
   multiple: true
+  size: 'large'
+  category: 'Requirements'
 - name: :system_requirements
+  size: 'large'
+  category: 'Requirements'
 - name: :run_time
+  size: 'large'
+  category: 'Requirements'
 - name: :publications_and_notable_projects
+  size: 'large'
+  category: 'Requirements'
 - name: :citation
+  size: 'large'
+  category: 'Requirements'
 - name: :url
+  size: 'large'
+  category: 'Requirements'
 - name: :point_of_contact
+  size: 'large'
+  category: 'Requirements'

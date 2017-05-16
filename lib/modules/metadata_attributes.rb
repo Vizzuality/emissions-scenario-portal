@@ -29,6 +29,22 @@ module MetadataAttributes
         @multiple_attributes.include?(attribute_symbol)
       end
 
+      def self.size_attribute(attribute_symbol)
+        self::ALL_ATTRIBUTES.select do |a|
+          return a['size'] if a['name'] == attribute_symbol
+        end
+      end
+
+      def self.category_attribute(attribute_symbol)
+        output = 'Miscellany'
+        self::ALL_ATTRIBUTES.select do |a|
+          output = a['category'] if
+            a['name'] == attribute_symbol && a['category'].present?
+        end
+
+        return output
+      end
+
       def self.attributes_with_flag_set(flag_name)
         self::ALL_ATTRIBUTES.select do |a|
           a[flag_name] == true

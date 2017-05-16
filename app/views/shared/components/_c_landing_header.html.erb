@@ -3,10 +3,13 @@
   user ||= nil
   no_nav ||= false
   no_settings ||= false
+  no_logo ||= false
 %>
 <div class="c-landing-header <% if no_nav %>-no-nav<% end %>">
   <div class="row">
     <div class="small-9 columns">
+      <% if !no_logo %>
+      <% end %>
       <% if title.present? %>
         <div class="f-ff2-xl-extralight">GCAM. Global Change Assessment Model</div>
       <% end %>

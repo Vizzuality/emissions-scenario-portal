@@ -1,15 +1,47 @@
-<%= render 'header' %>
-
+<%= render 'shared/components/c_wri_header' %>
+<%= render 'shared/components/c_landing_header',
+  title: "#{@model.abbreviation}. #{@model.full_name}",
+  no_logo: true,
+  no_settings: true %>
 <%= form_for @model do |f| %>
-  <%= link_to 'CANCEL', model_url(@model) %>
-  <%= f.submit 'SAVE' %>
-  <ul>
-    <% Model.attribute_symbols.each do |attribute_symbol| %>
-    <li>
-      <%= attribute_name(@model, attribute_symbol) %>
-      (<%= attribute_definition(@model, attribute_symbol) %>)
-      <%= attribute_input(@model, f, attribute_symbol) %>
-    </li>
-    <% end %>
-  </ul>
+  <%
+    form_blocks = Hash.new
+    Model.attribute_symbols.each do |attribute_symbol|
+      category = attribute_category(@model, attribute_symbol)
+
+      form_blocks[category] ||= Array.new
+      form_blocks[category].push(attribute_symbol)
+    end
+  %>
+  <div class="l-model-edit">
+    <div class="row">
+      <div class="small-12 columns">
+        <div class="row align-right">
+          <div class="small-2 columns">
+            <%= link_to model_url(@model), class: 'l-model-edit__form-action' do %>
+              <div class="c-hollow-button"><span>Cancel</span></div>
+            <% end %>
+          </div>
+          <div class="small-2 columns">
+            <%= f.submit 'Save', class: 'c-button' %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row l-model-edit__fields">
+      <div class="small-3 columns">
+        <%= render 'shared/components/form/c_form_vertical_nav',
+          form_blocks: form_blocks %>
+      </div>
+      <div class="small-9 columns">
+        <% form_blocks.each do |block| %>
+          <%= render 'shared/components/form/c_form',
+            object: @model,
+            f: f,
+            title: block[0],
+            attributes: block[1] %>
+        <% end %>
+      </div>
+    </div>
+  </div>
 <% end %>
