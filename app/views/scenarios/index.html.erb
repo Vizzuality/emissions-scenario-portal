@@ -30,7 +30,7 @@ Scenarios (<%= @scenarios.count %>)
   <tbody>
   <% @scenarios.each do |scenario| %>
     <tr>
-      <td><%= scenario.name %></td>
+      <td><%= link_to scenario.name, scenario_url(scenario) %></td>
       <td><%= scenario.updated_at.strftime("%b %d %Y") %></td>
       <td>TODO?</td>
       <td>TODO</td>
