@@ -21,19 +21,21 @@ class TimeSeriesValuesData
   end
 
   def process_row(row, row_no)
-    @errors[row_no] = []
+    @errors[row_no] = {}
     scenario = scenario(row, @errors[row_no])
     indicator = indicator(row, @errors[row_no])
     location = location(row, @errors[row_no])
     unit = value_for(row, :unit)
-    conversion_factor = value_for(row, :conversion_factor)
+    unit != indicator.unit &&
+      conversion_factor = conversion_factor(row, @errors[row_no])
+
     year_values = @headers.year_headers.map do |h|
       year = h[:display_name].to_i
       value = row[@headers.actual_index_of_year(h[:display_name])]
-      value *= conversion_factor if indicator.present? && unit != indicator.unit
       value.blank? ? nil : [year, value]
     end.compact
     year_values.each do |year, value|
+      value *= conversion_factor if conversion_factor
       tsv = TimeSeriesValue.new(
         scenario: scenario,
         indicator: indicator,
@@ -43,7 +45,11 @@ class TimeSeriesValuesData
       )
       @errors[row_no][year] = tsv.errors unless tsv.save
     end
-    @number_of_rows_failed += 1 if @errors[row_no].any?
+    if @errors[row_no].any?
+      @number_of_rows_failed += 1
+    else
+      @errors.delete(row_no)
+    end
   end
 
   def value_for(row, property_name)
@@ -91,20 +97,32 @@ class TimeSeriesValuesData
   def location(row, errors)
     location_name = value_for(row, :region)
     location_identification = "location: #{location_name}"
-
     locations = Location.where(name: location_name)
     matching_object(locations, 'location', location_identification, errors)
   end
 
   def matching_object(object_collection, object_type, identification, errors)
     if object_collection.count > 1
-      errors << "More than one #{object_type} found (#{identification}"
+      errors[object_type] = "More than one #{object_type} found \
+      (#{identification}"
       nil
     elsif object_collection.count.zero?
-      errors << "#{object_type.capitalize} does not exist (#{identification})"
+      errors[object_type] = "#{object_type.capitalize} does not exist \
+      (#{identification})"
       nil
     else
       object_collection.first
     end
+  end
+
+  def conversion_factor(row, errors)
+    conversion_factor = value_for(row, :conversion_factor)
+    format_ok = conversion_factor && conversion_factor.match?(/\A\d+\z/)
+    unless format_ok
+      errors[:conversion_factor] = "Conversion factor not given \
+      correctly where unit of entry different from standardised unit"
+      return nil
+    end
+    conversion_factor.to_i
   end
 end
