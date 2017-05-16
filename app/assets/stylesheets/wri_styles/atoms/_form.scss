@@ -100,3 +100,51 @@
     z-index: 1;
   }
 }
+
+/**
+ * @atom Search input
+ * @section Form items
+ * @modifiers
+ *  .-small limit the max width to 140px
+ *  .-large limit the max width to 500px
+ * @markup
+ *  <div style="width: 100%; background-color: #eeeeee; padding: 50px;">
+ *    <div class="c-input-search">
+ *      <input type="text" placeholder="Search" class="c-input-text"/>
+ *      <svg class="icon"><use xlink:href="#icon-search"></use></svg>
+ *    </div>
+ *  </div>
+ */
+.c-input-search {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: rem(35px);
+  padding-right: rem(10px);
+  border-radius: 4px;
+  background-color: $color-app-1;
+  box-shadow: 0 1px 0 0 $color-app-5;
+
+  &.-small {
+    max-width: rem(140px);
+  }
+
+  &.-large {
+    max-width: rem(500px);
+  }
+
+  .c-input-text {
+    padding-right: 0;
+    border: 0;
+    color: rgba($color-app-2, 0.5);
+  }
+
+  .icon {
+    position: absolute;
+    right: rem(10px);
+    top: rem(9px);
+    width: rem(17px);
+    height: rem(17px);
+    fill: rgba($color-app-2, 0.5);
+  }
+}
