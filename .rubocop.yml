@@ -63,6 +63,9 @@ Metrics/MethodLength:
   Exclude:
     - 'lib/modules/*'
 
+Metrics/ClassLength:
+  Max: 150
+
 Style/BlockDelimiters:
   Exclude:
     - 'spec/**/*'
