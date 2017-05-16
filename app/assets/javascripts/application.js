@@ -15,6 +15,7 @@
 //= require turbolinks
 //= require underscore/underscore
 //= require backbone/backbone
+//= require select2
 //= require_self
 
 //= require_tree ./helpers/

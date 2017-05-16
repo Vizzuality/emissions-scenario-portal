@@ -12,6 +12,7 @@
 
     edit: function () {
       new App.View.FormVerticalNav();
+      new App.View.Form();
     }
 
   });

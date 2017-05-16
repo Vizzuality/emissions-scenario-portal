@@ -1,0 +1,19 @@
+.c-form-item {
+
+  .select2-selection {
+    height: rem(35px);
+    border: 0 !important;
+  }
+}
+
+.select2-dropdown {
+  border: 0;
+
+  .select2-results__option {
+    background-color: $color-app-4;
+  }
+
+  .select2-results__option--highlighted {
+    background-color: $color-app-6 !important;
+  }
+}
