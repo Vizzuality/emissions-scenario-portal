@@ -1,6 +1,7 @@
 class TimeSeriesValue < ApplicationRecord
   belongs_to :scenario
   belongs_to :indicator
+  belongs_to :location
 
   validates(
     :year,

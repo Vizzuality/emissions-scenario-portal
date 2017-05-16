@@ -14,6 +14,9 @@ RSpec.describe UploadTimeSeriesValues do
       unit: 'EJ/yr'
     )
   }
+  let!(:location) {
+    FactoryGirl.create(:location, name: 'Poland', iso_code2: 'PL')
+  }
   # TODO: current user
   subject { UploadTimeSeriesValues.new(nil, model).call(file) }
 

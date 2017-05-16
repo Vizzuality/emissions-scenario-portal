@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170516094925) do
+ActiveRecord::Schema.define(version: 20170516102241) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -115,7 +115,9 @@ ActiveRecord::Schema.define(version: 20170516094925) do
     t.decimal  "value"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.integer  "location_id"
     t.index ["indicator_id"], name: "index_time_series_values_on_indicator_id", using: :btree
+    t.index ["location_id"], name: "index_time_series_values_on_location_id", using: :btree
     t.index ["scenario_id"], name: "index_time_series_values_on_scenario_id", using: :btree
   end
 
@@ -132,6 +134,7 @@ ActiveRecord::Schema.define(version: 20170516094925) do
   add_foreign_key "models", "teams"
   add_foreign_key "scenarios", "models"
   add_foreign_key "time_series_values", "indicators"
+  add_foreign_key "time_series_values", "locations"
   add_foreign_key "time_series_values", "scenarios"
   add_foreign_key "users", "teams"
 end

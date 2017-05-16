@@ -11,6 +11,11 @@ RSpec.describe TimeSeriesValue, type: :model do
       FactoryGirl.build(:time_series_value, indicator: nil)
     ).to have(1).errors_on(:indicator)
   end
+  it 'should be invalid when location not present' do
+    expect(
+      FactoryGirl.build(:time_series_value, location: nil)
+    ).to have(1).errors_on(:location)
+  end
   it 'should be invalid when year not present' do
     expect(
       FactoryGirl.build(:time_series_value, year: nil)

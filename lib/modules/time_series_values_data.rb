@@ -24,8 +24,7 @@ class TimeSeriesValuesData
     @errors[row_no] = []
     scenario = scenario(row, @errors[row_no])
     indicator = indicator(row, @errors[row_no])
-    # TODO: should this link to a dictionary table or just text field
-    # region = value_for(row, :region)
+    location = location(row, @errors[row_no])
     unit = value_for(row, :unit)
     conversion_factor = value_for(row, :conversion_factor)
     row_failed = false
@@ -39,7 +38,7 @@ class TimeSeriesValuesData
       tsv = TimeSeriesValue.new(
         scenario: scenario,
         indicator: indicator,
-        # region: region, # TODO: implement region
+        location: location,
         year: year,
         value: value
       )
@@ -93,6 +92,14 @@ class TimeSeriesValuesData
       unit: indicator_unit
     )
     matching_object(indicators, 'indicator', indicator_identification, errors)
+  end
+
+  def location(row, errors)
+    location_name = value_for(row, :region)
+    location_identification = "location: #{location_name}"
+
+    locations = Location.where(name: location_name)
+    matching_object(locations, 'location', location_identification, errors)
   end
 
   def matching_object(object_collection, object_type, identification, errors)
