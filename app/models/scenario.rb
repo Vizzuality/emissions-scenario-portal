@@ -8,6 +8,9 @@ class Scenario < ApplicationRecord
   has_many :time_series_values, dependent: :destroy
   has_many :indicators, through: :time_series_values
 
+  validates :name, presence: true
+  # TODO: validate release date is a date
+
   def meta_data?
     # TODO: what to check here?
     true
