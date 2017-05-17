@@ -11,6 +11,8 @@ class Scenario < ApplicationRecord
   validates :name, presence: true
   # TODO: validate release date is a date
 
+  delegate :abbreviation, to: :model, prefix: :model
+
   def meta_data?
     # TODO: what to check here?
     true
