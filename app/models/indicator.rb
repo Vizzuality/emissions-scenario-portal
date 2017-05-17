@@ -4,6 +4,8 @@ class Indicator < ApplicationRecord
   ).freeze
   include MetadataAttributes
 
+  has_many :time_series_values, dependent: :destroy
+
   validates :name, presence: true
 
   # TODO: validate comparable indicator has convertible unit

@@ -10,4 +10,11 @@ RSpec.describe ScenariosController, type: :controller do
       expect(response).to render_template(:index)
     end
   end
+
+  describe 'GET show' do
+    it 'renders show' do
+      get :show, params: {id: scenario.id}
+      expect(response).to render_template(:show)
+    end
+  end
 end

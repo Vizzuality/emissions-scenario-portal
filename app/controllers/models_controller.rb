@@ -22,6 +22,10 @@ class ModelsController < ApplicationController
     end
   end
 
+  def upload_meta_data
+    # TODO: implement
+  end
+
   private
 
   def set_team
