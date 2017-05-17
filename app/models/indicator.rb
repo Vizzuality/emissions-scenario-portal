@@ -4,26 +4,36 @@ class Indicator < ApplicationRecord
   ).freeze
   include MetadataAttributes
 
+  ORDERS = %w[name category stack_family definition unit].freeze
+
   validates :name, presence: true
 
   class << self
     def fetch_all(order_options)
-      order_direction = order_options['order_direction'].present? && order_options['order_direction'] == 'desc' ? :desc : :asc
+      order_direction = if order_options['order_direction'].present?
+                          get_direction(order_options['order_direction'])
+                        else
+                          :asc
+                        end
 
-      case order_options['order_type']
-        when 'category'
-          indicators = Indicator.order(category: order_direction, name: :asc)
-        when 'stack_family'
-          indicators = Indicator.order(stack_family: order_direction, name: :asc)
-        when 'definition'
-          indicators = Indicator.order(definition: order_direction, name: :asc)
-        when 'unit'
-          indicators = Indicator.order(unit: order_direction, name: :asc)
-        else
-          indicators = Indicator.order(name: order_direction)
+      order_type = get_type(order_options['order_type'])
+      fetch_with_order(order_type, order_direction)
+    end
+
+    def fetch_with_order(order_type, order_direction)
+      if order_type.present?
+        Indicator.order(order_type => order_direction, name: :asc)
+      else
+        Indicator.order(name: :asc)
       end
+    end
 
-      indicators
+    def get_type(order_type)
+      ORDERS.include?(order_type) && order_type
+    end
+
+    def get_direction(direction)
+      direction == 'desc' ? :desc : :asc
     end
   end
 
