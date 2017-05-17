@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170516102241) do
+ActiveRecord::Schema.define(version: 20170517104211) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -97,8 +97,39 @@ ActiveRecord::Schema.define(version: 20170516102241) do
   create_table "scenarios", force: :cascade do |t|
     t.text     "name"
     t.integer  "model_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
+    t.text     "model_abbreviation"
+    t.text     "model_version"
+    t.text     "provider_type"
+    t.text     "provider_name"
+    t.date     "release_date"
+    t.text     "category"
+    t.text     "description"
+    t.text     "geographic_coverage_region",       default: [],              array: true
+    t.text     "geographic_coverage_country",      default: [],              array: true
+    t.text     "sectoral_coverage",                default: [],              array: true
+    t.text     "gas_and_pollutant_coverage",       default: [],              array: true
+    t.text     "policy_coverage",                  default: [],              array: true
+    t.text     "policy_coverage_detailed"
+    t.text     "technology_coverage",              default: [],              array: true
+    t.text     "technology_coverage_detailed"
+    t.text     "energy_resource_coverage",         default: [],              array: true
+    t.text     "time_horizon"
+    t.text     "time_step"
+    t.text     "climate_target"
+    t.text     "emissions_target"
+    t.text     "large_scale_bioccs"
+    t.text     "technology_assumptions"
+    t.text     "gdp_assumptions"
+    t.text     "population_assumptions"
+    t.text     "discount_rates",                   default: [],              array: true
+    t.text     "emission_factors"
+    t.text     "global_warming_potentials"
+    t.text     "policy_cut_off_year_for_baseline"
+    t.text     "project_study",                    default: [],              array: true
+    t.text     "literature_reference"
+    t.text     "point_of_contact"
     t.index ["model_id"], name: "index_scenarios_on_model_id", using: :btree
   end
 
