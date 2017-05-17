@@ -42,7 +42,7 @@ module MetadataAttributes
             a['name'] == attribute_symbol && a['category'].present?
         end
 
-        return output
+        output
       end
 
       def self.attributes_with_flag_set(flag_name)
