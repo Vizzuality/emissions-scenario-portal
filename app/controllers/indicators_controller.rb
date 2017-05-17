@@ -1,5 +1,6 @@
 class IndicatorsController < ApplicationController
   before_action :set_indicator, except: [:index, :new, :create]
+
   def index
     @indicators = Indicator.fetch_all(indicator_order_params)
   end
@@ -29,6 +30,10 @@ class IndicatorsController < ApplicationController
   end
 
   def show; end
+
+  def upload_meta_data
+    # TODO: implement
+  end
 
   private
 
