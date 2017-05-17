@@ -20,7 +20,15 @@ RSpec.describe ApplicationHelper, type: :helper do
     end
     context :scenarios do
       let(:scenario) { FactoryGirl.create(:scenario) }
+      let(:form) {
+        ActionView::Helpers::FormBuilder.new(:scenario, @model, self, {})
+      }
       pending 'returns a date input field for release_date'
+      it 'returns a select input for model_abbreviation' do
+        expect(
+          helper.attribute_input(scenario, form, :model_abbreviation)
+        ).to match('select')
+      end
     end
   end
 

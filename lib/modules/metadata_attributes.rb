@@ -6,13 +6,18 @@ module MetadataAttributes
       end
 
       def self.attribute_symbols_for_strong_params
-        self::ALL_ATTRIBUTES.map do |a|
-          if a['multiple']
-            {a['name'] => []}
+        self::ALL_ATTRIBUTES.map { |a| attribute_symbol_for_strong_params(a) }
+      end
+
+      def self.attribute_symbol_for_strong_params(attribute_info)
+        name =
+          if attribute_info['reference'].present?
+            ref_object_symbol = attribute_info['reference'].split('.').first
+            ref_object_symbol + '_id'
           else
-            a['name']
+            attribute_info['name']
           end
-        end
+        attribute_info['multiple'] ? {name => []} : name
       end
 
       def self.picklist_attribute?(attribute_symbol)
@@ -37,25 +42,26 @@ module MetadataAttributes
       end
 
       def self.size_attribute(attribute_symbol)
-        self::ALL_ATTRIBUTES.select do |a|
-          return a['size'] if a['name'] == attribute_symbol
-        end
+        (info = attribute_info(attribute_symbol)) && info['size']
       end
 
       def self.category_attribute(attribute_symbol)
-        output = 'Miscellany'
-        self::ALL_ATTRIBUTES.select do |a|
-          output = a['category'] if
-            a['name'] == attribute_symbol && a['category'].present?
-        end
+        (info = attribute_info(attribute_symbol)) && info['category'] ||
+          'Miscellany'
+      end
 
-        output
+      def self.reference_attribute(attribute_symbol)
+        (info = attribute_info(attribute_symbol)) && info['reference']
       end
 
       def self.attributes_with_flag_set(flag_name)
         self::ALL_ATTRIBUTES.select do |a|
           a[flag_name] == true
         end
+      end
+
+      def self.attribute_info(attribute_symbol)
+        self::ALL_ATTRIBUTES.find { |a| a['name'] == attribute_symbol }
       end
     end
   end
