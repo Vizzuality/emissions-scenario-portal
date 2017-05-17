@@ -115,6 +115,8 @@
 /**
  * @atom Order filter button
  * @section Buttons
+ * @modifiers
+ *  .-selected remove the icon opacity
  * @markup
  *   <div class="c-order-filter-button f-ff1-m-bold">
  *    Scenario
@@ -135,7 +137,14 @@
     width: rem(9px);
     height: rem(11px);
     margin-left: rem(1px);
-    opacity: 0.3;
+    fill: rgba($color-app-2, 0.3);
+  }
+
+  &.-selected {
+
+    .icon {
+      fill: $color-app-2;
+    }
   }
 }
 

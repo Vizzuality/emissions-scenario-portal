@@ -46,30 +46,35 @@
         </div>
       </div>
       <div class="small-12 columns">
-        <div class="l-indicators__table-shorts row">
+        <div class="l-indicators__table-shorts row js-table-order-filters">
           <div class="small-2 columns">
             <%= render 'shared/components/c_order_filter_button',
               text: 'Indicator',
-              other_class: '-no-wrap' %>
+              other_class: '-no-wrap',
+              column_key: 'name' %>
           </div>
           <div class="small-1 columns">
             <%= render 'shared/components/c_order_filter_button',
               text: 'Category',
-              other_class: '-no-wrap' %>
+              other_class: '-no-wrap',
+              column_key: 'category' %>
           </div>
           <div class="small-1 columns">
             <%= render 'shared/components/c_order_filter_button',
-              text: 'Stack family' %>
+              text: 'Stack family',
+              column_key: 'stack_family' %>
           </div>
           <div class="small-1 columns">
             <%= render 'shared/components/c_order_filter_button',
               text: 'Unit',
-              other_class: '-no-wrap' %>
+              other_class: '-no-wrap',
+              column_key: 'unit' %>
           </div>
           <div class="small-3 columns">
             <%= render 'shared/components/c_order_filter_button',
               text: 'Description',
-              other_class: '-no-wrap' %>
+              other_class: '-no-wrap',
+              column_key: 'description' %>
           </div>
           <div class="small-1 columns">
             <%= render 'shared/components/c_order_filter_button',

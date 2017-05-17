@@ -15,6 +15,10 @@ class Indicator < ApplicationRecord
           indicators = Indicator.order(category: order_direction, name: :asc)
         when 'stack_family'
           indicators = Indicator.order(stack_family: order_direction, name: :asc)
+        when 'definition'
+          indicators = Indicator.order(definition: order_direction, name: :asc)
+        when 'unit'
+          indicators = Indicator.order(unit: order_direction, name: :asc)
         else
           indicators = Indicator.order(name: order_direction)
       end
