@@ -8,7 +8,9 @@ module ApplicationHelper
   end
 
   def attribute_input(object, form, attribute_symbol)
-    if object.class.picklist_attribute?(attribute_symbol)
+    if object.class.date_attribute?(attribute_symbol)
+      date_input(form, attribute_symbol)
+    elsif object.class.picklist_attribute?(attribute_symbol)
       picklist_input(object, form, attribute_symbol)
     else
       size = object.class.size_attribute(attribute_symbol)
@@ -18,6 +20,10 @@ module ApplicationHelper
 
   def attribute_category(object, attribute_symbol)
     object.class.category_attribute(attribute_symbol)
+  end
+
+  def date_input(form, attribute_symbol)
+    form.text_field attribute_symbol, class: "TODO I'm a date selector"
   end
 
   def picklist_input(object, form, attribute_symbol)

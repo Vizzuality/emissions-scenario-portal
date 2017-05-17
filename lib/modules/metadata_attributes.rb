@@ -29,6 +29,13 @@ module MetadataAttributes
         @multiple_attributes.include?(attribute_symbol)
       end
 
+      def self.date_attribute?(attribute_symbol)
+        @date_attributes ||= Set.new(
+          attributes_with_flag_set('date').map { |a| a['name'] }
+        )
+        @date_attributes.include?(attribute_symbol)
+      end
+
       def self.size_attribute(attribute_symbol)
         self::ALL_ATTRIBUTES.select do |a|
           return a['size'] if a['name'] == attribute_symbol
