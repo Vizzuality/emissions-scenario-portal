@@ -32,9 +32,9 @@ Scenarios (<%= @scenarios.count %>)
     <tr>
       <td><%= link_to scenario.name, scenario_url(scenario) %></td>
       <td><%= scenario.updated_at.strftime("%b %d %Y") %></td>
-      <td>TODO?</td>
-      <td>TODO</td>
-      <td>TODO</td>
+      <td><%= scenario.meta_data? %></td>
+      <td><%= scenario.time_series_data? %></td>
+      <td><%= scenario.indicators.count %></td>
       <td>
         <%= link_to 'DELETE', scenario_url(scenario), method: :delete %>
         <%= link_to 'EDIT', edit_scenario_url(scenario) %>
