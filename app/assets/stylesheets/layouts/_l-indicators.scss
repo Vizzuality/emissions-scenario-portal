@@ -11,6 +11,17 @@
   }
 
   .l-indicators__filters {
+    position: relative;
+    padding-top: rem(40px);
+    box-shadow: 0 3px 5px 0 $color-app-5;
+  }
 
+  .l-indicators__table-shorts {
+    padding-top: rem(20px);
+
+    .columns {
+      display: flex;
+      align-items: flex-end;
+    }
   }
 }

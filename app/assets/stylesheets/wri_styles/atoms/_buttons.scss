@@ -116,15 +116,15 @@
  * @atom Order filter button
  * @section Buttons
  * @markup
- *   <div class="c-order-filter-button">
- *    <div class="f-ff1-m-bold">Scenario</div>
+ *   <div class="c-order-filter-button f-ff1-m-bold">
+ *    Scenario
  *    <svg class="icon"><use xlink:href="#icon-short"></use></svg>
  *   </div>
  */
 .c-order-filter-button {
   cursor: pointer;
 
-  .f-ff1-m-bold {
+  &.f-ff1-m-bold {
     display: inline-block;
     line-height: 1.63;
   }
@@ -134,7 +134,7 @@
     position: relative;
     width: rem(9px);
     height: rem(11px);
-    margin-left: rem(3px);
+    margin-left: rem(1px);
     opacity: 0.3;
   }
 }

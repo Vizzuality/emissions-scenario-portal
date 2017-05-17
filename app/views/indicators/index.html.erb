@@ -13,85 +13,75 @@
       <% end %>
     </div>
   </div>
-  <div class="l-indicators__filters row">
-    <div class="small-3 columns">
-      <div class="c-form-item">
-        <div class="f-ff1-m-bold">Filter by type</div>
-        <div class="c-select">
-          <%= content_tag :div, class: 'c-select' do
-            select_tag 'filters[type]', types_for_select
-          end %>
+  <div class="l-indicators__filters">
+    <div class="row">
+      <div class="small-3 columns">
+        <div class="c-form-item">
+          <div class="f-ff1-m-bold">Filter by type</div>
+          <div class="c-select">
+            <%= content_tag :div, class: 'c-select' do
+              select_tag 'filters[type]', types_for_select
+            end %>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="small-2 columns">
-      <div class="c-form-item">
-        <div class="f-ff1-m-bold">Filter by Category</div>
-        <div class="c-select">
-          <%= content_tag :div, class: 'c-select' do
-            select_tag 'filters[category]', categories_for_select
-          end %>
+      <div class="small-2 columns">
+        <div class="c-form-item">
+          <div class="f-ff1-m-bold">Filter by Category</div>
+          <div class="c-select">
+            <%= content_tag :div, class: 'c-select' do
+              select_tag 'filters[category]', categories_for_select
+            end %>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="small-4 columns"></div>
-    <div class="small-3 columns">
-      <div class="c-form-item">
-        <div class="f-ff1-m-bold"></div>
-        <div class="c-input-search">
-          <%= text_field_tag 'search', nil, placeholder: 'Search', class: 'c-input-text' %>
-          <svg class="icon"><use xlink:href="#icon-search"></use></svg>
+      <div class="small-4 columns"></div>
+      <div class="small-3 columns">
+        <div class="c-form-item">
+          <div class="f-ff1-m-bold"></div>
+          <div class="c-input-search">
+            <%= text_field_tag 'search', nil, placeholder: 'Search', class: 'c-input-text' %>
+            <svg class="icon"><use xlink:href="#icon-search"></use></svg>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="small-12 columns">
-      <div class="row">
-        <div class="small-2 columns">
-          <div class="c-order-filter-button">
-            <div class="f-ff1-m-bold">Indicator</div>
-            <svg class="icon"><use xlink:href="#icon-short"></use></svg>
+      <div class="small-12 columns">
+        <div class="l-indicators__table-shorts row">
+          <div class="small-2 columns">
+            <%= render 'shared/components/c_order_filter_button',
+              text: 'Indicator',
+              other_class: '-no-wrap' %>
           </div>
-        </div>
-        <div class="small-1 columns">
-          <div class="c-order-filter-button">
-            <div class="f-ff1-m-bold">Category</div>
-            <svg class="icon"><use xlink:href="#icon-short"></use></svg>
+          <div class="small-1 columns">
+            <%= render 'shared/components/c_order_filter_button',
+              text: 'Category',
+              other_class: '-no-wrap' %>
           </div>
-        </div>
-        <div class="small-1 columns">
-          <div class="c-order-filter-button">
-            <div class="f-ff1-m-bold">Stack family</div>
-            <svg class="icon"><use xlink:href="#icon-short"></use></svg>
+          <div class="small-1 columns">
+            <%= render 'shared/components/c_order_filter_button',
+              text: 'Stack family' %>
           </div>
-        </div>
-        <div class="small-1 columns">
-          <div class="c-order-filter-button">
-            <div class="f-ff1-m-bold">Unit</div>
-            <svg class="icon"><use xlink:href="#icon-short"></use></svg>
+          <div class="small-1 columns">
+            <%= render 'shared/components/c_order_filter_button',
+              text: 'Unit',
+              other_class: '-no-wrap' %>
           </div>
-        </div>
-        <div class="small-3 columns">
-          <div class="c-order-filter-button">
-            <div class="f-ff1-m-bold">Description</div>
-            <svg class="icon"><use xlink:href="#icon-short"></use></svg>
+          <div class="small-3 columns">
+            <%= render 'shared/components/c_order_filter_button',
+              text: 'Description',
+              other_class: '-no-wrap' %>
           </div>
-        </div>
-        <div class="small-1 columns">
-          <div class="c-order-filter-button">
-            <div class="f-ff1-m-bold">Added by</div>
-            <svg class="icon"><use xlink:href="#icon-short"></use></svg>
+          <div class="small-1 columns">
+            <%= render 'shared/components/c_order_filter_button',
+              text: 'Added by' %>
           </div>
-        </div>
-        <div class="small-1 columns">
-          <div class="c-order-filter-button">
-            <div class="f-ff1-m-bold">Models using it</div>
-            <svg class="icon"><use xlink:href="#icon-short"></use></svg>
+          <div class="small-1 columns">
+            <%= render 'shared/components/c_order_filter_button',
+              text: 'Models using it' %>
           </div>
-        </div>
-        <div class="small-1 columns">
-          <div class="c-order-filter-button">
-            <div class="f-ff1-m-bold">Scenarios using it</div>
-            <svg class="icon"><use xlink:href="#icon-short"></use></svg>
+          <div class="small-1 columns">
+            <%= render 'shared/components/c_order_filter_button',
+              text: 'Scenarios using it' %>
           </div>
         </div>
       </div>
@@ -105,25 +95,27 @@
             <div class="c-table-list-item__text f-ff1-m-bold"><%= link_to indicator.name, indicator_url(indicator) %></div>
           </div>
           <div class="small-1 columns">
-            <div class="c-table-list-item__text f-ff1-m"><%= indicator.category %></div>
+            <div class="c-table-list-item__text f-ff1-s"><%= indicator.category %></div>
           </div>
           <div class="small-1 columns">
-            <div class="c-table-list-item__text f-ff1-m"><%= indicator.stack_family %></div>
+            <div class="c-table-list-item__text f-ff1-s"><%= indicator.stack_family %></div>
           </div>
           <div class="small-1 columns">
-            <div class="c-table-list-item__text f-ff1-m"><%= indicator.unit %></div>
+            <div class="c-table-list-item__text f-ff1-s"><%= indicator.unit %></div>
           </div>
           <div class="small-3 columns">
-            <div class="c-table-list-item__text f-ff1-m"><%= indicator.definition %></div>
+            <div class="c-table-list-item__text f-ff1-s">
+              <%= indicator.definition.length > 90 ? truncate(indicator.definition, length: 90) : indicator.definition %>
+            </div>
           </div>
           <div class="small-1 columns">
-            <div class="c-table-list-item__text f-ff1-m">TODO</div>
+            <div class="c-table-list-item__text f-ff1-s">TODO</div>
           </div>
           <div class="small-1 columns">
-            <div class="c-table-list-item__text f-ff1-m">TODO</div>
+            <div class="c-table-list-item__text f-ff1-s">TODO</div>
           </div>
           <div class="small-1 columns">
-            <div class="c-table-list-item__text f-ff1-m">TODO</div>
+            <div class="c-table-list-item__text f-ff1-s">TODO</div>
           </div>
           <div class="small-1 columns">
             <div class="c-table-list-item__actions">
