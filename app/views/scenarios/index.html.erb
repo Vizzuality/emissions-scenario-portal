@@ -5,8 +5,41 @@
 
 Please follow <%= link_to 'this structure', '/esp_time_series_template.csv' %>
 
-<ul>
+
+Scenarios (<%= @scenarios.count %>)
+<table>
+  <thead>
+    <th>
+      Scenario
+    </th>
+    <th>
+      Last edit
+    </th>
+    <th>
+      Meta data
+    </th>
+    <th>
+      Time series
+    </th>
+    <th>
+      Indicators
+    </th>
+    <th>
+    </th>
+  </thead>
+  <tbody>
   <% @scenarios.each do |scenario| %>
-    <li><%= scenario.name %>
+    <tr>
+      <td><%= link_to scenario.name, scenario_url(scenario) %></td>
+      <td><%= scenario.updated_at.strftime("%b %d %Y") %></td>
+      <td><%= scenario.meta_data? %></td>
+      <td><%= scenario.time_series_data? %></td>
+      <td><%= scenario.indicators.count %></td>
+      <td>
+        <%= link_to 'DELETE', scenario_url(scenario), method: :delete %>
+        <%= link_to 'EDIT', edit_scenario_url(scenario) %>
+      </td>
+    </tr>
   <% end %>
-</ul>
+  </tbody>
+</table>
