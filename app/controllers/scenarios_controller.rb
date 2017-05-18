@@ -18,4 +18,8 @@ class ScenariosController < ApplicationController
   def set_model
     @model = Model.find(params[:model_id])
   end
+
+  def scenarios_order_params
+    params.permit(:order_type, :order_direction)
+  end
 end
