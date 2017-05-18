@@ -32,7 +32,7 @@ en:
       definition: "What is the most recent version of the model?"
     linkages_and_extensions:
       name: "Linkages & Extensions"
-      definition: "What linkages or extensions have been used for, or in combination with,  this model?"
+      definition: "What linkages or extensions have been used for, or in combination with, this model?"
     development_year:
       name: "Development Year"
       definition: "When was the model first developed?"
@@ -47,152 +47,249 @@ en:
       definition: "Who is the institute or enterprise responsible for development of the model?"
     license:
       name: "License"
-      definition:  "What is the licensing status?"
+      definition: "What is the licensing status?"
     license_detailed:
       name: "License Detailed"
       definition: "Describe the licensing status and usage capabilities of the model."
     availability:
       name: "Availability"
-      definition:  "Is the model available for direct use by others?"
+      definition: "Is the model available for direct use by others?"
     expertise:
       name: "Expertise"
-      definition:  "What is the skill level required to run the model?"
+      definition: "What is the skill level required to run the model?"
     expertise_detailed:
       name: "Expertise Detailed"
       definition: "Describe the skill level required to run different versions of the model."
     platform:
       name: "Platform"
-      definition:  "What platform is the model run on?"
+      definition: "What platform is the model run on?"
     platform_detailed:
       name: "Platform Detailed"
       definition: "Describe the platform(s) that the model runs on."
     category:
       name: "Category"
-      definition:  "What category does this model fit under?"
+      definition: "What category does this model fit under?"
     category_detailed:
       name: "Category Detailed"
       definition: "Describe the category that this model fits under."
     hybrid_classification:
       name: "Hybrid Classification"
-      definition:  "Can this model be classified as a hybrid?"
+      definition: "Can this model be classified as a hybrid?"
     hybrid_classification_detailed:
       name: "Hybrid Classificaiton Detailed"
       definition: "Describe the reasoning for hybrid classification."
     purpose_or_objective:
       name: "Purpose/Objective"
-      definition:  "What was the original purpose or objective of the model? Why was it built?"
+      definition: "What was the original purpose or objective of the model? Why was it built?"
     description:
       name: "Description"
-      definition:  "What is a general description of the model?"
+      definition: "What is a general description of the model?"
     key_usage:
       name: "Key Usage"
-      definition:  "What is this model known for? What topical area(s) is it especially useful for?"
+      definition: "What is this model known for? What topical area(s) is it especially useful for?"
     scenario_coverage:
       name: "Scenario Coverage"
-      definition:  "What scenarios are covered by the model?"
+      definition: "What scenarios are covered by the model?"
     scenario_coverage_detailed:
       name: "Scenario Coverage Detailed"
-      definition:  "What specific scenarios are available from this model?"
+      definition: "What specific scenarios are available from this model?"
     geographic_coverage:
       name: "Geographic Coverage"
-      definition:  "What is the geographic scope of the model?"
+      definition: "What is the geographic scope of the model?"
     geographic_coverage_region:
       name: "Geographic Coverage-Region"
-      definition:  "What geographic regions are covered by the model?"
+      definition: "What geographic regions are covered by the model?"
     geographic_coverage_country:
       name: "Geographic Coverage-Country"
-      definition:  "What countries are covered by the model?"
+      definition: "What countries are covered by the model?"
     sectoral_coverage:
       name: "Sectoral Coverage"
-      definition:  "What economic sectors are covered by the model?"
+      definition: "What economic sectors are covered by the model?"
     gas_and_pollutant_coverage:
       name: "Gas & Pollutant Coverage"
-      definition:  "What greenhouse gases and other pollutants are covered by the model?"
+      definition: "What greenhouse gases and other pollutants are covered by the model?"
     policy_coverage:
       name: "Policy Coverage"
-      definition:  "What policies are covered by the model?"
+      definition: "What policies are covered by the model?"
     technology_coverage:
       name: "Technology Coverage"
-      definition:  "What technologies are covered by the model?"
+      definition: "What technologies are covered by the model?"
     technology_coverage_detailed:
       name: "Technology Coverage Detailed"
-      definition:  "What technologies are covered by the model?"
+      definition: "What technologies are covered by the model?"
     energy_resource_coverage:
       name: "Energy Resource Coverage"
-      definition:  "What fuel types are covered by the model?"
+      definition: "What fuel types are covered by the model?"
     time_horizon:
       name: "Time Horizon"
-      definition:  "How far does the model run into the future?"
+      definition: "How far does the model run into the future?"
     time_step:
       name: "Time Step"
-      definition:  "What time interval is used for the model output?"
+      definition: "What time interval is used for the model output?"
     equilibrium_type:
       name: "Equilibrium Type"
-      definition:  "How does the model treat market equilibrium?"
+      definition: "How does the model treat market equilibrium?"
     foresight:
       name: "Foresight"
-      definition:  "Is all future information known by agents at the beginning of the model run, or updated at each time step?"
+      definition: "Is all future information known by agents at the beginning of the model run, or updated at each time step?"
     spatial_resolution:
       name: "Spatial Resolution"
-      definition:  "What is the spatial resolution of this model?"
+      definition: "What is the spatial resolution of this model?"
     population_assumptions:
       name: "Population Assumptions"
-      definition:  "What are the model population assumptions?"
+      definition: "What are the model population assumptions?"
     gdp_assumptions:
       name: "GDP Assumptions"
-      definition:  "What are the model GDP assumptions?"
+      definition: "What are the model GDP assumptions?"
     other_assumptions:
       name: "Other Assumptions"
-      definition:  "What are the model assumptions other than population and GDP (e.g., discount rate, resource prices)?"
+      definition: "What are the model assumptions other than population and GDP (e.g., discount rate, resource prices)?"
     base_year:
       name: "Base Year"
-      definition:  "What base year was used for the model?"
+      definition: "What base year was used for the model?"
     input_data:
       name: "Input Data"
-      definition:  "What input data sources were used to run this model?"
+      definition: "What input data sources were used to run this model?"
     calibration_anmd_validation:
       name: "Calibration & Validation"
-      definition:  "How was the model calibrated and validated?"
+      definition: "How was the model calibrated and validated?"
     languages:
       name: "Languages"
-      definition:  "What language(s) is the model available in?"
+      definition: "What language(s) is the model available in?"
     tutorial_and_training_opportunities:
       name: "Tutorial & Training Opportunities"
-      definition:  "Are there online tutorials, technical support documents, or trainings/workshops for the model?"
+      definition: "Are there online tutorials, technical support documents, or trainings/workshops for the model?"
     system_requirements:
       name: "System Requirements"
-      definition:  "What are the system requirements (including hardware and software) to run the model?"
+      definition: "What are the system requirements (including hardware and software) to run the model?"
     run_time:
       name: "Run Time"
-      definition:  "What is the approximate time required to run the model?"
+      definition: "What is the approximate time required to run the model?"
     publications_and_notable_projects:
       name: "Publications & Notable Projects"
-      definition:  "What are some studies or notable projects that have used the model?"
+      definition: "What are some studies or notable projects that have used the model?"
     citation:
       name: "Citation"
-      definition:  "Is there a preferred citation for referencing the use of this model?"
+      definition: "Is there a preferred citation for referencing the use of this model?"
     url:
       name: "URL"
-      definition:  "Where can basic model information be accessed?"
+      definition: "Where can basic model information be accessed?"
     point_of_contact:
       name: "Point-of-Contact"
-      definition:  "Who is the point-of-contact for the model?"
+      definition: "Who is the point-of-contact for the model?"
   indicators:
     category:
-      name: 'Category'
-      definition: 'TODO'
+      name: "Category"
+      definition: "TODO"
     stack_family:
-      name: 'Stack family'
-      definition: 'TODO'
+      name: "Stack family"
+      definition: "TODO"
     name:
-      name: 'Name'
-      definition: 'TODO'
+      name: "Name"
+      definition: "TODO"
     definition:
-      name: 'Description'
-      definition: 'TODO'
+      name: "Description"
+      definition: "TODO"
     unit:
-      name: 'Unit'
-      definition: 'TODO'
+      name: "Unit"
+      definition: "TODO"
     notes:
-      name: 'Notes'
-      definition: 'TODO'
+      name: "Notes"
+      definition: "TODO"
+  scenarios:
+    model_abbreviation:
+      name: "Model Abbreviation"
+      definition: "What is the model abbreviation?"
+    model_version:
+      name: "Model Version"
+      definition: "What model version was used to run the scenario?"
+    name:
+      name: "Scenario name"
+      definition: "What is the full scenario name?"
+    provider_type:
+      name: "Provider Type"
+      definition: "What type of entity provided the scenario?"
+    provider_name:
+      name: "Provider Name"
+      definition: "What is the name of the scenario provider?"
+    release_date:
+      name: "Release Date"
+      definition: "When was the scenario released by the provider?"
+    category:
+      name: "Category"
+      definition: "What category does this scenario fit under?"
+    description:
+      name: "Description"
+      definition: "What is a description of the scenario?"
+    geographic_coverage_region:
+      name: "Geographic Coverage-Region"
+      definition: "What geographic regions are covered by the scenario?"
+    geographic_coverage_country:
+      name: "Geographic Coverage-Country"
+      definition: "What countries are covered by the scenario?"
+    sectoral_coverage:
+      name: "Sectoral Coverage"
+      definition: "What economic sectors are covered by the scenario?"
+    gas_and_pollutant_coverage:
+      name: "Gas & Pollutant Coverage"
+      definition: What greenhouse gases and other pollutants are covered by the scenario?
+    policy_coverage:
+      name: "Policy Coverage"
+      definition: "What policies are covered by the scenario?"
+    policy_coverage_detailed:
+      name: "Policy Coverage Detailed"
+      definition: "What policies are covered by the scenario?"
+    technology_coverage:
+      name: "Technology Coverage"
+      definition: "What technologies are covered by the scenario?"
+    technology_coverage_detailed:
+      name: "Technology Coverage Detailed"
+      definition: "What technologies are covered by the scenario?"
+    energy_resource_coverage:
+      name: "Energy Resource Coverage"
+      definition: "What fuel types are covered by the scenario?"
+    time_horizon:
+      name: "Time Horizon"
+      definition: "How far does the model run into the future?"
+    time_step:
+      name: "Time Step"
+      definition: "What time interval is used for the model output?"
+    climate_target:
+      name: "Climate Target"
+      definition: "What climate target does this scenario use (e.g., 1.5 DC, 2 DC, 450 ppm, 2.6 W/m2, etc.)?"
+    emissions_target:
+      name: "Emissions Target"
+      definition: "What emissions target does the scenario use (e.g., 50 Gt CO2-equiv)?"
+    large_scale_bioccs:
+      name: "Large-scale BioCCS"
+      definition: "Does the scenario rely on deployment of large-scale bioenergy with carbon capture and storage for emission mitigation?"
+    technology_assumptions:
+      name: "Technology Assumptions"
+      definition: "What technology assumptions are included in the model (e.g., cost curves, lifetime, efficiency, availability factor and build rates)?"
+    gdp_assumptions:
+      name: "GDP Assumptions"
+      definition: "What assumptions are made for GDP growth?"
+    population_assumptions:
+      name: "Population Assumptions"
+      definition: "What assumptions are made for population growth?"
+    discount_rates:
+      name: "Discount Rates"
+      definition: "What social and private discount rates are used in the model for this scenario?"
+    emission_factors:
+      name: "Emission Factors"
+      definition: "What emission factors are included for technologies of electricity generation and transportation?"
+    global_warming_potentials:
+      name: "Global Warming Potentials"
+      definition: "What global warming potentials (GWP's) are used for different greenhouse gases?"
+    policy_cut_off_year_for_baseline:
+      name: "Policy Cut-off Year for Baseline"
+      definition: "After which year are no new policies or actions included in the baseline scenario?"
+    project_study:
+      name: "Project/Study"
+      definition: "Was this scenario created for an intercomparison project or research study?"
+    literature_reference:
+      name: "Literature Reference"
+      definition: "Please list a literature reference for the scenario information."
+    point_of_contact:
+      name: "Point-of-Contact"
+      definition: "Who provided the scenario data and/or who can serve as a point-of-contact for questions regarding the scenario?"
