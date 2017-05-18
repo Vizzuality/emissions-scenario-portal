@@ -8,12 +8,14 @@
       <div class="small-6 columns">
         <%= render 'shared/components/c_upload_card',
           form_url: '',
-          structure_url: '' %>
+          structure_url: '',
+          button_text: 'Upload scenario meta information' %>
       </div>
       <div class="small-6 columns">
         <%= render 'shared/components/c_upload_card',
           form_url: upload_time_series_model_scenarios_url(@model),
-          structure_url: '/esp_time_series_template.csv' %>
+          structure_url: '/esp_time_series_template.csv',
+          button_text: 'Upload scenario time series' %>
       </div>
     </div>
   </div>
