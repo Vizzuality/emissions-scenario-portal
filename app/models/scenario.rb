@@ -13,11 +13,11 @@ class Scenario < ApplicationRecord
 
   delegate :abbreviation, to: :model, prefix: :model
 
-  scope :time_series, -> {
+  scope :time_series, (lambda {
     joins('LEFT JOIN "time_series_values"
       ON "time_series_values"."scenario_id" = "scenarios"."id"').
       group('scenarios.id')
-  }
+  })
 
   ORDERS = %w[name updated_at time_series indicators].freeze
 
