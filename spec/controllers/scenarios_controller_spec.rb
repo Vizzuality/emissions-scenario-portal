@@ -36,4 +36,11 @@ RSpec.describe ScenariosController, type: :controller do
       expect(response).to redirect_to(scenario_url(scenario))
     end
   end
+
+  describe 'DELETE destroy' do
+    it 'redirects to index' do
+      delete :destroy, params: {id: scenario.id}
+      expect(response).to redirect_to(model_scenarios_url(scenario.model))
+    end
+  end
 end
