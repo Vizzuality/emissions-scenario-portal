@@ -34,18 +34,16 @@
       var target = $(e.currentTarget);
 
       this.scrollHandler.scrollTo($('[data-block-key="' + target.data('block-belongs') + '"]'));
-      $('.js-form-block-anchor.' + this.options.selectedClass).removeClass(this.options.selectedClass);
-      target.addClass(this.options.selectedClass);
     },
 
     _loadStickyEvent: function () {
       $(window).scroll(function () {
         var scrollTop = $(window).scrollTop();
 
-        if(!this.options.isFixed && scrollTop >= this.offsetTop) {
+        if (!this.options.isFixed && scrollTop >= this.offsetTop) {
           this.$el.addClass(this.options.fixedClass);
           this.options.isFixed = true;
-        } else if(this.options.isFixed && scrollTop < this.offsetTop) {
+        } else if (this.options.isFixed && scrollTop < this.offsetTop) {
           this.$el.removeClass(this.options.fixedClass);
           this.options.isFixed = false;
         }
