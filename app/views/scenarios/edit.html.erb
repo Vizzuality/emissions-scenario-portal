@@ -1,0 +1,13 @@
+<%= form_for @scenario do |f| %>
+  <%= link_to 'CANCEL', model_scenarios_url(@model) %>
+  <%= f.submit 'SAVE' %>
+  <ul>
+    <% Scenario.attribute_symbols.each do |attribute_symbol| %>
+    <li>
+      <%= attribute_name(@scenario, attribute_symbol) %>
+      (<%= attribute_definition(@scenario, attribute_symbol) %>)
+      <%= attribute_input(@scenario, f, attribute_symbol) %>
+    </li>
+    <% end %>
+  </ul>
+<% end %>

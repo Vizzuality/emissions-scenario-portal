@@ -1,41 +1,143 @@
-<%= link_to 'CREATE NEW INDICATOR', new_indicator_url %>
-<div>
-  <%= select_tag 'filters[type]', types_for_select %>
-  <%= select_tag 'filters[category]', categories_for_select %>
+<%= render 'shared/components/c_wri_header' %>
+<%= render 'shared/components/c_landing_header',
+  title: 'GCAM. Global Change Assessment Model',
+  no_settings: true %>
+<div class="l-indicators">
+  <div class="row align-justify">
+    <div class="small-5 columns">
+      <div class="f-ff3-m-bold">Indicators <span>(<%= @indicators.count %>)</span></div>
+    </div>
+    <div class="small-3 columns">
+      <%= link_to new_indicator_url, class: 'l-indicators__new-indicator' do %>
+        <div class="c-hollow-button"><span>Create new indicator</span></div>
+      <% end %>
+    </div>
+  </div>
+  <div class="l-indicators__filters">
+    <div class="row">
+      <div class="small-3 columns">
+        <div class="c-form-item">
+          <div class="f-ff1-m-bold">Filter by type</div>
+          <div class="c-select">
+            <%= content_tag :div, class: 'c-select' do
+              select_tag 'filters[type]', types_for_select
+            end %>
+          </div>
+        </div>
+      </div>
+      <div class="small-2 columns">
+        <div class="c-form-item">
+          <div class="f-ff1-m-bold">Filter by Category</div>
+          <div class="c-select">
+            <%= content_tag :div, class: 'c-select' do
+              select_tag 'filters[category]', categories_for_select
+            end %>
+          </div>
+        </div>
+      </div>
+      <div class="small-4 columns"></div>
+      <div class="small-3 columns">
+        <div class="c-form-item">
+          <div class="f-ff1-m-bold"></div>
+          <div class="c-input-search">
+            <%= text_field_tag 'search', nil, placeholder: 'Search', class: 'c-input-text' %>
+            <svg class="icon"><use xlink:href="#icon-search"></use></svg>
+          </div>
+        </div>
+      </div>
+      <div class="small-12 columns">
+        <div class="l-indicators__table-shorts row js-table-order-filters">
+          <div class="small-2 columns">
+            <%= render 'shared/components/c_order_filter_button',
+              text: 'Indicator',
+              other_class: '-no-wrap',
+              column_key: 'name' %>
+          </div>
+          <div class="small-1 columns">
+            <%= render 'shared/components/c_order_filter_button',
+              text: 'Category',
+              other_class: '-no-wrap',
+              column_key: 'category' %>
+          </div>
+          <div class="small-1 columns">
+            <%= render 'shared/components/c_order_filter_button',
+              text: 'Stack family',
+              column_key: 'stack_family' %>
+          </div>
+          <div class="small-1 columns">
+            <%= render 'shared/components/c_order_filter_button',
+              text: 'Unit',
+              other_class: '-no-wrap',
+              column_key: 'unit' %>
+          </div>
+          <div class="small-3 columns">
+            <%= render 'shared/components/c_order_filter_button',
+              text: 'Description',
+              other_class: '-no-wrap',
+              column_key: 'definition' %>
+          </div>
+          <div class="small-1 columns">
+            <%= render 'shared/components/c_order_filter_button',
+              text: 'Added by' %>
+          </div>
+          <div class="small-1 columns">
+            <%= render 'shared/components/c_order_filter_button',
+              text: 'Models using it' %>
+          </div>
+          <div class="small-1 columns">
+            <%= render 'shared/components/c_order_filter_button',
+              text: 'Scenarios using it' %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <% @indicators.each do |indicator| %>
+      <div class="c-table-list-item">
+        <div class="row">
+          <div class="small-2 columns">
+            <div class="c-table-list-item__text f-ff1-m-bold"><%= link_to indicator.name, indicator_url(indicator) %></div>
+          </div>
+          <div class="small-1 columns">
+            <div class="c-table-list-item__text f-ff1-s"><%= indicator.category %></div>
+          </div>
+          <div class="small-1 columns">
+            <div class="c-table-list-item__text f-ff1-s"><%= indicator.stack_family %></div>
+          </div>
+          <div class="small-1 columns">
+            <div class="c-table-list-item__text f-ff1-s"><%= indicator.unit %></div>
+          </div>
+          <div class="small-3 columns">
+            <div class="c-table-list-item__text f-ff1-s">
+              <%= indicator.definition.length > 90 ? truncate(indicator.definition, length: 90) : indicator.definition %>
+            </div>
+          </div>
+          <div class="small-1 columns">
+            <div class="c-table-list-item__text f-ff1-s">TODO</div>
+          </div>
+          <div class="small-1 columns">
+            <div class="c-table-list-item__text f-ff1-s">TODO</div>
+          </div>
+          <div class="small-1 columns">
+            <div class="c-table-list-item__text f-ff1-s">TODO</div>
+          </div>
+          <div class="small-1 columns">
+            <div class="c-table-list-item__actions">
+              <%= link_to indicator_url(indicator), method: :delete do %>
+                <div class="c-delete-button">
+                  <svg class="icon"><use xlink:href="#icon-delete"></use></svg>
+                </div>
+              <% end %>
+              <%= link_to edit_indicator_url(indicator) do %>
+                <div class="c-edit-button">
+                  <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
 </div>
-<div>
-  <%= text_field_tag 'search', nil, placeholder: 'Search' %>
-</div>
-<table>
-  <thead>
-    <tr>
-      <th>Indicator</th>
-      <th>Category</th>
-      <th>Stack family</th>
-      <th>Unit</th>
-      <th>Description</th>
-      <th>Added by</th>
-      <th>Models using it</th>
-      <th>Scenarios using it</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-  <% @indicators.each do |indicator| %>
-    <tr>
-      <th><%= link_to indicator.name, indicator_url(indicator) %></th>
-      <th><%= indicator.category %></th>
-      <th><%= indicator.stack_family %></th>
-      <th><%= indicator.unit %></th>
-      <th><%= indicator.definition %></th>
-      <th>TODO</th>
-      <th>TODO</th>
-      <th>TODO</th>
-      <th>
-        <%= link_to 'DELETE', indicator_url(indicator), method: :delete %>
-        <%= link_to 'EDIT', edit_indicator_url(indicator) %>
-      </th>
-    <%= indicator.name %>
-  <% end %>
-  </tbody>
-</table>

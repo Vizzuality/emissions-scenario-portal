@@ -18,4 +18,13 @@ RSpec.describe Scenario, type: :model do
       expect(scenario.time_series_data?).to be(false)
     end
   end
+
+  describe :date_attribute? do
+    it 'release_date should be a date attribute' do
+      expect(Scenario.date_attribute?(:release_date)).to be(true)
+    end
+    it 'platform should not be a date attribute' do
+      expect(Scenario.date_attribute?(:platform)).to be(false)
+    end
+  end
 end

@@ -2,7 +2,7 @@ class IndicatorsController < ApplicationController
   before_action :set_indicator, except: [:index, :new, :create]
 
   def index
-    @indicators = Indicator.order(:category, :stack_family, :name)
+    @indicators = Indicator.fetch_all(indicator_order_params)
   end
 
   def new
@@ -45,5 +45,9 @@ class IndicatorsController < ApplicationController
     params.require(:indicator).permit(
       *Indicator.attribute_symbols_for_strong_params
     )
+  end
+
+  def indicator_order_params
+    params.permit(:order_type, :order_direction)
   end
 end
