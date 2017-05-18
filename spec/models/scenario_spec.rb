@@ -27,4 +27,14 @@ RSpec.describe Scenario, type: :model do
       expect(Scenario.date_attribute?(:platform)).to be(false)
     end
   end
+
+  describe :destroy do
+    let(:scenario) { FactoryGirl.create(:scenario) }
+    let!(:time_series_value) {
+      FactoryGirl.create(:time_series_value, scenario: scenario)
+    }
+    it 'should destroy all time series values' do
+      expect { scenario.destroy }.to change(TimeSeriesValue, :count).by(-1)
+    end
+  end
 end

@@ -54,4 +54,11 @@ RSpec.describe IndicatorsController, type: :controller do
       expect(response).to render_template(:show)
     end
   end
+
+  describe 'DELETE destroy' do
+    it 'redirects to index' do
+      delete :destroy, params: {id: indicator.id}
+      expect(response).to redirect_to(indicators_url)
+    end
+  end
 end

@@ -22,6 +22,16 @@ class ScenariosController < ApplicationController
     @scenario = Scenario.find(params[:id])
   end
 
+  def destroy
+    @scenario = Scenario.find(params[:id])
+    @model = @scenario.model
+    @scenario.destroy
+    redirect_to(
+      model_scenarios_url(@model),
+      notice: 'Scenario successfully destroyed.'
+    )
+  end
+
   def upload_meta_data
     #  TODO: implement
   end

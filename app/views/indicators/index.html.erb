@@ -124,7 +124,7 @@
           </div>
           <div class="small-1 columns">
             <div class="c-table-list-item__actions">
-              <%= link_to indicator_url(indicator), method: :delete do %>
+              <%= link_to indicator_url(indicator), method: :delete, data: {confirm: destroy_confirmation_message(indicator)} do %>
                 <div class="c-delete-button">
                   <svg class="icon"><use xlink:href="#icon-delete"></use></svg>
                 </div>
