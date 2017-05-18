@@ -36,7 +36,7 @@ Scenarios (<%= @scenarios.count %>)
       <td><%= scenario.time_series_data? %></td>
       <td><%= scenario.indicators.count %></td>
       <td>
-        <%= link_to 'DELETE', scenario_url(scenario), method: :delete %>
+        <%= link_to 'DELETE', scenario_url(scenario), method: :delete, data: {confirm: destroy_confirmation_message(scenario)} %>
         <%= link_to 'EDIT', edit_scenario_url(scenario) %>
       </td>
     </tr>
