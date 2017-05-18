@@ -1,21 +1,73 @@
-<h1>Indicator <%= @indicator.name %></h1>
-
-Category: <%= @indicator.category %>
-Unit: <%= @indicator.unit %>
-Added by: TODO
-Description: <%= @indicator.definition %>
-<%= link_to 'EDIT', edit_indicator_url(@indicator) %>
-
-<p>Models using this indicator: <i>TODO: all models for now</i></p>
-<ul>
-<% Model.all.each do |model| %>
-  <li><%= model.full_name %> <%=link_to 'EDIT', edit_model_url(model) %></li>
-<% end %>
-</ul>
-
-<p>Scenarios using this indicator: <i>TODO: all scenarios for now</i></p>
-<ul>
-<% Scenario.all.each do |scenario| %>
-  <li><%= scenario.name %> <%=link_to 'EDIT TODO link', '#' %></li>
-<% end %>
-</ul>
+<%= render 'shared/components/c_wri_header' %>
+<%= render 'shared/components/c_landing_header',
+  title: 'GCAM. Global Change Assessment Model',
+  no_settings: true %>
+<div class="l-indicators-overview">
+  <div class="l-indicators-overview__data-block">
+    <div class="row">
+      <div class="small-12 columns">
+        <div class="f-ff1-m-bold">Indicator</div>
+      </div>
+      <div class="small-12 columns">
+        <div class="l-indicators-overview__title f-ff2-m"><%= @indicator.name %></div>
+      </div>
+      <div class="small-2 columns">
+        <div class="f-ff1-m-bold">Category</div>
+        <div class="f-ff1-m l-indicators-overview__data"><%= @indicator.category %></div>
+      </div>
+      <div class="small-2 columns">
+        <div class="f-ff1-m-bold">Unit</div>
+        <div class="f-ff1-m l-indicators-overview__data"><%= @indicator.unit %></div>
+      </div>
+      <div class="small-2 columns">
+        <div class="f-ff1-m-bold">Added by</div>
+        <div class="f-ff1-m l-indicators-overview__data"><%= @indicator.unit %></div>
+      </div>
+      <div class="small-5 columns">
+        <div class="f-ff1-m-bold">Description</div>
+        <div class="f-ff1-m l-indicators-overview__data"><%= @indicator.definition %></div>
+      </div>
+      <div class="small-1 columns">
+        <%= link_to edit_indicator_url(@indicator) do %>
+          <div class="c-edit-button">
+            <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="l-indicators-overview__relations">
+    <%
+      #TODO: all models for now
+      #TODO: all scenarios for now
+    %>
+    <div class="row">
+      <div class="small-4 columns">
+        <div class="f-ff1-m-bold">Models using this indicator</div>
+        <ul class="l-indicators-overview__relation-list">
+          <% Model.all.each do |model| %>
+            <li class="f-ff1-m">
+              <%= model.full_name %>
+              <%= link_to edit_model_url(model) do %>
+                <svg class="icon"><use xlink:href="#icon-link"></use></svg>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+      <div class="small-4 columns">
+        <div class="f-ff1-m-bold">Scenarios using this indicator</div>
+        <ul class="l-indicators-overview__relation-list">
+          <% Scenario.all.each do |scenario| %>
+            <li class="f-ff1-m">
+              <%= scenario.name %>
+              <%= link_to 'EDIT TODO link' do %>
+                <svg class="icon"><use xlink:href="#icon-link"></use></svg>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
