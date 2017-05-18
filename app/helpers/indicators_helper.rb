@@ -13,4 +13,11 @@ module IndicatorsHelper
       @indicators.except(:order).order(:category).distinct.pluck(:category)
     )
   end
+
+  def destroy_confirmation_message(indicator)
+    time_series_data = 'Time series data exists for this indicator. '
+    message = 'Are you sure you want to proceed?'
+    message.prepend time_series_data if indicator.time_series_data?
+    message
+  end
 end
