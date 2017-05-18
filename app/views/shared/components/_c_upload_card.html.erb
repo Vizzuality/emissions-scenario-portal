@@ -1,0 +1,7 @@
+<div class="c-upload-card">
+  <%= form_tag(form_url, method: :post, multipart: true) do %>
+    <%= file_field_tag 'time_series_values_file' %>
+  <% end %>
+  <div class="c-button"><span>Upload Scenario Meta Information</span></div>
+  <div class="f-ff1-s">Please follow <%= link_to 'this structure', structure_url %></div>
+</div>

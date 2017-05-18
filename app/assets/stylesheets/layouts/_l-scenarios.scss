@@ -1,0 +1,41 @@
+.l-scenarios {
+  padding-top: rem(29px);
+
+  .l-scenarios__upload-block {
+    padding-bottom: rem(29px);
+  }
+
+  .c-upload-card {
+
+    input[type='file'] {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+      z-index: 1;
+    }
+
+    .f-ff1-s {
+      position: relative;
+      z-index: 2;
+    }
+
+    &:hover .c-button {
+      box-shadow: 0 3px 5px 0 $color-app-5;
+    }
+  }
+
+  .l-scenarios__table-shorts {
+    position: relative;
+    padding: rem(41px) 0 rem(1px) 0;
+    box-shadow: 0 3px 5px 0 $color-app-5;
+
+    .columns {
+      display: flex;
+      align-items: flex-end;
+    }
+  }
+}
