@@ -2,7 +2,7 @@ class ScenariosController < ApplicationController
   before_action :set_model, only: [:index]
 
   def index
-    @scenarios = @model.scenarios
+    @scenarios = @model.scenarios.fetch_all(scenarios_order_params)
   end
 
   def show

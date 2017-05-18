@@ -19,7 +19,7 @@
   </div>
   <div class="row align-justify">
     <div class="small-5 columns">
-      <div class="f-ff3-m-bold">Scenarios <span>(<%= @scenarios.count %>)</span></div>
+      <div class="f-ff3-m-bold">Scenarios <span>(<%= @scenarios.length %>)</span></div>
     </div>
     <div class="small-3 columns">
       <div class="c-form-item">
@@ -51,13 +51,13 @@
       <div class="small-2 columns">
         <%= render 'shared/components/c_order_filter_button',
           text: 'Time series',
-          column_key: 'unit' %>
+          column_key: 'time_series' %>
       </div>
       <div class="small-2 columns">
         <%= render 'shared/components/c_order_filter_button',
           text: 'Indicators',
           other_class: '-no-wrap',
-          column_key: 'definition' %>
+          column_key: 'indicators' %>
       </div>
     </div>
   </div>
