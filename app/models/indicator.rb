@@ -39,6 +39,10 @@ class Indicator < ApplicationRecord
     end
   end
 
+  def time_series_data?
+    time_series_values.any?
+  end
+
   # TODO: validate comparable indicator has convertible unit
   # TODO: unit conversions
 end

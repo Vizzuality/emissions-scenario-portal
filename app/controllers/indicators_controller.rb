@@ -31,6 +31,12 @@ class IndicatorsController < ApplicationController
 
   def show; end
 
+  def destroy
+    @indicator = Indicator.find(params[:id])
+    @indicator.destroy
+    redirect_to indicators_url, notice: 'Indicator successfully destroyed'
+  end
+
   def upload_meta_data
     # TODO: implement
   end
