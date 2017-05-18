@@ -115,16 +115,18 @@
 /**
  * @atom Order filter button
  * @section Buttons
+ * @modifiers
+ *  .-selected remove the icon opacity
  * @markup
- *   <div class="c-order-filter-button">
- *    <div class="f-ff1-m-bold">Scenario</div>
+ *   <div class="c-order-filter-button f-ff1-m-bold">
+ *    Scenario
  *    <svg class="icon"><use xlink:href="#icon-short"></use></svg>
  *   </div>
  */
 .c-order-filter-button {
   cursor: pointer;
 
-  .f-ff1-m-bold {
+  &.f-ff1-m-bold {
     display: inline-block;
     line-height: 1.63;
   }
@@ -134,8 +136,15 @@
     position: relative;
     width: rem(9px);
     height: rem(11px);
-    margin-left: rem(3px);
-    opacity: 0.3;
+    margin-left: rem(1px);
+    fill: rgba($color-app-2, 0.3);
+  }
+
+  &.-selected {
+
+    .icon {
+      fill: $color-app-2;
+    }
   }
 }
 
@@ -160,6 +169,7 @@
   .icon {
     width: rem(12px);
     height: rem(14px);
+    fill: $color-app-2;
   }
 }
 

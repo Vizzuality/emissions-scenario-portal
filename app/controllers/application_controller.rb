@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
     @nav_links = [
       {name: 'Overview', path: root_path, key: 'models'},
       {name: 'Scenarios', path: '#', key: 'scenarios'},
-      {name: 'Indicators', path: '#', key: 'indicators'}
+      {name: 'Indicators', path: indicators_path, key: 'indicators'}
     ]
   end
 end
