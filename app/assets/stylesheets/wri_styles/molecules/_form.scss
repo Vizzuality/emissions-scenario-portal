@@ -2,15 +2,17 @@
  * @molecule Form text input
  * @section Form items
  * @markup
- *  <div class="c-form-item">
- *    <div class="f-ff1-m-bold">Full Name</div>
- *    <svg class="icon icon-info"><use xlink:href="#icon-info"></use></svg>
- *    <input type="text" value="Global Change Assessment Model" class="c-input-text"/>
+ *  <div style="width: 100%; background-color: #eeeeee; padding: 50px;">
+ *    <div class="c-form-item">
+ *      <label class="f-ff1-m">Full Name</label>
+ *      <svg class="icon icon-info"><use xlink:href="#icon-info"></use></svg>
+ *      <input type="text" value="Global Change Assessment Model" class="c-input-text"/>
+ *    </div>
  *  </div>
  */
 .c-form-item {
 
-  .f-ff1-m-bold {
+  label {
     display: inline-block;
     margin-bottom: rem(-2px);
     line-height: 1.63;
@@ -24,6 +26,10 @@
     height: rem(16px);
     margin-left: rem(4px);
     fill: rgba($color-app-2, 0.3);
+
+    &:hover {
+      fill: $color-app-2;
+    }
   }
 }
 
@@ -33,8 +39,8 @@
  * @markup
  *  <div style="width: 100%; background-color: #eeeeee; padding: 50px;">
  *    <div class="c-form-item">
- *      <div class="f-ff1-m-bold">Development Year</div>
- *      <svg class="icon"><use xlink:href="#icon-info"></use></svg>
+ *      <label class="f-ff1-m">Development Year</label>
+ *      <svg class="icon icon-info"><use xlink:href="#icon-info"></use></svg>
  *      <div class="c-select">
  *        <select>
  *          <option selected>2012</option>

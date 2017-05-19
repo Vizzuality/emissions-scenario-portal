@@ -5,21 +5,23 @@
  *  .-small limit the max width to 140px
  *  .-large limit the max width to 500px
  * @markup
- *  <input type="text" value="Global Change Assessment Model" class="c-input-text"/>
+ *  <div style="width: 100%; background-color: #eeeeee; padding: 50px;">
+ *    <input type="text" placeholder="Enter name" class="c-input-text"/>
+ *  </div>
  */
 .c-input-text {
   display: block;
   width: 100%;
   height: rem(35px);
   padding: 0 rem(10px);
-  border-radius: 4px;
-  border: solid 1px $color-app-5;
+  border: 0;
   font-family: $font-family-1;
   font-size: $ff1-size-s;
   line-height: 36px;
   letter-spacing: 0.2px;
   color: $color-app-2;
-  background-color: transparent;
+  box-shadow: 0 1px 0 0 $color-app-5;
+  background-color: $color-app-1;
   outline: none;
 
   &.-small {
@@ -28,6 +30,10 @@
 
   &.-large {
     max-width: rem(500px);
+  }
+
+  &:focus {
+    box-shadow: 0 3px 5px 0 $color-app-5;
   }
 }
 
@@ -56,23 +62,21 @@
   display: block;
   position: relative;
   cursor: pointer;
-  border-radius: 4px;
   background-color: $color-app-1;
-  box-shadow: 0 1px 0 0 $color-app-5;
 
   select {
     position: relative;
     width: 100%;
     height: rem(35px);
     padding: 0 rem(10px);
-    border-radius: 4px;
     background-color: transparent;
     border: 0;
+    border-radius: 0;
+    box-shadow: 0 1px 0 0 $color-app-5;
     -webkit-appearance: none;
     outline: none;
     font-family: $font-family-1;
     font-size: $ff1-size-s;
-    font-weight: $font-weight-bold;
     line-height: 1.14;
     letter-spacing: 0.2px;
     color: $color-app-2;
@@ -96,7 +100,7 @@
     height: 0;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
-    border-top: 5px solid $color-app-2;
+    border-top: 5px solid rgba($color-app-2, 0.5);
     z-index: 1;
   }
 }

@@ -5,7 +5,7 @@
   <div class="c-form-items">
     <% attributes.each do |attribute_symbol| %>
       <div class="c-form-item">
-        <div class="f-ff1-m-bold"><%= attribute_name(object, attribute_symbol) %></div>
+        <label class="f-ff1-m"><%= attribute_name(object, attribute_symbol) %></label>
         <svg class="icon icon-info" data-tooltip-text="<%= attribute_definition(object, attribute_symbol) %>"><use xlink:href="#icon-info"></use></svg>
         <%= attribute_input(object, f, attribute_symbol) %>
       </div>
