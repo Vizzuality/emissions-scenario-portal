@@ -2,9 +2,10 @@ class ScenariosController < ApplicationController
   before_action :set_model
   before_action :set_scenario, except: [:index]
   before_action :set_nav_links, only: [:index, :show, :edit]
+  before_action :set_order_params, only: [:index, :show]
 
   def index
-    @scenarios = @model.scenarios.fetch_all(scenarios_order_params)
+    @scenarios = @model.scenarios.fetch_all(@order_params)
   end
 
   def edit; end
@@ -17,7 +18,9 @@ class ScenariosController < ApplicationController
     end
   end
 
-  def show; end
+  def show
+    @indicators = @scenario.indicators.fetch_all(@order_params)
+  end
 
   def destroy
     @scenario = Scenario.find(params[:id])
@@ -46,9 +49,5 @@ class ScenariosController < ApplicationController
     params.require(:scenario).permit(
       *Scenario.attribute_symbols_for_strong_params
     )
-  end
-
-  def scenarios_order_params
-    params.permit(:order_type, :order_direction)
   end
 end
