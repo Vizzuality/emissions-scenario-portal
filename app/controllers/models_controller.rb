@@ -1,6 +1,7 @@
 class ModelsController < ApplicationController
   before_action :set_team
   before_action :set_model, except: [:index]
+  before_action :set_nav_links, only: [:index, :show, :edit]
 
   def index
     @models = @team.models
