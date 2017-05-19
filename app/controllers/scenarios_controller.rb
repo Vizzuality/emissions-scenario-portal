@@ -1,5 +1,5 @@
 class ScenariosController < ApplicationController
-  before_action :set_model, only: [:index]
+  before_action :set_model, :set_nav_links, only: [:index]
   before_action :set_scenario, except: [:index]
 
   def index
