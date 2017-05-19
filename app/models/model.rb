@@ -24,4 +24,5 @@ class Model < ApplicationRecord
     with: URI.regexp(%w(http https)),
     allow_blank: true
   )
+  before_validation :ignore_blank_array_values
 end

@@ -1,6 +1,14 @@
 module MetadataAttributes
   def self.included(base)
     base.class_eval do
+      def ignore_blank_array_values
+        self.class.attributes_with_flag_set('multiple').map do |a|
+          value = read_attribute(a['name'])
+          next unless value.is_a?(Array) && value.any?
+          write_attribute(a['name'], value.reject(&:blank?))
+        end
+      end
+
       def self.attribute_symbols
         self::ALL_ATTRIBUTES.map { |a| a['name'] }
       end
