@@ -1,4 +1,4 @@
-<%= form_for @scenario do |f| %>
+<%= form_for [@model, @scenario] do |f| %>
   <%= link_to 'CANCEL', model_scenarios_url(@model) %>
   <%= f.submit 'SAVE' %>
   <ul>

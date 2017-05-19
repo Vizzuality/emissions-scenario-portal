@@ -30,14 +30,14 @@ Scenarios (<%= @scenarios.count %>)
   <tbody>
   <% @scenarios.each do |scenario| %>
     <tr>
-      <td><%= link_to scenario.name, scenario_url(scenario) %></td>
+      <td><%= link_to scenario.name, model_scenario_url(@model, scenario) %></td>
       <td><%= scenario.updated_at.strftime("%b %d %Y") %></td>
       <td><%= scenario.meta_data? %></td>
       <td><%= scenario.time_series_data? %></td>
       <td><%= scenario.indicators.count %></td>
       <td>
-        <%= link_to 'DELETE', scenario_url(scenario), method: :delete, data: {confirm: destroy_confirmation_message(scenario)} %>
-        <%= link_to 'EDIT', edit_scenario_url(scenario) %>
+        <%= link_to 'DELETE', model_scenario_url(@model, scenario), method: :delete, data: {confirm: destroy_confirmation_message(scenario)} %>
+        <%= link_to 'EDIT', edit_model_scenario_url(@model, scenario) %>
       </td>
     </tr>
   <% end %>
