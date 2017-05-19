@@ -1,9 +1,15 @@
+- name: :name
+  size: 'small'
 - name: category
   picklist: true
+  size: 'small'
 - name: stack_family
   picklist: true
-- name: :name
-- name: :definition
+  size: 'large'
 - name: :unit
   picklist: true
+  size: 'small'
+- name: :definition
+  size: 'large'
 - name: :notes
+  size: 'large'

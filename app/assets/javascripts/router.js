@@ -14,6 +14,7 @@
       'models/:id': 'Models#show',
       'models/:id/edit': 'Models#edit',
       'indicators': 'Indicators#index',
+      'indicators/:id/edit': 'Indicators#edit',
       '*notFound': 'Error#index'
     },
 
