@@ -40,6 +40,21 @@ RSpec.describe ScenariosController, type: :controller do
       }
       expect(response).to redirect_to(model_scenario_url(model, scenario))
     end
+
+    it 'filters parameters correctly for update' do
+      scenario_params = {
+        name: 'ABC',
+        technology_coverage: ['', 'A', 'B'],
+        category: ['', 'cat1']
+      }
+      expect_any_instance_of(Scenario).to receive(:update_attributes).
+        with(ActionController::Parameters.new(scenario_params).permit!)
+      put :update, params: {
+        model_id: model.id,
+        id: scenario.id,
+        scenario: scenario_params
+      }
+    end
   end
 
   describe 'DELETE destroy' do

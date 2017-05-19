@@ -2,11 +2,22 @@ module MetadataAttributes
   def self.included(base)
     base.class_eval do
       def ignore_blank_array_values
-        self.class.attributes_with_flag_set('multiple').map do |a|
+        self.class.attributes_with_flag_set('picklist').map do |a|
           value = read_attribute(a['name'])
+          value = convert_from_array(value) if !a['multiple'] && value.present?
           next unless value.is_a?(Array) && value.any?
-          write_attribute(a['name'], value.reject(&:blank?))
+          if a['multiple']
+            write_attribute(a['name'], value.reject(&:blank?))
+          else
+            write_attribute(a['name'], value.reject(&:blank?).first)
+          end
         end
+      end
+
+      def convert_from_array(value_str)
+        JSON.parse(value_str)
+      rescue JSON::ParserError
+        value_str
       end
 
       def self.attribute_symbols
@@ -25,7 +36,7 @@ module MetadataAttributes
           else
             attribute_info['name']
           end
-        attribute_info['multiple'] ? {name => []} : name
+        attribute_info['picklist'] ? {name => []} : name
       end
 
       def self.picklist_attribute?(attribute_symbol)
