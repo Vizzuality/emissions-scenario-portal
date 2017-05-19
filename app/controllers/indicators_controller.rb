@@ -1,5 +1,6 @@
 class IndicatorsController < ApplicationController
   before_action :set_indicator, except: [:index, :new, :create]
+  before_action :set_model, :set_nav_links, only: [:index, :show, :edit]
 
   def index
     @indicators = Indicator.fetch_all(indicator_order_params)
@@ -45,6 +46,10 @@ class IndicatorsController < ApplicationController
 
   def set_indicator
     @indicator = Indicator.find(params[:id])
+  end
+
+  def set_model
+    @model = Model.find(params[:format])
   end
 
   def indicator_params

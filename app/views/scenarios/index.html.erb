@@ -69,7 +69,7 @@
     <div class="c-table-list-item -center">
       <div class="row">
         <div class="small-3 columns">
-          <div class="c-table-list-item__text f-ff1-m-bold"><%= link_to scenario.name, scenario_url(scenario) %></div>
+          <div class="c-table-list-item__text f-ff1-m-bold"><%= link_to scenario.name, model_scenario_url(@model, scenario) %></div>
         </div>
         <div class="small-2 columns">
           <div class="c-table-list-item__text f-ff1-m"><%= scenario.updated_at.strftime("%b %d %Y") %></div>

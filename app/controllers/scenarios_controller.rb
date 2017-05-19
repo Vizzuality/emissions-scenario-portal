@@ -1,6 +1,7 @@
 class ScenariosController < ApplicationController
-  before_action :set_model, :set_nav_links
+  before_action :set_model
   before_action :set_scenario, except: [:index]
+  before_action :set_nav_links, only: [:index, :show, :edit]
 
   def index
     @scenarios = @model.scenarios.fetch_all(scenarios_order_params)
