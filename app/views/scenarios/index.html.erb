@@ -93,12 +93,12 @@
         </div>
         <div class="small-1 columns">
           <div class="c-table-list-item__actions">
-            <%= link_to scenario_url(scenario), method: :delete, data: {confirm: destroy_confirmation_message(scenario)} do %>
+            <%= link_to model_scenario_url(@model, scenario), method: :delete, data: {confirm: destroy_confirmation_message(scenario)} do %>
               <div class="c-delete-button">
                 <svg class="icon"><use xlink:href="#icon-delete"></use></svg>
               </div>
             <% end %>
-            <%= link_to edit_scenario_url(scenario) do %>
+            <%= link_to edit_model_scenario_url(@model, scenario) do %>
               <div class="c-edit-button">
                 <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
               </div>

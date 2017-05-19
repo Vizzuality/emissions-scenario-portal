@@ -1,0 +1,29 @@
+.l-indicators-overview {
+
+  .l-indicators-overview__data-block {
+    padding: rem(40px) 0;
+  }
+
+  .l-indicators-overview__title {
+    padding: rem(3px) 0 rem(12px) 0;
+  }
+
+  .l-indicators-overview__data {
+    margin-top: rem(6px);
+  }
+
+  .l-indicators-overview__relations {
+    padding: rem(40px) 0;
+    background-color: $color-app-1;
+  }
+
+  .l-indicators-overview__relation-list {
+    margin: rem(3px) 0 0 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      margin-bottom: rem(4px);
+    }
+  }
+}
