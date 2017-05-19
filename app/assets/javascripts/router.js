@@ -13,7 +13,8 @@
       '': 'Models#index',
       'models/:id': 'Models#show',
       'models/:id/edit': 'Models#edit',
-      'models/:id/scenarios': 'Scenarios#index',
+      'models/:modelId/scenarios': 'Scenarios#index',
+      'models/:modelId/scenarios/:id': 'Scenarios#show',
       'indicators': 'Indicators#index',
       '*notFound': 'Error#index'
     },

@@ -17,7 +17,11 @@
       }.bind(this));
     },
 
-    show: function () { },
+    show: function () {
+      new App.View.TableOrderFilter({
+        el: '.js-table-order-filters'
+      });
+    },
 
     edit: function () { }
 

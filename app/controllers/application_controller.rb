@@ -10,4 +10,8 @@ class ApplicationController < ActionController::Base
       {name: 'Indicators', path: indicators_url(@model), key: 'indicators'}
     ] if @model.present?
   end
+
+  def set_order_params
+    @order_params = params.permit(:order_type, :order_direction)
+  end
 end
