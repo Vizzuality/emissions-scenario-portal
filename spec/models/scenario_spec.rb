@@ -1,6 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe Scenario, type: :model do
+  describe :create do
+    it 'ignores blank array values' do
+      attributes = FactoryGirl.attributes_for(:scenario).
+        merge(technology_coverage: ['', 'A', 'B', 'C'])
+      expect(Scenario.create(attributes).technology_coverage.length).to eq(3)
+    end
+  end
+
   describe :meta_data? do
     let(:scenario) { FactoryGirl.create(:scenario) }
     it 'should be true when metadata present' do
