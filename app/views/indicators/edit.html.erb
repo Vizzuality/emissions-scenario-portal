@@ -1,13 +1,32 @@
+<%= render 'shared/components/c_wri_header' %>
+<%= render 'shared/components/c_landing_header',
+  title: @indicator.name,
+  no_logo: true,
+  no_settings: true %>
+
 <%= form_for @indicator do |f| %>
-  <%= link_to 'CANCEL', indicators_url %>
-  <%= f.submit 'SAVE' %>
-  <ul>
-    <% Indicator.attribute_symbols.each do |attribute_symbol| %>
-    <li>
-      <%= attribute_name(@indicator, attribute_symbol) %>
-      (<%= attribute_definition(@indicator, attribute_symbol) %>)
-      <%= attribute_input(@indicator, f, attribute_symbol) %>
-    </li>
-    <% end %>
-  </ul>
+  <div class="l-indicator-edit">
+    <div class="row">
+      <div class="small-12 columns">
+        <div class="row align-right">
+          <div class="small-2 columns">
+            <%= link_to indicators_url, class: 'l-indicator-edit__form-action' do %>
+              <div class="c-hollow-button"><span>Cancel</span></div>
+            <% end %>
+          </div>
+          <div class="small-2 columns">
+            <%= f.submit 'Save', class: 'c-button' %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="l-indicator-edit__fields row">
+      <div class="small-12 columns">
+        <%= render 'shared/components/form/c_form',
+          object: @indicator,
+          f: f,
+          attributes: Indicator.attribute_symbols %>
+      </div>
+    </div>
+  </div>
 <% end %>

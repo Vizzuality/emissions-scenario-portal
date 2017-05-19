@@ -16,6 +16,7 @@
       'models/:modelId/scenarios': 'Scenarios#index',
       'models/:modelId/scenarios/:id': 'Scenarios#show',
       'indicators': 'Indicators#index',
+      'indicators/:id/edit': 'Indicators#edit',
       '*notFound': 'Error#index'
     },
 

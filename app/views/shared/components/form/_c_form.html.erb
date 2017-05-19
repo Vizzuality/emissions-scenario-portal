@@ -1,7 +1,12 @@
-<div class="c-form" data-block-key="<%= Digest::MD5.hexdigest(title) %>">
-  <div class="c-item-header -color-2">
-    <div class="f-ff1-xs"><%= title %></div>
-  </div>
+<%
+  title ||= nil
+%>
+<div class="c-form" <% if title.present? %>data-block-key="<%= Digest::MD5.hexdigest(title) %>"<% end %>>
+  <% if title.present? %>
+    <div class="c-item-header -color-2">
+      <div class="f-ff1-xs"><%= title %></div>
+    </div>
+  <% end %>
   <div class="c-form-items">
     <% attributes.each do |attribute_symbol| %>
       <div class="c-form-item">
