@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe IndicatorsController, type: :controller do
+  login_user
   let!(:indicator) { FactoryGirl.create(:indicator) }
 
   describe 'GET index' do
