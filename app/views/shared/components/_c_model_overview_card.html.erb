@@ -19,7 +19,7 @@
       <% values.each do |scenario| %>
         <li><%= scenario.name %></li>
       <% end %>
-      <% if values.count == values_limit %>
+      <% if values_count > values_limit %>
         <li>&#8230;</li>
       <% end %>
     </ul>
