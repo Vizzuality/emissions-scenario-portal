@@ -1,30 +1,25 @@
 class ScenariosController < ApplicationController
-  before_action :set_model, only: [:index]
+  before_action :set_model
   before_action :set_scenario, except: [:index]
 
   def index
     @scenarios = @model.scenarios
   end
 
-  def edit
-    @model = @scenario.model
-  end
+  def edit; end
 
   def update
     if @scenario.update_attributes(scenario_params)
-      redirect_to scenario_url(@scenario)
+      redirect_to model_scenario_url(@model, @scenario)
     else
       render action: :edit
     end
   end
 
-  def show
-    @scenario = Scenario.find(params[:id])
-  end
+  def show; end
 
   def destroy
     @scenario = Scenario.find(params[:id])
-    @model = @scenario.model
     @scenario.destroy
     redirect_to(
       model_scenarios_url(@model),
