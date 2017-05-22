@@ -23,7 +23,9 @@
       });
     },
 
-    edit: function () { }
+    edit: function () {
+      new App.View.Form();
+    }
 
   });
 

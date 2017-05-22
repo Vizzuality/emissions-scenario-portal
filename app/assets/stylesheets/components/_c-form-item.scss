@@ -24,12 +24,12 @@
     }
   }
 
-
   .select2-selection {
     min-height: rem(35px);
     border: 0 !important;
     border-bottom: 1px solid $color-app-5 !important;
     border-radius: 0;
+    outline: none;
   }
 
   .select2-container--default {
@@ -68,6 +68,17 @@
       line-height: 1.14;
       letter-spacing: 0.2px;
       margin-top: rem(7px);
+    }
+
+    .select2-selection--single .select2-selection__rendered {
+      font-size: $ff1-size-s;
+      line-height: 36px;
+      letter-spacing: 0.2px;
+      color: $color-app-2;
+    }
+
+    .select2-selection--single .select2-selection__arrow {
+      display: none;
     }
   }
 }

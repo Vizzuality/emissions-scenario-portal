@@ -15,6 +15,7 @@
       'models/:id/edit': 'Models#edit',
       'models/:modelId/scenarios': 'Scenarios#index',
       'models/:modelId/scenarios/:id': 'Scenarios#show',
+      'models/:modelId/scenarios/:id/edit': 'Scenarios#edit',
       'indicators': 'Indicators#index',
       'indicators/:id/edit': 'Indicators#edit',
       '*notFound': 'Error#index'
