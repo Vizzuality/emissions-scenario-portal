@@ -51,8 +51,7 @@ module ApplicationHelper
       object, ref_object_symbol, ref_attr_symbol
     )
     options = {prompt: 'Please select'}
-    html_options = {}
-    html_options[:class] = 'js-select'
+    html_options = {class: 'js-select'}
 
     content_tag :div, class: "c-select -#{size}" do
       form.select(
