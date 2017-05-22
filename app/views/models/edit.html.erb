@@ -19,7 +19,7 @@
         <div class="row align-right">
           <div class="small-2 columns">
             <%= link_to model_url(@model), class: 'l-model-edit__form-action' do %>
-              <div class="c-hollow-button"><span>Cancel</span></div>
+              <%= render 'shared/components/c_flying_button' %>
             <% end %>
           </div>
           <div class="small-2 columns">
