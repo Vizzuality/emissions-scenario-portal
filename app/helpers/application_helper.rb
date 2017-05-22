@@ -16,7 +16,7 @@ module ApplicationHelper
       picklist_input(object, form, attr_symbol)
     else
       size = object.class.size_attribute(attr_symbol)
-      form.text_field attr_symbol, class: "c-input-text -#{size}"
+      form.text_field attr_symbol, class: "c-input-text -#{size} js-form-input"
     end
   end
 
@@ -37,7 +37,7 @@ module ApplicationHelper
     options = {prompt: 'Please select'}
     html_options = {}
     html_options[:multiple] = true
-    html_options[:class] = is_multiple ? 'js-multiple-select' : 'js-select'
+    html_options[:class] = "js-form-input #{is_multiple ? 'js-multiple-select' : 'js-select'}"
 
     content_tag :div, class: "c-select -#{size}" do
       form.select attr_symbol, picklist_values, options, html_options

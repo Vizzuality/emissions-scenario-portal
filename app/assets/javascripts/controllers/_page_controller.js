@@ -24,6 +24,7 @@
   App.Controller.Page = Controller.extend({
 
     initialize: function() {
+      new App.View.FormItem();
     },
 
     /**

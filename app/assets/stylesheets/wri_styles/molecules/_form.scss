@@ -1,6 +1,8 @@
 /**
  * @molecule Form text input
  * @section Form items
+ * @modifiers
+ *  .-highlighted set the label in bold
  * @markup
  *  <div style="width: 100%; background-color: #eeeeee; padding: 50px;">
  *    <div class="c-form-item">
@@ -30,6 +32,10 @@
     &:hover {
       fill: $color-app-2;
     }
+  }
+
+  &.-highlighted label{
+    font-weight: $font-weight-bold;
   }
 }
 
