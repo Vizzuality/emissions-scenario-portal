@@ -37,7 +37,7 @@ module ApplicationHelper
     options = {prompt: 'Please select'}
     html_options = {}
     html_options[:multiple] = true
-    html_options[:class] = "js-form-input #{is_multiple ? 'js-multiple-select' : 'js-select'}"
+    html_options[:class] = picklist_class(is_multiple)
 
     content_tag :div, class: "c-select -#{size}" do
       form.select attr_symbol, picklist_values, options, html_options
@@ -75,5 +75,9 @@ module ApplicationHelper
       [v.send(ref_attr_symbol), v.id]
     end
     [select_values, ref_object]
+  end
+
+  def picklist_class(is_multiple)
+    "js-form-input #{is_multiple ? 'js-multiple-select' : 'js-select'}"
   end
 end
