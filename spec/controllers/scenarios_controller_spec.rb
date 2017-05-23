@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ScenariosController, type: :controller do
+  login_user
   let(:model) { FactoryGirl.create(:model) }
   let!(:scenario) { FactoryGirl.create(:scenario, model: model) }
 

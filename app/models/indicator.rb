@@ -10,6 +10,18 @@ class Indicator < ApplicationRecord
 
   validates :name, presence: true
 
+  def scenarios
+    Scenario.joins(
+      "JOIN (
+        #{time_series_values.select(:scenario_id).group(:scenario_id).to_sql}
+      ) s ON scenarios.id = s.scenario_id"
+    )
+  end
+
+  def models
+    scenarios.joins(:model).map(&:model)
+  end
+
   class << self
     def fetch_all(order_options)
       order_direction = if order_options['order_direction'].present?

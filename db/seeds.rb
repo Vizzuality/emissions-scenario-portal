@@ -7,18 +7,20 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 @team_amazing = Team.create(name: 'Team Amazing')
 
-@admin = User.create(
+@admin = User.new(
   name: 'Admin',
   email: 'admin@amazing.com',
   admin: true,
   team: @team_amazing
 )
+@admin.save(validate: false)
 
-@user = User.create(
+@user = User.new(
   name: 'John Smart',
   email: 'john.smart@amazing.com',
   team: @team_amazing
 )
+@user.save(validate: false)
 
 [
   {
