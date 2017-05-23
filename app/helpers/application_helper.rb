@@ -82,11 +82,10 @@ module ApplicationHelper
   end
 
   def picklist_class(is_multiple)
-    "js-form-input #{
-      if is_multiple
-        'js-multiple-select'
-      else
-        'js-multisingle-select'
-      end}"
+    "js-form-input #{if is_multiple
+                       'js-multiple-select'
+                     else
+                       'js-multisingle-select'
+                     end}"
   end
 end
