@@ -43,9 +43,7 @@
       this.buttons.removeClass(this.options.selectedClass);
       target.addClass(this.options.selectedClass);
 
-      this.selectedValues = 'order_type=' + this.currentOrderType +
-        '&order_direction=' + this.columnsDirection[this.currentOrderType];
-
+      this._setSelectedValues();
       this._runCallback();
     },
 
@@ -83,9 +81,15 @@
       if (typeof(activeFilter.order_type) !== "undefined") {
         this.currentOrderType = activeFilter.order_type;
         this.columnsDirection[activeFilter.order_type] = activeFilter.order_direction === 'desc' ? 'desc' : 'asc';
+        this._setSelectedValues();
 
         $('.js-order-filter[data-column-key="' + activeFilter.order_type + '"]').addClass(this.options.selectedClass);
       }
+    },
+
+    _setSelectedValues: function () {
+      this.selectedValues = 'order_type=' + this.currentOrderType +
+        '&order_direction=' + this.columnsDirection[this.currentOrderType];
     }
   });
 

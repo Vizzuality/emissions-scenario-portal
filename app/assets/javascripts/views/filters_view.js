@@ -28,12 +28,19 @@
           case "order":
             this._loadOrder(this._getHelperFilterObject(filter));
             break;
+          case "search":
+            this._loadSearch(this._getHelperFilterObject(filter));
+            break;
         }
       }.bind(this));
     },
 
     _loadOrder: function(helperFilter) {
       this.filters.push(new App.Helper.FilterOrder(helperFilter));
+    },
+
+    _loadSearch: function(helperFilter) {
+      this.filters.push(new App.Helper.FilterSearch(helperFilter));
     },
 
     _getHelperFilterObject: function(filter) {

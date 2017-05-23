@@ -32,7 +32,10 @@
                              nil,
                              placeholder: 'Filter by name',
                              class: 'c-input-text js-table-filter',
-                             data: {'filter-type' => 'search' } %>
+                             data: {
+                               'filter-type' => 'search',
+                               'filter-key' => 'name'
+                             } %>
           <svg class="icon"><use xlink:href="#icon-search"></use></svg>
         </div>
       </div>
