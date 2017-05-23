@@ -15,4 +15,12 @@ class ApplicationController < ActionController::Base
   def set_order_params
     @order_params = params.permit(:order_type, :order_direction)
   end
+
+  def after_sign_in_path_for(user)
+    if user.admin?
+      admin_root_path
+    else
+      root_path
+    end
+  end
 end
