@@ -1,13 +1,32 @@
+<%= render 'shared/components/c_wri_header' %>
+<%= render 'shared/components/c_landing_header',
+  title: @scenario.name,
+  no_logo: true,
+  no_settings: true %>
+
 <%= form_for [@model, @scenario] do |f| %>
-  <%= link_to 'CANCEL', model_scenarios_url(@model) %>
-  <%= f.submit 'SAVE' %>
-  <ul>
-    <% Scenario.attribute_symbols.each do |attribute_symbol| %>
-    <li>
-      <%= attribute_name(@scenario, attribute_symbol) %>
-      (<%= attribute_definition(@scenario, attribute_symbol) %>)
-      <%= attribute_input(@scenario, f, attribute_symbol) %>
-    </li>
-    <% end %>
-  </ul>
+  <div class="l-scenarios-edit">
+    <div class="row">
+      <div class="small-12 columns">
+        <div class="row align-right">
+          <div class="small-2 columns">
+            <%= link_to model_scenarios_url(@model), class: 'l-scenarios-edit__form-action' do %>
+                <div class="c-flying-button"><span>Cancel</span></div>
+            <% end %>
+          </div>
+          <div class="small-2 columns">
+            <%= f.submit 'Save', class: 'c-button' %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="l-scenarios-edit__fields row">
+      <div class="small-12 columns">
+        <%= render 'shared/components/form/c_form',
+          object: @scenario,
+          f: f,
+          attributes: Scenario.attribute_symbols %>
+      </div>
+    </div>
+  </div>
 <% end %>

@@ -1,59 +1,91 @@
 - name: :model_abbreviation
   reference: 'model.abbreviation'
+  size: 'small'
 - name: :model_version
+  size: 'small'
 - name: :name
+  size: 'large'
 - name: :provider_type
   picklist: true
+  size: 'small'
 - name: :provider_name
+  size: 'large'
 - name: :release_date
   date: true
+  size: 'small'
 - name: :category
   picklist: true
+  size: 'large'
 - name: :description
+  size: 'large'
 - name: :geographic_coverage_region
   picklist: true
   multiple: true
+  size: 'small'
 - name: :geographic_coverage_country
   picklist: true
   multiple: true
+  size: 'small'
 - name: :sectoral_coverage
   picklist: true
   multiple: true
+  size: 'small'
 - name: :gas_and_pollutant_coverage
   picklist: true
   multiple: true
+  size: 'large'
 - name: :policy_coverage
   picklist: true
   multiple: true
+  size: 'small'
 - name: :policy_coverage_detailed
+  size: 'large'
 - name: :technology_coverage
   picklist: true
   multiple: true
+  size: 'large'
 - name: :technology_coverage_detailed
+  size: 'small'
 - name: :energy_resource_coverage
   picklist: true
   multiple: true
+  size: 'large'
 - name: :time_horizon
   picklist: true
+  size: 'small'
 - name: :time_step
   picklist: true
+  size: 'large'
 - name: :climate_target
   picklist: true
+  size: 'small'
 - name: :emissions_target
   picklist: true
+  size: 'large'
 - name: :large_scale_bioccs
   picklist: true
+  size: 'small'
 - name: :technology_assumptions
+  size: 'large'
 - name: :gdp_assumptions
+  size: 'small'
 - name: :population_assumptions
+  size: 'large'
 - name: :discount_rates
   picklist: true
   multiple: true
+  size: 'small'
 - name: :emission_factors
+  size: 'large'
 - name: :global_warming_potentials
+  size: 'small'
 - name: :policy_cut_off_year_for_baseline
+  size: 'large'
 - name: :project_study
   picklist: true
   multiple: true
+  size: 'large'
 - name: :literature_reference
+  size: 'small'
 - name: :point_of_contact
+  size: 'large'

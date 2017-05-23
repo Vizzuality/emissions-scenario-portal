@@ -1,19 +1,102 @@
 .c-form-item {
 
+  .c-select:before {
+    content: normal;
+  }
+
+  .select2-container {
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 16px;
+      right: 14px;
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 5px solid rgba($color-app-2, 0.5);
+      z-index: 1;
+    }
+
+    &.select2-container--focus:before {
+      border-top: 5px solid $color-app-2;
+    }
+  }
+
   .select2-selection {
-    height: rem(35px);
+    min-height: rem(35px);
     border: 0 !important;
+    border-bottom: 1px solid $color-app-5 !important;
+    border-radius: 0;
+    outline: none;
+  }
+
+  .select2-container--default {
+
+    .select2-selection--multiple {
+
+      .select2-selection__rendered {
+        padding: 0 rem(7px);
+      }
+
+      .select2-selection__choice {
+        position: relative;
+        display: flex;
+        align-items: center;
+        height: rem(20px);
+        padding: 0 rem(25px) 0 rem(3px);
+        font-size: 14px;
+        letter-spacing: 0.2px;
+        background-color: $color-app-8;
+        border: 0;
+        border-radius: 0;
+        margin-top: rem(7px);
+      }
+
+      .select2-selection__choice__remove {
+        position: absolute;
+        right: rem(6px);
+        height: rem(20px);
+        color: $color-app-2;
+        margin-right: 0;
+      }
+    }
+
+    .select2-search--inline .select2-search__field {
+      font-size: $ff1-size-s;
+      line-height: 1.14;
+      letter-spacing: 0.2px;
+      margin-top: rem(7px);
+    }
+
+    .select2-selection--single .select2-selection__rendered {
+      font-size: $ff1-size-s;
+      line-height: 36px;
+      letter-spacing: 0.2px;
+      color: $color-app-2;
+    }
+
+    .select2-selection--single .select2-selection__arrow {
+      display: none;
+    }
   }
 }
 
 .select2-dropdown {
   border: 0;
+  box-shadow: 0 3px 5px 0 $color-app-5;
 
   .select2-results__option {
-    background-color: $color-app-4;
+    font-size: $ff1-size-s;
+    line-height: 1.14;
+    letter-spacing: 0.2px;
+    color: $color-app-2 !important;
+    padding: rem(10px);
+    background-color: $color-app-1 !important;
   }
 
   .select2-results__option--highlighted {
-    background-color: $color-app-6 !important;
+    background-color: $color-app-8 !important;
   }
 }

@@ -11,12 +11,12 @@ module ApplicationHelper
     if (ref_symbol = object.class.reference_attribute(attr_symbol))
       reference_input(object, form, attr_symbol, ref_symbol)
     elsif object.class.date_attribute?(attr_symbol)
-      date_input(form, attr_symbol)
+      date_input(object, form, attr_symbol)
     elsif object.class.picklist_attribute?(attr_symbol)
       picklist_input(object, form, attr_symbol)
     else
       size = object.class.size_attribute(attr_symbol)
-      form.text_field attr_symbol, class: "c-input-text -#{size}"
+      form.text_field attr_symbol, class: "c-input-text -#{size} js-form-input"
     end
   end
 
@@ -24,8 +24,10 @@ module ApplicationHelper
     object.class.category_attribute(attr_symbol)
   end
 
-  def date_input(form, attr_symbol)
-    form.text_field attr_symbol, class: "TODO I'm a date selector"
+  def date_input(object, form, attr_symbol)
+    size = object.class.size_attribute(attr_symbol)
+    form.text_field attr_symbol, class:
+      "c-input-text -#{size} js-datepicker-input js-form-input"
   end
 
   def picklist_input(object, form, attr_symbol)
@@ -37,7 +39,7 @@ module ApplicationHelper
     options = {prompt: 'Please select'}
     html_options = {}
     html_options[:multiple] = true
-    html_options[:class] = is_multiple ? 'js-multiple-select' : 'js-select'
+    html_options[:class] = picklist_class(is_multiple)
 
     content_tag :div, class: "c-select -#{size}" do
       form.select attr_symbol, picklist_values, options, html_options
@@ -51,12 +53,14 @@ module ApplicationHelper
       object, ref_object_symbol, ref_attr_symbol
     )
     options = {prompt: 'Please select'}
+    html_options = {class: 'js-form-input js-select'}
 
     content_tag :div, class: "c-select -#{size}" do
       form.select(
         ref_object_symbol + '_id',
         options_for_select(select_values, selection.try(:id)),
-        options
+        options,
+        html_options
       )
     end
   end
@@ -75,5 +79,13 @@ module ApplicationHelper
       [v.send(ref_attr_symbol), v.id]
     end
     [select_values, ref_object]
+  end
+
+  def picklist_class(is_multiple)
+    "js-form-input #{if is_multiple
+                       'js-multiple-select'
+                     else
+                       'js-multisingle-select'
+                     end}"
   end
 end
