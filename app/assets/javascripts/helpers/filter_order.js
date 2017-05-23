@@ -7,7 +7,7 @@
   App.Helper.FilterOrder = Backbone.View.extend({
 
     events: {
-      'click .js-order-filter' : '_onClickChangeOrder'
+      'click .js-order-filter[data-column-key]' : '_onClickChangeOrder'
     },
 
     options: {
@@ -82,9 +82,9 @@
         this.currentOrderType = activeFilter.order_type;
         this.columnsDirection[activeFilter.order_type] = activeFilter.order_direction === 'desc' ? 'desc' : 'asc';
         this._setSelectedValues();
-
-        $('.js-order-filter[data-column-key="' + activeFilter.order_type + '"]').addClass(this.options.selectedClass);
       }
+
+      $('.js-order-filter[data-column-key="' + this.currentOrderType + '"]').addClass(this.options.selectedClass);
     },
 
     _setSelectedValues: function () {

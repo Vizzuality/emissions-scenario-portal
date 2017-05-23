@@ -28,7 +28,9 @@
 
     _onKeydown : function (e) {
       if(e.keyCode === 13) {
-        this.selectedValues = [$(e.currentTarget).val()];
+        var value = $(e.currentTarget).val();
+
+        this.selectedValues = value != '' ? [$(e.currentTarget).val()] : [];
         this._runCallback();
       }
     },

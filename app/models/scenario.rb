@@ -33,25 +33,35 @@ class Scenario < ApplicationRecord
 
   class << self
     def fetch_all(options)
-      search = options['search'] if options['search'].present?
-      if options['order_type'].present?
-        order_direction = if options['order_direction'].present?
-                            get_direction(options['order_direction'])
-                          else
-                            :asc
-                          end
-
-        order_type = get_type(options['order_type'])
-      end
-
       scenarios = Scenario
-      scenarios = scenarios.where("name LIKE '%#{search}%'") if search.present?
-      scenarios = fetch_with_order(scenarios, order_type, order_direction) if order_type.present?
-      scenarios = Scenario.order(name: :asc) if not(order_type.present?)
+      options.each_with_index do |filter|
+        scenarios = apply_filter(scenarios, options, filter[0], filter[1])
+      end
+      unless options['order_type'].present?
+        scenarios = scenarios.order(name: :asc)
+      end
       scenarios
     end
 
+    def apply_filter(scenarios, options, filter, value)
+      case filter
+      when 'search'
+        scenarios.where("name LIKE '%#{value}%'")
+      when 'order_type'
+        fetch_with_order(
+          scenarios,
+          value,
+          options['order_direction']
+        )
+      else
+        scenarios
+      end
+    end
+
     def fetch_with_order(scenarios, order_type, order_direction)
+      order_direction = get_direction(order_direction)
+      order_type = get_type(order_type)
+
       if order_type == 'indicators'
         scenarios.time_series.
           order("count(indicator_id) #{order_direction}")
