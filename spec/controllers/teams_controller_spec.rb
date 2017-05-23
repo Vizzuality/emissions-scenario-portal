@@ -16,6 +16,13 @@ RSpec.describe TeamsController, type: :controller do
       get :new
       expect(assigns(:team)).to be_a_new(Team)
     end
+    it 'assigns available models' do
+      FactoryGirl.create(:model, team: FactoryGirl.create(:team))
+      unassigned_model = FactoryGirl.build(:model, team: nil)
+      unassigned_model.save(validate: false)
+      get :new
+      expect(assigns(:models)).to eq([unassigned_model])
+    end
   end
 
   describe 'GET #edit' do
@@ -23,6 +30,15 @@ RSpec.describe TeamsController, type: :controller do
       team = FactoryGirl.create(:team)
       get :edit, params: {id: team.id}
       expect(assigns(:team)).to eq(team)
+    end
+    it 'assigns available models' do
+      team = FactoryGirl.create(:team)
+      FactoryGirl.create(:model, team: FactoryGirl.create(:team))
+      unassigned_model = FactoryGirl.build(:model, team: nil)
+      unassigned_model.save(validate: false)
+      my_model = FactoryGirl.create(:model, team: team)
+      get :edit, params: {id: team.id}
+      expect(assigns(:models)).to eq([unassigned_model, my_model])
     end
   end
 

@@ -7,10 +7,13 @@ class TeamsController < ApplicationController # TODO : AdminController
 
   def new
     @team = Team.new
+    set_available_models
     render :edit
   end
 
-  def edit; end
+  def edit
+    set_available_models
+  end
 
   def create
     @team = Team.new(team_params)
@@ -18,6 +21,7 @@ class TeamsController < ApplicationController # TODO : AdminController
     if @team.save
       redirect_to edit_team_url(@team), notice: 'Team was successfully created.'
     else
+      set_available_models
       render :edit
     end
   end
@@ -26,6 +30,7 @@ class TeamsController < ApplicationController # TODO : AdminController
     if @team.update(team_params)
       redirect_to edit_team_url(@team), notice: 'Team was successfully updated.'
     else
+      set_available_models
       render :edit
     end
   end
@@ -39,6 +44,15 @@ class TeamsController < ApplicationController # TODO : AdminController
 
   def set_team
     @team = Team.find(params[:id])
+  end
+
+  def set_available_models
+    @models =
+      if @team.present? && @team.persisted?
+        Model.where('team_id IS NULL OR team_id = ?', @team.id)
+      else
+        Model.where('team_id IS NULL')
+      end
   end
 
   def team_params
