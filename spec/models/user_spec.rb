@@ -22,4 +22,10 @@ RSpec.describe User, type: :model do
       FactoryGirl.build(:user, admin: true, team: nil)
     ).to have(0).errors_on(:team)
   end
+  it 'should be invalid when trying to reassign team' do
+    user = FactoryGirl.create(:user)
+    another_team = FactoryGirl.create(:team)
+    user.team = another_team
+    expect(user).to have(1).errors_on(:team)
+  end
 end

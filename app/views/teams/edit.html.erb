@@ -22,21 +22,26 @@
       <%= f.collection_select :model_ids, @models, :id, :abbreviation, {}, {multiple: true} %>
     </div>
   </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+<% if @team.persisted? %>
   <div>
     <p>Members</p>
     <ul>
       <% @team.users.each do |user| %>
       <li>
         <%= user.name %> <%= user.email %>
-        <%= link_to 'Destroy', '# TODO', method: :delete, data: { confirm: 'Are you sure?' } %>
+        <%= link_to 'Destroy', team_user_url(@team, user), method: :delete, data: { confirm: 'Are you sure?' } %>
       </li>
       <% end %>
     </ul>
-    <p>TODO adding members</p>
-  </div>
-
-  <div class="actions">
-    <%= f.submit %>
+    <%= form_tag(team_users_url(@team)) do %>
+      <%= text_field_tag 'user[email]' %>
+      <%= submit_tag 'Add user' %>
+    <% end %>
   </div>
 <% end %>
 

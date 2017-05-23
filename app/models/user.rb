@@ -6,4 +6,5 @@ class User < ApplicationRecord
   belongs_to :team, optional: true
 
   validates :team, presence: true, unless: :admin?
+  validates :team, team_reassignment: true
 end
