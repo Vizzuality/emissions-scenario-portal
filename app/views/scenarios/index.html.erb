@@ -23,7 +23,7 @@
   </div>
   <div class="row align-justify">
     <div class="small-5 columns">
-      <div class="f-ff3-m-bold">Scenarios <span>(<%= @scenarios.length %>)</span></div>
+      <div class="l-scenarios__title f-ff3-m-bold">Scenarios <span>(<%= @scenarios.length %>)</span></div>
     </div>
     <div class="small-3 columns">
       <div class="c-form-item">
@@ -84,14 +84,14 @@
           <% if scenario.meta_data? %>
             <svg class="icon icon-check"><use xlink:href="#icon-check"></use></svg>
           <% else %>
-            <svg class="icon icon-cancel"><use xlink:href="#icon-cancel"></use></svg>
+            <div class="icon icon-cancel"></div>
           <% end %>
         </div>
         <div class="small-2 columns">
           <% if scenario.time_series_data? %>
             <svg class="icon icon-check"><use xlink:href="#icon-check"></use></svg>
           <% else %>
-            <svg class="icon icon-cancel"><use xlink:href="#icon-cancel"></use></svg>
+            <div class="icon icon-cancel"></div>
           <% end %>
         </div>
         <div class="small-2 columns">

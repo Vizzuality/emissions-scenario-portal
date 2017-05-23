@@ -1,8 +1,12 @@
 .l-scenarios {
   padding-top: rem(29px);
 
+  .l-scenarios__title {
+    padding-top: rem(10px);
+  }
+
   .l-scenarios__upload-block {
-    padding-bottom: rem(29px);
+    padding-bottom: rem(28px);
   }
 
   .c-upload-card {
@@ -30,12 +34,19 @@
 
   .l-scenarios__table-shorts {
     position: relative;
-    padding: rem(41px) 0 rem(1px) 0;
+    padding: rem(14px) 0 rem(7px) 0;
     box-shadow: 0 3px 5px 0 $color-app-5;
 
     .columns {
       display: flex;
       align-items: flex-end;
     }
+  }
+
+  .icon-cancel {
+    width: rem(10px);
+    height: rem(10px);
+    background-color: $color-app-10;
+    border-radius: 100%;
   }
 }
