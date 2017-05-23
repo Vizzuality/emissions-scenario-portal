@@ -7,9 +7,7 @@
   App.Controller.Indicators = App.Controller.Page.extend({
 
     index: function () {
-      new App.View.TableOrderFilter({
-        el: '.js-table-order-filters'
-      });
+      new App.View.Filters({});
     },
 
     show: function () { },

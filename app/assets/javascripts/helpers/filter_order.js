@@ -2,9 +2,9 @@
 
   'use strict';
 
-  App.View = App.View || {};
+  App.Helper = App.Helper || {};
 
-  App.View.TableOrderFilter = Backbone.View.extend({
+  App.Helper.FilterOrder = Backbone.View.extend({
 
     events: {
       'click .js-order-filter' : '_onClickChangeOrder'
@@ -14,7 +14,15 @@
       selectedClass: '-selected'
     },
 
-    initialize: function() {
+    initialize: function(settings) {
+      if (!this.el) {
+        return;
+      }
+      var opts = settings && settings.options ? settings.options : {};
+      this.options = _.extend({}, this.options, opts);
+
+      this.selectedValues = [];
+
       this._cache();
       this._setSelectFilters();
     },
@@ -35,12 +43,10 @@
       this.buttons.removeClass(this.options.selectedClass);
       target.addClass(this.options.selectedClass);
 
-      this._setHash();
-    },
+      this.selectedValues = 'order_type=' + this.currentOrderType +
+        '&order_direction=' + this.columnsDirection[this.currentOrderType];
 
-    _setHash: function () {
-      var url = '?' + this._getFilterValue();
-      Turbolinks.visit(url, {});
+      this._runCallback();
     },
 
     _getDefaultColumnsDirection: function () {
@@ -52,8 +58,10 @@
       return output;
     },
 
-    _getFilterValue: function() {
-      return 'order_type=' + this.currentOrderType + '&order_direction=' + this.columnsDirection[this.currentOrderType];
+    _runCallback: function() {
+      if (typeof this.options.callback == "function") {
+        this.options.callback();
+      }
     },
 
     _getFiltersFromUrl: function() {
@@ -61,7 +69,7 @@
       var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
       var route = 'http://' + window.location.host + window.location.pathname;
       if ( hashes[0] === route || hashes[0] === "") {
-        return false;
+        return false
       }
       for ( var i = 0; i < hashes.length; i++ ) {
         hash = hashes[i].split('=');
@@ -78,8 +86,7 @@
 
         $('.js-order-filter[data-column-key="' + activeFilter.order_type + '"]').addClass(this.options.selectedClass);
       }
-    },
-
+    }
   });
 
 })(this.App);
