@@ -26,7 +26,7 @@ module ApplicationHelper
 
   def date_input(object, form, attr_symbol)
     size = object.class.size_attribute(attr_symbol)
-    form.text_field attr_symbol, class: "c-input-text -#{size} js-datepicker-input"
+    form.text_field attr_symbol, class: "c-input-text -#{size} js-datepicker-input js-form-input"
   end
 
   def picklist_input(object, form, attr_symbol)
@@ -52,7 +52,7 @@ module ApplicationHelper
       object, ref_object_symbol, ref_attr_symbol
     )
     options = {prompt: 'Please select'}
-    html_options = {class: 'js-select'}
+    html_options = {class: 'js-form-input js-select'}
 
     content_tag :div, class: "c-select -#{size}" do
       form.select(
