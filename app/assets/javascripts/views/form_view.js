@@ -12,6 +12,7 @@
       selectTriggerClass: '.js-select',
       multisingleTriggerClass: '.js-multisingle-select',
       multipleSelectTriggerClass: '.js-multiple-select',
+      datepickerTriggerClass: '.js-datepicker-input',
     },
 
     initialize: function() {
@@ -19,12 +20,14 @@
       this._loadSelect();
       this._loadMultisingleSelect();
       this._loadMultipleSelect();
+      this._loadDatepicker();
     },
 
     _cache: function () {
       this.$selects = $(this.options.selectTriggerClass);
       this.$multisingleSelects = $(this.options.multisingleTriggerClass);
       this.$multipleSelects = $(this.options.multipleSelectTriggerClass);
+      this.$datepickerInput = $(this.options.datepickerTriggerClass);
     },
 
     _loadSelect: function () {
@@ -45,6 +48,12 @@
         tags: true
       });
     },
+
+    _loadDatepicker: function () {
+      this.$datepickerInput.datepicker({
+        dateFormat: "yy-mm-dd"
+      });
+    }
 
   });
 

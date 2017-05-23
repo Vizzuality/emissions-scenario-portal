@@ -11,7 +11,7 @@ module ApplicationHelper
     if (ref_symbol = object.class.reference_attribute(attr_symbol))
       reference_input(object, form, attr_symbol, ref_symbol)
     elsif object.class.date_attribute?(attr_symbol)
-      date_input(form, attr_symbol)
+      date_input(object, form, attr_symbol)
     elsif object.class.picklist_attribute?(attr_symbol)
       picklist_input(object, form, attr_symbol)
     else
@@ -24,8 +24,9 @@ module ApplicationHelper
     object.class.category_attribute(attr_symbol)
   end
 
-  def date_input(form, attr_symbol)
-    form.text_field attr_symbol, class: "TODO I'm a date selector"
+  def date_input(object, form, attr_symbol)
+    size = object.class.size_attribute(attr_symbol)
+    form.text_field attr_symbol, class: "c-input-text -#{size} js-datepicker-input"
   end
 
   def picklist_input(object, form, attr_symbol)
