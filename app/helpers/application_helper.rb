@@ -26,7 +26,8 @@ module ApplicationHelper
 
   def date_input(object, form, attr_symbol)
     size = object.class.size_attribute(attr_symbol)
-    form.text_field attr_symbol, class: "c-input-text -#{size} js-datepicker-input js-form-input"
+    form.text_field attr_symbol, class:
+      "c-input-text -#{size} js-datepicker-input js-form-input"
   end
 
   def picklist_input(object, form, attr_symbol)
@@ -81,6 +82,11 @@ module ApplicationHelper
   end
 
   def picklist_class(is_multiple)
-    "js-form-input #{is_multiple ? 'js-multiple-select' : 'js-multisingle-select'}"
+    "js-form-input #{
+      if is_multiple
+        'js-multiple-select'
+      else
+        'js-multisingle-select'
+      end}"
   end
 end
