@@ -1,0 +1,43 @@
+<%= form_for(@team) do |f| %>
+  <% if @team.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@team.errors.count, "error") %> prohibited this team from being saved:</h2>
+
+      <ul>
+      <% @team.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <p>TEAM INFO</p>
+    <div>
+      <%= f.label :name %>
+      <%= f.text_field :name %>
+    </div>
+    <div>
+      <%= label :model_ids, 'Associated models' %>
+      <%= f.collection_select :model_ids, Model.all, :id, :abbreviation, {}, {multiple: true} %>
+    </div>
+  </div>
+  <div>
+    <p>Members</p>
+    <ul>
+      <% @team.users.each do |user| %>
+      <li>
+        <%= user.name %> <%= user.email %>
+        <%= link_to 'Destroy', '# TODO', method: :delete, data: { confirm: 'Are you sure?' } %>
+      </li>
+      <% end %>
+    </ul>
+    <p>TODO adding members</p>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+<%= link_to 'Back', teams_path %>

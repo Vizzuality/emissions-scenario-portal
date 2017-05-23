@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   resources :indicators, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
     post :upload_meta_data, on: :collection#, as: :upload_indicators_meta_data
   end
+  resources :teams, except: [:show]
 
   root to: 'models#index'
 end
