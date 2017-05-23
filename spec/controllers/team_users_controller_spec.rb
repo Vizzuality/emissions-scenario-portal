@@ -27,10 +27,10 @@ RSpec.describe TeamUsersController, type: :controller do
 
   describe 'DELETE #destroy' do
     it 'destroys the user' do
-      user = FactoryGirl.create(:user)
+      user = FactoryGirl.create(:user, team: team)
       expect {
         delete :destroy, params: {team_id: team.id, id: user.id}
-      }.to change(User, :count).by(-1)
+      }.to change(team.users, :count).by(-1)
     end
   end
 end

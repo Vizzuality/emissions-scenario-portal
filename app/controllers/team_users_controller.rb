@@ -19,7 +19,8 @@ class TeamUsersController < ApplicationController
 
   def destroy
     @user = User.find(params[:id])
-    @user.destroy
+    @user.team_id = nil
+    @user.save(validate: false)
     render json: @person, status: :ok
   end
 
