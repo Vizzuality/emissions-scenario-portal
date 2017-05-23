@@ -32,30 +32,34 @@ class Scenario < ApplicationRecord
   end
 
   class << self
-    def fetch_all(order_options)
-      order_direction = if order_options['order_direction'].present?
-                          get_direction(order_options['order_direction'])
-                        else
-                          :asc
-                        end
+    def fetch_all(options)
+      search = options['search'] if options['search'].present?
+      if options['order_type'].present?
+        order_direction = if options['order_direction'].present?
+                            get_direction(options['order_direction'])
+                          else
+                            :asc
+                          end
 
-      order_type = get_type(order_options['order_type'])
-      fetch_with_order(order_type, order_direction)
+        order_type = get_type(options['order_type'])
+      end
+
+      scenarios = Scenario
+      scenarios = scenarios.where("name LIKE '%#{search}%'") if search.present?
+      scenarios = fetch_with_order(scenarios, order_type, order_direction) if order_type.present?
+      scenarios = Scenario.order(name: :asc) if not(order_type.present?)
+      scenarios
     end
 
-    def fetch_with_order(order_type, order_direction)
-      if order_type.present?
-        if order_type == 'indicators'
-          Scenario.time_series.
-            order("count(indicator_id) #{order_direction}")
-        elsif order_type == 'time_series'
-          Scenario.time_series.
-            order("count(scenario_id) #{order_direction}")
-        else
-          Scenario.order(order_type => order_direction, name: :asc)
-        end
+    def fetch_with_order(scenarios, order_type, order_direction)
+      if order_type == 'indicators'
+        scenarios.time_series.
+          order("count(indicator_id) #{order_direction}")
+      elsif order_type == 'time_series'
+        scenarios.time_series.
+          order("count(scenario_id) #{order_direction}")
       else
-        Scenario.order(name: :asc)
+        scenarios.order(order_type => order_direction, name: :asc)
       end
     end
 

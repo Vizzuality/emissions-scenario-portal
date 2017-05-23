@@ -23,23 +23,27 @@ class Indicator < ApplicationRecord
   end
 
   class << self
-    def fetch_all(order_options)
-      order_direction = if order_options['order_direction'].present?
-                          get_direction(order_options['order_direction'])
-                        else
-                          :asc
-                        end
+    def fetch_all(options)
+      search = options['search'] if options['search'].present?
+      if options['order_type'].present?
+        order_direction = if options['order_direction'].present?
+                            get_direction(options['order_direction'])
+                          else
+                            :asc
+                          end
 
-      order_type = get_type(order_options['order_type'])
-      fetch_with_order(order_type, order_direction)
+        order_type = get_type(options['order_type'])
+      end
+
+      indicators = Indicator
+      indicators = indicators.where("name LIKE '%#{search}%'") if search.present?
+      indicators = fetch_with_order(indicators, order_type, order_direction) if order_type.present?
+      indicators = Indicator.order(name: :asc) if not(order_type.present?)
+      indicators
     end
 
-    def fetch_with_order(order_type, order_direction)
-      if order_type.present?
-        Indicator.order(order_type => order_direction, name: :asc)
-      else
-        Indicator.order(name: :asc)
-      end
+    def fetch_with_order(indicators, order_type, order_direction)
+      indicators.order(order_type => order_direction, name: :asc)
     end
 
     def get_type(order_type)
