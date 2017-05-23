@@ -17,6 +17,12 @@ RSpec.describe Model, type: :model do
       FactoryGirl.build(:model, team: nil)
     ).to have(1).errors_on(:team)
   end
+  it 'should be invalid when trying to reassign team' do
+    model = FactoryGirl.create(:model)
+    another_team = FactoryGirl.create(:team)
+    model.team = another_team
+    expect(model).to have(1).errors_on(:team)
+  end
 
   describe :create do
     it 'ignores blank array values' do

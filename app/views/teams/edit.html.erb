@@ -19,7 +19,7 @@
     </div>
     <div>
       <%= label :model_ids, 'Associated models' %>
-      <%= f.collection_select :model_ids, Model.all, :id, :abbreviation, {}, {multiple: true} %>
+      <%= f.collection_select :model_ids, @models, :id, :abbreviation, {}, {multiple: true} %>
     </div>
   </div>
   <div>

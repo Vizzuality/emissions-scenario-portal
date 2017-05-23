@@ -1,4 +1,4 @@
-class TeamsController < ApplicationController # TODO : AdminController
+class TeamsController < ApplicationController
   before_action :set_team, only: [:edit, :update, :destroy]
 
   def index

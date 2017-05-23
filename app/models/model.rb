@@ -24,5 +24,6 @@ class Model < ApplicationRecord
     with: URI.regexp(%w(http https)),
     allow_blank: true
   )
+  validates :team, team_reassignment: true
   before_validation :ignore_blank_array_values
 end
