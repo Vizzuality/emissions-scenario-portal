@@ -1,5 +1,11 @@
+/** @color Pale Peach */
+$color-pale-peach: #ffe5b0;
+
 /** @color Mango */
 $color-mango: #fab72e;
+
+/** @color Squash */
+$color-squash: #f3a70d;
 
 /** @color White */
 $color-white: #ffffff;
@@ -13,11 +19,11 @@ $color-bone-white: #f5f5f5;
 /** @color Grey */
 $color-grey: #eeeeee;
 
-/** @color Dark Grey */
-$color-dark-grey: #333333;
-
 /** @color Pale Grey */
 $color-pale-grey: #dbdfe5;
+
+/** @color Dark Grey */
+$color-dark-grey: #333333;
 
 $color-app-1: $color-white;
 $color-app-2: $color-dark-grey;
@@ -26,3 +32,5 @@ $color-app-4: $color-grey;
 $color-app-5: $color-pale-grey;
 $color-app-6: $color-mango;
 $color-app-7: $color-black;
+$color-app-8: $color-pale-peach;
+$color-app-9: $color-squash;
