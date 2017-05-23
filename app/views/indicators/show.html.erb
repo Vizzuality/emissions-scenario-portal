@@ -46,7 +46,7 @@
       <div class="small-4 columns">
         <div class="f-ff1-m-bold">Models using this indicator</div>
         <ul class="l-indicators-overview__relation-list">
-          <% Model.all.each do |model| %>
+          <% @indicator.models.each do |model| %>
             <li class="f-ff1-m">
               <%= model.full_name %>
               <%= link_to edit_model_url(model) do %>
@@ -59,7 +59,7 @@
       <div class="small-4 columns">
         <div class="f-ff1-m-bold">Scenarios using this indicator</div>
         <ul class="l-indicators-overview__relation-list">
-          <% Scenario.all.each do |scenario| %>
+          <% @indicator.scenarios.each do |scenario| %>
             <li class="f-ff1-m">
               <%= scenario.name %>
               <%= link_to 'EDIT TODO link' do %>
