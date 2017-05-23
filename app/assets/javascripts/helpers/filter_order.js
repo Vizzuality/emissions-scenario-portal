@@ -62,22 +62,8 @@
       }
     },
 
-    _getFiltersFromUrl: function() {
-      var vars = {}, hash;
-      var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-      var route = 'http://' + window.location.host + window.location.pathname;
-      if ( hashes[0] === route || hashes[0] === "") {
-        return false
-      }
-      for ( var i = 0; i < hashes.length; i++ ) {
-        hash = hashes[i].split('=');
-        vars[hash[0]] = hash[1];
-      }
-      return vars;
-    },
-
     _setSelectFilters: function() {
-      var activeFilter = this._getFiltersFromUrl();
+      var activeFilter = App.Helper.Utils.getURLParams();
       if (typeof(activeFilter.order_type) !== "undefined") {
         this.currentOrderType = activeFilter.order_type;
         this.columnsDirection[activeFilter.order_type] = activeFilter.order_direction === 'desc' ? 'desc' : 'asc';

@@ -89,22 +89,8 @@
       return queryStr;
     },
 
-    _getFiltersFromUrl: function() {
-      var vars = {}, hash;
-      var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-      var route = 'http://' + window.location.host + window.location.pathname;
-      if ( hashes[0] === route || hashes[0] === "") {
-        return false
-      }
-      for ( var i = 0; i < hashes.length; i++ ) {
-        hash = hashes[i].split('=');
-        vars[hash[0]] = hash[1];
-      }
-      return vars;
-    },
-
     _setSelectFilters: function() {
-      var activeFilters = this._getFiltersFromUrl();
+      var activeFilters = App.Helper.Utils.getURLParams();
       if (activeFilters === false) {
         return false
       }

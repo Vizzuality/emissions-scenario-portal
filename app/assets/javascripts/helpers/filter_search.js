@@ -20,6 +20,7 @@
       this.selectedValues = [];
 
       this._cache();
+      this._setSelectFilters();
     },
 
     _cache: function () {
@@ -39,7 +40,14 @@
       if (typeof this.options.callback == "function") {
         this.options.callback();
       }
-    }
+    },
+
+    _setSelectFilters: function() {
+      var activeFilter = App.Helper.Utils.getURLParams();
+      if (typeof(activeFilter[this.key]) !== "undefined") {
+        this.$el.val(activeFilter[this.key]);
+      }
+    },
   });
 
 })(this.App);
