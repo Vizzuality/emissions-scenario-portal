@@ -37,10 +37,10 @@
         </div>
       </div>
       <div class="small-3 columns">
-        <div class="c-form-item -highlighted js-table-filter" data-filter-type="select" data-filter-key="category">
+        <div class="c-form-item -highlighted js-table-filter" data-filter-type="multiselect" data-filter-key="category">
           <label class="f-ff1-m">Filter by category</label>
           <div class="c-select">
-            <select class="js-form-input js-select">
+            <select multiple class="js-form-input js-multiple-select" data-placeholder="Select any category">
               <% @indicator_categories.each do |category| %>
                 <option value="<%= category %>"><%= category %></option>
               <% end %>
