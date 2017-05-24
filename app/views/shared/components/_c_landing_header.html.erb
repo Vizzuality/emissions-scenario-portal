@@ -3,18 +3,18 @@
   user ||= nil
   no_nav ||= false
   no_settings ||= false
-  no_logo ||= false
 %>
 <%= render 'shared/components/c_wri_header' %>
 <div class="c-landing-header <% if no_nav %>-no-nav<% end %>">
   <div class="row">
     <div class="small-9 columns">
-      <% if !no_logo %>
-        <div class="f-ff2-xl-extralight">Emission Scenarios Portal</div>
-      <% end %>
-      <% if title.present? %>
-        <div class="f-ff2-xl-extralight"><%= title %></div>
-      <% end %>
+      <div class="f-ff2-xl-extralight">
+        <% if title.present? %>
+          <%= title %>
+        <% else %>
+          Emission Scenarios Portal
+        <% end %>
+      </div>
     </div>
     <div class="small-3 columns">
       <div class="c-landing-header__buttons">
