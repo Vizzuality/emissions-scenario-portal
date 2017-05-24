@@ -1,6 +1,8 @@
 class ScenariosController < ApplicationController
-  before_action :set_model
-  before_action :set_scenario, except: [:index]
+  load_and_authorize_resource :model
+  load_and_authorize_resource through: :model, except: [:index]
+  authorize_resource only: [:index]
+
   before_action :set_nav_links, only: [:index, :show, :edit]
   before_action :set_filter_params, only: [:index, :show]
 
@@ -26,7 +28,6 @@ class ScenariosController < ApplicationController
   end
 
   def destroy
-    @scenario = Scenario.find(params[:id])
     @scenario.destroy
     redirect_to(
       model_scenarios_url(@model),
@@ -39,14 +40,6 @@ class ScenariosController < ApplicationController
   end
 
   private
-
-  def set_model
-    @model = Model.find(params[:model_id])
-  end
-
-  def set_scenario
-    @scenario = Scenario.find(params[:id])
-  end
 
   def scenario_params
     params.require(:scenario).permit(

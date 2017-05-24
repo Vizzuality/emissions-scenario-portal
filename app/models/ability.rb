@@ -9,6 +9,7 @@ class Ability
       can :manage, :all
     else
       can :manage, Model, team_id: team.id
+      can :manage, Scenario, model: {team_id: team.id}
     end
     #
     # The first argument to `can` is the action you are giving the user
