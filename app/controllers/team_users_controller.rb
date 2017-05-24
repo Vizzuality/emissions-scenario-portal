@@ -1,5 +1,8 @@
 class TeamUsersController < ApplicationController
   before_action :set_team
+  load_and_authorize_resource :team
+  load_and_authorize_resource :user, parent: false, only: [:destroy]
+  authorize_resource :user, parent: false, only: [:create]
 
   def create
     email = user_params[:email].downcase.strip
@@ -19,7 +22,6 @@ class TeamUsersController < ApplicationController
   end
 
   def destroy
-    @user = User.find(params[:id])
     @user.team_id = nil
     @user.save(validate: false)
     redirect_to(
