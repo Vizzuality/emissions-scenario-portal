@@ -10,7 +10,7 @@
       var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
       var route = 'http://' + window.location.host + window.location.pathname;
       if ( hashes[0] === route || hashes[0] === "") {
-        return false
+        return false;
       }
       for ( var i = 0; i < hashes.length; i++ ) {
         hash = hashes[i].split('=');
@@ -18,6 +18,6 @@
       }
       return params;
     }
-  }
+  };
 
 })(this.App);

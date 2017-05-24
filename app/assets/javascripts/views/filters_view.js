@@ -72,7 +72,7 @@
 
     _setHash: function () {
       var url = '?' + this.getFilterValues();
-      Turbolinks.visit(url, {})
+      Turbolinks.visit(url, {});
     },
 
     getFilterValues: function() {
@@ -106,7 +106,7 @@
     _setSelectFilters: function() {
       var activeFilters = App.Helper.Utils.getURLParams();
       if (activeFilters === false) {
-        return false
+        return false;
       }
       _.each(activeFilters, function(value, key) {
         var selectedValues = value.split(',');

@@ -31,7 +31,7 @@
       if(e.keyCode === 13) {
         var value = $(e.currentTarget).val();
 
-        this.selectedValues = value != '' ? [$(e.currentTarget).val()] : [];
+        this.selectedValues = value !== '' ? [$(e.currentTarget).val()] : [];
         this._runCallback();
       }
     },
