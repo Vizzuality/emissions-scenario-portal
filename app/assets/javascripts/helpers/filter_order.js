@@ -2,19 +2,27 @@
 
   'use strict';
 
-  App.View = App.View || {};
+  App.Helper = App.Helper || {};
 
-  App.View.TableOrderFilter = Backbone.View.extend({
+  App.Helper.FilterOrder = Backbone.View.extend({
 
     events: {
-      'click .js-order-filter' : '_onClickChangeOrder'
+      'click .js-order-filter[data-column-key]' : '_onClickChangeOrder'
     },
 
     options: {
       selectedClass: '-selected'
     },
 
-    initialize: function() {
+    initialize: function(settings) {
+      if (!this.el) {
+        return;
+      }
+      var opts = settings && settings.options ? settings.options : {};
+      this.options = _.extend({}, this.options, opts);
+
+      this.selectedValues = [];
+
       this._cache();
       this._setSelectFilters();
     },
@@ -35,12 +43,8 @@
       this.buttons.removeClass(this.options.selectedClass);
       target.addClass(this.options.selectedClass);
 
-      this._setHash();
-    },
-
-    _setHash: function () {
-      var url = '?' + this._getFilterValue();
-      Turbolinks.visit(url, {});
+      this._setSelectedValues();
+      this._runCallback();
     },
 
     _getDefaultColumnsDirection: function () {
@@ -52,34 +56,27 @@
       return output;
     },
 
-    _getFilterValue: function() {
-      return 'order_type=' + this.currentOrderType + '&order_direction=' + this.columnsDirection[this.currentOrderType];
-    },
-
-    _getFiltersFromUrl: function() {
-      var vars = {}, hash;
-      var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-      var route = 'http://' + window.location.host + window.location.pathname;
-      if ( hashes[0] === route || hashes[0] === "") {
-        return false;
+    _runCallback: function() {
+      if (typeof this.options.callback == "function") {
+        this.options.callback();
       }
-      for ( var i = 0; i < hashes.length; i++ ) {
-        hash = hashes[i].split('=');
-        vars[hash[0]] = hash[1];
-      }
-      return vars;
     },
 
     _setSelectFilters: function() {
-      var activeFilter = this._getFiltersFromUrl();
+      var activeFilter = App.Helper.Utils.getURLParams();
       if (typeof(activeFilter.order_type) !== "undefined") {
         this.currentOrderType = activeFilter.order_type;
         this.columnsDirection[activeFilter.order_type] = activeFilter.order_direction === 'desc' ? 'desc' : 'asc';
-
-        $('.js-order-filter[data-column-key="' + activeFilter.order_type + '"]').addClass(this.options.selectedClass);
+        this._setSelectedValues();
       }
+
+      $('.js-order-filter[data-column-key="' + this.currentOrderType + '"]').addClass(this.options.selectedClass);
     },
 
+    _setSelectedValues: function () {
+      this.selectedValues = 'order_type=' + this.currentOrderType +
+        '&order_direction=' + this.columnsDirection[this.currentOrderType];
+    }
   });
 
 })(this.App);

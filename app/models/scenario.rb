@@ -32,30 +32,44 @@ class Scenario < ApplicationRecord
   end
 
   class << self
-    def fetch_all(order_options)
-      order_direction = if order_options['order_direction'].present?
-                          get_direction(order_options['order_direction'])
-                        else
-                          :asc
-                        end
-
-      order_type = get_type(order_options['order_type'])
-      fetch_with_order(order_type, order_direction)
+    def fetch_all(options)
+      scenarios = Scenario
+      options.each_with_index do |filter|
+        scenarios = apply_filter(scenarios, options, filter[0], filter[1])
+      end
+      unless options['order_type'].present?
+        scenarios = scenarios.order(name: :asc)
+      end
+      scenarios
     end
 
-    def fetch_with_order(order_type, order_direction)
-      if order_type.present?
-        if order_type == 'indicators'
-          Scenario.time_series.
-            order("count(indicator_id) #{order_direction}")
-        elsif order_type == 'time_series'
-          Scenario.time_series.
-            order("count(scenario_id) #{order_direction}")
-        else
-          Scenario.order(order_type => order_direction, name: :asc)
-        end
+    def apply_filter(scenarios, options, filter, value)
+      case filter
+      when 'search'
+        scenarios.where("lower(name) LIKE '%#{value.downcase}%'")
+      when 'order_type'
+        fetch_with_order(
+          scenarios,
+          value,
+          options['order_direction']
+        )
       else
-        Scenario.order(name: :asc)
+        scenarios
+      end
+    end
+
+    def fetch_with_order(scenarios, order_type, order_direction)
+      order_direction = get_direction(order_direction)
+      order_type = get_type(order_type)
+
+      if order_type == 'indicators'
+        scenarios.time_series.
+          order("count(indicator_id) #{order_direction}")
+      elsif order_type == 'time_series'
+        scenarios.time_series.
+          order("count(scenario_id) #{order_direction}")
+      else
+        scenarios.order(order_type => order_direction, name: :asc)
       end
     end
 

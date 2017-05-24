@@ -24,4 +24,12 @@
       align-items: flex-end;
     }
   }
+
+  .c-table-list-item {
+    padding: rem(19px) 0;
+
+    .c-table-list-item__text {
+      line-height: 1.56;
+    }
+  }
 }

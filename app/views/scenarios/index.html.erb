@@ -22,18 +22,25 @@
   </div>
   <div class="row align-justify">
     <div class="small-5 columns">
-      <div class="f-ff3-m-bold">Scenarios <span>(<%= @scenarios.length %>)</span></div>
+      <div class="l-scenarios__title f-ff3-m-bold">Scenarios <span>(<%= @scenarios.length %>)</span></div>
     </div>
     <div class="small-3 columns">
       <div class="c-form-item">
         <div class="c-input-search">
-          <%= text_field_tag 'search', nil, placeholder: 'Search', class: 'c-input-text' %>
+          <%= text_field_tag 'search',
+                             nil,
+                             placeholder: 'Filter by name',
+                             class: 'c-input-text js-table-filter',
+                             data: {
+                               'filter-type' => 'search',
+                               'filter-key' => 'search'
+                             } %>
           <svg class="icon"><use xlink:href="#icon-search"></use></svg>
         </div>
       </div>
     </div>
   </div>
-  <div class="l-scenarios__table-shorts js-table-order-filters">
+  <div class="l-scenarios__table-shorts js-table-filter" data-filter-type="order">
     <div class="row">
       <div class="small-3 columns">
         <%= render 'shared/components/c_order_filter_button',
@@ -48,8 +55,7 @@
       </div>
       <div class="small-2 columns">
         <%= render 'shared/components/c_order_filter_button',
-          text: 'Meta data',
-          column_key: 'stack_family' %>
+          text: 'Meta data' %>
       </div>
       <div class="small-2 columns">
         <%= render 'shared/components/c_order_filter_button',
@@ -77,14 +83,14 @@
           <% if scenario.meta_data? %>
             <svg class="icon icon-check"><use xlink:href="#icon-check"></use></svg>
           <% else %>
-            <svg class="icon icon-cancel"><use xlink:href="#icon-cancel"></use></svg>
+            <div class="icon icon-cancel"></div>
           <% end %>
         </div>
         <div class="small-2 columns">
           <% if scenario.time_series_data? %>
             <svg class="icon icon-check"><use xlink:href="#icon-check"></use></svg>
           <% else %>
-            <svg class="icon icon-cancel"><use xlink:href="#icon-cancel"></use></svg>
+            <div class="icon icon-cancel"></div>
           <% end %>
         </div>
         <div class="small-2 columns">

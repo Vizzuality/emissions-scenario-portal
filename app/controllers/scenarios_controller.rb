@@ -2,10 +2,10 @@ class ScenariosController < ApplicationController
   before_action :set_model
   before_action :set_scenario, except: [:index]
   before_action :set_nav_links, only: [:index, :show, :edit]
-  before_action :set_order_params, only: [:index, :show]
+  before_action :set_filter_params, only: [:index, :show]
 
   def index
-    @scenarios = @model.scenarios.fetch_all(@order_params)
+    @scenarios = @model.scenarios.fetch_all(@filter_params)
   end
 
   def edit; end
@@ -19,7 +19,10 @@ class ScenariosController < ApplicationController
   end
 
   def show
-    @indicators = @scenario.indicators.fetch_all(@order_params)
+    @indicators = @scenario.indicators.fetch_all(@filter_params)
+    @indicator_categories = Indicator.except(:order).
+      order(:category).
+      distinct.pluck(:category)
   end
 
   def destroy
