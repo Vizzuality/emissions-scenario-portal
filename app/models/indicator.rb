@@ -41,7 +41,7 @@ class Indicator < ApplicationRecord
 
       case filter
       when 'search'
-        indicators.where("name LIKE '%#{value}%'")
+        indicators.where("lower(name) LIKE '%#{value.downcase}%'")
       when 'order_type'
         fetch_with_order(
           indicators,
