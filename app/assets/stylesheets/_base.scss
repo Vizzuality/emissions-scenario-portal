@@ -2,6 +2,10 @@ body {
   background-color: $color-app-4;
 }
 
+a {
+  text-decoration: none;
+}
+
 .-hidden {
   display: none !important;
 }
