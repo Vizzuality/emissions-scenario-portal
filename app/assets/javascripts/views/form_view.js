@@ -44,9 +44,12 @@
     },
 
     _loadMultipleSelect: function () {
-      this.$multipleSelects.select2({
-        tags: true
-      });
+      _.each(this.$multipleSelects, function(element) {
+        $(element).select2({
+          tags: true,
+          placeholder: $(element).data('placeholder')
+        });
+      }.bind(this));
     },
 
     _loadDatepicker: function () {

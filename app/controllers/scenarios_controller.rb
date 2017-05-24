@@ -21,7 +21,6 @@ class ScenariosController < ApplicationController
 
   def show
     @indicators = @scenario.indicators.fetch_all(@filter_params)
-    @categories = Indicator::CATEGORIES
   end
 
   def destroy
@@ -54,6 +53,9 @@ class ScenariosController < ApplicationController
   end
 
   def set_default_params
-    params[:category] ||= Indicator::CATEGORIES.first
+    @indicator_categories = Indicator.except(:order).
+      order(:category).
+      distinct.pluck(:category)
+    params[:category] ||= @indicator_categories.first
   end
 end

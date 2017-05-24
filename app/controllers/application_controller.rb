@@ -17,7 +17,8 @@ class ApplicationController < ActionController::Base
       :search,
       :order_type,
       :order_direction,
-      :category
+      :category,
+      :type
     )
   end
 end

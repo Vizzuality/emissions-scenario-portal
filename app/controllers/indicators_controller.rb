@@ -4,6 +4,9 @@ class IndicatorsController < ApplicationController
 
   def index
     @indicators = Indicator.fetch_all(@filter_params)
+    @categories = Indicator.except(:order).
+      order(:category).
+      distinct.pluck(:category)
   end
 
   def new

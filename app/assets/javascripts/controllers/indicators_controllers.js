@@ -8,6 +8,7 @@
 
     index: function () {
       new App.View.Filters({});
+      new App.View.Form();
     },
 
     show: function () { },

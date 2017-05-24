@@ -34,6 +34,9 @@
           case "select":
             this._loadSelect(this._getHelperFilterObject(filter));
             break;
+          case "multiselect":
+            this._loadMultiselect(this._getHelperFilterObject(filter));
+            break;
         }
       }.bind(this));
     },
@@ -48,6 +51,10 @@
 
     _loadSelect: function(helperFilter) {
       this.filters.push(new App.Helper.FilterSelect(helperFilter));
+    },
+
+    _loadMultiselect: function(helperFilter) {
+      this.filters.push(new App.Helper.FilterMultiselect(helperFilter));
     },
 
     _getHelperFilterObject: function(filter) {
