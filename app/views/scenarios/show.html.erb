@@ -89,15 +89,15 @@
             <div class="c-table-list-item__text f-ff1-m-bold"><%= link_to indicator.name, indicator_url(indicator) %></div>
           </div>
           <div class="small-2 columns">
-            <div class="c-table-list-item__text f-ff1-s"><%= indicator.unit %></div>
+            <div class="c-table-list-item__text f-ff1-m"><%= indicator.unit %></div>
           </div>
           <div class="small-5 columns">
-            <div class="c-table-list-item__text f-ff1-s">
-              <%= indicator.definition.length > 180 ? truncate(indicator.definition, length: 180) : indicator.definition %>
+            <div class="c-table-list-item__text f-ff1-m">
+              <%= indicator.definition.length > 150 ? truncate(indicator.definition, length: 150) : indicator.definition %>
             </div>
           </div>
           <div class="small-2 columns">
-            <div class="c-table-list-item__text f-ff1-s">TODO</div>
+            <div class="c-table-list-item__text f-ff1-m">TODO</div>
           </div>
           <div class="small-1 columns">
             <div class="c-table-list-item__actions">

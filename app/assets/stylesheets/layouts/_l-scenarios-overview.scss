@@ -15,18 +15,25 @@
   }
 
   .l-scenarios-overview__filters {
-    padding: rem(15px) 0 rem(7px) 0;
+    position: relative;
+    padding: rem(12px) 0 rem(7px) 0;
     box-shadow: 0 3px 5px 0 $color-app-5;
   }
 
   .l-scenarios-overview__filters-title {
     position: relative;
-    top: rem(29px);
+    top: rem(32px);
   }
 
   .l-scenarios-overview__table-shorts {
-    margin-top: rem(13px);
+    margin-top: rem(12px);
+  }
+
+  .c-table-list-item {
+    padding: rem(19px) 0;
+
+    .c-table-list-item__text {
+      line-height: 1.56;
+    }
   }
 }
-
-
