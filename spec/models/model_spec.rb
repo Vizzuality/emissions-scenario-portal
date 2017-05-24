@@ -25,10 +25,15 @@ RSpec.describe Model, type: :model do
   end
 
   describe :create do
-    it 'ignores blank array values' do
+    it 'ignores blank array values for multiple selection attributes' do
       attributes = FactoryGirl.attributes_for(:model).
         merge(programming_language: ['', 'Python', 'ruby', 'perl'])
       expect(Model.create(attributes).programming_language.length).to eq(3)
+    end
+    it 'ignores blank array values for single selection attributes' do
+      attributes = FactoryGirl.attributes_for(:model).
+        merge(time_horizon: ['', 'century'])
+      expect(Model.create(attributes).time_horizon).to eq('century')
     end
   end
 

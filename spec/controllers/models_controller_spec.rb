@@ -35,5 +35,19 @@ RSpec.describe ModelsController, type: :controller do
       put :update, params: {id: model.id, model: {abbreviation: 'ABC'}}
       expect(response).to redirect_to(model_url(model))
     end
+
+    it 'filters parameters correctly for update' do
+      model_params = {
+        abbreviation: 'ABC',
+        programming_language: ['', 'ruby', 'perl'],
+        time_horizon: ['', 'century']
+      }
+      expect_any_instance_of(Model).to receive(:update_attributes).
+        with(ActionController::Parameters.new(model_params).permit!)
+      put :update, params: {
+        id: model.id,
+        model: model_params
+      }
+    end
   end
 end
