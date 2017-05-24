@@ -12,6 +12,8 @@ class Ability
       can :manage, Scenario, model: {team_id: team.id}
       # TODO: finalize when per-model indicators in place
       can :manage, Indicator
+      can :edit, Team, id: team.id
+      can :update, Team, id: team.id
     end
     #
     # The first argument to `can` is the action you are giving the user
