@@ -1,5 +1,6 @@
 <%
   title ||= ''
+  button_text ||= 'See all'
   values ||= nil
   values_limit = 4
   values_count = values.present? ? values.count : 0
@@ -16,15 +17,22 @@
   </div>
   <% if values.present? %>
     <ul class="c-model-card-list f-ff1-m">
-      <% values.each do |scenario| %>
-        <li><%= scenario.name %></li>
+      <% values.each do |item| %>
+        <%
+          if item.is_a?(Model)
+            name = item.abbreviation
+          else
+            name = item.name
+          end
+        %>
+        <li><%= name %></li>
       <% end %>
       <% if values_count > values_limit %>
         <li>&#8230;</li>
       <% end %>
     </ul>
     <%= link_to button_url do %>
-      <div class="c-button"><span>See all</span></div>
+      <div class="c-button"><span><%= button_text %></span></div>
     <% end %>
   <% end %>
 </div>

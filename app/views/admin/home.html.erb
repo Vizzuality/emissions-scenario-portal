@@ -1,19 +1,24 @@
 <%= render 'shared/components/c_landing_header', no_nav: true %>
-
-<h1>Select what you want to manage</h1>
-
-<h2>Teams <%= @teams.count %></h2>
-<ul>
-<% @teams.each do |team| %>
-  <li><%= link_to team.name, '#TODO' %></li>
-<% end %>
-</ul>
-<%= link_to 'Manage teams & users', '#TODO' %>
-
-<h2>Models <%= @models.count %></h2>
-<ul>
-<% @models.each do |model| %>
-  <li><%= link_to model.abbreviation, model_path(model) %></li>
-<% end %>
-</ul>
-<%= link_to 'Manage models', models_url %>
+<div class="l-admin">
+  <div class="row">
+    <div class="small-12 columns">
+      <div class="l-admin__title f-ff3-m-bold">Select what you want to manage</div>
+    </div>
+    <div class="small-6 columns">
+      <%= render 'shared/components/c_model_overview_card',
+                 title: 'Teams',
+                 values: @teams,
+                 button_text: 'Manage teams and users',
+                 button_url: '#TODO: Manage teams & users'
+      %>
+    </div>
+    <div class="small-6 columns">
+      <%= render 'shared/components/c_model_overview_card',
+                 title: 'Models',
+                 values: @models,
+                 button_text: 'Manage models',
+                 button_url: models_url
+      %>
+    </div>
+  </div>
+</div>

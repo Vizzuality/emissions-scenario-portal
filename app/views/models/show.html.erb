@@ -5,7 +5,6 @@
   <div class="row">
     <div class="small-4 columns">
       <%= render 'shared/components/c_model_overview_card',
-        model: @model,
         title: 'Scenarios',
         values: @scenarios,
         button_url: model_scenarios_url(@model)
@@ -13,7 +12,6 @@
     </div>
     <div class="small-4 columns">
       <%= render 'shared/components/c_model_overview_card',
-        model: @model,
         title: 'Indicators',
         values: @indicators,
         button_url: indicators_url(@model)
