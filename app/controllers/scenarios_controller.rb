@@ -2,7 +2,6 @@ class ScenariosController < ApplicationController
   before_action :set_model
   before_action :set_scenario, except: [:index]
   before_action :set_nav_links, only: [:index, :show, :edit]
-  before_action :set_default_params, only: [:show]
   before_action :set_filter_params, only: [:index, :show]
 
   def index
@@ -21,6 +20,9 @@ class ScenariosController < ApplicationController
 
   def show
     @indicators = @scenario.indicators.fetch_all(@filter_params)
+    @indicator_categories = Indicator.except(:order).
+      order(:category).
+      distinct.pluck(:category)
   end
 
   def destroy
@@ -50,12 +52,5 @@ class ScenariosController < ApplicationController
     params.require(:scenario).permit(
       *Scenario.attribute_symbols_for_strong_params
     )
-  end
-
-  def set_default_params
-    @indicator_categories = Indicator.except(:order).
-      order(:category).
-      distinct.pluck(:category)
-    params[:category] ||= @indicator_categories.first
   end
 end
