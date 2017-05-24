@@ -46,21 +46,6 @@ RSpec.describe ScenariosController, type: :controller do
         expect(response).to redirect_to(model_scenarios_url(some_model))
       end
     end
-
-    it 'filters parameters correctly for update' do
-      scenario_params = {
-        name: 'ABC',
-        technology_coverage: ['', 'A', 'B'],
-        category: ['', 'cat1']
-      }
-      expect_any_instance_of(Scenario).to receive(:update_attributes).
-        with(ActionController::Parameters.new(scenario_params).permit!)
-      put :update, params: {
-        model_id: model.id,
-        id: scenario.id,
-        scenario: scenario_params
-      }
-    end
   end
 
   context 'when user' do
@@ -146,6 +131,21 @@ RSpec.describe ScenariosController, type: :controller do
         expect(response).to redirect_to(root_url)
         expect(flash[:alert]).to match(/You are not authorized/)
       end
+    end
+
+    it 'filters parameters correctly for update' do
+      scenario_params = {
+        name: 'ABC',
+        technology_coverage: ['', 'A', 'B'],
+        category: ['', 'cat1']
+      }
+      expect_any_instance_of(Scenario).to receive(:update_attributes).
+        with(ActionController::Parameters.new(scenario_params).permit!)
+      put :update, params: {
+        model_id: team_model.id,
+        id: team_scenario.id,
+        scenario: scenario_params
+      }
     end
   end
 end

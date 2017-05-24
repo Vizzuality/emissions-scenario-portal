@@ -5,9 +5,8 @@ RSpec.describe TeamsController, type: :controller do
 
   describe 'GET #index' do
     it 'assigns all teams as @teams' do
-      team = FactoryGirl.create(:team)
       get :index
-      expect(assigns(:teams)).to eq([team])
+      expect(assigns(:teams)).to eq([@user.team])
     end
   end
 

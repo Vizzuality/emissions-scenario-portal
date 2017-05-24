@@ -96,7 +96,7 @@ RSpec.describe ModelsController, type: :controller do
       expect_any_instance_of(Model).to receive(:update_attributes).
         with(ActionController::Parameters.new(model_params).permit!)
       put :update, params: {
-        id: model.id,
+        id: team_model.id,
         model: model_params
       }
     end
