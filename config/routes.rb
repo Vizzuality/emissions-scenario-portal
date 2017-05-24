@@ -12,5 +12,8 @@ Rails.application.routes.draw do
     post :upload_meta_data, on: :collection#, as: :upload_indicators_meta_data
   end
 
+  scope :admin do
+    root to: 'admin#home', as: :admin_root
+  end
   root to: 'models#index'
 end
