@@ -14,6 +14,9 @@ Style/SpaceInsideHashLiteralBraces:
 Style/MultilineMethodCallIndentation:
   EnforcedStyle: indented
 
+Style/MultilineOperationIndentation:
+  EnforcedStyle: indented
+
 Style/DotPosition:
   EnforcedStyle: trailing
 
