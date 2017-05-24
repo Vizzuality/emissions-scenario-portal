@@ -31,6 +31,9 @@
           case "search":
             this._loadSearch(this._getHelperFilterObject(filter));
             break;
+          case "select":
+            this._loadSelect(this._getHelperFilterObject(filter));
+            break;
         }
       }.bind(this));
     },
@@ -41,6 +44,10 @@
 
     _loadSearch: function(helperFilter) {
       this.filters.push(new App.Helper.FilterSearch(helperFilter));
+    },
+
+    _loadSelect: function(helperFilter) {
+      this.filters.push(new App.Helper.FilterSelect(helperFilter));
     },
 
     _getHelperFilterObject: function(filter) {

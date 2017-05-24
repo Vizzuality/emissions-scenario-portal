@@ -18,6 +18,7 @@
 
     show: function () {
       new App.View.Filters({});
+      new App.View.Form();
     },
 
     edit: function () {

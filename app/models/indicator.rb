@@ -5,6 +5,7 @@ class Indicator < ApplicationRecord
   include MetadataAttributes
 
   ORDERS = %w[name category stack_family definition unit].freeze
+  CATEGORIES = %w[Energy Fuel].freeze
 
   has_many :time_series_values, dependent: :destroy
 
@@ -35,6 +36,8 @@ class Indicator < ApplicationRecord
     end
 
     def apply_filter(indicators, options, filter, value)
+      return indicators.where("#{filter} = '#{value}'") if ['category'].include? filter
+
       case filter
       when 'search'
         indicators.where("name LIKE '%#{value}%'")

@@ -13,6 +13,11 @@ class ApplicationController < ActionController::Base
   end
 
   def set_filter_params
-    @filter_params = params.permit(:search, :order_type, :order_direction)
+    @filter_params = params.permit(
+      :search,
+      :order_type,
+      :order_direction,
+      :category
+    )
   end
 end

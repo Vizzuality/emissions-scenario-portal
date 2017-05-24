@@ -37,10 +37,14 @@
         </div>
       </div>
       <div class="small-3 columns">
-        <div class="c-form-item">
+        <div class="c-form-item -highlighted js-table-filter" data-filter-type="select" data-filter-key="category">
           <label class="f-ff1-m">Filter by category</label>
           <div class="c-select">
-            <select></select>
+            <select class="js-form-input js-select">
+              <% @categories.each do |category| %>
+                <option value="<%= category %>"><%= category %></option>
+              <% end %>
+            </select>
           </div>
         </div>
       </div>
@@ -48,7 +52,7 @@
         <div class="c-form-item">
           <label></label>
           <div class="c-input-search">
-            <input type="text" placeholder="Filter by name" class="c-input-text"/>
+            <input type="text" placeholder="Filter by name" class="c-input-text js-table-filter" data-filter-type="search" data-filter-key="search"/>
             <svg class="icon"><use xlink:href="#icon-search"></use></svg>
           </div>
         </div>
