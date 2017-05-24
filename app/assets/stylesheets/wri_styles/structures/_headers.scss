@@ -28,7 +28,7 @@
  *    <div class="c-landing-header">
  *      <div class="row">
  *        <div class="small-9 columns">
- *        <div class="f-ff2-xl-extralight">GCAM. Global Change Assessment Model</div>
+ *          <div class="f-ff2-xl-extralight">GCAM. Global Change Assessment Model</div>
  *        </div>
  *        <div class="small-3 columns">
  *          <div class="c-landing-header__buttons">
@@ -79,7 +79,12 @@
   }
 
   &.-no-nav {
-    padding: 18px 0;
+    padding: rem(20px) 0;
+    box-shadow: 0 3px 5px 0 $color-app-5;
+
+    .f-ff2-xl-extralight {
+      top: rem(2px);
+    }
   }
 }
 
@@ -90,7 +95,9 @@
  *  <div style="width: 100%; background-color: #eeeeee; padding: 15px;">
  *    <div class="c-landing-header -no-nav">
  *      <div class="row">
- *        <div class="small-9 columns"></div>
+ *        <div class="small-9 columns">
+ *          <div class="f-ff2-xl-extralight">Emission Scenarios Portal</div>
+ *        </div>
  *        <div class="small-3 columns">
  *          <div class="c-landing-header__buttons">
  *            <div class="c-user-button">
