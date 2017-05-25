@@ -25,6 +25,7 @@
 
     initialize: function() {
       new App.View.FormItem();
+      new App.View.Tooltips();
     },
 
     /**
