@@ -1,0 +1,53 @@
+.l-teams-edit {
+  padding: rem(20px) 0;
+
+  .l-teams-edit__form-action {
+    text-decoration: none;
+  }
+
+  .c-vertical-nav {
+    padding-top: rem(64px);
+
+    &.-fixed {
+      position: fixed;
+      top: 0;
+    }
+  }
+
+  .c-form {
+    margin-top: rem(20px);
+  }
+
+  .l-teams-edit__member {
+
+    li {
+
+      &:not(:last-child) {
+        margin-bottom: rem(20px);
+      }
+
+      > .f-ff1-m {
+        display: inline-block;
+      }
+
+      .c-delete-button {
+        display: inline-flex;
+      }
+    }
+  }
+
+  .l-teams-edit__add-member {
+    margin-top: rem(17px) !important;
+
+    .c-input-text {
+      display: inline-block;
+      max-width: rem(320px);
+      margin-right: rem(16px);
+    }
+
+    .c-button {
+      display: inline-block;
+      max-width: rem(70px);
+    }
+  }
+}
