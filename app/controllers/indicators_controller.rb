@@ -19,6 +19,7 @@ class IndicatorsController < ApplicationController
 
   def create
     @indicator = Indicator.new(indicator_params)
+    @indicator.model = @model unless current_user.admin?
     if @indicator.save
       redirect_to model_indicator_url(@model, @indicator)
     else
@@ -29,6 +30,9 @@ class IndicatorsController < ApplicationController
   def edit; end
 
   def update
+    # If this is a researcher trying to update a master indicator
+    # fork the indicator
+    create and return if !current_user.admin? && @indicator.model.nil?
     if @indicator.update_attributes(indicator_params)
       redirect_to model_indicator_url(@model, @indicator)
     else

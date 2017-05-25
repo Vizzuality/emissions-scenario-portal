@@ -94,6 +94,16 @@ RSpec.describe IndicatorsController, type: :controller do
           model_indicator_url(some_model, some_indicator)
         )
       end
+
+      it ' does not create a model-specific copy of a master indicator' do
+        expect {
+          put :update, params: {
+            model_id: team_model.id,
+            id: master_indicator.id,
+            indicator: {name: 'ABC'}
+          }
+        }.not_to change(team_model.indicators, :count)
+      end
     end
 
     describe 'GET show' do
@@ -242,6 +252,16 @@ RSpec.describe IndicatorsController, type: :controller do
         }
         expect(response).to redirect_to(root_url)
         expect(flash[:alert]).to match(/You are not authorized/)
+      end
+
+      it 'creates a model-specific copy of a master indicator' do
+        expect {
+          put :update, params: {
+            model_id: team_model.id,
+            id: master_indicator.id,
+            indicator: {name: 'ABC'}
+          }
+        }.to change(team_model.indicators, :count).by(1)
       end
     end
 

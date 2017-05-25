@@ -16,6 +16,9 @@ class Ability
       can :edit, Indicator do |indicator|
         indicator.model_id.nil?
       end
+      can :update, Indicator do |indicator|
+        indicator.model_id.nil?
+      end
       can :manage, Indicator do |indicator|
         team.models.pluck(:id).include?(indicator.model_id)
       end
