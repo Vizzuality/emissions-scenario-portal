@@ -27,12 +27,6 @@
           });
         }
       });
-    },
-
-    _checkValue: function (element) {
-      if (element.val() === '' || element.val() === null) {
-        element.closest('.c-form-item').removeClass(this.options.highlightedClass);
-      }
     }
 
   });
