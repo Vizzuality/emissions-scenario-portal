@@ -32,12 +32,6 @@
         var value = $(e.currentTarget).val();
 
         this.selectedValues = value !== '' ? [$(e.currentTarget).val()] : [];
-        this._runCallback();
-      }
-    },
-
-    _runCallback: function() {
-      if (typeof this.options.callback == "function") {
         this.options.callback();
       }
     },
@@ -47,7 +41,7 @@
       if (typeof(activeFilter[this.key]) !== "undefined") {
         this.$el.val(activeFilter[this.key]);
       }
-    },
+    }
   });
 
 })(this.App);
