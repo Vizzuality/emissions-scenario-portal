@@ -23,23 +23,45 @@ class Indicator < ApplicationRecord
   end
 
   class << self
-    def fetch_all(order_options)
-      order_direction = if order_options['order_direction'].present?
-                          get_direction(order_options['order_direction'])
-                        else
-                          :asc
-                        end
-
-      order_type = get_type(order_options['order_type'])
-      fetch_with_order(order_type, order_direction)
+    def fetch_all(options)
+      indicators = Indicator
+      options.each_with_index do |filter|
+        indicators = apply_filter(indicators, options, filter[0], filter[1])
+      end
+      unless options['order_type'].present?
+        indicators = indicators.order(name: :asc)
+      end
+      indicators
     end
 
-    def fetch_with_order(order_type, order_direction)
-      if order_type.present?
-        Indicator.order(order_type => order_direction, name: :asc)
-      else
-        Indicator.order(name: :asc)
+    def apply_filter(indicators, options, filter, value)
+      if ['category'].include? filter
+        return fetch_equal_value(indicators, filter, value)
       end
+
+      case filter
+      when 'search'
+        indicators.where("lower(name) LIKE '%#{value.downcase}%'")
+      when 'order_type'
+        fetch_with_order(
+          indicators,
+          value,
+          options['order_direction']
+        )
+      else
+        indicators
+      end
+    end
+
+    def fetch_with_order(indicators, order_type, order_direction)
+      order_direction = get_direction(order_direction)
+      order_type = get_type(order_type)
+
+      indicators.order(order_type => order_direction, name: :asc)
+    end
+
+    def fetch_equal_value(indicators, filter, value)
+      indicators.where("#{filter} IN (?)", value.split(','))
     end
 
     def get_type(order_type)

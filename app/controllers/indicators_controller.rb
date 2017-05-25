@@ -1,9 +1,12 @@
 class IndicatorsController < ApplicationController
   before_action :set_indicator, except: [:index, :new, :create]
-  before_action :set_order_params, only: [:index]
+  before_action :set_filter_params, only: [:index]
 
   def index
-    @indicators = Indicator.fetch_all(@order_params)
+    @indicators = Indicator.fetch_all(@filter_params)
+    @categories = Indicator.except(:order).
+      order(:category).
+      distinct.pluck(:category)
   end
 
   def new

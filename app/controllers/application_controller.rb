@@ -12,8 +12,14 @@ class ApplicationController < ActionController::Base
     ] if @model.present?
   end
 
-  def set_order_params
-    @order_params = params.permit(:order_type, :order_direction)
+  def set_filter_params
+    @filter_params = params.permit(
+      :search,
+      :order_type,
+      :order_direction,
+      :category,
+      :type
+    )
   end
 
   def after_sign_in_path_for(user)
