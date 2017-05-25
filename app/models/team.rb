@@ -31,7 +31,7 @@ class Team < ApplicationRecord
     def apply_filter(teams, options, filter, value)
       case filter
       when 'search'
-        teams.where("lower(teams.name) LIKE ?", "%#{value.downcase}%")
+        teams.where('lower(teams.name) LIKE ?', "%#{value.downcase}%")
       when 'order_type'
         fetch_with_order(
           teams,
