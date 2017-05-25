@@ -54,22 +54,14 @@ class Indicator < ApplicationRecord
     end
 
     def fetch_with_order(indicators, order_type, order_direction)
-      order_direction = get_direction(order_direction)
-      order_type = get_type(order_type)
+      order_direction = get_order_direction(order_direction)
+      order_type = get_order_type(ORDERS, order_type)
 
       indicators.order(order_type => order_direction, name: :asc)
     end
 
     def fetch_equal_value(indicators, filter, value)
       indicators.where("#{filter} IN (?)", value.split(','))
-    end
-
-    def get_type(order_type)
-      ORDERS.include?(order_type) && order_type
-    end
-
-    def get_direction(direction)
-      direction == 'desc' ? :desc : :asc
     end
   end
 
