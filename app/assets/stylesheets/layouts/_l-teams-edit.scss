@@ -28,10 +28,15 @@
 
       > .f-ff1-m {
         display: inline-block;
+
+        span {
+          margin-right: rem(16px);
+        }
       }
 
       .c-delete-button {
         display: inline-flex;
+        margin-left: rem(10px);
       }
     }
   }
