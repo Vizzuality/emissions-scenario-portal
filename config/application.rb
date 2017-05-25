@@ -23,5 +23,6 @@ module EmissionsScenarioPortal
     # -- all .rb files in that directory are automatically loaded.
 
     config.autoload_paths << "#{Rails.root}/lib/modules"
+    config.autoload_paths << "#{Rails.root}/app/validators"
   end
 end

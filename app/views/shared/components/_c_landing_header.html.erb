@@ -1,6 +1,6 @@
 <%
   title ||= nil
-  user ||= nil
+  user ||= current_user
   no_nav ||= false
   no_settings ||= false
 %>
@@ -20,13 +20,13 @@
       <div class="c-landing-header__buttons">
         <% if user.present? %>
           <div class="c-user-button">
-            <div class="f-ff1-s">John Doe</div>
+            <div class="f-ff1-s"><%= user.name || user.email %></div>
             <svg class="icon"><use xlink:href="#icon-avatar"></use></svg>
           </div>
         <% end %>
         <% if !no_settings %>
           <div class="c-settings-button">
-            <div class="f-ff1-s">Settings</div>
+            <div class="f-ff1-s"><%= link_to 'Settings', edit_profile_path %></div>
             <svg class="icon"><use xlink:href="#icon-settings"></use></svg>
           </div>
         <% end %>
