@@ -46,7 +46,7 @@ class Scenario < ApplicationRecord
     def apply_filter(scenarios, options, filter, value)
       case filter
       when 'search'
-        scenarios.where("lower(name) LIKE '%#{value.downcase}%'")
+        scenarios.where('lower(name) LIKE ?', "%#{value.downcase}%")
       when 'order_type'
         fetch_with_order(
           scenarios,
@@ -59,26 +59,18 @@ class Scenario < ApplicationRecord
     end
 
     def fetch_with_order(scenarios, order_type, order_direction)
-      order_direction = get_direction(order_direction)
-      order_type = get_type(order_type)
+      order_direction = get_order_direction(order_direction)
+      order_type = get_order_type(ORDERS, order_type)
 
       if order_type == 'indicators'
         scenarios.time_series.
           order("count(indicator_id) #{order_direction}")
-      elsif order_type == 'time_series'
+      elsif order_type == 'members'
         scenarios.time_series.
           order("count(scenario_id) #{order_direction}")
       else
         scenarios.order(order_type => order_direction, name: :asc)
       end
-    end
-
-    def get_type(order_type)
-      ORDERS.include?(order_type) && order_type
-    end
-
-    def get_direction(direction)
-      direction == 'desc' ? :desc : :asc
     end
   end
 end

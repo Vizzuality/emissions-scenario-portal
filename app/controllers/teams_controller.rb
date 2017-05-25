@@ -1,8 +1,9 @@
 class TeamsController < ApplicationController
   before_action :set_team, only: [:edit, :update, :destroy]
+  before_action :set_filter_params, only: [:index]
 
   def index
-    @teams = Team.all
+    @teams = Team.fetch_all(@filter_params)
   end
 
   def new
