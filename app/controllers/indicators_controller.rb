@@ -1,9 +1,7 @@
 class IndicatorsController < ApplicationController
-  # TODO: once per-model indicators in place
-  # load_and_authorize_resource :model
-  # load_and_authorize_resource through: :model, except: [:index]
-  load_and_authorize_resource except: [:index]
-  authorize_resource only: [:index]
+  load_and_authorize_resource :model
+  load_resource except: [:new, :create, :index]
+  authorize_resource through: :model
 
   before_action :set_filter_params, only: [:index]
 
@@ -15,14 +13,14 @@ class IndicatorsController < ApplicationController
   end
 
   def new
-    @indicator = Indicator.new
+    @indicator = Indicator.new(model: @model)
     render action: :edit
   end
 
   def create
     @indicator = Indicator.new(indicator_params)
     if @indicator.save
-      redirect_to indicator_url(@indicator)
+      redirect_to model_indicator_url(@model, @indicator)
     else
       render action: :edit
     end
@@ -32,7 +30,7 @@ class IndicatorsController < ApplicationController
 
   def update
     if @indicator.update_attributes(indicator_params)
-      redirect_to indicator_url(@indicator)
+      redirect_to model_indicator_url(@model, @indicator)
     else
       render action: :edit
     end
@@ -42,7 +40,10 @@ class IndicatorsController < ApplicationController
 
   def destroy
     @indicator.destroy
-    redirect_to indicators_url, notice: 'Indicator successfully destroyed'
+    redirect_to(
+      model_indicators_url(@model),
+      notice: 'Indicator successfully destroyed'
+    )
   end
 
   def upload_meta_data
