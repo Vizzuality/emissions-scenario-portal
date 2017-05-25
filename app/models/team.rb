@@ -24,9 +24,7 @@ class Team < ApplicationRecord
       options.each_with_index do |filter|
         teams = apply_filter(teams, options, filter[0], filter[1])
       end
-      unless options['order_type'].present?
-        teams = teams.order(name: :asc)
-      end
+      teams = teams.order(name: :asc) unless options['order_type'].present?
       teams
     end
 
@@ -59,6 +57,5 @@ class Team < ApplicationRecord
         teams.order(order_type => order_direction, name: :asc)
       end
     end
-
   end
 end
