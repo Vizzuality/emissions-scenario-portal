@@ -31,13 +31,7 @@
     _onChange : function (e) {
       var values = $(e.currentTarget).find('select').val();
       this.selectedValues = values !== null ? values : [];
-      this._runCallback();
-    },
-
-    _runCallback: function() {
-      if (typeof this.options.callback == "function") {
-        this.options.callback();
-      }
+      this.options.callback();
     },
 
     _setSelectFilters: function() {

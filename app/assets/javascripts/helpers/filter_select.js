@@ -29,13 +29,7 @@
 
     _onSelect : function (e) {
       this.selectedValues = [$(e.currentTarget).find('select').val()];
-      this._runCallback();
-    },
-
-    _runCallback: function() {
-      if (typeof this.options.callback == "function") {
-        this.options.callback();
-      }
+      this.options.callback();
     },
 
     _setSelectFilters: function() {

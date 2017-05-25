@@ -49,7 +49,7 @@
           tags: true,
           placeholder: $(element).data('placeholder')
         });
-      }.bind(this));
+      });
     },
 
     _loadDatepicker: function () {

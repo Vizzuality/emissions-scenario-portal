@@ -44,22 +44,16 @@
       target.addClass(this.options.selectedClass);
 
       this._setSelectedValues();
-      this._runCallback();
+      this.options.callback();
     },
 
     _getDefaultColumnsDirection: function () {
       var output = {};
       _.each(this.buttons, function(button) {
         output[$(button).data('column-key')] = 'asc';
-      }.bind(this));
+      });
 
       return output;
-    },
-
-    _runCallback: function() {
-      if (typeof this.options.callback == "function") {
-        this.options.callback();
-      }
     },
 
     _setSelectFilters: function() {

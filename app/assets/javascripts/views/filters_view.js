@@ -111,7 +111,7 @@
       _.each(activeFilters, function(value, key) {
         var selectedValues = value.split(',');
         var filter = _.findWhere(this.filters, {key: key});
-        if (typeof filter != 'undefined') {
+        if (typeof filter !== 'undefined') {
           filter.selectedValues = selectedValues;
         }
       }.bind(this));
