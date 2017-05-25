@@ -46,7 +46,7 @@ class Scenario < ApplicationRecord
     def apply_filter(scenarios, options, filter, value)
       case filter
       when 'search'
-        scenarios.where("lower(name) LIKE '%#{value.downcase}%'")
+        scenarios.where("lower(name) LIKE ?", "%#{value.downcase}%")
       when 'order_type'
         fetch_with_order(
           scenarios,
