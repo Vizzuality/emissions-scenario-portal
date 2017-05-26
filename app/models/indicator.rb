@@ -6,6 +6,7 @@ class Indicator < ApplicationRecord
 
   ORDERS = %w[name category stack_family definition unit].freeze
 
+  belongs_to :parent, class_name: 'Indicator'
   has_many :time_series_values, dependent: :destroy
   belongs_to :model, optional: true
 

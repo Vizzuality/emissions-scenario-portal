@@ -3,11 +3,22 @@
 - name: category
   picklist: true
   size: 'small'
+- name: subcategory
+  picklist: true
+  size: 'small'
 - name: stack_family
   picklist: true
+  size: 'small'
+- name: stackable_subcategory
+  checkbox: true
   size: 'large'
 - name: :unit
   picklist: true
+  size: 'small'
+- name: :unit_of_entry
+  picklist: true
+  size: 'small'
+- name: :conversion_factor
   size: 'small'
 - name: :definition
   size: 'large'

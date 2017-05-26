@@ -181,8 +181,14 @@ en:
     category:
       name: "Category"
       definition: "TODO"
+    subcategory:
+      name: "Subcategory"
+      definition: "TODO"
+    stackable_subcategory:
+      name: "Stackable subcategory"
+      definition: "TODO"
     stack_family:
-      name: "Stack family"
+      name: "Stack family (to be removed)"
       definition: "TODO"
     name:
       name: "Name"
@@ -192,6 +198,12 @@ en:
       definition: "TODO"
     unit:
       name: "Unit"
+      definition: "TODO"
+    unit_of_entry:
+      name: "Unit of entry"
+      definition: "TODO"
+    conversion_factor:
+      name: "Conversion factor"
       definition: "TODO"
     notes:
       name: "Notes"

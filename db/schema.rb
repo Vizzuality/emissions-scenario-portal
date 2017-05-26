@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170525102655) do
+ActiveRecord::Schema.define(version: 20170526121637) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,14 +18,20 @@ ActiveRecord::Schema.define(version: 20170525102655) do
   create_table "indicators", force: :cascade do |t|
     t.text     "category"
     t.text     "stack_family"
-    t.text     "name",         null: false
+    t.text     "name",                                  null: false
     t.text     "definition"
     t.text     "unit"
     t.text     "notes"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
     t.integer  "model_id"
+    t.text     "subcategory"
+    t.boolean  "stackable_subcategory", default: false
+    t.text     "unit_of_entry"
+    t.decimal  "conversion_factor"
+    t.integer  "parent_id"
     t.index ["model_id"], name: "index_indicators_on_model_id", using: :btree
+    t.index ["parent_id"], name: "index_indicators_on_parent_id", using: :btree
   end
 
   create_table "locations", force: :cascade do |t|
@@ -186,6 +192,7 @@ ActiveRecord::Schema.define(version: 20170525102655) do
     t.index ["team_id"], name: "index_users_on_team_id", using: :btree
   end
 
+  add_foreign_key "indicators", "indicators", column: "parent_id"
   add_foreign_key "indicators", "models"
   add_foreign_key "models", "teams"
   add_foreign_key "scenarios", "models"
