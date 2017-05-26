@@ -15,7 +15,7 @@ class ProfilesController < ApplicationController
   private
 
   def update_with_password
-    if @user.update_with_password(user_params)
+    if @user.update_with_password(user_params.except(:current_password))
       # Sign in the user by passing validation in case their password changed
       bypass_sign_in(@user)
       redirect_to edit_profile_path, notice: 'Profile successfully updated'
@@ -25,7 +25,7 @@ class ProfilesController < ApplicationController
   end
 
   def update_without_password
-    if @user.update_without_password(user_params)
+    if @user.update_without_password(user_params.except(:current_password))
       redirect_to edit_profile_path, notice: 'Profile successfully updated'
     else
       render 'edit'
