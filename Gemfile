@@ -71,4 +71,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-backbone'
   gem 'rails-assets-URIjs'
   gem 'rails-assets-select2'
+  gem 'rails-assets-tether'
+  gem 'rails-assets-drop'
+  gem 'rails-assets-tether-tooltip'
 end

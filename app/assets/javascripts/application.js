@@ -18,6 +18,9 @@
 //= require underscore/underscore
 //= require backbone/backbone
 //= require select2
+//= require tether
+//= require drop
+//= require tether-tooltip
 //= require_self
 
 //= require_tree ./helpers/
