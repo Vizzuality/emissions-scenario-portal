@@ -20,6 +20,13 @@
         <div class="f-ff1-m-bold">Published</div>
         <div class="f-ff1-m l-scenarios-overview__data">TODO</div>
       </div>
+      <div class="small-1 columns">
+        <%= link_to edit_model_scenario_url(@model, @scenario) do %>
+          <div class="c-edit-button">
+            <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+          </div>
+        <% end %>
+      </div>
     </div>
   </div>
   <div class="l-scenarios-overview__filters">
