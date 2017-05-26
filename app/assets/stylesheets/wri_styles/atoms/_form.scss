@@ -43,6 +43,7 @@
  * @modifiers
  *  .-small limit the max width to 140px
  *  .-large limit the max width to 230px
+ *  .-extra-large limit the max width to 500px
  * @markup
  *  <div style="width: 100%; background-color: #eeeeee; padding: 50px;">
  *    <div class="c-select">
@@ -89,6 +90,10 @@
 
   &.-large {
     max-width: rem(230px);
+  }
+
+  &.-extra-large {
+    max-width: rem(500px);
   }
 
   &:before {
