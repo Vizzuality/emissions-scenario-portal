@@ -1,5 +1,5 @@
 $tooltip-margin: rem(5px);
-$tooltip-position: rem(9px);
+$tooltip-position: rem(3px);
 
 .c-tooltip {
   display: none;
@@ -15,10 +15,10 @@ $tooltip-position: rem(9px);
     background: $color-app-2;
     font-family: $font-family-1;
     font-size: $ff1-size-s;
-    line-height: 1;
+    line-height: 1.56;
     letter-spacing: 0.5px;
     color: $color-app-1;
-    padding: 16px;
+    padding: rem(10px) rem(10px) rem(7px) rem(10px);
     box-shadow: 0 10px 20px 0 rgba($color-app-2, .2);
 
     &:before {
