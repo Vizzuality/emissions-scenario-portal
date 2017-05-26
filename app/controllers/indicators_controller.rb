@@ -3,6 +3,7 @@ class IndicatorsController < ApplicationController
   load_resource except: [:new, :create, :index]
   authorize_resource through: :model
 
+  before_action :set_nav_links, only: [:index, :show, :edit]
   before_action :set_filter_params, only: [:index]
 
   def index
