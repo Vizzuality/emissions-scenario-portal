@@ -12,7 +12,7 @@ RSpec.describe Model, type: :model do
       FactoryGirl.build(:model, abbreviation: 'A-Team')
     ).to have(1).errors_on(:abbreviation)
   end
-  it 'should be invalid when team not present' do
+  pending 'should be invalid when team not present (?)' do
     expect(
       FactoryGirl.build(:model, team: nil)
     ).to have(1).errors_on(:team)
