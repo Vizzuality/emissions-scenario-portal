@@ -1,0 +1,59 @@
+/**
+ * @atom Green notification
+ * @section Notifications
+ * @markup
+ *  <div class="c-notification -green">
+ *    <svg class="icon"><use xlink:href="#icon-check"></use></svg>
+ *    <div class="f-ff1-s">Meta data for 4 scenarios succesfully uploaded</div>
+ *  </div>
+ */
+.c-notification {
+  display: inline-flex;
+  align-items: center;
+  height: rem(60px);
+  padding: 0 rem(21px);
+  border-radius: rem(30px);
+  box-shadow: 0 3px 5px 0 $color-app-5;
+
+  .f-ff1-s {
+    position: relative;
+    top: rem(3px);
+    margin-left: rem(21px);
+    line-height: 1.64;
+    color: $color-app-1;
+    letter-spacing: normal;
+  }
+
+  .icon {
+    fill: $color-app-1;
+  }
+
+  &.-green {
+    background-color: $color-app-11;
+
+    .icon {
+      width: rem(18px);
+      height: rem(18px);
+    }
+  }
+
+  &.-red {
+    background-color: $color-app-10;
+
+    .icon {
+      width: rem(24px);
+      height: rem(24px);
+    }
+  }
+}
+
+/**
+ * @atom Red notification
+ * @section Notifications
+ * @markup
+ *  <div class="c-notification -red">
+ *    <svg class="icon"><use xlink:href="#icon-alert"></use></svg>
+ *    <div class="f-ff1-s">There’s an error with 3 time series</div>
+ *  </div>
+ */
+//

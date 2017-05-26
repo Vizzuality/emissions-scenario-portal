@@ -1,0 +1,19 @@
+<ul class="c-notifications-list">
+  <% flash.each do |name, msg| %>
+    <%
+      if name == 'alert'
+        notification_class = '-red'
+        notification_icon = 'icon-check'
+      else
+        notification_class = '-green'
+        notification_icon = 'icon-check'
+      end
+    %>
+    <li>
+      <div class="c-notification <%= notification_class %>">
+        <svg class="icon"><use xlink:href="#<%= notification_icon %>"></use></svg>
+        <div class="f-ff1-s"><%= msg %></div>
+      </div>
+    </li>
+  <% end %>
+</ul>
