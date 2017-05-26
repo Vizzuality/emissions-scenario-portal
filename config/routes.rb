@@ -17,8 +17,9 @@ Rails.application.routes.draw do
     resources :users, only: [:create, :destroy], controller: 'team_users'
   end
 
-  scope :admin do
-    root to: 'admin#home', as: :admin_root
-  end
-  root to: 'models#index'
+  # Rails routes are matched in the order they are specified
+  root to: "admin#home",
+    constraints: lambda { |request| request.env['warden'].user.try(:admin?) },
+    as: :admin_root
+  root to: "models#index"
 end
