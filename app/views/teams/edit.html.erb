@@ -1,48 +1,98 @@
-<%= form_for(@team) do |f| %>
-  <% if @team.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@team.errors.count, "error") %> prohibited this team from being saved:</h2>
-
-      <ul>
+<%
+  form_blocks = [
+    ['Team Info'],
+    ['Members']
+  ]
+%>
+<%= render 'shared/components/c_landing_header', no_nav: true %>
+<% if @team.errors.any? %>
+  <% #TODO: style this notifications %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@team.errors.count, "error") %> prohibited this team from being saved:</h2>
+    <ul>
       <% @team.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div>
-    <p>TEAM INFO</p>
-    <div>
-      <%= f.label :name %>
-      <%= f.text_field :name %>
-    </div>
-    <div>
-      <%= label :model_ids, 'Associated models' %>
-      <%= f.collection_select :model_ids, @models, :id, :abbreviation, {}, {multiple: true} %>
-    </div>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
-
-<% if @team.persisted? %>
-  <div>
-    <p>Members</p>
-    <ul>
-      <% @team.users.each do |user| %>
-      <li>
-        <%= user.name %> <%= user.email %>
-        <%= link_to 'Destroy', team_user_url(@team, user), method: :delete, data: { confirm: 'Are you sure?' } %>
-      </li>
-      <% end %>
     </ul>
-    <%= form_tag(team_users_url(@team)) do %>
-      <%= text_field_tag 'user[email]' %>
-      <%= submit_tag 'Add user' %>
-    <% end %>
   </div>
 <% end %>
 
-<%= link_to 'Back', teams_path %>
+<div class="l-teams-edit">
+  <div class="row l-teams-edit__fields">
+    <div class="small-3 columns">
+      <%= render 'shared/components/form/c_form_vertical_nav',
+                 form_blocks: form_blocks %>
+    </div>
+    <div class="small-9 columns">
+      <%= form_for @team do |f| %>
+        <div class="row">
+          <div class="small-12 columns">
+            <div class="row align-right">
+              <div class="small-2 columns">
+                <%= link_to teams_url, class: 'l-teams-edit__form-action' do %>
+                  <%= render 'shared/components/c_flying_button' %>
+                <% end %>
+              </div>
+              <div class="small-2 columns">
+                <%= f.submit 'Save', class: 'c-button' %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="c-form" data-block-key="<%= Digest::MD5.hexdigest('Team Info') %>">
+          <div class="c-item-header -color-2">
+            <div class="f-ff1-xs">Team Info</div>
+          </div>
+          <div class="c-form-items">
+            <div class="c-form-item <% if f.object[:name.to_s].present? || object.class.reference_attribute(:name) %>-highlighted<% end %>">
+              <%= f.label :name, 'Team name', class: 'f-ff1-m' %>
+              <svg class="icon icon-info" data-tooltip-text=""><use xlink:href="#icon-info"></use></svg>
+              <%= f.text_field :name, class: 'c-input-text -large js-form-input' %>
+            </div>
+            <div class="c-form-item <% if f.object[:name.to_s].present? || object.class.reference_attribute(:name) %>-highlighted<% end %>">
+              <%= label :model_ids, 'Associated models', class: 'f-ff1-m' %>
+              <svg class="icon icon-info" data-tooltip-text=""><use xlink:href="#icon-info"></use></svg>
+              <div class="c-select -extra-large">
+                <%= f.collection_select :model_ids, @models, :id, :abbreviation, {}, {multiple: true, class: 'js-form-input js-multiple-select'} %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <% if @team.persisted? %>
+        <div class="c-form" data-block-key="<%= Digest::MD5.hexdigest('Members') %>">
+          <div class="c-item-header -color-2">
+            <div class="f-ff1-xs">Members</div>
+          </div>
+          <div class="c-form-items">
+            <ul class="l-teams-edit__member">
+              <% @team.users.each do |user| %>
+                <li>
+                  <div class="f-ff1-m">
+                    <span class="f-ff1-m-bold"><%= user.name %></span> <%= user.email %>
+                  </div>
+                  <%= link_to team_user_url(@team, user),
+                              method: :delete,
+                              data: { confirm: 'Are you sure?' } do %>
+                    <div class="c-delete-button">
+                      <svg class="icon"><use xlink:href="#icon-delete"></use></svg>
+                    </div>
+                  <% end %>
+                </li>
+              <% end %>
+            </ul>
+            <%= form_tag(team_users_url(@team)) do %>
+              <div class="c-form-item l-teams-edit__add-member">
+                <%= text_field_tag 'user[email]',
+                                   nil,
+                                   placeholder: 'Enter member email ',
+                                   class: 'c-input-text js-form-input' %>
+                <%= submit_tag 'Add', class: 'c-button' %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

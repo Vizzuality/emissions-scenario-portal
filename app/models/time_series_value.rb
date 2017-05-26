@@ -10,4 +10,7 @@ class TimeSeriesValue < ApplicationRecord
     inclusion: {in: 1900..2100, allow_nil: true}
   )
   validates :value, presence: true, numericality: {allow_nil: true}
+  validates :scenario, presence: true
+  validates :indicator, presence: true
+  validates :location, presence: true
 end

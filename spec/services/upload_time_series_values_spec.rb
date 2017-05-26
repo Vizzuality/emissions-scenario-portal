@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe UploadTimeSeriesValues do
+  let(:user) { FactoryGirl.create(:user) }
   let(:model) { FactoryGirl.create(:model, abbreviation: 'Model A') }
   let!(:scenario) {
     FactoryGirl.create(:scenario, name: 'Scenario 1', model: model)
@@ -17,8 +18,7 @@ RSpec.describe UploadTimeSeriesValues do
   let!(:location) {
     FactoryGirl.create(:location, name: 'Poland', iso_code2: 'PL')
   }
-  # TODO: current user
-  subject { UploadTimeSeriesValues.new(nil, model).call(file) }
+  subject { UploadTimeSeriesValues.new(user, model).call(file) }
 
   context 'when file correct' do
     let(:file) {

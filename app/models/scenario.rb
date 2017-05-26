@@ -22,11 +22,6 @@ class Scenario < ApplicationRecord
 
   ORDERS = %w[name updated_at time_series indicators].freeze
 
-  def meta_data?
-    # TODO: what to check here?
-    true
-  end
-
   def time_series_data?
     time_series_values.any?
   end
