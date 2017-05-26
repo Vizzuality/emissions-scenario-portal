@@ -1,5 +1,6 @@
 class TeamsController < ApplicationController
-  before_action :set_team, only: [:edit, :update, :destroy]
+  load_and_authorize_resource
+
   before_action :set_filter_params, only: [:index]
 
   def index
@@ -28,7 +29,7 @@ class TeamsController < ApplicationController
   end
 
   def update
-    if @team.update(team_params)
+    if @team.update_attributes(team_params)
       redirect_to edit_team_url(@team), notice: 'Team was successfully updated.'
     else
       set_available_models
@@ -42,10 +43,6 @@ class TeamsController < ApplicationController
   end
 
   private
-
-  def set_team
-    @team = Team.find(params[:id])
-  end
 
   def set_available_models
     @models =

@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :model do
-    full_name { Faker::App.name }
-    sequence(:abbreviation) { |n| full_name[0..5] + n.to_s }
+    sequence(:full_name) { |n| "#{n} " + Faker::App.name }
+    abbreviation { full_name[0..10] }
     team
   end
 end

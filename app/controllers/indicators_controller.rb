@@ -1,5 +1,10 @@
 class IndicatorsController < ApplicationController
-  before_action :set_indicator, except: [:index, :new, :create]
+  # TODO: once per-model indicators in place
+  # load_and_authorize_resource :model
+  # load_and_authorize_resource through: :model, except: [:index]
+  load_and_authorize_resource except: [:index]
+  authorize_resource only: [:index]
+
   before_action :set_filter_params, only: [:index]
 
   def index
@@ -36,7 +41,6 @@ class IndicatorsController < ApplicationController
   def show; end
 
   def destroy
-    @indicator = Indicator.find(params[:id])
     @indicator.destroy
     redirect_to indicators_url, notice: 'Indicator successfully destroyed'
   end
@@ -46,10 +50,6 @@ class IndicatorsController < ApplicationController
   end
 
   private
-
-  def set_indicator
-    @indicator = Indicator.find(params[:id])
-  end
 
   def indicator_params
     params.require(:indicator).permit(
