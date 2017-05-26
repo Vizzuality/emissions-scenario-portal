@@ -2,13 +2,13 @@
   title: @indicator.name,
   no_settings: true %>
 
-<%= form_for @indicator do |f| %>
+<%= form_for [@model, @indicator] do |f| %>
   <div class="l-indicator-edit">
     <div class="row">
       <div class="small-12 columns">
         <div class="row align-right">
           <div class="small-2 columns">
-            <%= link_to indicators_url, class: 'l-indicator-edit__form-action' do %>
+            <%= link_to model_indicators_url(@model), class: 'l-indicator-edit__form-action' do %>
               <%= render 'shared/components/c_flying_button' %>
             <% end %>
           </div>

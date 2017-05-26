@@ -9,10 +9,11 @@ Rails.application.routes.draw do
       post :upload_meta_data, on: :collection
       post :upload_time_series, on: :collection, to: 'time_series_values#upload', as: :upload_time_series
     end
+    resources :indicators, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
+      post :upload_meta_data, on: :collection#, as: :upload_indicators_meta_data
+    end
   end
-  resources :indicators, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
-    post :upload_meta_data, on: :collection#, as: :upload_indicators_meta_data
-  end
+
   resources :teams, except: [:show] do
     resources :users, only: [:create, :destroy], controller: 'team_users'
   end
