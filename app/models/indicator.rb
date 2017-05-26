@@ -10,6 +10,7 @@ class Indicator < ApplicationRecord
   belongs_to :model, optional: true
 
   validates :name, presence: true
+  before_validation :ignore_blank_array_values
 
   def scenarios
     Scenario.joins(
