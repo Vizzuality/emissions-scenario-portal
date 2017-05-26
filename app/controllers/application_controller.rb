@@ -12,14 +12,18 @@ class ApplicationController < ActionController::Base
   private
 
   def set_nav_links
+    return unless @model.present?
     @nav_links = [
       {name: 'Overview', path: model_url(@model), key: 'models'},
-      {name: 'Scenarios', path: model_scenarios_url(@model), key: 'scenarios'},
+      {
+        name: 'Scenarios',
+        path: model_scenarios_url(@model), key: 'scenarios'
+      },
       {
         name: 'Indicators',
         path: model_indicators_url(@model), key: 'indicators'
       }
-    ] if @model.present?
+    ]
   end
 
   def set_filter_params
