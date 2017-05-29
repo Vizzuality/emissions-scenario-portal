@@ -1,0 +1,36 @@
+<%= render 'shared/components/c_landing_header', no_nav: true %>
+
+<div class="l-locations-edit">
+  <div class="row l-locations-edit__fields">
+    <div class="small-12 columns">
+      <%= form_for @location do |f| %>
+        <div class="row">
+          <div class="small-12 columns">
+            <div class="row align-right">
+              <div class="small-2 columns">
+                <%= link_to locations_url, class: 'l-locations-edit__form-action' do %>
+                  <%= render 'shared/components/c_flying_button' %>
+                <% end %>
+              </div>
+              <div class="small-2 columns">
+                <%= f.submit 'Save', class: 'c-button' %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="c-form">
+          <div class="c-form-items">
+            <div class="c-form-item">
+              <%= f.label :name, 'Country name', class: 'f-ff1-m' %>
+              <%= f.text_field :name, class: 'c-input-text -large js-form-input' %>
+            </div>
+            <div class="c-form-item">
+              <%= label :iso_code2, 'ISO-2 Code', class: 'f-ff1-m' %>
+              <%= f.text_field :iso_code2, class: 'c-input-text -small js-form-input' %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
