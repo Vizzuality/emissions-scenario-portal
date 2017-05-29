@@ -22,7 +22,7 @@ class IndicatorsController < ApplicationController
   def create
     @indicator = Indicator.new(indicator_params)
     if @indicator.save
-      redirect_to indicator_url(@indicator)
+      redirect_to indicator_url(@indicator), notice: 'Indicator was successfully created.'
     else
       flash[:alert] =
         'We could not create the indicator. Please check the inputs in red'
@@ -34,7 +34,7 @@ class IndicatorsController < ApplicationController
 
   def update
     if @indicator.update_attributes(indicator_params)
-      redirect_to indicator_url(@indicator)
+      redirect_to indicator_url(@indicator), notice: 'Indicator was successfully updated.'
     else
       flash[:alert] =
         'We could not update the indicator. Please check the inputs in red'

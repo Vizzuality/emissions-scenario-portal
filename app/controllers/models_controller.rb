@@ -16,8 +16,10 @@ class ModelsController < ApplicationController
 
   def update
     if @model.update_attributes(model_params)
-      redirect_to model_url(@model)
+      redirect_to model_url(@model), notice: 'Model was successfully updated.'
     else
+      flash[:alert] =
+        'We could not update the model. Please check the inputs in red'
       render action: :edit
     end
   end
