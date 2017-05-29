@@ -25,7 +25,7 @@ class ProfilesController < ApplicationController
   end
 
   def update_without_password
-    if @user.update_without_password(user_params)
+    if @user.update_without_password(user_params.except(:current_password))
       redirect_to edit_profile_path, notice: 'Profile successfully updated'
     else
       render 'edit'

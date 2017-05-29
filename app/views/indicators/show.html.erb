@@ -1,7 +1,6 @@
 <%= render 'shared/components/c_landing_header',
   title: 'GCAM. Global Change Assessment Model',
-  no_settings: true,
-  no_nav: true %>
+  no_settings: true %>
 <div class="l-indicators-overview">
   <div class="l-indicators-overview__data-block">
     <div class="row">
@@ -28,7 +27,7 @@
         <div class="f-ff1-m l-indicators-overview__data"><%= @indicator.definition %></div>
       </div>
       <div class="small-1 columns">
-        <%= link_to edit_indicator_url(@indicator) do %>
+        <%= link_to edit_model_indicator_url(@model, @indicator) do %>
           <div class="c-edit-button">
             <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
           </div>

@@ -10,8 +10,18 @@ class Ability
     else
       can :manage, Model, team_id: team.id
       can :manage, Scenario, model: {team_id: team.id}
-      # TODO: finalize when per-model indicators in place
-      can :manage, Indicator
+      can :read, Indicator do |indicator|
+        indicator.model_id.nil?
+      end
+      can :edit, Indicator do |indicator|
+        indicator.model_id.nil?
+      end
+      can :update, Indicator do |indicator|
+        indicator.model_id.nil?
+      end
+      can :manage, Indicator do |indicator|
+        team.models.pluck(:id).include?(indicator.model_id)
+      end
       can :show, Team, id: team.id
       can :edit, Team, id: team.id
       can :update, Team, id: team.id
