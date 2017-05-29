@@ -14,7 +14,8 @@ class ScenariosController < ApplicationController
 
   def update
     if @scenario.update_attributes(scenario_params)
-      redirect_to model_scenario_url(@model, @scenario), notice: 'Scenario was successfully updated.'
+      redirect_to model_scenario_url(@model, @scenario),
+                  notice: 'Scenario was successfully updated.'
     else
       flash[:alert] =
         'We could not update the scenario. Please check the inputs in red'
