@@ -12,14 +12,14 @@ class LocationsController < ApplicationController
     render :edit
   end
 
-  def edit
-  end
+  def edit; end
 
   def create
     @location = Location.new(location_params)
 
     if @location.save
-      redirect_to edit_location_url(@location), notice: 'Country was successfully created.'
+      redirect_to edit_location_url(@location),
+                  notice: 'Country was successfully created.'
     else
       flash[:alert] =
         'We could not create the country. Please check the inputs in red'
@@ -29,7 +29,8 @@ class LocationsController < ApplicationController
 
   def update
     if @location.update_attributes(location_params)
-      redirect_to edit_location_url(@location), notice: 'Country was successfully updated.'
+      redirect_to edit_location_url(@location),
+                  notice: 'Country was successfully updated.'
     else
       flash[:alert] =
         'We could not update the country. Please check the inputs in red'
@@ -39,7 +40,8 @@ class LocationsController < ApplicationController
 
   def destroy
     @location.destroy
-    redirect_to locations_url, notice: 'Country was successfully destroyed.'
+    redirect_to locations_url,
+                notice: 'Country was successfully destroyed.'
   end
 
   private

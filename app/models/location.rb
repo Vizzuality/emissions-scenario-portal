@@ -18,16 +18,16 @@ class Location < ApplicationRecord
 
     def apply_filter(locations, options, filter, value)
       case filter
-        when 'search'
-          locations.where('lower(name) LIKE ?', "%#{value.downcase}%")
-        when 'order_type'
-          fetch_with_order(
-            locations,
-            value,
-            options['order_direction']
-          )
-        else
-          locations
+      when 'search'
+        locations.where('lower(name) LIKE ?', "%#{value.downcase}%")
+      when 'order_type'
+        fetch_with_order(
+          locations,
+          value,
+          options['order_direction']
+        )
+      else
+        locations
       end
     end
 
