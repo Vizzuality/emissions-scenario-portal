@@ -24,6 +24,8 @@ class IndicatorsController < ApplicationController
     if @indicator.save
       redirect_to indicator_url(@indicator)
     else
+      flash[:alert] =
+        'We could not create the indicator. Please check the inputs in red'
       render action: :edit
     end
   end
@@ -34,6 +36,8 @@ class IndicatorsController < ApplicationController
     if @indicator.update_attributes(indicator_params)
       redirect_to indicator_url(@indicator)
     else
+      flash[:alert] =
+        'We could not update the indicator. Please check the inputs in red'
       render action: :edit
     end
   end

@@ -34,7 +34,7 @@
           </div>
           <div class="c-form-items">
             <div class="c-form-item
-              <% if f.object[:name.to_s].present? || object.class.reference_attribute(:name) %>-highlighted<% end %>
+              <% if f.object[:name.to_s].present? || @team.class.reference_attribute(:name) %>-highlighted<% end %>
               <% if @team.errors.messages[:name].present? %>-error<% end %>
             ">
               <%= f.label :name, 'Team name', class: 'f-ff1-m' %>
@@ -42,7 +42,7 @@
               <%= f.text_field :name, class: 'c-input-text -large js-form-input' %>
             </div>
             <div class="c-form-item
-              <% if f.object[:name.to_s].present? || object.class.reference_attribute(:name) %>-highlighted<% end %>
+              <% if f.object[:name.to_s].present? || @team.class.reference_attribute(:name) %>-highlighted<% end %>
             ">
               <%= label :model_ids, 'Associated models', class: 'f-ff1-m' %>
               <svg class="icon icon-info" data-tooltip-text=""><use xlink:href="#icon-info"></use></svg>
