@@ -3,6 +3,7 @@
  * @section Form items
  * @modifiers
  *  .-highlighted set the label in bold
+ *  .-error set the label in red
  * @markup
  *  <div style="width: 100%; background-color: #eeeeee; padding: 50px;">
  *    <div class="c-form-item">
@@ -36,6 +37,10 @@
 
   &.-highlighted label{
     font-weight: $font-weight-bold;
+  }
+
+  &.-error label{
+    color: $color-app-10;
   }
 }
 

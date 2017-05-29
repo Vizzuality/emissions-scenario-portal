@@ -5,17 +5,6 @@
   ]
 %>
 <%= render 'shared/components/c_landing_header', no_nav: true %>
-<% if @team.errors.any? %>
-  <% #TODO: style this notifications %>
-  <div id="error_explanation">
-    <h2><%= pluralize(@team.errors.count, "error") %> prohibited this team from being saved:</h2>
-    <ul>
-      <% @team.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>
 
 <div class="l-teams-edit">
   <div class="row l-teams-edit__fields">
@@ -44,12 +33,17 @@
             <div class="f-ff1-xs">Team Info</div>
           </div>
           <div class="c-form-items">
-            <div class="c-form-item <% if f.object[:name.to_s].present? || object.class.reference_attribute(:name) %>-highlighted<% end %>">
+            <div class="c-form-item
+              <% if f.object[:name.to_s].present? || object.class.reference_attribute(:name) %>-highlighted<% end %>
+              <% if @team.errors.messages[:name].present? %>-error<% end %>
+            ">
               <%= f.label :name, 'Team name', class: 'f-ff1-m' %>
               <svg class="icon icon-info" data-tooltip-text=""><use xlink:href="#icon-info"></use></svg>
               <%= f.text_field :name, class: 'c-input-text -large js-form-input' %>
             </div>
-            <div class="c-form-item <% if f.object[:name.to_s].present? || object.class.reference_attribute(:name) %>-highlighted<% end %>">
+            <div class="c-form-item
+              <% if f.object[:name.to_s].present? || object.class.reference_attribute(:name) %>-highlighted<% end %>
+            ">
               <%= label :model_ids, 'Associated models', class: 'f-ff1-m' %>
               <svg class="icon icon-info" data-tooltip-text=""><use xlink:href="#icon-info"></use></svg>
               <div class="c-select -extra-large">
