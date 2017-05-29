@@ -1,0 +1,14 @@
+.l-locations {
+  padding-top: rem(30px);
+
+  .l-locations__title {
+    position: relative;
+    top: rem(10px);
+  }
+
+  .l-locations__table-shorts {
+    position: relative;
+    padding: rem(23px) 0 rem(7px) 0;
+    box-shadow: 0 3px 5px 0 $color-app-5;
+  }
+}

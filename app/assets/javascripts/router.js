@@ -20,6 +20,8 @@
       'indicators/:id/edit': 'Indicators#edit',
       'teams': 'Teams#index',
       'teams/:id/edit': 'Teams#edit',
+      'locations': 'Teams#index',
+      'locations/:id/edit': 'Teams#edit',
       '*notFound': 'Error#index'
     },
 
