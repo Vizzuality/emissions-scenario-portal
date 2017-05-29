@@ -24,6 +24,8 @@ class TeamsController < ApplicationController
       redirect_to edit_team_url(@team), notice: 'Team was successfully created.'
     else
       set_available_models
+      flash[:alert] =
+        'We could not create the team. Please check the inputs in red'
       render :edit
     end
   end
@@ -33,6 +35,8 @@ class TeamsController < ApplicationController
       redirect_to edit_team_url(@team), notice: 'Team was successfully updated.'
     else
       set_available_models
+      flash[:alert] =
+        'We could not update the team. Please check the inputs in red'
       render :edit
     end
   end

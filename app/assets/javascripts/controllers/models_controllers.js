@@ -8,7 +8,10 @@
 
     index: function () { },
 
-    show: function () { },
+    show: function () {
+      new App.View.FormVerticalNav();
+      new App.View.Form();
+    },
 
     edit: function () {
       new App.View.FormVerticalNav();

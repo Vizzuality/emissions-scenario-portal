@@ -22,8 +22,11 @@ class IndicatorsController < ApplicationController
     @indicator = Indicator.new(indicator_params)
     @indicator.model = @model unless current_user.admin?
     if @indicator.save
-      redirect_to model_indicator_url(@model, @indicator)
+      redirect_to model_indicator_url(@model, @indicator),
+                  notice: 'Indicator was successfully created.'
     else
+      flash[:alert] =
+        'We could not create the indicator. Please check the inputs in red'
       render action: :edit
     end
   end
@@ -35,8 +38,11 @@ class IndicatorsController < ApplicationController
     # fork the indicator
     create and return if !current_user.admin? && @indicator.model.nil?
     if @indicator.update_attributes(indicator_params)
-      redirect_to model_indicator_url(@model, @indicator)
+      redirect_to model_indicator_url(@model, @indicator),
+                  notice: 'Indicator was successfully updated.'
     else
+      flash[:alert] =
+        'We could not update the indicator. Please check the inputs in red'
       render action: :edit
     end
   end
