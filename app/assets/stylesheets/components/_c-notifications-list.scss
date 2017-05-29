@@ -4,6 +4,7 @@ $notifications-margin: rem(10px);
   position: absolute;
   right: 0;
   bottom: 0;
+  overflow: hidden;
   z-index: 100;
 
   li {
@@ -13,19 +14,26 @@ $notifications-margin: rem(10px);
 
   .c-notification {
     cursor: pointer;
+    transition: all 0.5s ease-in;
 
-    &.-green {
+    &.-green.-show-animation {
       @include animation(
         'hide-notification 0s ease-in 1 forwards',
-        'show-notification 0.5s ease-out 1 1s forwards',
+        'show-notification 0.5s ease-out 1s 1 forwards',
         'hide-notification 0.5s ease-in 7s 1 forwards'
       );
     }
 
-    &.-red {
+    &.-red.-show-animation {
       @include animation(
         'hide-notification 0s ease-in 1 forwards',
-        'show-notification 0.5s ease-out 1 1s forwards'
+        'show-notification 0.5s ease-out 1s 1 forwards'
+      );
+    }
+
+    &.-hide-animation {
+      @include animation(
+        'hide-notification 0.5s ease-in 1 forwards'
       );
     }
   }
