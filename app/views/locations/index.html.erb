@@ -1,0 +1,70 @@
+<%= render 'shared/components/c_landing_header', no_nav: true %>
+<div class="l-locations">
+  <div class="row">
+    <div class="small-6 columns">
+      <div class="f-ff3-m-bold l-locations__title">Countries <span>(<%= @locations.length %>)</span></div>
+    </div>
+    <div class="small-3 columns">
+      <div class="c-form-item">
+        <div class="c-input-search">
+          <%= text_field_tag 'search',
+                             nil,
+                             placeholder: 'Filter by name',
+                             class: 'c-input-text js-table-filter',
+                             data: {
+                               'filter-type' => 'search',
+                               'filter-key' => 'search'
+                             } %>
+          <svg class="icon"><use xlink:href="#icon-search"></use></svg>
+        </div>
+      </div>
+    </div>
+    <div class="small-3 columns">
+      <%= link_to new_location_path do %>
+        <div class="c-button">
+          <span>Add new country</span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="l-locations__table-shorts js-table-filter" data-filter-type="order">
+    <div class="row">
+      <div class="small-5 columns">
+        <%= render 'shared/components/c_order_filter_button',
+                   text: 'Name',
+                   column_key: 'name' %>
+      </div>
+      <div class="small-6 columns">
+        <%= render 'shared/components/c_order_filter_button',
+                   text: 'ISO-2 Code',
+                   column_key: 'iso_code2' %>
+      </div>
+    </div>
+  </div>
+  <% @locations.each do |location| %>
+    <div class="c-table-list-item -center">
+      <div class="row">
+        <div class="small-5 columns">
+          <div class="c-table-list-item__text f-ff1-m-bold"><%= location.name %></div>
+        </div>
+        <div class="small-6 columns">
+          <div class="c-table-list-item__text f-ff1-m"><%= location.iso_code2 %></div>
+        </div>
+        <div class="small-1 columns">
+          <div class="c-table-list-item__actions">
+            <%= link_to location_path(location), method: :delete, data: { confirm: 'Are you sure?' } do %>
+              <div class="c-delete-button">
+                <svg class="icon"><use xlink:href="#icon-delete"></use></svg>
+              </div>
+            <% end %>
+            <%= link_to edit_location_path(location) do %>
+              <div class="c-edit-button">
+                <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

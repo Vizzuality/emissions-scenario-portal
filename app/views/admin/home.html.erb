@@ -20,5 +20,13 @@
                  button_url: models_url
       %>
     </div>
+    <div class="small-6 columns">
+      <%= render 'shared/components/c_model_overview_card',
+                 title: 'Countries',
+                 values: @locations,
+                 button_text: 'Manage countries',
+                 button_url: locations_url
+      %>
+    </div>
   </div>
 </div>
