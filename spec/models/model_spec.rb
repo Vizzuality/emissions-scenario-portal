@@ -43,24 +43,6 @@ RSpec.describe Model, type: :model do
     end
   end
 
-  describe :picklist_attribute? do
-    it 'platform should be a picklist attribute' do
-      expect(Model.picklist_attribute?(:platform)).to be(true)
-    end
-    it 'platform_detailed should not be a picklist attribute' do
-      expect(Model.picklist_attribute?(:platform_detailed)).to be(false)
-    end
-  end
-
-  describe :multiple_attribute? do
-    it 'platform should be a picklist attribute' do
-      expect(Model.multiple_attribute?(:platform)).to be(true)
-    end
-    it 'platform_detailed should not be a picklist attribute' do
-      expect(Model.multiple_attribute?(:platform_detailed)).to be(false)
-    end
-  end
-
   describe :size_attribute do
     it 'platform should have large size' do
       expect(Model.size_attribute(:platform)).to eq('large')

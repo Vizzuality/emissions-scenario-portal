@@ -13,8 +13,8 @@ module ApplicationHelper
       reference_input(object, form, attr_info)
     elsif attr_info.date?
       date_input(object, form, attr_info)
-    elsif object.class.picklist_attribute?(attr_symbol)
-      picklist_input(object, form, attr_symbol)
+    elsif attr_info.picklist?
+      picklist_input(object, form, attr_info)
     else
       size = object.class.size_attribute(attr_symbol)
       form.text_field attr_symbol, class: "c-input-text -#{size} js-form-input"
@@ -31,11 +31,11 @@ module ApplicationHelper
       "c-input-text -#{size} js-datepicker-input js-form-input"
   end
 
-  def picklist_input(object, form, attr_symbol)
-    size = object.class.size_attribute(attr_symbol)
-    is_multiple = object.class.multiple_attribute?(attr_symbol)
+  def picklist_input(object, form, attr_info)
+    size = attr_info.size
+    is_multiple = attr_info.multiple?
     picklist_values = values_for_attribute_dropdown(
-      object, attr_symbol, is_multiple
+      object, attr_info.name, is_multiple
     )
     options = {prompt: 'Please select'}
     html_options = {}
@@ -43,7 +43,7 @@ module ApplicationHelper
     html_options[:class] = picklist_class(is_multiple)
 
     content_tag :div, class: "c-select -#{size}" do
-      form.select attr_symbol, picklist_values, options, html_options
+      form.select attr_info.name, picklist_values, options, html_options
     end
   end
 

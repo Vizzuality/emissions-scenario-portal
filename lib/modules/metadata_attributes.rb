@@ -80,14 +80,6 @@ module MetadataAttributes
         attribute_infos.map(&:attribute_symbol_for_strong_params)
       end
 
-      def self.picklist_attribute?(attribute_symbol)
-        (info = attribute_info(attribute_symbol)) && info.picklist?
-      end
-
-      def self.multiple_attribute?(attribute_symbol)
-        (info = attribute_info(attribute_symbol)) && info.multiple?
-      end
-
       def self.size_attribute(attribute_symbol)
         (info = attribute_info(attribute_symbol)) && info.size
       end
