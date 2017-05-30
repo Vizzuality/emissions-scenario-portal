@@ -1,17 +1,16 @@
 - name: :name
   size: 'small'
-- name: category
+- name: :category
   picklist: true
   size: 'small'
-- name: subcategory
+- name: :subcategory
   picklist: true
   size: 'small'
-- name: stack_family
+- name: :stack_family
   picklist: true
   size: 'small'
-- name: stackable_subcategory
+- name: :stackable_subcategory
   checkbox: true
-  size: 'large'
 - name: :unit
   picklist: true
   size: 'small'

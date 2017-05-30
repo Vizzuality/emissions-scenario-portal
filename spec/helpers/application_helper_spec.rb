@@ -21,13 +21,28 @@ RSpec.describe ApplicationHelper, type: :helper do
     context :scenarios do
       let(:scenario) { FactoryGirl.create(:scenario) }
       let(:form) {
-        ActionView::Helpers::FormBuilder.new(:scenario, @model, self, {})
+        ActionView::Helpers::FormBuilder.new(:scenario, scenario, self, {})
       }
-      pending 'returns a date input field for release_date'
+      it 'returns a date input field for release_date' do
+        expect(
+          helper.attribute_input(scenario, form, :release_date)
+        ).to match('js-datepicker-input')
+      end
       it 'returns a select input for model_abbreviation' do
         expect(
           helper.attribute_input(scenario, form, :model_abbreviation)
         ).to match('select')
+      end
+    end
+    context :indicators do
+      let(:indicator) { FactoryGirl.create(:indicator) }
+      let(:form) {
+        ActionView::Helpers::FormBuilder.new(:indicator, indicator, self, {})
+      }
+      it 'returns a checkbox for release_date' do
+        expect(
+          helper.attribute_input(indicator, form, :stackable_subcategory)
+        ).to match('checkbox')
       end
     end
   end

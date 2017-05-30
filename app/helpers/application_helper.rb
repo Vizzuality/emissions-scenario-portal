@@ -15,9 +15,11 @@ module ApplicationHelper
       date_input(object, form, attr_info)
     elsif attr_info.picklist?
       picklist_input(object, form, attr_info)
+    elsif attr_info.checkbox?
+      form.check_box attr_info.name, class: "js-form-input"
     else
       size = attr_info.size
-      form.text_field attr_symbol, class: "c-input-text -#{size} js-form-input"
+      form.text_field attr_info.name, class: "c-input-text -#{size} js-form-input"
     end
   end
 
