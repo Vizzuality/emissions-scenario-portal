@@ -195,14 +195,12 @@
   justify-content: center;
   width: rem(28px);
   height: rem(28px);
-  border-radius: 100%;
-  border: solid 1px $color-app-6;
   cursor: pointer;
 
   .icon {
     width: rem(12px);
     height: rem(14px);
-    fill: $color-app-2;
+    fill: rgba($color-app-2, 0.5);
   }
 }
 

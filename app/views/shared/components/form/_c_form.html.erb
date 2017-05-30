@@ -9,7 +9,10 @@
   <% end %>
   <div class="c-form-items">
     <% attributes.each do |attribute_symbol| %>
-      <div class="c-form-item <% if f.object[attribute_symbol.to_s].present? || object.class.reference_attribute(attribute_symbol) %>-highlighted<% end %>">
+      <div class="c-form-item
+        <% if f.object[attribute_symbol.to_s].present? || object.class.reference_attribute(attribute_symbol) %>-highlighted<% end %>
+        <% if object.errors.messages[attribute_symbol].present? %>-error<% end %>
+      ">
         <label class="f-ff1-m"><%= attribute_name(object, attribute_symbol) %></label>
         <svg class="icon icon-info js-tooltip" data-tooltip-text="<%= attribute_definition(object, attribute_symbol) %>"><use xlink:href="#icon-info"></use></svg>
         <%= attribute_input(object, f, attribute_symbol) %>

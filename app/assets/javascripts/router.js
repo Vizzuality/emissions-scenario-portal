@@ -18,8 +18,10 @@
       'models/:modelId/scenarios/:id/edit': 'Scenarios#edit',
       'indicators': 'Indicators#index',
       'indicators/:id/edit': 'Indicators#edit',
+      'indicators/:id': 'Indicators#edit',
       'teams': 'Teams#index',
       'teams/:id/edit': 'Teams#edit',
+      'teams/:id': 'Teams#edit',
       '*notFound': 'Error#index'
     },
 
