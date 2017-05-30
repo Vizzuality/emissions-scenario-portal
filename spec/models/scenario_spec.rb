@@ -24,8 +24,8 @@ RSpec.describe Scenario, type: :model do
     it 'release_date should be a date attribute' do
       expect(Scenario.date_attribute?(:release_date)).to be(true)
     end
-    it 'platform should not be a date attribute' do
-      expect(Scenario.date_attribute?(:platform)).to be(false)
+    it 'description should not be a date attribute' do
+      expect(Scenario.date_attribute?(:description)).to be(false)
     end
   end
 
