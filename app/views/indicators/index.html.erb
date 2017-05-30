@@ -106,7 +106,7 @@
           </div>
           <div class="small-4 columns">
             <div class="c-table-list-item__text f-ff1-m">
-              <%= indicator.definition.length > 120 ? truncate(indicator.definition, length: 120) : indicator.definition %>
+              <%= indicator.definition && indicator.definition.length > 120 ? truncate(indicator.definition, length: 120) : indicator.definition %>
             </div>
           </div>
           <div class="small-1 columns">
