@@ -88,10 +88,6 @@ module MetadataAttributes
         (info = attribute_info(attribute_symbol)) && info.multiple?
       end
 
-      def self.date_attribute?(attribute_symbol)
-        (info = attribute_info(attribute_symbol)) && info.date?
-      end
-
       def self.size_attribute(attribute_symbol)
         (info = attribute_info(attribute_symbol)) && info.size
       end
