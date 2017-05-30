@@ -1,7 +1,11 @@
 .l-admin {
-  padding: rem(43px) 0 rem(20px) 0;
+  padding-top: rem(43px);
 
   .l-admin__title {
     margin-bottom: rem(14px);
+  }
+
+  .c-model-overview-card {
+    margin-bottom: rem(20px);
   }
 }

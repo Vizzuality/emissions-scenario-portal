@@ -4,6 +4,7 @@ class AdminController < ApplicationController
   def home
     @teams = Team.order(:name)
     @models = Model.order(:abbreviation)
+    @locations = Location.order(:name)
   end
 
   private
