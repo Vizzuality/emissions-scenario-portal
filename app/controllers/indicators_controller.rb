@@ -19,8 +19,10 @@ class IndicatorsController < ApplicationController
   end
 
   def create
+    @parent_indicator = @indicator # when forking
     @indicator = Indicator.new(indicator_params)
     @indicator.model = @model unless current_user.admin?
+    @indicator.parent = @parent_indicator
     if @indicator.save
       redirect_to model_indicator_url(@model, @indicator),
                   notice: 'Indicator was successfully created.'
