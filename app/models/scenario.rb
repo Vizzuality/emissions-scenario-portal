@@ -20,6 +20,12 @@ class Scenario < ApplicationRecord
       group('scenarios.id')
   end)
 
+  scope :time_series_order, (lambda do |order_direction|
+    select('scenarios.*, COUNT(time_series_values.id) AS time_series_count').
+      time_series.
+      order("time_series_count #{order_direction}")
+  end)
+
   ORDERS = %w[name updated_at time_series indicators].freeze
 
   def time_series_data?
@@ -63,6 +69,8 @@ class Scenario < ApplicationRecord
       elsif order_type == 'members'
         scenarios.time_series.
           order("count(scenario_id) #{order_direction}")
+      elsif order_type == 'time_series'
+        scenarios.time_series_order(order_direction)
       else
         scenarios.order(order_type => order_direction, name: :asc)
       end
