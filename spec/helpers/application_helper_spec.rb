@@ -15,7 +15,12 @@ RSpec.describe ApplicationHelper, type: :helper do
       it 'returns a multiple select input for platform' do
         expect(
           helper.attribute_input(model, form, :platform)
-        ).to match('select multiple="multiple"')
+        ).to match('js-multiple-select')
+      end
+      it 'returns a single select input for maintainer_type' do
+        expect(
+          helper.attribute_input(model, form, :maintainer_type)
+        ).to match('js-multisingle-select')
       end
     end
     context :scenarios do

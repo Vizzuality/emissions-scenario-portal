@@ -1,7 +1,6 @@
 module MetadataAttributes
   class Info
-    attr_reader :name, :reference, :referenced_object, :referenced_attribute,
-      :size, :multiple, :date, :category
+    attr_reader :name, :size, :category, :ref_object_symbol, :ref_attr_symbol
 
     def initialize(options)
       @name = options['name']
@@ -12,7 +11,7 @@ module MetadataAttributes
       end || :text
       @reference = options['reference']
       if options['reference'].present?
-        @referenced_object, @referenced_attribute =
+        @ref_object_symbol, @ref_attr_symbol =
           options['reference'].split('.')
       end
       @multiple = options['multiple']
@@ -43,7 +42,7 @@ module MetadataAttributes
     def attribute_symbol_for_strong_params
       name =
         if reference?
-          @referenced_object + '_id'
+          @ref_object_symbol + '_id'
         else
           @name
         end
@@ -52,38 +51,26 @@ module MetadataAttributes
   end
 
   def self.included(base)
-    base.class_eval do
-      def ignore_blank_array_values
-        self.class.attribute_infos.select(&:picklist?).map do |a|
-          value = read_attribute(a.name)
-          value = convert_from_array(value) if !a.multiple? && value.present?
-          next unless value.is_a?(Array) && value.any?
-          if a.multiple?
-            write_attribute(a.name, value.reject(&:blank?))
-          else
-            write_attribute(a.name, value.reject(&:blank?).first)
-          end
-        end
-      end
+    base.extend ClassMethods
+  end
 
-      def convert_from_array(value_str)
-        JSON.parse(value_str)
-      rescue JSON::ParserError
-        value_str
-      end
-
-      def self.attribute_infos
-        @attribute_infos ||= self::ALL_ATTRIBUTES.map { |a| Info.new(a) }
-      end
-
-      def self.attribute_symbols_for_strong_params
-        attribute_infos.map(&:attribute_symbol_for_strong_params)
-      end
-
-      def self.attribute_info(attribute_symbol)
-        attribute_infos.find { |a| a.name == attribute_symbol }
+  def ignore_blank_array_values
+    self.class.attribute_infos.select(&:picklist?).map do |a|
+      value = read_attribute(a.name)
+      value = convert_from_array(value) if !a.multiple? && value.present?
+      next unless value.is_a?(Array) && value.any?
+      if a.multiple?
+        write_attribute(a.name, value.reject(&:blank?))
+      else
+        write_attribute(a.name, value.reject(&:blank?).first)
       end
     end
+  end
+
+  def convert_from_array(value_str)
+    JSON.parse(value_str)
+  rescue JSON::ParserError
+    value_str
   end
 
   def key_for_name(attribute_symbol)
@@ -94,5 +81,19 @@ module MetadataAttributes
     [
       self.class.name.downcase.pluralize, attribute_symbol, 'definition'
     ].join('.')
+  end
+
+  module ClassMethods
+    def attribute_infos
+      @attribute_infos ||= self::ALL_ATTRIBUTES.map { |a| Info.new(a) }
+    end
+
+    def attribute_symbols_for_strong_params
+      attribute_infos.map(&:attribute_symbol_for_strong_params)
+    end
+
+    def attribute_info(attribute_symbol)
+      attribute_infos.find { |a| a.name == attribute_symbol }
+    end
   end
 end
