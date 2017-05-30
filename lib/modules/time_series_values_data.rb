@@ -26,7 +26,7 @@ class TimeSeriesValuesData
     indicator = indicator(row, @errors[row_no])
     location = location(row, @errors[row_no])
     unit = value_for(row, :unit)
-    unit != indicator.unit &&
+    indicator && unit != indicator.unit &&
       conversion_factor = conversion_factor(row, @errors[row_no])
 
     year_values = @headers.year_headers.map do |h|
