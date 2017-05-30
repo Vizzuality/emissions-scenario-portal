@@ -1,6 +1,7 @@
 module MetadataAttributes
   class Info
-    attr_reader :name, :reference, :size, :multiple, :date, :category
+    attr_reader :name, :reference, :referenced_object, :referenced_attribute,
+      :size, :multiple, :date, :category
 
     def initialize(options)
       @name = options['name']
@@ -75,10 +76,6 @@ module MetadataAttributes
         @attribute_infos ||= self::ALL_ATTRIBUTES.map { |a| Info.new(a) }
       end
 
-      def self.attribute_symbols
-        attribute_infos.map(&:name)
-      end
-
       def self.attribute_symbols_for_strong_params
         attribute_infos.map(&:attribute_symbol_for_strong_params)
       end
@@ -102,10 +99,6 @@ module MetadataAttributes
       def self.category_attribute(attribute_symbol)
         (info = attribute_info(attribute_symbol)) && info.category ||
           'Miscellany'
-      end
-
-      def self.reference_attribute(attribute_symbol)
-        (info = attribute_info(attribute_symbol)) && info.reference
       end
 
       def self.attribute_info(attribute_symbol)

@@ -37,9 +37,9 @@ RSpec.describe Model, type: :model do
     end
   end
 
-  describe :attribute_symbols do
+  describe :attribute_infos do
     it 'should be an array' do
-      expect(Model.attribute_symbols.size).to eq(Model::ALL_ATTRIBUTES.size)
+      expect(Model.attribute_infos.size).to eq(Model::ALL_ATTRIBUTES.size)
     end
   end
 

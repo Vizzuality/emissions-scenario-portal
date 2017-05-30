@@ -8,8 +8,9 @@ module ApplicationHelper
   end
 
   def attribute_input(object, form, attr_symbol)
-    if (ref_symbol = object.class.reference_attribute(attr_symbol))
-      reference_input(object, form, attr_symbol, ref_symbol)
+    attr_info = object.class.attribute_info(attr_symbol)
+    if attr_info.reference?
+      reference_input(object, form, attr_info)
     elsif object.class.date_attribute?(attr_symbol)
       date_input(object, form, attr_symbol)
     elsif object.class.picklist_attribute?(attr_symbol)
@@ -46,18 +47,17 @@ module ApplicationHelper
     end
   end
 
-  def reference_input(object, form, attr_symbol, ref_symbol)
-    size = object.class.size_attribute(attr_symbol)
-    ref_object_symbol, ref_attr_symbol = ref_symbol.split('.')
+  def reference_input(object, form, attr_info)
+    size = attr_info.size
     select_values, selection = values_for_reference_dropdown(
-      object, ref_object_symbol, ref_attr_symbol
+      object, attr_info.referenced_object, attr_info.referenced_attribute
     )
     options = {prompt: 'Please select'}
     html_options = {class: 'js-form-input js-select'}
 
     content_tag :div, class: "c-select -#{size}" do
       form.select(
-        ref_object_symbol + '_id',
+        attr_info.referenced_object + '_id',
         options_for_select(select_values, selection.try(:id)),
         options,
         html_options
