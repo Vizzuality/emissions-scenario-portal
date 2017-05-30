@@ -67,4 +67,9 @@ RSpec.describe MetadataAttributes::Info, type: :model do
     end
   end
 
+  describe :category do
+    it 'platform should be in General Info category' do
+      expect(Model.attribute_info(:platform).category).to eq('Details & Description')
+    end
+  end
 end

@@ -43,12 +43,6 @@ RSpec.describe Model, type: :model do
     end
   end
 
-  describe :category_attribute do
-    it 'platform should be in General Info category' do
-      expect(Model.category_attribute(:platform)).to eq('Details & Description')
-    end
-  end
-
   describe :key_for_name do
     let(:model) { FactoryGirl.create(:model) }
     it 'should be models.platform.name for platform' do

@@ -32,14 +32,6 @@ RSpec.describe ApplicationHelper, type: :helper do
     end
   end
 
-  describe :attribute_category do
-    it 'returns Details & Description for platform' do
-      expect(
-        helper.attribute_category(model, :platform)
-      ).to eq('Details & Description')
-    end
-  end
-
   describe :attribute_name do
     it 'returns Platform for platform' do
       expect(

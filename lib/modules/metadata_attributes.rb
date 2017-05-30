@@ -17,7 +17,7 @@ module MetadataAttributes
       end
       @multiple = options['multiple']
       @size = options['size']
-      @category = options['category']
+      @category = options['category'] || 'Miscellany'
     end
 
     def reference?
@@ -78,11 +78,6 @@ module MetadataAttributes
 
       def self.attribute_symbols_for_strong_params
         attribute_infos.map(&:attribute_symbol_for_strong_params)
-      end
-
-      def self.category_attribute(attribute_symbol)
-        (info = attribute_info(attribute_symbol)) && info.category ||
-          'Miscellany'
       end
 
       def self.attribute_info(attribute_symbol)

@@ -21,10 +21,6 @@ module ApplicationHelper
     end
   end
 
-  def attribute_category(object, attr_symbol)
-    object.class.category_attribute(attr_symbol)
-  end
-
   def date_input(object, form, attr_info)
     size = attr_info.size
     form.text_field attr_info.name, class:
