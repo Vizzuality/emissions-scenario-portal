@@ -22,12 +22,15 @@ class TimeSeriesValuesData
 
   def process_row(row, row_no)
     @errors[row_no] = {}
-    scenario = scenario(row, @errors[row_no])
-    indicator = indicator(row, @errors[row_no])
+    model = model(row, @errors[row_no]) # TODO: permission check
+    scenario = scenario(model, row, @errors[row_no]) # TODO: permission check
+    indicator = indicator(model, row, @errors[row_no]) # TODO: permission check
     location = location(row, @errors[row_no])
-    unit = value_for(row, :unit)
-    indicator && unit != indicator.unit &&
-      conversion_factor = conversion_factor(row, @errors[row_no])
+    # unit = value_for(row, :unit)
+    conversion_factor = nil
+    # TODO: conversion factor from indicators table
+    # indicator && unit != indicator.unit &&
+    #   conversion_factor = conversion_factor(row, @errors[row_no])
 
     year_values = @headers.year_headers.map do |h|
       year = h[:display_name].to_i
@@ -64,8 +67,7 @@ class TimeSeriesValuesData
     matching_object(models, 'model', model_identification, errors)
   end
 
-  def scenario(row, errors)
-    model = model(row, errors)
+  def scenario(model, row, errors)
     return nil if model.nil?
     scenario_name = value_for(row, :scenario_name)
     scenario_identification = "model: #{model.abbreviation}, scenario: \
@@ -75,22 +77,14 @@ class TimeSeriesValuesData
     matching_object(scenarios, 'scenario', scenario_identification, errors)
   end
 
-  def indicator(row, errors)
-    indicator_name = value_for(row, :indicator_name)
-    indicator_stack_family = value_for(row, :indicator_stack_family)
-    indicator_category = value_for(row, :indicator_category)
-    # TODO: why here?
-    # indicator_definition = value_for(row, :indicator_definition)
-    indicator_unit = value_for(row, :indicator_unit)
-    indicator_identification = "indicator: #{indicator_category} | \"
-      #{indicator_stack_family} | #{indicator_name}, unit: #{indicator_unit}"
+  def indicator(model, row, errors)
+    return nil if model.nil?
+    indicator_slug = value_for(row, :indicator_slug)
+    indicator_identification = "indicator: #{indicator_slug}"
 
-    indicators = Indicator.where(
-      name: indicator_name,
-      stack_family: indicator_stack_family,
-      category: indicator_category,
-      unit: indicator_unit
-    )
+    indicators = Indicator.find_all_by_slug(indicator_slug)
+    model_indicators = indicators.where(model_id: model.id)
+    indicators = model_indicators if model_indicators.any?
     matching_object(indicators, 'indicator', indicator_identification, errors)
   end
 

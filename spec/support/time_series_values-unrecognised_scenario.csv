@@ -1,2 +1,2 @@
-Model,Scenario,Region,Category,Stack family,Name,Standardized Unit,Unit of Entry,Conversion factor,Definition,2005,2010,2015,2020,2025,2030,2035,2040,2045,2050,2055,2060,2065,2070
-Model A,Scenario 2,Poland,Energy,Energy use by fuel,Biomass w CSS,EJ/yr,EJ/yr,1,,10.0,20.0,,,,,,,,,,,,
+Model,Scenario,Region,ESP Slug,Unit of Entry,2005,2010,2015,2020,2025,2030,2035,2040,2045,2050,2055,2060,2065,2070
+Model A,Scenario 2,Poland,Energy|Energy use by fuel|Biomass w CSS,EJ/yr,10.0,20.0,,,,,,,,,,,,

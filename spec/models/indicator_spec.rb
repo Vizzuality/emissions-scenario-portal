@@ -35,4 +35,34 @@ RSpec.describe Indicator, type: :model do
       expect { indicator.destroy }.to change(TimeSeriesValue, :count).by(-1)
     end
   end
+
+  describe :find_all_by_slug do
+    let!(:indicator1) {
+      FactoryGirl.create(
+        :indicator, category: 'A', subcategory: 'B', name: 'C'
+      )
+    }
+    let!(:indicator2) {
+      FactoryGirl.create(
+        :indicator, category: 'A', subcategory: nil, name: 'B'
+      )
+    }
+    it 'finds all indicators matching a 3-part slug' do
+      expect(Indicator.find_all_by_slug('A|B|C')).to eq([indicator1])
+    end
+    it 'finds all indicators matching a 2-part slug' do
+      expect(Indicator.find_all_by_slug('A|B')).to eq([indicator2])
+    end
+  end
+
+  describe :time_series_data? do
+    let!(:indicator) { FactoryGirl.create(:indicator) }
+    it 'returns false when no time series data present' do
+      expect(indicator.time_series_data?).to be(false)
+    end
+    it 'returns true when time series data present' do
+      FactoryGirl.create(:time_series_value, indicator: indicator)
+      expect(indicator.time_series_data?).to be(true)
+    end
+  end
 end

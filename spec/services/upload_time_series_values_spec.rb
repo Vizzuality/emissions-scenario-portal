@@ -10,8 +10,9 @@ RSpec.describe UploadTimeSeriesValues do
     FactoryGirl.create(
       :indicator,
       category: 'Energy',
-      stack_family: 'Energy use by fuel',
+      subcategory: 'Energy use by fuel',
       name: 'Biomass w CSS',
+      stackable_subcategory: true,
       unit: 'EJ/yr'
     )
   }

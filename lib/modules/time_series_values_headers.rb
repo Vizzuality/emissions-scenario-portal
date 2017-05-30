@@ -15,32 +15,12 @@ class TimeSeriesValuesHeaders
       property_name: :region
     },
     {
-      display_name: 'Category',
-      property_name: :indicator_category
-    },
-    {
-      display_name: 'Stack_family',
-      property_name: :indicator_stack_family
-    },
-    {
-      display_name: 'Name',
-      property_name: :indicator_name
-    },
-    {
-      display_name: 'Standardized Unit',
-      property_name: :indicator_unit
+      display_name: 'ESP Slug',
+      property_name: :indicator_slug
     },
     {
       display_name: 'Unit of Entry',
       property_name: :unit
-    },
-    {
-      display_name: 'Conversion factor',
-      property_name: :conversion_factor
-    },
-    {
-      display_name: 'Definition',
-      property_name: :indicator_definition
     }
   ].freeze
 
