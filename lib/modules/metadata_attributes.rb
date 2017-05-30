@@ -80,10 +80,6 @@ module MetadataAttributes
         attribute_infos.map(&:attribute_symbol_for_strong_params)
       end
 
-      def self.size_attribute(attribute_symbol)
-        (info = attribute_info(attribute_symbol)) && info.size
-      end
-
       def self.category_attribute(attribute_symbol)
         (info = attribute_info(attribute_symbol)) && info.category ||
           'Miscellany'

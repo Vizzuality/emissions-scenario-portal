@@ -43,12 +43,6 @@ RSpec.describe Model, type: :model do
     end
   end
 
-  describe :size_attribute do
-    it 'platform should have large size' do
-      expect(Model.size_attribute(:platform)).to eq('large')
-    end
-  end
-
   describe :category_attribute do
     it 'platform should be in General Info category' do
       expect(Model.category_attribute(:platform)).to eq('Details & Description')

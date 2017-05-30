@@ -61,4 +61,10 @@ RSpec.describe MetadataAttributes::Info, type: :model do
     end
   end
 
+  describe :size do
+    it 'platform should have large size' do
+      expect(Model.attribute_info(:platform).size).to eq('large')
+    end
+  end
+
 end

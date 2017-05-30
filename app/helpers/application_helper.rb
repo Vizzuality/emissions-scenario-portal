@@ -16,7 +16,7 @@ module ApplicationHelper
     elsif attr_info.picklist?
       picklist_input(object, form, attr_info)
     else
-      size = object.class.size_attribute(attr_symbol)
+      size = attr_info.size
       form.text_field attr_symbol, class: "c-input-text -#{size} js-form-input"
     end
   end
