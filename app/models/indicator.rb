@@ -4,7 +4,7 @@ class Indicator < ApplicationRecord
   ).freeze
   include MetadataAttributes
 
-  ORDERS = %w[name category stack_family definition unit].freeze
+  ORDERS = %w[name category subcategory definition unit].freeze
 
   belongs_to :parent, class_name: 'Indicator'
   has_many :time_series_values, dependent: :destroy

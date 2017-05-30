@@ -187,9 +187,6 @@ en:
     stackable_subcategory:
       name: "Stackable subcategory"
       definition: "TODO"
-    stack_family:
-      name: "Stack family (to be removed)"
-      definition: "TODO"
     name:
       name: "Name"
       definition: "TODO"
