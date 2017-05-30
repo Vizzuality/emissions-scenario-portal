@@ -18,6 +18,8 @@ Rails.application.routes.draw do
     resources :users, only: [:create, :destroy], controller: 'team_users'
   end
 
+  resources :units, only: [:index, :new, :create, :edit, :update, :destroy]
+
   # Rails routes are matched in the order they are specified
   root to: "admin#home",
     constraints: lambda { |request| request.env['warden'].user.try(:admin?) },
