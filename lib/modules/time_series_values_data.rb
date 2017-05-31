@@ -1,8 +1,9 @@
 class TimeSeriesValuesData
   attr_reader :number_of_rows, :number_of_rows_failed, :errors
 
-  def initialize(path)
+  def initialize(path, user)
     @path = path
+    @user = user
     @headers = TimeSeriesValuesHeaders.new(@path)
     @number_of_rows = File.foreach(@path).count - 1
     @number_of_rows_failed, @errors =
@@ -22,9 +23,9 @@ class TimeSeriesValuesData
 
   def process_row(row, row_no)
     @errors[row_no] = {}
-    model = model(row, @errors[row_no]) # TODO: permission check
-    scenario = scenario(model, row, @errors[row_no]) # TODO: permission check
-    indicator = indicator(model, row, @errors[row_no]) # TODO: permission check
+    model = model(row, @errors[row_no])
+    scenario = scenario(model, row, @errors[row_no])
+    indicator = indicator(model, row, @errors[row_no])
     location = location(row, @errors[row_no])
     conversion_factor = conversion_factor(indicator, row, @errors[row_no])
 
@@ -57,38 +58,44 @@ class TimeSeriesValuesData
 
   def model(row, errors)
     model_abbreviation = value_for(row, :model_abbreviation)
-    model_identification = "model: #{model_abbreviation}"
+    identification = "model: #{model_abbreviation}"
 
     models = Model.where(abbreviation: model_abbreviation)
-    matching_object(models, 'model', model_identification, errors)
+    model = matching_object(models, 'model', identification, errors)
+    return nil if model.nil?
+    if @user.cannot?(:manage, model)
+      errors['model'] = "Access denied: model (#{identification})"
+      return nil
+    end
+    model
   end
 
   def scenario(model, row, errors)
     return nil if model.nil?
     scenario_name = value_for(row, :scenario_name)
-    scenario_identification = "model: #{model.abbreviation}, scenario: \
+    identification = "model: #{model.abbreviation}, scenario: \
     #{scenario_name}"
 
     scenarios = Scenario.where(name: scenario_name, model_id: model.id)
-    matching_object(scenarios, 'scenario', scenario_identification, errors)
+    matching_object(scenarios, 'scenario', identification, errors)
   end
 
   def indicator(model, row, errors)
     return nil if model.nil?
     indicator_slug = value_for(row, :indicator_slug)
-    indicator_identification = "indicator: #{indicator_slug}"
+    identification = "indicator: #{indicator_slug}"
 
     indicators = Indicator.find_all_by_slug(indicator_slug)
     model_indicators = indicators.where(model_id: model.id)
     indicators = model_indicators if model_indicators.any?
-    matching_object(indicators, 'indicator', indicator_identification, errors)
+    matching_object(indicators, 'indicator', identification, errors)
   end
 
   def location(row, errors)
     location_name = value_for(row, :region)
-    location_identification = "location: #{location_name}"
+    identification = "location: #{location_name}"
     locations = Location.where(name: location_name)
-    matching_object(locations, 'location', location_identification, errors)
+    matching_object(locations, 'location', identification, errors)
   end
 
   def matching_object(object_collection, object_type, identification, errors)

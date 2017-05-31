@@ -6,7 +6,7 @@ class UploadTimeSeriesValues
   end
 
   def call(uploaded_io)
-    data = TimeSeriesValuesData.new(uploaded_io.tempfile)
+    data = TimeSeriesValuesData.new(uploaded_io.tempfile, @user)
     data.process
     FileUploadStatus.new(
       data.number_of_rows,

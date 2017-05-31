@@ -2,7 +2,9 @@ require 'rails_helper'
 
 RSpec.describe UploadTimeSeriesValues do
   let(:user) { FactoryGirl.create(:user) }
-  let(:model) { FactoryGirl.create(:model, abbreviation: 'Model A') }
+  let(:model) {
+    FactoryGirl.create(:model, abbreviation: 'Model A', team: user.team)
+  }
   let!(:scenario) {
     FactoryGirl.create(:scenario, name: 'Scenario 1', model: model)
   }
