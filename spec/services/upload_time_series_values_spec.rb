@@ -52,6 +52,43 @@ RSpec.describe UploadTimeSeriesValues do
     end
   end
 
+  context 'when file correct and overwrites old data' do
+    let(:file) {
+      Rack::Test::UploadedFile.new(
+        File.join(
+          Rails.root,
+          'spec',
+          'support',
+          'time_series_values-correct.csv'
+        )
+      )
+    }
+    before(:each) do
+      FactoryGirl.create(
+        :time_series_value,
+        scenario: scenario,
+        indicator: indicator,
+        location: location,
+        year: 2005,
+        value: 100
+      )
+    end
+    it 'should only have saved new rows' do
+      expect { subject }.to change { TimeSeriesValue.count }.by(1)
+    end
+    it 'should have saved correct amounts' do
+      expect { subject }.to change {
+        indicator.time_series_values.sum(:value)
+      }.by(-70)
+    end
+    it 'should report all rows saved' do
+      expect(subject.number_of_rows_saved).to eq(1) # 1 row with 2 values
+    end
+    it 'should report no rows failed' do
+      expect(subject.number_of_rows_failed).to eq(0)
+    end
+  end
+
   context 'when file with missing column' do
     let(:file) {
       Rack::Test::UploadedFile.new(

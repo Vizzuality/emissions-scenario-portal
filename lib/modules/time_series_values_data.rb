@@ -23,32 +23,54 @@ class TimeSeriesValuesData
 
   def process_row(row, row_no)
     @errors[row_no] = {}
-    model = model(row, @errors[row_no])
-    scenario = scenario(model, row, @errors[row_no])
-    indicator = indicator(model, row, @errors[row_no])
-    location = location(row, @errors[row_no])
-    unit_of_entry = unit_of_entry(indicator, row, @errors[row_no])
+
+    values_by_year(row, @errors[row_no]).each do |tsv|
+      @errors[row_no][tsv.year] = tsv.errors unless tsv.save
+    end
+
+    if @errors[row_no].any?
+      @number_of_rows_failed += 1
+    else
+      @errors.delete(row_no)
+    end
+  end
+
+  def values_by_year(row, errors)
+    model = model(row, errors)
+    scenario = scenario(model, row, errors)
+    indicator = indicator(model, row, errors)
+    location = location(row, errors)
+    unit_of_entry = unit_of_entry(indicator, row, errors)
 
     year_values = @headers.year_headers.map do |h|
       year = h[:display_name].to_i
       value = row[@headers.actual_index_of_year(h[:display_name])]
       value.blank? ? nil : [year, value.to_f]
     end.compact
-    year_values.each do |year, value|
-      tsv = TimeSeriesValue.new(
-        scenario: scenario,
-        indicator: indicator,
-        location: location,
-        year: year,
-        value: value,
-        unit_of_entry: unit_of_entry
-      )
-      @errors[row_no][year] = tsv.errors unless tsv.save
-    end
-    if @errors[row_no].any?
-      @number_of_rows_failed += 1
-    else
-      @errors.delete(row_no)
+
+    year_values.map do |year, value|
+      existing_tsv = scenario && indicator && location &&
+        TimeSeriesValue.where(
+          scenario_id: scenario.id,
+          indicator_id: indicator.id,
+          location_id: location.id,
+          year: year
+        ).first
+
+      if existing_tsv
+        existing_tsv.value = value
+        existing_tsv.unit_of_entry = unit_of_entry
+        existing_tsv
+      else
+        TimeSeriesValue.new(
+          scenario: scenario,
+          indicator: indicator,
+          location: location,
+          year: year,
+          value: value,
+          unit_of_entry: unit_of_entry
+        )
+      end
     end
   end
 
