@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Indicator, type: :model do
-  it 'should be invalid when name not present' do
+  it 'should be invalid when category not present' do
     expect(
-      FactoryGirl.build(:indicator, name: nil)
-    ).to have(1).errors_on(:name)
+      FactoryGirl.build(:indicator, category: nil)
+    ).to have(1).errors_on(:category)
   end
 
   context 'linked scenarios and models' do

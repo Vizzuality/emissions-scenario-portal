@@ -38,7 +38,7 @@ RSpec.describe IndicatorsController, type: :controller do
     describe 'POST create' do
       it 'redirects to own team\'s indicator when successful' do
         post :create, params: {
-          model_id: team_model.id, indicator: {name: 'ABC'}
+          model_id: team_model.id, indicator: {category: ['ABC']}
         }
         expect(response).to redirect_to(
           model_indicator_url(team_model, assigns(:indicator))
@@ -47,7 +47,7 @@ RSpec.describe IndicatorsController, type: :controller do
 
       it 'redirects to other team\'s indicator when successful' do
         post :create, params: {
-          model_id: some_model.id, indicator: {name: 'ABC'}
+          model_id: some_model.id, indicator: {category: ['ABC']}
         }
         expect(response).to redirect_to(
           model_indicator_url(some_model, assigns(:indicator))
@@ -77,7 +77,7 @@ RSpec.describe IndicatorsController, type: :controller do
         put :update, params: {
           model_id: team_model.id,
           id: team_indicator.id,
-          indicator: {name: 'ABC'}
+          indicator: {category: ['ABC']}
         }
         expect(response).to redirect_to(
           model_indicator_url(team_model, team_indicator)
@@ -88,7 +88,7 @@ RSpec.describe IndicatorsController, type: :controller do
         put :update, params: {
           model_id: some_model.id,
           id: some_indicator.id,
-          indicator: {name: 'ABC'}
+          indicator: {category: ['ABC']}
         }
         expect(response).to redirect_to(
           model_indicator_url(some_model, some_indicator)
@@ -100,7 +100,7 @@ RSpec.describe IndicatorsController, type: :controller do
           put :update, params: {
             model_id: team_model.id,
             id: master_indicator.id,
-            indicator: {name: 'ABC'}
+            indicator: {category: ['ABC']}
           }
         }.not_to change(team_model.indicators, :count)
       end
@@ -185,13 +185,15 @@ RSpec.describe IndicatorsController, type: :controller do
 
     describe 'POST create' do
       it 'renders edit when validation errors present' do
-        post :create, params: {model_id: team_model.id, indicator: {name: nil}}
+        post :create, params: {
+          model_id: team_model.id, indicator: {category: [nil]}
+        }
         expect(response).to render_template(:edit)
       end
 
       it 'redirects to indicator when successful' do
         post :create, params: {
-          model_id: team_model.id, indicator: {name: 'ABC'}
+          model_id: team_model.id, indicator: {category: ['ABC']}
         }
         expect(response).to redirect_to(
           model_indicator_url(team_model, assigns(:indicator))
@@ -200,7 +202,7 @@ RSpec.describe IndicatorsController, type: :controller do
 
       it 'prevents unauthorized access' do
         post :create, params: {
-          model_id: some_model.id, indicator: {name: 'ABC'}
+          model_id: some_model.id, indicator: {category: ['ABC']}
         }
         expect(response).to redirect_to(root_url)
         expect(flash[:alert]).to match(/You are not authorized/)
@@ -228,7 +230,9 @@ RSpec.describe IndicatorsController, type: :controller do
     describe 'PUT update' do
       it 'renders edit when validation errors present' do
         put :update, params: {
-          model_id: team_model.id, id: team_indicator.id, indicator: {name: nil}
+          model_id: team_model.id,
+          id: team_indicator.id,
+          indicator: {category: [nil]}
         }
         expect(response).to render_template(:edit)
       end
@@ -237,7 +241,7 @@ RSpec.describe IndicatorsController, type: :controller do
         put :update, params: {
           model_id: team_model.id,
           id: team_indicator.id,
-          indicator: {name: 'ABC'}
+          indicator: {category: ['ABC']}
         }
         expect(response).to redirect_to(
           model_indicator_url(team_model, team_indicator)
@@ -248,7 +252,7 @@ RSpec.describe IndicatorsController, type: :controller do
         put :update, params: {
           model_id: some_model.id,
           id: some_indicator.id,
-          indicator: {name: 'ABC'}
+          indicator: {category: ['ABC']}
         }
         expect(response).to redirect_to(root_url)
         expect(flash[:alert]).to match(/You are not authorized/)
@@ -259,7 +263,7 @@ RSpec.describe IndicatorsController, type: :controller do
           put :update, params: {
             model_id: team_model.id,
             id: master_indicator.id,
-            indicator: {name: 'ABC'}
+            indicator: {category: ['ABC']}
           }
         }.to change(team_model.indicators, :count).by(1)
       end

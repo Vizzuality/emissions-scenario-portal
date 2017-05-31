@@ -10,7 +10,7 @@ class Indicator < ApplicationRecord
   has_many :time_series_values, dependent: :destroy
   belongs_to :model, optional: true
 
-  validates :name, presence: true
+  validates :category, presence: true
   before_validation :ignore_blank_array_values
 
   def scenarios
