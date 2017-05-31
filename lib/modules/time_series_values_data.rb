@@ -27,21 +27,21 @@ class TimeSeriesValuesData
     scenario = scenario(model, row, @errors[row_no])
     indicator = indicator(model, row, @errors[row_no])
     location = location(row, @errors[row_no])
-    conversion_factor = conversion_factor(indicator, row, @errors[row_no])
+    unit_of_entry = unit_of_entry(indicator, row, @errors[row_no])
 
     year_values = @headers.year_headers.map do |h|
       year = h[:display_name].to_i
       value = row[@headers.actual_index_of_year(h[:display_name])]
-      value.blank? ? nil : [year, value]
+      value.blank? ? nil : [year, value.to_f]
     end.compact
     year_values.each do |year, value|
-      value *= conversion_factor if conversion_factor
       tsv = TimeSeriesValue.new(
         scenario: scenario,
         indicator: indicator,
         location: location,
         year: year,
-        value: value
+        value: value,
+        unit_of_entry: unit_of_entry
       )
       @errors[row_no][year] = tsv.errors unless tsv.save
     end
@@ -112,16 +112,15 @@ class TimeSeriesValuesData
     end
   end
 
-  def conversion_factor(indicator, row, errors)
+  def unit_of_entry(indicator, row, errors)
     return nil if indicator.nil?
-    unit = value_for(row, :unit)
-    # no need to apply conversion if value given in standard unit
-    return nil if unit == indicator.unit
-    # if value not given in either standard unit or unit of entry
-    if unit != indicator.unit_of_entry
-      errors[:unit] = "Conversion factor unavailable for unit of entry #{unit}"
-      return nil
+    unit_of_entry = value_for(row, :unit_of_entry)
+    return nil if unit_of_entry.nil?
+    if unit_of_entry != indicator.unit &&
+        unit_of_entry != indicator.unit_of_entry
+      errors['unit_of_entry'] = "Conversion factor unavailable for unit of \
+      entry #{unit_of_entry}"
     end
-    indicator.conversion_factor.to_i
+    unit_of_entry
   end
 end

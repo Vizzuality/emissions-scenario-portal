@@ -20,7 +20,7 @@ class TimeSeriesValuesHeaders
     },
     {
       display_name: 'Unit of Entry',
-      property_name: :unit
+      property_name: :unit_of_entry
     }
   ].freeze
 

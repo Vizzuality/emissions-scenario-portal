@@ -13,4 +13,13 @@ class TimeSeriesValue < ApplicationRecord
   validates :scenario, presence: true
   validates :indicator, presence: true
   validates :location, presence: true
+  validate :unit_compatible_with_indicator, if: proc { |v| v.indicator }
+
+  def unit_compatible_with_indicator
+    if unit_of_entry.present? &&
+        unit_of_entry != indicator.unit &&
+        unit_of_entry != indicator.unit_of_entry
+      errors[:unit_of_entry] << 'Unit of entry incompatible with indicator.'
+    end
+  end
 end
