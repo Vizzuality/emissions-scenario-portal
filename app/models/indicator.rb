@@ -67,16 +67,20 @@ class Indicator < ApplicationRecord
       indicators.where("#{filter} IN (?)", value.split(','))
     end
 
-    def find_all_by_slug(slug)
+    def slug_to_hash(slug)
       slug_parts = slug.split('|')
+      slug_hash = {category: slug_parts[0]} if slug_parts.length > 0
       if slug_parts.length == 2
-        category, name = slug_parts
+        slug_hash[:name] = slug_parts[1]
       elsif slug_parts.length == 3
-        category, subcategory, name = slug_parts
+        slug_hash[:subcategory] = slug_parts[1]
+        slug_hash[:name] = slug_parts[2]
       end
-      rel = where(category: category, name: name)
-      rel = rel.where(subcategory: subcategory) if subcategory
-      rel
+      slug_hash
+    end
+
+    def find_all_by_slug(slug)
+      where(slug_to_hash(slug))
     end
   end
 
