@@ -26,11 +26,7 @@ class TimeSeriesValuesData
     scenario = scenario(model, row, @errors[row_no]) # TODO: permission check
     indicator = indicator(model, row, @errors[row_no]) # TODO: permission check
     location = location(row, @errors[row_no])
-    # unit = value_for(row, :unit)
-    conversion_factor = nil
-    # TODO: conversion factor from indicators table
-    # indicator && unit != indicator.unit &&
-    #   conversion_factor = conversion_factor(row, @errors[row_no])
+    conversion_factor = conversion_factor(indicator, row, @errors[row_no])
 
     year_values = @headers.year_headers.map do |h|
       year = h[:display_name].to_i
@@ -109,14 +105,16 @@ class TimeSeriesValuesData
     end
   end
 
-  def conversion_factor(row, errors)
-    conversion_factor = value_for(row, :conversion_factor)
-    format_ok = conversion_factor && conversion_factor.match?(/\A\d+\z/)
-    unless format_ok
-      errors[:conversion_factor] = "Conversion factor not given \
-      correctly where unit of entry different from standardised unit"
+  def conversion_factor(indicator, row, errors)
+    return nil if indicator.nil?
+    unit = value_for(row, :unit)
+    # no need to apply conversion if value given in standard unit
+    return nil if unit == indicator.unit
+    # if value not given in either standard unit or unit of entry
+    if unit != indicator.unit_of_entry
+      errors[:unit] = "Conversion factor unavailable for unit of entry #{unit}"
       return nil
     end
-    conversion_factor.to_i
+    indicator.conversion_factor.to_i
   end
 end
