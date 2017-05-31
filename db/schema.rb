@@ -10,14 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170526121637) do
+ActiveRecord::Schema.define(version: 20170531080924) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "indicators", force: :cascade do |t|
     t.text     "category"
-    t.text     "stack_family"
     t.text     "name",                                  null: false
     t.text     "definition"
     t.text     "unit"
