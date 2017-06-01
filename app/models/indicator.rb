@@ -6,7 +6,7 @@ class Indicator < ApplicationRecord
 
   ORDERS = %w[name category subcategory definition unit].freeze
 
-  belongs_to :parent, class_name: 'Indicator'
+  belongs_to :parent, class_name: 'Indicator', optional: true
   has_many :time_series_values, dependent: :destroy
   belongs_to :model, optional: true
 
@@ -68,8 +68,10 @@ class Indicator < ApplicationRecord
     end
 
     def slug_to_hash(slug)
-      slug_parts = slug.split('|')
-      slug_hash = {category: slug_parts[0]} if slug_parts.length > 0
+      return {} unless slug.present?
+      slug_parts = slug && slug.split('|').map(&:strip)
+      return {} if slug_parts.empty?
+      slug_hash = {category: slug_parts[0]}
       if slug_parts.length == 2
         slug_hash[:name] = slug_parts[1]
       elsif slug_parts.length == 3
