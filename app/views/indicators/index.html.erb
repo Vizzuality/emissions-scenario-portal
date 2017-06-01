@@ -1,3 +1,10 @@
+<%= form_tag(upload_meta_data_model_indicators_url(@model), method: :post, multipart: true) do %>
+  <%= file_field_tag 'indicators_file' %>
+  <%= submit_tag 'UPLOAD INDICATORS' %>
+<% end %>
+
+Please follow <%= link_to 'this structure', '/esp_indicators_template.csv' %>
+
 <%= render 'shared/components/c_landing_header',
   title: 'GCAM. Global Change Assessment Model',
   no_settings: true %>

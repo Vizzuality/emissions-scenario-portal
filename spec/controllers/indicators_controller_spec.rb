@@ -311,5 +311,36 @@ RSpec.describe IndicatorsController, type: :controller do
         expect(flash[:alert]).to match(/You are not authorized/)
       end
     end
+
+    describe 'POST upload_meta_data' do
+      it 'redirects with error when file not given' do
+        post :upload_meta_data, params: {
+          model_id: team_model.id
+        }
+        expect(response).to redirect_to(model_indicators_url(team_model))
+        expect(flash[:alert]).to match(/upload file/)
+      end
+
+      it 'renders json' do
+        post :upload_meta_data, params: {
+          model_id: team_model.id,
+          indicators_file: fixture_file_upload(
+            'indicators-correct.csv', 'text/csv'
+          )
+        }
+        expect(JSON.parse(response.body)).to include('number_of_rows_failed')
+      end
+
+      it 'prevents unauthorized access' do
+        post :upload_meta_data, params: {
+          model_id: some_model.id,
+          indicators_file: fixture_file_upload(
+            'indicators-correct.csv', 'text/csv'
+          )
+        }
+        expect(response).to redirect_to(root_url)
+        expect(flash[:alert]).to match(/You are not authorized/)
+      end
+    end
   end
 end
