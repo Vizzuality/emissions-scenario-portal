@@ -8,33 +8,39 @@ module ApplicationHelper
   end
 
   def attribute_input(object, form, attr_symbol)
-    if (ref_symbol = object.class.reference_attribute(attr_symbol))
-      reference_input(object, form, attr_symbol, ref_symbol)
-    elsif object.class.date_attribute?(attr_symbol)
-      date_input(object, form, attr_symbol)
-    elsif object.class.picklist_attribute?(attr_symbol)
-      picklist_input(object, form, attr_symbol)
+    attr_info = object.class.attribute_info(attr_symbol)
+    if attr_info.reference?
+      reference_input(object, form, attr_info)
+    elsif attr_info.date?
+      date_input(object, form, attr_info)
+    elsif attr_info.picklist?
+      picklist_input(object, form, attr_info)
+    elsif attr_info.checkbox?
+      form.check_box attr_info.name, class: 'js-form-input'
     else
-      size = object.class.size_attribute(attr_symbol)
-      form.text_field attr_symbol, class: "c-input-text -#{size} js-form-input"
+      text_input(object, form, attr_info)
     end
   end
 
-  def attribute_category(object, attr_symbol)
-    object.class.category_attribute(attr_symbol)
+  def text_input(_object, form, attr_info)
+    size = attr_info.size
+    form.text_field(
+      attr_info.name,
+      class: "c-input-text -#{size} js-form-input"
+    )
   end
 
-  def date_input(object, form, attr_symbol)
-    size = object.class.size_attribute(attr_symbol)
-    form.text_field attr_symbol, class:
+  def date_input(_object, form, attr_info)
+    size = attr_info.size
+    form.text_field attr_info.name, class:
       "c-input-text -#{size} js-datepicker-input js-form-input"
   end
 
-  def picklist_input(object, form, attr_symbol)
-    size = object.class.size_attribute(attr_symbol)
-    is_multiple = object.class.multiple_attribute?(attr_symbol)
+  def picklist_input(object, form, attr_info)
+    size = attr_info.size
+    is_multiple = attr_info.multiple?
     picklist_values = values_for_attribute_dropdown(
-      object, attr_symbol, is_multiple
+      object, attr_info
     )
     options = {prompt: 'Please select'}
     html_options = {}
@@ -42,22 +48,21 @@ module ApplicationHelper
     html_options[:class] = picklist_class(is_multiple)
 
     content_tag :div, class: "c-select -#{size}" do
-      form.select attr_symbol, picklist_values, options, html_options
+      form.select attr_info.name, picklist_values, options, html_options
     end
   end
 
-  def reference_input(object, form, attr_symbol, ref_symbol)
-    size = object.class.size_attribute(attr_symbol)
-    ref_object_symbol, ref_attr_symbol = ref_symbol.split('.')
+  def reference_input(object, form, attr_info)
+    size = attr_info.size
     select_values, selection = values_for_reference_dropdown(
-      object, ref_object_symbol, ref_attr_symbol
+      object, attr_info
     )
     options = {prompt: 'Please select'}
     html_options = {class: 'js-form-input js-select'}
 
     content_tag :div, class: "c-select -#{size}" do
       form.select(
-        ref_object_symbol + '_id',
+        attr_info.ref_object_symbol + '_id',
         options_for_select(select_values, selection.try(:id)),
         options,
         html_options
@@ -65,18 +70,18 @@ module ApplicationHelper
     end
   end
 
-  def values_for_attribute_dropdown(object, attr_symbol, is_multiple)
+  def values_for_attribute_dropdown(object, attr_info)
     picklist_values = object.class.
-      distinct.order(attr_symbol).pluck(attr_symbol)
-    picklist_values = picklist_values.flatten.uniq if is_multiple
+      distinct.order(attr_info.name).pluck(attr_info.name)
+    picklist_values = picklist_values.flatten.uniq if attr_info.multiple?
     picklist_values.compact
   end
 
-  def values_for_reference_dropdown(object, ref_object_symbol, ref_attr_symbol)
-    ref_object = object.send(ref_object_symbol)
-    ref_klass = ref_object_symbol.capitalize.constantize
-    select_values = ref_klass.select(:id, ref_attr_symbol).map do |v|
-      [v.send(ref_attr_symbol), v.id]
+  def values_for_reference_dropdown(object, attr_info)
+    ref_object = object.send(attr_info.ref_object_symbol)
+    ref_klass = attr_info.ref_object_symbol.capitalize.constantize
+    select_values = ref_klass.select(:id, attr_info.ref_attr_symbol).map do |v|
+      [v.send(attr_info.ref_attr_symbol), v.id]
     end
     [select_values, ref_object]
   end

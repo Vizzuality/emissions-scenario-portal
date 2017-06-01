@@ -34,11 +34,11 @@
       <div class="small-12 columns">
         <div class="c-form">
           <div class="c-form-items">
-            <div class="c-form-item <% if f.object[:email.to_s].present? || object.class.reference_attribute(:email) %>-highlighted<% end %>">
+            <div class="c-form-item <% if f.object['email'].present? %>-highlighted<% end %>">
               <label class="f-ff1-m">Email</label>
               <%= f.email_field :email, class: 'c-input-text -large js-form-input' %>
             </div>
-            <div class="c-form-item <% if f.object[:name.to_s].present? || object.class.reference_attribute(:name) %>-highlighted<% end %>">
+            <div class="c-form-item <% if f.object['name'].present? %>-highlighted<% end %>">
               <label class="f-ff1-m">Name</label>
               <%= f.text_field :name, class: 'c-input-text -small js-form-input' %>
             </div>

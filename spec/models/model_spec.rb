@@ -37,39 +37,9 @@ RSpec.describe Model, type: :model do
     end
   end
 
-  describe :attribute_symbols do
+  describe :attribute_infos do
     it 'should be an array' do
-      expect(Model.attribute_symbols.size).to eq(Model::ALL_ATTRIBUTES.size)
-    end
-  end
-
-  describe :picklist_attribute? do
-    it 'platform should be a picklist attribute' do
-      expect(Model.picklist_attribute?(:platform)).to be(true)
-    end
-    it 'platform_detailed should not be a picklist attribute' do
-      expect(Model.picklist_attribute?(:platform_detailed)).to be(false)
-    end
-  end
-
-  describe :multiple_attribute? do
-    it 'platform should be a picklist attribute' do
-      expect(Model.multiple_attribute?(:platform)).to be(true)
-    end
-    it 'platform_detailed should not be a picklist attribute' do
-      expect(Model.multiple_attribute?(:platform_detailed)).to be(false)
-    end
-  end
-
-  describe :size_attribute do
-    it 'platform should have large size' do
-      expect(Model.size_attribute(:platform)).to eq('large')
-    end
-  end
-
-  describe :category_attribute do
-    it 'platform should be in General Info category' do
-      expect(Model.category_attribute(:platform)).to eq('Details & Description')
+      expect(Model.attribute_infos.size).to eq(Model::ALL_ATTRIBUTES.size)
     end
   end
 

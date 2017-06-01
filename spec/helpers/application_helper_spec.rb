@@ -15,28 +15,40 @@ RSpec.describe ApplicationHelper, type: :helper do
       it 'returns a multiple select input for platform' do
         expect(
           helper.attribute_input(model, form, :platform)
-        ).to match('select multiple="multiple"')
+        ).to match('js-multiple-select')
+      end
+      it 'returns a single select input for maintainer_type' do
+        expect(
+          helper.attribute_input(model, form, :maintainer_type)
+        ).to match('js-multisingle-select')
       end
     end
     context :scenarios do
       let(:scenario) { FactoryGirl.create(:scenario) }
       let(:form) {
-        ActionView::Helpers::FormBuilder.new(:scenario, @model, self, {})
+        ActionView::Helpers::FormBuilder.new(:scenario, scenario, self, {})
       }
-      pending 'returns a date input field for release_date'
+      it 'returns a date input field for release_date' do
+        expect(
+          helper.attribute_input(scenario, form, :release_date)
+        ).to match('js-datepicker-input')
+      end
       it 'returns a select input for model_abbreviation' do
         expect(
           helper.attribute_input(scenario, form, :model_abbreviation)
         ).to match('select')
       end
     end
-  end
-
-  describe :attribute_category do
-    it 'returns Details & Description for platform' do
-      expect(
-        helper.attribute_category(model, :platform)
-      ).to eq('Details & Description')
+    context :indicators do
+      let(:indicator) { FactoryGirl.create(:indicator) }
+      let(:form) {
+        ActionView::Helpers::FormBuilder.new(:indicator, indicator, self, {})
+      }
+      it 'returns a checkbox for release_date' do
+        expect(
+          helper.attribute_input(indicator, form, :stackable_subcategory)
+        ).to match('checkbox')
+      end
     end
   end
 

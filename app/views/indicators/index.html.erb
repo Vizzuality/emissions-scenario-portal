@@ -69,8 +69,8 @@
           </div>
           <div class="small-2 columns">
             <%= render 'shared/components/c_order_filter_button',
-              text: 'Stack family',
-              column_key: 'stack_family' %>
+              text: 'Subcategory',
+              column_key: 'subcategory' %>
           </div>
           <div class="small-1 columns">
             <%= render 'shared/components/c_order_filter_button',
@@ -99,14 +99,14 @@
             <div class="c-table-list-item__text f-ff1-m"><%= indicator.category %></div>
           </div>
           <div class="small-2 columns">
-            <div class="c-table-list-item__text f-ff1-m"><%= indicator.stack_family %></div>
+            <div class="c-table-list-item__text f-ff1-m"><%= indicator.subcategory %></div>
           </div>
           <div class="small-1 columns">
             <div class="c-table-list-item__text f-ff1-m"><%= indicator.unit %></div>
           </div>
           <div class="small-4 columns">
             <div class="c-table-list-item__text f-ff1-m">
-              <%= indicator.definition.length > 120 ? truncate(indicator.definition, length: 120) : indicator.definition %>
+              <%= indicator.definition && truncate(indicator.definition, length: 120) %>
             </div>
           </div>
           <div class="small-1 columns">

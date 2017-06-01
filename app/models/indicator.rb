@@ -4,8 +4,9 @@ class Indicator < ApplicationRecord
   ).freeze
   include MetadataAttributes
 
-  ORDERS = %w[name category stack_family definition unit].freeze
+  ORDERS = %w[name category subcategory definition unit].freeze
 
+  belongs_to :parent, class_name: 'Indicator'
   has_many :time_series_values, dependent: :destroy
   belongs_to :model, optional: true
 
@@ -64,6 +65,18 @@ class Indicator < ApplicationRecord
 
     def fetch_equal_value(indicators, filter, value)
       indicators.where("#{filter} IN (?)", value.split(','))
+    end
+
+    def find_all_by_slug(slug)
+      slug_parts = slug.split('|')
+      if slug_parts.length == 2
+        category, name = slug_parts
+      elsif slug_parts.length == 3
+        category, subcategory, name = slug_parts
+      end
+      rel = where(category: category, name: name)
+      rel = rel.where(subcategory: subcategory) if subcategory
+      rel
     end
   end
 

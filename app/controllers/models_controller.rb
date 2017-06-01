@@ -9,7 +9,7 @@ class ModelsController < ApplicationController
 
   def show
     @scenarios = @model.scenarios.limit(5)
-    @indicators = Indicator.order(:category, :stack_family, :name)
+    @indicators = Indicator.order(:category, :subcategory, :name)
   end
 
   def edit; end

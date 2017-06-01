@@ -1,8 +1,9 @@
 FactoryGirl.define do
   factory :indicator do
     category 'Emissions'
-    stack_family 'Emissions by sector'
+    subcategory 'Emissions by sector'
     name 'Industry'
+    stackable_subcategory true
     unit 'Gt CO2e/yr'
   end
 end

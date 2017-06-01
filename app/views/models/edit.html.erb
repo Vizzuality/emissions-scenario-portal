@@ -4,11 +4,9 @@
 <%= form_for @model do |f| %>
   <%
     form_blocks = Hash.new
-    Model.attribute_symbols.each do |attribute_symbol|
-      category = attribute_category(@model, attribute_symbol)
-
-      form_blocks[category] ||= Array.new
-      form_blocks[category].push(attribute_symbol)
+    Model.attribute_infos.each do |attribute_info|
+      form_blocks[attribute_info.category] ||= Array.new
+      form_blocks[attribute_info.category].push(attribute_info)
     end
   %>
   <div class="l-model-edit">
