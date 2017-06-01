@@ -1,6 +1,7 @@
 class TimeSeriesValuesController < ApplicationController
+  load_and_authorize_resource :model
+
   def upload
-    @model = Model.find(params[:model_id])
     @uploaded_io = params[:time_series_values_file]
     unless @uploaded_io.present?
       redirect_to(

@@ -31,7 +31,7 @@ RSpec.describe UploadTimeSeriesValues do
         File.join(
           Rails.root,
           'spec',
-          'support',
+          'fixtures',
           'time_series_values-correct.csv'
         )
       )
@@ -58,7 +58,7 @@ RSpec.describe UploadTimeSeriesValues do
         File.join(
           Rails.root,
           'spec',
-          'support',
+          'fixtures',
           'time_series_values-correct.csv'
         )
       )
@@ -89,14 +89,14 @@ RSpec.describe UploadTimeSeriesValues do
     end
   end
 
-  context 'when file with missing column' do
+  context 'when file with invalid column name' do
     let(:file) {
       Rack::Test::UploadedFile.new(
         File.join(
           Rails.root,
           'spec',
-          'support',
-          'time_series_values-missing_column.csv'
+          'fixtures',
+          'time_series_values-invalid_column.csv'
         )
       )
     }
@@ -118,7 +118,7 @@ RSpec.describe UploadTimeSeriesValues do
         File.join(
           Rails.root,
           'spec',
-          'support',
+          'fixtures',
           'time_series_values-unrecognised_scenario.csv'
         )
       )
@@ -141,7 +141,7 @@ RSpec.describe UploadTimeSeriesValues do
         File.join(
           Rails.root,
           'spec',
-          'support',
+          'fixtures',
           'time_series_values-incompatible_unit.csv'
         )
       )
@@ -164,7 +164,7 @@ RSpec.describe UploadTimeSeriesValues do
         File.join(
           Rails.root,
           'spec',
-          'support',
+          'fixtures',
           'time_series_values-correct.csv'
         )
       )
@@ -189,7 +189,7 @@ RSpec.describe UploadTimeSeriesValues do
         File.join(
           Rails.root,
           'spec',
-          'support',
+          'fixtures',
           'time_series_values-correct.csv'
         )
       )
