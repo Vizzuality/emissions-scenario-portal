@@ -6,9 +6,9 @@
     <div class="row">
       <div class="small-6 columns">
         <%= render 'shared/components/c_upload_card',
-          form_url: '',
-          input_id: '',
-          structure_url: '',
+          form_url: upload_meta_data_model_scenarios_url(@model),
+          input_id: 'scenarios_file',
+          structure_url: '/esp_scenarios_template.csv',
           button_text: 'Upload scenario meta information' %>
       </div>
       <div class="small-6 columns">
