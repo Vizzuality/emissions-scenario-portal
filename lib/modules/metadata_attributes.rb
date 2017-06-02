@@ -73,16 +73,6 @@ module MetadataAttributes
     value_str
   end
 
-  def key_for_name(attribute_symbol)
-    [self.class.name.downcase.pluralize, attribute_symbol, 'name'].join('.')
-  end
-
-  def key_for_definition(attribute_symbol)
-    [
-      self.class.name.downcase.pluralize, attribute_symbol, 'definition'
-    ].join('.')
-  end
-
   module ClassMethods
     def attribute_infos
       @attribute_infos ||= self::ALL_ATTRIBUTES.map { |a| Info.new(a) }
@@ -94,6 +84,16 @@ module MetadataAttributes
 
     def attribute_info(attribute_symbol)
       attribute_infos.find { |a| a.name == attribute_symbol }
+    end
+
+    def key_for_name(attribute_symbol)
+      [name.downcase.pluralize, attribute_symbol, 'name'].join('.')
+    end
+
+    def key_for_definition(attribute_symbol)
+      [
+        name.downcase.pluralize, attribute_symbol, 'definition'
+      ].join('.')
     end
   end
 end

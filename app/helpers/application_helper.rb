@@ -1,10 +1,10 @@
 module ApplicationHelper
   def attribute_name(object, attr_symbol)
-    t object.key_for_name(attr_symbol)
+    t object.class.key_for_name(attr_symbol)
   end
 
   def attribute_definition(object, attr_symbol)
-    t object.key_for_definition(attr_symbol)
+    t object.class.key_for_definition(attr_symbol)
   end
 
   def attribute_input(object, form, attr_symbol)
