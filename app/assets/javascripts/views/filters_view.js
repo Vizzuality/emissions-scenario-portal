@@ -9,7 +9,7 @@
     initialize: function(settings) {
       var opts = settings && settings.options ? settings.options : {};
       this.options = _.extend({}, this.options, opts);
-      this.staticParams = typeof settings.staticParams !== "undefined" ? settings.staticParams : null;
+      this.staticParams = typeof settings.staticParams !== 'undefined' ? settings.staticParams : null;
 
       this._cache();
       this._loadFilters();
@@ -18,23 +18,23 @@
 
     _cache: function() {
       this.$filters = $('.js-table-filter');
+      this.filters = [];
     },
 
     _loadFilters: function() {
-      this.filters = [];
       _.each(this.$filters, function(item) {
         var filter = $(item);
-        switch (filter.data("filter-type")) {
-          case "order":
+        switch (filter.data('filter-type')) {
+          case 'order':
             this._loadOrder(this._getHelperFilterObject(filter));
             break;
-          case "search":
+          case 'search':
             this._loadSearch(this._getHelperFilterObject(filter));
             break;
-          case "select":
+          case 'select':
             this._loadSelect(this._getHelperFilterObject(filter));
             break;
-          case "multiselect":
+          case 'multiselect':
             this._loadMultiselect(this._getHelperFilterObject(filter));
             break;
         }
