@@ -17,6 +17,7 @@
 
     initialize: function() {
       this._cache();
+      this._cleanSelect2();
       this._loadSelect();
       this._loadMultisingleSelect();
       this._loadMultipleSelect();
@@ -27,7 +28,12 @@
       this.$selects = $(this.options.selectTriggerClass);
       this.$multisingleSelects = $(this.options.multisingleTriggerClass);
       this.$multipleSelects = $(this.options.multipleSelectTriggerClass);
-      this.$datepickerInput = $(this.options.datepickerTriggerClass);
+      this.$datepickerInput = $(this.options.datepickerTriggerClass + ':not([data-form-processed])');
+    },
+
+    _cleanSelect2: function () {
+      $('.select2-container').remove();
+      $('.select2-hidden-accessible').removeClass('select2-hidden-accessible');
     },
 
     _loadSelect: function () {
@@ -56,6 +62,7 @@
       this.$datepickerInput.datepicker({
         dateFormat: "yy-mm-dd"
       });
+      this.$datepickerInput.attr('data-form-processed', true);
     }
 
   });
