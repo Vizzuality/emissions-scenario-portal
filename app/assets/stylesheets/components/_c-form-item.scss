@@ -81,6 +81,10 @@
       display: none;
     }
   }
+
+  .field_with_errors:first-child {
+    display: inline-block;
+  }
 }
 
 .select2-dropdown {
