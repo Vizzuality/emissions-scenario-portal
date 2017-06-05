@@ -23,8 +23,7 @@ RSpec.describe UploadIndicators do
       expect { subject }.to change { Indicator.count }.by(3)
     end
     it 'should report all rows saved' do
-      # 1 row with 2 values, 1 row with 1 value
-      expect(subject.number_of_rows_saved).to eq(2)
+      expect(subject.number_of_rows_saved).to eq(3)
     end
     it 'should report no rows failed' do
       expect(subject.number_of_rows_failed).to eq(0)
@@ -56,8 +55,7 @@ RSpec.describe UploadIndicators do
       expect { subject }.to change { Indicator.count }.by(2)
     end
     it 'should report all rows saved' do
-      # 1 row with 2 values, 1 row with 1 value
-      expect(subject.number_of_rows_saved).to eq(2)
+      expect(subject.number_of_rows_saved).to eq(3)
     end
     it 'should report no rows failed' do
       expect(subject.number_of_rows_failed).to eq(0)

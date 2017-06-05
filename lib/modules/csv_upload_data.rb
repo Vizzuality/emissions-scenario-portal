@@ -19,4 +19,18 @@ module CsvUploadData
   def value_for(row, property_name)
     row[@headers.actual_index_for_property(property_name)]
   end
+
+  def matching_object(object_collection, object_type, identification, errors)
+    if object_collection.count > 1
+      errors[object_type] = "More than one #{object_type} found \
+(#{identification}"
+      nil
+    elsif object_collection.count.zero?
+      errors[object_type] = "#{object_type.capitalize} does not exist \
+(#{identification})"
+      nil
+    else
+      object_collection.first
+    end
+  end
 end

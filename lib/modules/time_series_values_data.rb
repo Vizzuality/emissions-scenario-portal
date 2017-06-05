@@ -111,20 +111,6 @@ class TimeSeriesValuesData
     matching_object(locations, 'location', identification, errors)
   end
 
-  def matching_object(object_collection, object_type, identification, errors)
-    if object_collection.count > 1
-      errors[object_type] = "More than one #{object_type} found \
-(#{identification}"
-      nil
-    elsif object_collection.count.zero?
-      errors[object_type] = "#{object_type.capitalize} does not exist \
-(#{identification})"
-      nil
-    else
-      object_collection.first
-    end
-  end
-
   def unit_of_entry(indicator, row, errors)
     return nil if indicator.nil?
     unit_of_entry = value_for(row, :unit_of_entry)
