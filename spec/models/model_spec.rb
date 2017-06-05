@@ -44,19 +44,17 @@ RSpec.describe Model, type: :model do
   end
 
   describe :key_for_name do
-    let(:model) { FactoryGirl.create(:model) }
     it 'should be models.platform.name for platform' do
       expect(
-        model.key_for_name(:platform)
+        Model.key_for_name(:platform)
       ).to eq('models.platform.name')
     end
   end
 
   describe :key_for_definition do
-    let(:model) { FactoryGirl.create(:model) }
     it 'should be models.platform.definition for platform' do
       expect(
-        model.key_for_definition(:platform)
+        Model.key_for_definition(:platform)
       ).to eq('models.platform.definition')
     end
   end

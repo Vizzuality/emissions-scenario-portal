@@ -133,6 +133,37 @@ RSpec.describe ScenariosController, type: :controller do
       end
     end
 
+    describe 'POST upload_meta_data' do
+      it 'redirects with error when file not given' do
+        post :upload_meta_data, params: {
+          model_id: team_model.id
+        }
+        expect(response).to redirect_to(model_scenarios_url(team_model))
+        expect(flash[:alert]).to match(/upload file/)
+      end
+
+      it 'renders json' do
+        post :upload_meta_data, params: {
+          model_id: team_model.id,
+          scenarios_file: fixture_file_upload(
+            'scenarios-correct.csv', 'text/csv'
+          )
+        }
+        expect(JSON.parse(response.body)).to include('number_of_rows_failed')
+      end
+
+      it 'prevents unauthorized access' do
+        post :upload_meta_data, params: {
+          model_id: some_model.id,
+          scenarios_file: fixture_file_upload(
+            'scenarios-correct.csv', 'text/csv'
+          )
+        }
+        expect(response).to redirect_to(root_url)
+        expect(flash[:alert]).to match(/You are not authorized/)
+      end
+    end
+
     it 'filters parameters correctly for update' do
       scenario_params = {
         name: 'ABC',

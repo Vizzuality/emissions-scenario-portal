@@ -136,6 +136,8 @@ ActiveRecord::Schema.define(version: 20170605090043) do
     t.text     "project_study",                    default: [],              array: true
     t.text     "literature_reference"
     t.text     "point_of_contact"
+    t.text     "proposed_portal_name"
+    t.text     "climate_policy_instrument"
     t.index ["model_id"], name: "index_scenarios_on_model_id", using: :btree
   end
 
