@@ -1,3 +1,6 @@
+
+- name: :alias
+  size: 'large'
 - name: :name
   size: 'small'
 - name: :category
