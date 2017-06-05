@@ -20,10 +20,11 @@ RSpec.describe UploadIndicators do
       )
     }
     it 'should have saved all rows' do
-      expect { subject }.to change { Indicator.count }.by(2)
+      expect { subject }.to change { Indicator.count }.by(3)
     end
     it 'should report all rows saved' do
-      expect(subject.number_of_rows_saved).to eq(1) # 1 row with 2 values
+      # 1 row with 2 values, 1 row with 1 value
+      expect(subject.number_of_rows_saved).to eq(2)
     end
     it 'should report no rows failed' do
       expect(subject.number_of_rows_failed).to eq(0)
@@ -52,10 +53,11 @@ RSpec.describe UploadIndicators do
       )
     end
     it 'should not have saved new rows' do
-      expect { subject }.to change { Indicator.count }.by(1)
+      expect { subject }.to change { Indicator.count }.by(2)
     end
     it 'should report all rows saved' do
-      expect(subject.number_of_rows_saved).to eq(1) # 1 row with 2 values
+      # 1 row with 2 values, 1 row with 1 value
+      expect(subject.number_of_rows_saved).to eq(2)
     end
     it 'should report no rows failed' do
       expect(subject.number_of_rows_failed).to eq(0)
@@ -70,29 +72,6 @@ RSpec.describe UploadIndicators do
           'spec',
           'fixtures',
           'indicators-invalid_column.csv'
-        )
-      )
-    }
-
-    it 'should not have saved any rows' do
-      expect { subject }.not_to(change { Indicator.count })
-    end
-    it 'should report no rows saved' do
-      expect(subject.number_of_rows_saved).to eq(0)
-    end
-    it 'should report all rows failed' do
-      expect(subject.number_of_rows_failed).to eq(1)
-    end
-  end
-
-  context 'when file with missing category value' do
-    let(:file) {
-      Rack::Test::UploadedFile.new(
-        File.join(
-          Rails.root,
-          'spec',
-          'fixtures',
-          'indicators-missing_category.csv'
         )
       )
     }
