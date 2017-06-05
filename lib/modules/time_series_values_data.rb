@@ -1,26 +1,14 @@
 require 'time_series_values_headers'
 
 class TimeSeriesValuesData
+  include CsvUploadData
   attr_reader :number_of_rows, :number_of_rows_failed, :errors
 
   def initialize(path, user)
     @path = path
     @user = user
     @headers = TimeSeriesValuesHeaders.new(@path)
-    @number_of_rows = File.foreach(@path).count - 1
-    @number_of_rows_failed, @errors =
-      if @headers.errors.any?
-        [@number_of_rows, @headers.errors]
-      else
-        [0, {}]
-      end
-  end
-
-  def process
-    return if @headers.errors.any?
-    CSV.open(@path, 'r', headers: true).each.with_index(2) do |row, row_no|
-      process_row(row, row_no)
-    end
+    initialize_stats
   end
 
   def process_row(row, row_no)
@@ -79,10 +67,6 @@ class TimeSeriesValuesData
         )
       end
     end
-  end
-
-  def value_for(row, property_name)
-    row[@headers.actual_index_for_property(property_name)]
   end
 
   def model(row, errors)
