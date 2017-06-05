@@ -10,11 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20170605090043) do
-=======
-ActiveRecord::Schema.define(version: 20170531131329) do
->>>>>>> Added an alias field for model indicators and require category to be present rather than name
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
