@@ -60,15 +60,11 @@ class IndicatorsController < ApplicationController
   end
 
   def upload_meta_data
-    @uploaded_io = params[:indicators_file]
-    unless @uploaded_io.present?
-      redirect_to(
-        model_indicators_url(@model),
-        alert: 'Please provide an upload file'
-      ) and return
-    end
-    result = UploadIndicators.new(current_user, @model).call(@uploaded_io)
-    render json: result
+    handle_io_upload(
+      :indicators_file,
+      UploadIndicators,
+      model_indicators_url(@model)
+    )
   end
 
   private

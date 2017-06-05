@@ -35,4 +35,16 @@ class ApplicationController < ActionController::Base
       :type
     )
   end
+
+  def handle_io_upload(file_name, service_class_name, redirect_url)
+    @uploaded_io = params[file_name]
+    unless @uploaded_io.present?
+      redirect_to(
+        redirect_url,
+        alert: 'Please provide an upload file'
+      ) and return
+    end
+    result = service_class_name.new(current_user, @model).call(@uploaded_io)
+    render json: result
+  end
 end
