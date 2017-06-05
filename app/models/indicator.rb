@@ -12,6 +12,11 @@ class Indicator < ApplicationRecord
 
   validates :category, presence: true
   before_validation :ignore_blank_array_values
+  before_save :update_alias, if: proc { |i| i.parent.blank? }
+
+  def update_alias
+    self.alias = [category, subcategory, name].join('|')
+  end
 
   def scenarios
     Scenario.joins(
@@ -79,10 +84,6 @@ class Indicator < ApplicationRecord
         slug_hash[:name] = slug_parts[2]
       end
       slug_hash
-    end
-
-    def find_all_by_slug(slug)
-      where(slug_to_hash(slug))
     end
   end
 

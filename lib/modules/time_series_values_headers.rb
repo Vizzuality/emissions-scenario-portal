@@ -15,8 +15,8 @@ class TimeSeriesValuesHeaders
       property_name: :region
     },
     {
-      display_name: 'ESP Slug',
-      property_name: :indicator_slug
+      display_name: 'Indicator Name',
+      property_name: :indicator_name
     },
     {
       display_name: 'Unit of Entry',

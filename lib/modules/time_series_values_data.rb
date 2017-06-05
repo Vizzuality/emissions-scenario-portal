@@ -39,10 +39,15 @@ class TimeSeriesValuesData
 
   def values_by_year(row, errors)
     model = model(row, errors)
+    return [] if errors['model'].present?
     scenario = scenario(model, row, errors)
+    return [] if errors['scenario'].present?
     indicator = indicator(model, row, errors)
+    return [] if errors['indicator'].present?
     location = location(row, errors)
+    return [] if errors['location'].present?
     unit_of_entry = unit_of_entry(indicator, row, errors)
+    return [] if errors['unit_of_entry'].present?
 
     year_values = @headers.year_headers.map do |h|
       year = h[:display_name].to_i
@@ -98,7 +103,7 @@ class TimeSeriesValuesData
     return nil if model.nil?
     scenario_name = value_for(row, :scenario_name)
     identification = "model: #{model.abbreviation}, scenario: \
-    #{scenario_name}"
+#{scenario_name}"
 
     scenarios = Scenario.where(name: scenario_name, model_id: model.id)
     matching_object(scenarios, 'scenario', identification, errors)
@@ -106,10 +111,10 @@ class TimeSeriesValuesData
 
   def indicator(model, row, errors)
     return nil if model.nil?
-    indicator_slug = value_for(row, :indicator_slug)
-    identification = "indicator: #{indicator_slug}"
+    indicator_name = value_for(row, :indicator_name)
+    identification = "indicator: #{indicator_name}"
 
-    indicators = Indicator.find_all_by_slug(indicator_slug)
+    indicators = Indicator.where(alias: indicator_name)
     model_indicators = indicators.where(model_id: model.id)
     indicators = model_indicators if model_indicators.any?
     matching_object(indicators, 'indicator', identification, errors)
@@ -125,11 +130,11 @@ class TimeSeriesValuesData
   def matching_object(object_collection, object_type, identification, errors)
     if object_collection.count > 1
       errors[object_type] = "More than one #{object_type} found \
-      (#{identification}"
+(#{identification}"
       nil
     elsif object_collection.count.zero?
       errors[object_type] = "#{object_type.capitalize} does not exist \
-      (#{identification})"
+(#{identification})"
       nil
     else
       object_collection.first
@@ -143,7 +148,7 @@ class TimeSeriesValuesData
     if unit_of_entry != indicator.unit &&
         unit_of_entry != indicator.unit_of_entry
       errors['unit_of_entry'] = "Conversion factor unavailable for unit of \
-      entry #{unit_of_entry}"
+entry #{unit_of_entry}"
     end
     unit_of_entry
   end
