@@ -180,31 +180,28 @@ en:
   indicators:
     category:
       name: "Category"
-      definition: "TODO"
+      definition: "Which category does it belong to? Categories are fixed in the system and the options are: Emissions, Climate and Health Impacts, Population and Economy, Energy, Electricty, Industry, Buildings, Transportation, Agriculture Land Use and Forestry, Policy, Technology, Financial"
     subcategory:
       name: "Subcategory"
-      definition: "TODO"
+      definition: "What sub-category does the indicator belong to? New sub-categories can be added"
     stackable_subcategory:
       name: "Stackable subcategory"
-      definition: "TODO"
+      definition: "Is the sub-category stackable, i.e. do all the indicators in the sub-category add up to some total value (examples are emissions by sector, energy generation by fuel, etc.). Avoid double counting, i.e. if there is an indicator for \"solar\", \"wind\" and \"biomass\" each, then there shouldn't be another indicators \"renewable\" in the same sub-category, as both of these would be added together in a stackable sub-category."
     name:
       name: "Name"
-      definition: "TODO"
+      definition: "Name of the indicator that is used in your model output"
     definition:
       name: "Description"
-      definition: "TODO"
+      definition: "Detailed description of the indicator. E.g. which sub-sectors are covered in industry or agriculture and land use. Special assumptions made for the indicator (if any)."
     unit:
       name: "Unit"
-      definition: "TODO"
+      definition: "Standardized unit of the ESP for this indicator"
     unit_of_entry:
       name: "Unit of entry"
-      definition: "TODO"
+      definition: "The unit in which values for this indicator are entered"
     conversion_factor:
       name: "Conversion factor"
-      definition: "TODO"
-    notes:
-      name: "Notes"
-      definition: "TODO"
+      definition: "Conversion factor between the unit of entry and the standardized unit ( = (standardized unit)/(unit of entry)), if the conversion can be expressed as a constant factor. If the conversion cannot be expressed with a constant factor consider adding a new indicator to the system."
   scenarios:
     model_abbreviation:
       name: "Model Abbreviation"
