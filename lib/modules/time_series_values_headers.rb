@@ -1,6 +1,8 @@
 require 'csv'
 
 class TimeSeriesValuesHeaders
+  include CsvUploadHeaders
+
   EXPECTED_HEADERS = [
     {
       display_name: 'Model',
@@ -66,13 +68,6 @@ class TimeSeriesValuesHeaders
 
   def year_headers
     @actual_headers.select { |h| h[:year_header] }
-  end
-
-  def actual_index_for_property(property_name)
-    expected_index = EXPECTED_PROPERTIES[property_name][:index]
-    @actual_headers.index do |h|
-      h[:expected_index] == expected_index
-    end
   end
 
   def actual_index_of_year(year)
