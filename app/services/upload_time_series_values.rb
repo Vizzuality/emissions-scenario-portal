@@ -1,3 +1,5 @@
+require 'time_series_values_data'
+
 class UploadTimeSeriesValues
   def initialize(user, model)
     @user = user

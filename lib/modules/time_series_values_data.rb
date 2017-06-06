@@ -1,3 +1,5 @@
+require 'time_series_values_headers'
+
 class TimeSeriesValuesData
   attr_reader :number_of_rows, :number_of_rows_failed, :errors
 

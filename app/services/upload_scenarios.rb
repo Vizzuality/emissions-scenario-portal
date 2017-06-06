@@ -1,3 +1,5 @@
+require 'scenarios_data'
+
 class UploadScenarios
   def initialize(user, model)
     @user = user
