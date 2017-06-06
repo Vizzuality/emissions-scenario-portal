@@ -10,6 +10,7 @@ class ScenariosHeaders
     :provider_name,
     :release_date,
     :category,
+    :purpose_or_objective,
     :description,
     :geographic_coverage_region,
     :geographic_coverage_country,

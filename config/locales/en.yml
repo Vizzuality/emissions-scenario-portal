@@ -224,6 +224,9 @@ en:
     category:
       name: "Category"
       definition: "What category does this scenario fit under?"
+    purpose_or_objective:
+      name: "Purpose/Objective"
+      definition: "What was the original purpose or objective of the scenario? Why was it created?"
     description:
       name: "Description"
       definition: "What is a description of the scenario?"
