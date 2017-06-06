@@ -80,8 +80,6 @@
 - name: :large_scale_bioccs
   picklist: true
   size: 'small'
-- name: :climate_policy_instrument
-  size: 'large'
 - name: :technology_assumptions
   size: 'large'
 - name: :gdp_assumptions

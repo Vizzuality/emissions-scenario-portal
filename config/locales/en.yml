@@ -296,9 +296,6 @@ en:
     large_scale_bioccs:
       name: "Large-scale BioCCS"
       definition: "Does the scenario rely on deployment of large-scale bioenergy with carbon capture and storage for emission mitigation?"
-    climate_policy_instrument:
-      name: "Climate Policy Instrument"
-      definition: 'TODO'
     technology_assumptions:
       name: "Technology Assumptions"
       definition: "What technology assumptions are included in the model (e.g., cost curves, lifetime, efficiency, availability factor and build rates)?"

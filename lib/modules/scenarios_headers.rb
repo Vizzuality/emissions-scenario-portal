@@ -34,7 +34,6 @@ class ScenariosHeaders
     :other_target,
     :burden_sharing,
     :large_scale_bioccs,
-    :climate_policy_instrument,
     :technology_assumptions,
     :gdp_assumptions,
     :population_assumptions,
