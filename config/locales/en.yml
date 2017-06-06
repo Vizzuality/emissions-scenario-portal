@@ -215,9 +215,6 @@ en:
     name:
       name: "Scenario name"
       definition: "What is the full scenario name?"
-    provider_type:
-      name: "Provider Type"
-      definition: "What type of entity provided the scenario?"
     provider_name:
       name: "Provider Name"
       definition: "What is the name of the scenario provider?"
