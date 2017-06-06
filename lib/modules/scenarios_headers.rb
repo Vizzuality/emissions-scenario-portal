@@ -12,6 +12,7 @@ class ScenariosHeaders
     :category,
     :purpose_or_objective,
     :description,
+    :key_usage,
     :geographic_coverage_region,
     :geographic_coverage_country,
     :sectoral_coverage,

@@ -230,6 +230,9 @@ en:
     description:
       name: "Description"
       definition: "What is a description of the scenario?"
+    key_usage:
+      name: "Key Usage"
+      definition: "What is this scenario known for? What topical area(s) is it especially useful for?"
     geographic_coverage_region:
       name: "Geographic Coverage-Region"
       definition: "What geographic regions are covered by the scenario?"

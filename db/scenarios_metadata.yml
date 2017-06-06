@@ -17,6 +17,8 @@
   size: 'large'
 - name: :description
   size: 'large'
+- name: :key_usage
+  size: 'large'
 - name: :geographic_coverage_region
   picklist: true
   multiple: true
