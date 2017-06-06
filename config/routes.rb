@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     end
     resources :indicators, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
       post :upload_meta_data, on: :collection#, as: :upload_indicators_meta_data
+      get :download_time_series, on: :member
     end
   end
 

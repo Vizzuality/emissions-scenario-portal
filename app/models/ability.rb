@@ -22,6 +22,7 @@ class Ability
       can :manage, Indicator do |indicator|
         team.models.pluck(:id).include?(indicator.model_id)
       end
+      can :download_time_series, Indicator
       can :show, Team, id: team.id
       can :edit, Team, id: team.id
       can :update, Team, id: team.id

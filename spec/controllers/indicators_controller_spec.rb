@@ -342,5 +342,19 @@ RSpec.describe IndicatorsController, type: :controller do
         expect(flash[:alert]).to match(/You are not authorized/)
       end
     end
+
+    describe 'GET download_time_series' do
+      it 'returns indicator time series file' do
+        FactoryGirl.create(:time_series_value, indicator: team_indicator)
+
+        get :download_time_series, params: {
+          model_id: team_model.id, id: team_indicator.id
+        }
+        expect(response.content_type).to eq('text/csv')
+        expect(response.headers['Content-Disposition']).to eq(
+          'attachment; filename=indicator_time_series_data.csv'
+        )
+      end
+    end
   end
 end

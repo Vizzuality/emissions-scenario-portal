@@ -3,6 +3,13 @@
   no_settings: true %>
 <div class="l-indicators-overview">
   <div class="l-indicators-overview__data-block">
+    <div class="row align-right">
+      <div class="small-3 columns">
+        <%= link_to download_time_series_model_indicator_url(@model, @indicator), class: 'l-indicators__download' do %>
+          <div class="c-hollow-button"><span>Download time series</span></div>
+        <% end %>
+      </div>
+    </div>
     <div class="row">
       <div class="small-12 columns">
         <div class="f-ff1-m-bold">Indicator</div>
@@ -36,10 +43,6 @@
     </div>
   </div>
   <div class="l-indicators-overview__relations">
-    <%
-      #TODO: all models for now
-      #TODO: all scenarios for now
-    %>
     <div class="row">
       <div class="small-4 columns">
         <div class="f-ff1-m-bold">Models using this indicator</div>
