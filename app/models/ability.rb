@@ -10,6 +10,7 @@ class Ability
     else
       can :manage, Model, team_id: team.id
       can :manage, Scenario, model: {team_id: team.id}
+      can :download_time_series, Scenario
       can :read, Indicator do |indicator|
         indicator.model_id.nil?
       end
@@ -22,6 +23,7 @@ class Ability
       can :manage, Indicator do |indicator|
         team.models.pluck(:id).include?(indicator.model_id)
       end
+      can :download_time_series, Indicator
       can :show, Team, id: team.id
       can :edit, Team, id: team.id
       can :update, Team, id: team.id

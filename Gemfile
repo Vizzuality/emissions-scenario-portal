@@ -38,6 +38,7 @@ gem 'cancancan', '~> 1.10'
 gem 'devise'
 gem 'devise_invitable'
 gem 'sendgrid-ruby'
+gem 'pg_csv'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

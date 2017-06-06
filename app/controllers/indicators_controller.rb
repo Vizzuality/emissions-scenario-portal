@@ -67,6 +67,17 @@ class IndicatorsController < ApplicationController
     )
   end
 
+  def download_time_series
+    csv_download = DownloadTimeSeriesValues.new(current_user).call(
+      @indicator.time_series_values
+    )
+    send_data(
+      csv_download.export,
+      type: 'text/csv; charset=utf-8; header=present',
+      disposition: 'attachment; filename=indicator_time_series_data.csv'
+    )
+  end
+
   private
 
   def indicator_params
