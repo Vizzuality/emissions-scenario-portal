@@ -43,7 +43,7 @@ class IndicatorsHeaders
   attr_reader :errors
 
   def initialize(path, model)
-    @headers = CSV.open(path, 'r', &:first).map(&:downcase)
+    initialize_headers(path)
     @model = model
     @errors = {}
     parse_headers

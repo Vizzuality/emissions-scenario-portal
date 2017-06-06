@@ -35,7 +35,7 @@ class TimeSeriesValuesHeaders
   attr_reader :errors
 
   def initialize(path)
-    @headers = CSV.open(path, 'r', &:first).map(&:downcase)
+    initialize_headers(path)
     @errors = {}
     parse_headers
   end

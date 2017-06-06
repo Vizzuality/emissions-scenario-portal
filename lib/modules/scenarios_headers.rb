@@ -1,6 +1,8 @@
 require 'csv'
 
 class ScenariosHeaders
+  include CsvUploadHeaders
+
   EXPECTED_HEADERS = [
     :model_abbreviation,
     :model_version,
@@ -52,15 +54,7 @@ class ScenariosHeaders
   attr_reader :errors
 
   def initialize(path)
-    @headers = CSV.open(path, 'r') do |csv|
-      headers = csv.first
-      # detect any blank columns to the right which might ruin the parsing
-      blank_columns_to_the_right = headers.reverse.inject(0) do |memo, obj|
-        break memo unless obj.blank?
-        memo + 1
-      end
-      break headers[0..(headers.length - blank_columns_to_the_right - 1)]
-    end.map(&:downcase)
+    initialize_headers(path)
     @errors = {}
     parse_headers
   end
@@ -83,13 +77,6 @@ class ScenariosHeaders
           display_name: header
         }
       end
-    end
-  end
-
-  def actual_index_for_property(property_name)
-    expected_index = EXPECTED_PROPERTIES[property_name][:index]
-    @actual_headers.index do |h|
-      h[:expected_index] == expected_index
     end
   end
 end
