@@ -1,3 +1,5 @@
+require 'indicators_headers'
+
 class IndicatorsData
   include CsvUploadData
   attr_reader :number_of_rows, :number_of_rows_failed, :errors

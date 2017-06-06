@@ -1,3 +1,6 @@
+require 'indicators_data'
+require 'file_upload_status'
+
 class UploadIndicators
   def initialize(user, model)
     @user = user

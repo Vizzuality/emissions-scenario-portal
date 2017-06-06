@@ -1,4 +1,4 @@
-
+require 'csv'
 
 class IndicatorsHeaders
   include CsvUploadHeaders
