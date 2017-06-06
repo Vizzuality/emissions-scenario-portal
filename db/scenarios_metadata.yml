@@ -1,98 +1,135 @@
 - name: :model_abbreviation
   reference: 'model.abbreviation'
   size: 'small'
+  category: 'Model and provider'
 - name: :model_version
   size: 'small'
+  category: 'Model and provider'
 - name: :name
   size: 'large'
+  category: 'Model and provider'
 - name: :provider_name
   size: 'large'
+  category: 'Model and provider'
 - name: :release_date
   date: true
   size: 'small'
+  category: 'Model and provider'
 - name: :category
   picklist: true
   size: 'large'
+  category: 'Scenario context'
 - name: :purpose_or_objective
   size: 'large'
+  category: 'Scenario context'
 - name: :description
   size: 'large'
+  category: 'Scenario context'
 - name: :key_usage
   size: 'large'
+  category: 'Scenario context'
 - name: :project
   size: 'large'
+  category: 'Scenario context'
 - name: :literature_reference
   size: 'small'
+  category: 'Scenario context'
 - name: :geographic_coverage_region
   picklist: true
   multiple: true
   size: 'small'
+  category: 'Coverage'
 - name: :geographic_coverage_country
   picklist: true
   multiple: true
   size: 'small'
+  category: 'Coverage'
 - name: :sectoral_coverage
   picklist: true
   multiple: true
   size: 'small'
+  category: 'Coverage'
 - name: :gas_and_pollutant_coverage
   picklist: true
   multiple: true
   size: 'large'
+  category: 'Coverage'
 - name: :policy_coverage
   picklist: true
   multiple: true
   size: 'small'
+  category: 'Coverage'
 - name: :policy_coverage_detailed
   size: 'large'
+  category: 'Coverage'
 - name: :technology_coverage
   picklist: true
   multiple: true
   size: 'large'
+  category: 'Coverage'
 - name: :technology_coverage_detailed
   size: 'small'
+  category: 'Coverage'
 - name: :energy_resource_coverage
   picklist: true
   multiple: true
   size: 'large'
+  category: 'Coverage'
 - name: :time_horizon
   picklist: true
   size: 'small'
+  category: 'Coverage'
 - name: :time_step
   picklist: true
   size: 'large'
+  category: 'Coverage'
 - name: :climate_target_type
   picklist: true
   size: 'small'
+  category: 'Targets'
 - name: :climate_target_detailed
   size: 'large'
+  category: 'Targets'
 - name: :climate_target_date
   size: 'small'
+  category: 'Targets'
 - name: :overshoot
   picklist: true
   small: 'size'
+  category: 'Targets'
 - name: :other_target_type
   size: 'small'
+  category: 'Targets'
 - name: :other_target
   size: 'large'
+  category: 'Targets'
 - name: :burden_sharing
   size: 'small'
+  category: 'Assumptions'
 - name: :large_scale_bioccs
   picklist: true
   size: 'small'
+  category: 'Assumptions'
 - name: :technology_assumptions
   size: 'large'
+  category: 'Assumptions'
 - name: :gdp_assumptions
   size: 'small'
+  category: 'Assumptions'
 - name: :population_assumptions
   size: 'large'
+  category: 'Assumptions'
 - name: :discount_rates
   picklist: true
   multiple: true
   size: 'small'
+  category: 'Assumptions'
 - name: :emission_factors
   size: 'large'
+  category: 'Assumptions'
 - name: :global_warming_potentials
   size: 'small'
+  category: 'Assumptions'
 - name: :policy_cut_off_year_for_baseline
   size: 'large'
+  category: 'Assumptions'
