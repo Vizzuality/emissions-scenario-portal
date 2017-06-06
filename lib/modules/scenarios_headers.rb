@@ -7,7 +7,6 @@ class ScenariosHeaders
     :model_abbreviation,
     :model_version,
     :name,
-    :proposed_portal_name,
     :provider_type,
     :provider_name,
     :release_date,

@@ -5,8 +5,6 @@
   size: 'small'
 - name: :name
   size: 'large'
-- name: :proposed_portal_name
-  size: 'large'
 - name: :provider_type
   picklist: true
   size: 'small'
