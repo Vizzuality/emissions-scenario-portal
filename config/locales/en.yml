@@ -272,9 +272,15 @@ en:
     time_step:
       name: "Time Step"
       definition: "What time interval is used for the model output?"
-    climate_target:
-      name: "Climate Target"
+    climate_target_type:
+      name: "Climate Target Type"
       definition: "What climate target does this scenario use (e.g., 1.5 DC, 2 DC, 450 ppm, 2.6 W/m2, etc.)?"
+    climate_target_detailed:
+      name: "Climate Target Detailed"
+      definition: "What specific climate targets are included in this scenario (e.g. 450 ppm, 2 DC, etc.)?"
+    climate_target_date:
+      name: "Climate Target Date"
+      definition: "In what date (year) does the target have to be achieved?"
     emissions_target:
       name: "Emissions Target"
       definition: "What emissions target does the scenario use (e.g., 50 Gt CO2-equiv)?"

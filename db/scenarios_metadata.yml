@@ -61,8 +61,12 @@
 - name: :time_step
   picklist: true
   size: 'large'
-- name: :climate_target
+- name: :climate_target_type
   picklist: true
+  size: 'small'
+- name: :climate_target_detailed
+  size: 'large'
+- name: :climate_target_date
   size: 'small'
 - name: :emissions_target
   picklist: true
