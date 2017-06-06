@@ -60,7 +60,11 @@ class IndicatorsController < ApplicationController
   end
 
   def upload_meta_data
-    # TODO: implement
+    handle_io_upload(
+      :indicators_file,
+      UploadIndicators,
+      model_indicators_url(@model)
+    )
   end
 
   private

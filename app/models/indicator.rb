@@ -6,12 +6,17 @@ class Indicator < ApplicationRecord
 
   ORDERS = %w[name category subcategory definition unit].freeze
 
-  belongs_to :parent, class_name: 'Indicator'
+  belongs_to :parent, class_name: 'Indicator', optional: true
   has_many :time_series_values, dependent: :destroy
   belongs_to :model, optional: true
 
-  validates :name, presence: true
+  validates :category, presence: true
   before_validation :ignore_blank_array_values
+  before_save :update_alias, if: proc { |i| i.parent.blank? }
+
+  def update_alias
+    self.alias = [category, subcategory, name].join('|')
+  end
 
   def scenarios
     Scenario.joins(
@@ -67,16 +72,18 @@ class Indicator < ApplicationRecord
       indicators.where("#{filter} IN (?)", value.split(','))
     end
 
-    def find_all_by_slug(slug)
-      slug_parts = slug.split('|')
+    def slug_to_hash(slug)
+      return {} unless slug.present?
+      slug_parts = slug && slug.split('|').map(&:strip)
+      return {} if slug_parts.empty?
+      slug_hash = {category: slug_parts[0]}
       if slug_parts.length == 2
-        category, name = slug_parts
+        slug_hash[:name] = slug_parts[1]
       elsif slug_parts.length == 3
-        category, subcategory, name = slug_parts
+        slug_hash[:subcategory] = slug_parts[1]
+        slug_hash[:name] = slug_parts[2]
       end
-      rel = where(category: category, name: name)
-      rel = rel.where(subcategory: subcategory) if subcategory
-      rel
+      slug_hash
     end
   end
 

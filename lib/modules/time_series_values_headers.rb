@@ -1,6 +1,8 @@
 require 'csv'
 
 class TimeSeriesValuesHeaders
+  include CsvUploadHeaders
+
   EXPECTED_HEADERS = [
     {
       display_name: 'Model',
@@ -15,8 +17,8 @@ class TimeSeriesValuesHeaders
       property_name: :region
     },
     {
-      display_name: 'ESP Slug',
-      property_name: :indicator_slug
+      display_name: 'Indicator Name',
+      property_name: :indicator_name
     },
     {
       display_name: 'Unit of Entry',
@@ -33,7 +35,7 @@ class TimeSeriesValuesHeaders
   attr_reader :errors
 
   def initialize(path)
-    @headers = CSV.open(path, 'r', &:first).map(&:downcase)
+    initialize_headers(path)
     @errors = {}
     parse_headers
   end
@@ -66,13 +68,6 @@ class TimeSeriesValuesHeaders
 
   def year_headers
     @actual_headers.select { |h| h[:year_header] }
-  end
-
-  def actual_index_for_property(property_name)
-    expected_index = EXPECTED_PROPERTIES[property_name][:index]
-    @actual_headers.index do |h|
-      h[:expected_index] == expected_index
-    end
   end
 
   def actual_index_of_year(year)

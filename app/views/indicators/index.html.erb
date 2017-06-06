@@ -2,129 +2,128 @@
   title: 'GCAM. Global Change Assessment Model',
   no_settings: true %>
 <div class="l-indicators">
-  <div class="row align-justify">
-    <div class="small-5 columns">
-      <div class="f-ff3-m-bold">Indicators <span>(<%= @indicators.count %>)</span></div>
+  <div class="l-indicators__upload-block">
+    <div class="row">
+      <div class="small-12 columns">
+        <%= render 'shared/components/c_upload_card',
+                   form_url: upload_meta_data_model_indicators_url(@model),
+                   input_id: 'indicators_file',
+                   structure_url: '/esp_indicators_template.csv',
+                   button_text: 'Upload indicators' %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="small-3 columns">
+      <div class="l-indicators__title f-ff3-m-bold">Indicators <span>(<%= @indicators.count %>)</span></div>
     </div>
     <div class="small-3 columns">
-      <%= link_to new_model_indicator_url(@model), class: 'l-indicators__new-indicator' do %>
-        <div class="c-hollow-button"><span>Create new indicator</span></div>
-      <% end %>
+      <div class="c-form-item js-table-filter" data-filter-type="select" data-filter-key="type">
+        <label class="f-ff1-m">Filter by type</label>
+        <div class="c-select">
+          <%= select_tag 'filters[type]',
+                         types_for_select,
+                         class: 'js-form-input js-select' %>
+        </div>
+      </div>
+    </div>
+    <div class="small-3 columns">
+      <div class="c-form-item js-table-filter" data-filter-type="multiselect" data-filter-key="category">
+        <label class="f-ff1-m">Filter by Category</label>
+        <div class="c-select">
+          <select multiple class="js-form-input js-multiple-select" data-placeholder="Select any category">
+            <% @categories.each do |category| %>
+              <option value="<%= category %>"><%= category %></option>
+            <% end %>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="small-3 columns">
+      <div class="c-form-item">
+        <label class="f-ff1-m-bold"></label>
+        <div class="c-input-search">
+          <%= text_field_tag 'search',
+                             nil,
+                             placeholder: 'Search',
+                             class: 'c-input-text js-table-filter',
+                             data: {
+                               'filter-type' => 'search',
+                               'filter-key' => 'search'
+                             } %>
+          <svg class="icon"><use xlink:href="#icon-search"></use></svg>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="l-indicators__filters">
+  <div class="l-indicators__table-shorts js-table-filter" data-filter-type="order">
     <div class="row">
-      <div class="small-3 columns">
-        <div class="c-form-item js-table-filter" data-filter-type="select" data-filter-key="type">
-          <label class="f-ff1-m">Filter by type</label>
-          <div class="c-select">
-            <%= select_tag 'filters[type]',
-                           types_for_select,
-                           class: 'js-form-input js-select' %>
+      <div class="small-2 columns">
+        <%= render 'shared/components/c_order_filter_button',
+                   text: 'Indicator',
+                   other_class: '-no-wrap',
+                   column_key: 'name' %>
+      </div>
+      <div class="small-2 columns">
+        <%= render 'shared/components/c_order_filter_button',
+                   text: 'Category',
+                   other_class: '-no-wrap',
+                   column_key: 'category' %>
+      </div>
+      <div class="small-2 columns">
+        <%= render 'shared/components/c_order_filter_button',
+                   text: 'Subcategory',
+                   column_key: 'subcategory' %>
+      </div>
+      <div class="small-1 columns">
+        <%= render 'shared/components/c_order_filter_button',
+                   text: 'Unit',
+                   other_class: '-no-wrap',
+                   column_key: 'unit' %>
+      </div>
+      <div class="small-4 columns">
+        <%= render 'shared/components/c_order_filter_button',
+                   text: 'Description',
+                   other_class: '-no-wrap',
+                   column_key: 'definition' %>
+      </div>
+    </div>
+  </div>
+  <% @indicators.each do |indicator| %>
+    <div class="c-table-list-item">
+      <div class="row">
+        <div class="small-2 columns">
+          <div class="c-table-list-item__text f-ff1-m-bold"><%= link_to indicator.name, model_indicator_url(@model, indicator) %></div>
+        </div>
+        <div class="small-2 columns">
+          <div class="c-table-list-item__text f-ff1-m"><%= indicator.category %></div>
+        </div>
+        <div class="small-2 columns">
+          <div class="c-table-list-item__text f-ff1-m"><%= indicator.subcategory %></div>
+        </div>
+        <div class="small-1 columns">
+          <div class="c-table-list-item__text f-ff1-m"><%= indicator.unit %></div>
+        </div>
+        <div class="small-4 columns">
+          <div class="c-table-list-item__text f-ff1-m">
+            <%= indicator.definition && truncate(indicator.definition, length: 120) %>
           </div>
         </div>
-      </div>
-      <div class="small-3 columns">
-        <div class="c-form-item js-table-filter" data-filter-type="multiselect" data-filter-key="category">
-          <label class="f-ff1-m">Filter by Category</label>
-          <div class="c-select">
-            <select multiple class="js-form-input js-multiple-select" data-placeholder="Select any category">
-              <% @categories.each do |category| %>
-                <option value="<%= category %>"><%= category %></option>
-              <% end %>
-            </select>
-          </div>
-        </div>
-      </div>
-      <div class="small-3 columns"></div>
-      <div class="small-3 columns">
-        <div class="c-form-item">
-          <label class="f-ff1-m-bold"></label>
-          <div class="c-input-search">
-            <%= text_field_tag 'search',
-                               nil,
-                               placeholder: 'Search',
-                               class: 'c-input-text js-table-filter',
-                               data: {
-                                 'filter-type' => 'search',
-                                 'filter-key' => 'search'
-                               } %>
-            <svg class="icon"><use xlink:href="#icon-search"></use></svg>
-          </div>
-        </div>
-      </div>
-      <div class="small-12 columns">
-        <div class="l-indicators__table-shorts row js-table-filter" data-filter-type="order">
-          <div class="small-2 columns">
-            <%= render 'shared/components/c_order_filter_button',
-              text: 'Indicator',
-              other_class: '-no-wrap',
-              column_key: 'name' %>
-          </div>
-          <div class="small-2 columns">
-            <%= render 'shared/components/c_order_filter_button',
-              text: 'Category',
-              other_class: '-no-wrap',
-              column_key: 'category' %>
-          </div>
-          <div class="small-2 columns">
-            <%= render 'shared/components/c_order_filter_button',
-              text: 'Subcategory',
-              column_key: 'subcategory' %>
-          </div>
-          <div class="small-1 columns">
-            <%= render 'shared/components/c_order_filter_button',
-              text: 'Unit',
-              other_class: '-no-wrap',
-              column_key: 'unit' %>
-          </div>
-          <div class="small-4 columns">
-            <%= render 'shared/components/c_order_filter_button',
-              text: 'Description',
-              other_class: '-no-wrap',
-              column_key: 'definition' %>
+        <div class="small-1 columns">
+          <div class="c-table-list-item__actions">
+            <%= link_to model_indicator_url(@model, indicator), method: :delete, data: {confirm: destroy_confirmation_message(indicator)} do %>
+              <div class="c-delete-button">
+                <svg class="icon"><use xlink:href="#icon-delete"></use></svg>
+              </div>
+            <% end %>
+            <%= link_to edit_model_indicator_url(@model, indicator) do %>
+              <div class="c-edit-button">
+                <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+              </div>
+            <% end %>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <div>
-    <% @indicators.each do |indicator| %>
-      <div class="c-table-list-item">
-        <div class="row">
-          <div class="small-2 columns">
-            <div class="c-table-list-item__text f-ff1-m-bold"><%= link_to indicator.name, model_indicator_url(@model, indicator) %></div>
-          </div>
-          <div class="small-2 columns">
-            <div class="c-table-list-item__text f-ff1-m"><%= indicator.category %></div>
-          </div>
-          <div class="small-2 columns">
-            <div class="c-table-list-item__text f-ff1-m"><%= indicator.subcategory %></div>
-          </div>
-          <div class="small-1 columns">
-            <div class="c-table-list-item__text f-ff1-m"><%= indicator.unit %></div>
-          </div>
-          <div class="small-4 columns">
-            <div class="c-table-list-item__text f-ff1-m">
-              <%= indicator.definition && truncate(indicator.definition, length: 120) %>
-            </div>
-          </div>
-          <div class="small-1 columns">
-            <div class="c-table-list-item__actions">
-              <%= link_to model_indicator_url(@model, indicator), method: :delete, data: {confirm: destroy_confirmation_message(indicator)} do %>
-                <div class="c-delete-button">
-                  <svg class="icon"><use xlink:href="#icon-delete"></use></svg>
-                </div>
-              <% end %>
-              <%= link_to edit_model_indicator_url(@model, indicator) do %>
-                <div class="c-edit-button">
-                  <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
-                </div>
-              <% end %>
-            </div>
-          </div>
-        </div>
-      </div>
-    <% end %>
-  </div>
+  <% end %>
 </div>

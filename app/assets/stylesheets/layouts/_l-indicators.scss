@@ -1,23 +1,18 @@
 .l-indicators {
-  padding-top: rem(39px);
+  padding-top: rem(29px);
 
-  .f-ff3-m-bold {
-    position: relative;
-    top: rem(3px);
+  .l-indicators__upload-block {
+    padding-bottom: rem(28px);
   }
 
-  .l-indicators__new-indicator {
-    text-decoration: none;
-  }
-
-  .l-indicators__filters {
-    position: relative;
-    padding-top: rem(40px);
-    box-shadow: 0 3px 5px 0 $color-app-5;
+  .l-indicators__title {
+    padding-top: rem(32px);
   }
 
   .l-indicators__table-shorts {
-    padding-top: rem(20px);
+    position: relative;
+    padding: rem(11px) 0 rem(7px) 0;
+    box-shadow: 0 3px 5px 0 $color-app-5;;
 
     .columns {
       display: flex;

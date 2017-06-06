@@ -1,26 +1,14 @@
 require 'time_series_values_headers'
 
 class TimeSeriesValuesData
+  include CsvUploadData
   attr_reader :number_of_rows, :number_of_rows_failed, :errors
 
   def initialize(path, user)
     @path = path
     @user = user
     @headers = TimeSeriesValuesHeaders.new(@path)
-    @number_of_rows = File.foreach(@path).count - 1
-    @number_of_rows_failed, @errors =
-      if @headers.errors.any?
-        [@number_of_rows, @headers.errors]
-      else
-        [0, {}]
-      end
-  end
-
-  def process
-    return if @headers.errors.any?
-    CSV.open(@path, 'r', headers: true).each.with_index(2) do |row, row_no|
-      process_row(row, row_no)
-    end
+    initialize_stats
   end
 
   def process_row(row, row_no)
@@ -39,10 +27,15 @@ class TimeSeriesValuesData
 
   def values_by_year(row, errors)
     model = model(row, errors)
+    return [] if errors['model'].present?
     scenario = scenario(model, row, errors)
+    return [] if errors['scenario'].present?
     indicator = indicator(model, row, errors)
+    return [] if errors['indicator'].present?
     location = location(row, errors)
+    return [] if errors['location'].present?
     unit_of_entry = unit_of_entry(indicator, row, errors)
+    return [] if errors['unit_of_entry'].present?
 
     year_values = @headers.year_headers.map do |h|
       year = h[:display_name].to_i
@@ -76,10 +69,6 @@ class TimeSeriesValuesData
     end
   end
 
-  def value_for(row, property_name)
-    row[@headers.actual_index_for_property(property_name)]
-  end
-
   def model(row, errors)
     model_abbreviation = value_for(row, :model_abbreviation)
     identification = "model: #{model_abbreviation}"
@@ -98,7 +87,7 @@ class TimeSeriesValuesData
     return nil if model.nil?
     scenario_name = value_for(row, :scenario_name)
     identification = "model: #{model.abbreviation}, scenario: \
-    #{scenario_name}"
+#{scenario_name}"
 
     scenarios = Scenario.where(name: scenario_name, model_id: model.id)
     matching_object(scenarios, 'scenario', identification, errors)
@@ -106,10 +95,10 @@ class TimeSeriesValuesData
 
   def indicator(model, row, errors)
     return nil if model.nil?
-    indicator_slug = value_for(row, :indicator_slug)
-    identification = "indicator: #{indicator_slug}"
+    indicator_name = value_for(row, :indicator_name)
+    identification = "indicator: #{indicator_name}"
 
-    indicators = Indicator.find_all_by_slug(indicator_slug)
+    indicators = Indicator.where(alias: indicator_name)
     model_indicators = indicators.where(model_id: model.id)
     indicators = model_indicators if model_indicators.any?
     matching_object(indicators, 'indicator', identification, errors)
@@ -122,20 +111,6 @@ class TimeSeriesValuesData
     matching_object(locations, 'location', identification, errors)
   end
 
-  def matching_object(object_collection, object_type, identification, errors)
-    if object_collection.count > 1
-      errors[object_type] = "More than one #{object_type} found \
-      (#{identification}"
-      nil
-    elsif object_collection.count.zero?
-      errors[object_type] = "#{object_type.capitalize} does not exist \
-      (#{identification})"
-      nil
-    else
-      object_collection.first
-    end
-  end
-
   def unit_of_entry(indicator, row, errors)
     return nil if indicator.nil?
     unit_of_entry = value_for(row, :unit_of_entry)
@@ -143,7 +118,7 @@ class TimeSeriesValuesData
     if unit_of_entry != indicator.unit &&
         unit_of_entry != indicator.unit_of_entry
       errors['unit_of_entry'] = "Conversion factor unavailable for unit of \
-      entry #{unit_of_entry}"
+entry #{unit_of_entry}"
     end
     unit_of_entry
   end

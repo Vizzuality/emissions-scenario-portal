@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Indicator, type: :model do
-  it 'should be invalid when name not present' do
+  it 'should be invalid when category not present' do
     expect(
-      FactoryGirl.build(:indicator, name: nil)
-    ).to have(1).errors_on(:name)
+      FactoryGirl.build(:indicator, category: nil)
+    ).to have(1).errors_on(:category)
   end
 
   context 'linked scenarios and models' do
@@ -36,7 +36,7 @@ RSpec.describe Indicator, type: :model do
     end
   end
 
-  describe :find_all_by_slug do
+  describe :slug_to_hash do
     let!(:indicator1) {
       FactoryGirl.create(
         :indicator, category: 'A', subcategory: 'B', name: 'C'
@@ -47,11 +47,15 @@ RSpec.describe Indicator, type: :model do
         :indicator, category: 'A', subcategory: nil, name: 'B'
       )
     }
-    it 'finds all indicators matching a 3-part slug' do
-      expect(Indicator.find_all_by_slug('A|B|C')).to eq([indicator1])
+    it 'parses a 3-part slug' do
+      expect(
+        Indicator.slug_to_hash('A|B|C')
+      ).to eq(category: 'A', subcategory: 'B', name: 'C')
     end
-    it 'finds all indicators matching a 2-part slug' do
-      expect(Indicator.find_all_by_slug('A|B')).to eq([indicator2])
+    it 'parses a 2-part slug' do
+      expect(
+        Indicator.slug_to_hash('A|B')
+      ).to eq(category: 'A', name: 'B')
     end
   end
 
