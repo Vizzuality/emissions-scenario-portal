@@ -7,9 +7,25 @@ class ModelsController < ApplicationController
     redirect_to model_url(@models.first) and return if @models.length == 1
   end
 
-  def show
-    @scenarios = @model.scenarios.limit(5)
-    @indicators = Indicator.order(:category, :subcategory, :name)
+  def new
+    @model = Model.new
+    @model.team = current_user.team unless current_user.admin?
+    render action: :edit
+  end
+
+  def create
+    @model = Model.new(model_params)
+    @model.team = current_user.team unless current_user.admin?
+    if @model.save
+      redirect_to(
+        model_url(@model),
+        notice: 'Model was successfully created.'
+      )
+    else
+      flash[:alert] =
+        'We could not create the model. Please check the inputs in red'
+      render action: :edit
+    end
   end
 
   def edit; end
@@ -23,6 +39,11 @@ class ModelsController < ApplicationController
         'We could not update the model. Please check the inputs in red'
       render action: :edit
     end
+  end
+
+  def show
+    @scenarios = @model.scenarios.limit(5)
+    @indicators = Indicator.order(:category, :subcategory, :name)
   end
 
   def upload_meta_data

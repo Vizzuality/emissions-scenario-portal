@@ -13,6 +13,22 @@ RSpec.describe ModelsController, type: :controller do
       end
     end
 
+    describe 'GET new' do
+      it 'renders edit' do
+        get :new
+        expect(response).to render_template(:edit)
+      end
+    end
+
+    describe 'POST create' do
+      it 'redirects to models when successful' do
+        post :create, params: {
+          model: {abbreviation: 'ABC', full_name: 'ABC model'}
+        }
+        expect(response).to redirect_to(model_url(assigns(:model)))
+      end
+    end
+
     describe 'GET show' do
       it 'renders show' do
         get :show, params: {id: some_model.id}
@@ -53,6 +69,28 @@ RSpec.describe ModelsController, type: :controller do
       it 'redirects to model when only one model available' do
         get :index
         expect(response).to redirect_to(model_url(team_model))
+      end
+    end
+
+    describe 'GET new' do
+      it 'renders edit' do
+        get :new
+        expect(response).to render_template(:edit)
+      end
+    end
+
+    describe 'POST create' do
+      it 'renders edit when validation errors present' do
+        post :create, params: {
+          model: {abbreviation: 'ABC', full_name: nil}
+        }
+        expect(response).to render_template(:edit)
+      end
+      it 'redirects to models when successful' do
+        post :create, params: {
+          model: {abbreviation: 'ABC', full_name: 'ABC Model'}
+        }
+        expect(response).to redirect_to(model_url(assigns(:model)))
       end
     end
 

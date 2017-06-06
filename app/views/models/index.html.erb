@@ -1,5 +1,12 @@
 <%= render 'shared/components/c_landing_header', no_nav: true %>
 <div class="l-models">
+  <div class="row align-right">
+    <div class="small-3 columns">
+      <%= link_to new_model_url, class: 'l-models__new-model' do %>
+        <div class="c-hollow-button"><span>Create new model</span></div>
+      <% end %>
+    </div>
+  </div>
   <div class="row">
     <div class="small-12 columns">
       <div class="l-models__title f-ff3-m-bold">Select the model you want to manage</div>
