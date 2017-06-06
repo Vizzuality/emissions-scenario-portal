@@ -7,7 +7,7 @@
 <%= render 'shared/components/c_wri_header' %>
 <div class="c-landing-header <% if no_nav %>-no-nav<% end %>">
   <div class="row">
-    <div class="small-9 columns">
+    <div class="small-7 columns">
       <div class="f-ff2-xl-extralight c-landing-header__title">
         <% if title.present? %>
           <%= link_to 'ESP', '/' %> > <%= title %>
@@ -16,19 +16,22 @@
         <% end %>
       </div>
     </div>
-    <div class="small-3 columns">
+    <div class="small-5 columns">
       <div class="c-landing-header__buttons">
         <% if user.present? %>
           <div class="c-user-button">
             <div class="f-ff1-s"><%= user.name || user.email %></div>
             <svg class="icon"><use xlink:href="#icon-avatar"></use></svg>
           </div>
-        <% end %>
-        <% if !no_settings %>
           <div class="c-settings-button">
             <div class="f-ff1-s"><%= link_to 'Settings', edit_profile_path %></div>
             <svg class="icon"><use xlink:href="#icon-settings"></use></svg>
           </div>
+          <% unless user.admin? && user.team %>
+            <div class="c-settings-button">
+              <div class="f-ff1-s"><%= link_to 'My Team', edit_team_path(user.team) %></div>
+            </div>
+          <% end %>
         <% end %>
       </div>
     </div>
@@ -37,7 +40,7 @@
         <ul class="c-landing-nav f-ff1-xs">
           <% @nav_links.each do |link| %>
             <li class="<%= (controller_name == link[:key] ? '-selected' : '')%>">
-              <%= link_to link[:name], link[:path]  %>
+              <%= link_to link[:name], link[:path] %>
             </li>
           <% end %>
         </ul>
