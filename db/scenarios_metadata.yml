@@ -68,6 +68,9 @@
   size: 'large'
 - name: :climate_target_date
   size: 'small'
+- name: :overshoot
+  picklist: true
+  small: 'size'
 - name: :emissions_target
   picklist: true
   size: 'large'

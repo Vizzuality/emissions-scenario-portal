@@ -29,6 +29,7 @@ class ScenariosHeaders
     :climate_target_type,
     :climate_target_detailed,
     :climate_target_date,
+    :overshoot,
     :emissions_target,
     :large_scale_bioccs,
     :climate_policy_instrument,

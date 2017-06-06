@@ -281,6 +281,9 @@ en:
     climate_target_date:
       name: "Climate Target Date"
       definition: "In what date (year) does the target have to be achieved?"
+    overshoot:
+      name: "Overshoot"
+      definition: "Is overshoot of the target end date allowed?"
     emissions_target:
       name: "Emissions Target"
       definition: "What emissions target does the scenario use (e.g., 50 Gt CO2-equiv)?"
