@@ -116,6 +116,8 @@ GEM
     parser (2.4.0.0)
       ast (~> 2.2)
     pg (0.20.0)
+    pg_csv (0.2)
+      pg (~> 0.17)
     powerpack (0.1.1)
     public_suffix (2.0.5)
     puma (3.8.2)
@@ -271,6 +273,7 @@ DEPENDENCIES
   letter_opener
   listen (~> 3.0.5)
   pg (~> 0.18)
+  pg_csv
   puma (~> 3.0)
   rails (~> 5.0.2)
   rails-assets-URIjs!
