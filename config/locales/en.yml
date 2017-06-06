@@ -317,9 +317,3 @@ en:
     policy_cut_off_year_for_baseline:
       name: "Policy Cut-off Year for Baseline"
       definition: "After which year are no new policies or actions included in the baseline scenario?"
-    project_study:
-      name: "Project/Study"
-      definition: "Was this scenario created for an intercomparison project or research study?"
-    point_of_contact:
-      name: "Point-of-Contact"
-      definition: "Who provided the scenario data and/or who can serve as a point-of-contact for questions regarding the scenario?"

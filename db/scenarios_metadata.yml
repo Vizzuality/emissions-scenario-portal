@@ -96,9 +96,3 @@
   size: 'small'
 - name: :policy_cut_off_year_for_baseline
   size: 'large'
-- name: :project_study
-  picklist: true
-  multiple: true
-  size: 'large'
-- name: :point_of_contact
-  size: 'large'

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170606213930) do
+ActiveRecord::Schema.define(version: 20170606214411) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -132,9 +132,7 @@ ActiveRecord::Schema.define(version: 20170606213930) do
     t.text     "emission_factors"
     t.text     "global_warming_potentials"
     t.text     "policy_cut_off_year_for_baseline"
-    t.text     "project_study",                    default: [],              array: true
     t.text     "literature_reference"
-    t.text     "point_of_contact"
     t.text     "purpose_or_objective"
     t.text     "key_usage"
     t.text     "project"

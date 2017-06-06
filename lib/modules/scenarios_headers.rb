@@ -40,9 +40,7 @@ class ScenariosHeaders
     :discount_rates,
     :emission_factors,
     :global_warming_potentials,
-    :policy_cut_off_year_for_baseline,
-    :project_study,
-    :point_of_contact
+    :policy_cut_off_year_for_baseline
   ].map do |property_name|
     {
       display_name: I18n.t(Scenario.key_for_name(property_name)),
