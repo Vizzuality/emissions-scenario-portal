@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170606212331) do
+ActiveRecord::Schema.define(version: 20170606213228) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -144,6 +144,7 @@ ActiveRecord::Schema.define(version: 20170606212331) do
     t.text     "overshoot"
     t.text     "other_target_type"
     t.text     "other_target"
+    t.text     "burden_sharing"
     t.index ["model_id"], name: "index_scenarios_on_model_id", using: :btree
   end
 

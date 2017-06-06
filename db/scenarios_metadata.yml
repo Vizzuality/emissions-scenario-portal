@@ -75,6 +75,8 @@
   size: 'small'
 - name: :other_target
   size: 'large'
+- name: :burden_sharing
+  size: 'small'
 - name: :large_scale_bioccs
   picklist: true
   size: 'small'

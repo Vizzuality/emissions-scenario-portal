@@ -32,6 +32,7 @@ class ScenariosHeaders
     :overshoot,
     :other_target_type,
     :other_target,
+    :burden_sharing,
     :large_scale_bioccs,
     :climate_policy_instrument,
     :technology_assumptions,
