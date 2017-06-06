@@ -10,6 +10,7 @@ class Ability
     else
       can :manage, Model, team_id: team.id
       can :manage, Scenario, model: {team_id: team.id}
+      can :download_time_series, Scenario
       can :read, Indicator do |indicator|
         indicator.model_id.nil?
       end

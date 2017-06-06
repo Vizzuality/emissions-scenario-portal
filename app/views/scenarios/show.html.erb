@@ -4,6 +4,13 @@
 
 <div class="l-scenarios-overview">
   <div class="l-scenarios-overview__data-block">
+    <div class="row align-right">
+      <div class="small-3 columns">
+        <%= link_to download_time_series_model_scenario_url(@model, @scenario), class: 'l-scenarios__download' do %>
+          <div class="c-hollow-button"><span>Download time series</span></div>
+        <% end %>
+      </div>
+    </div>
     <div class="row">
       <div class="small-12 columns">
         <div class="f-ff3-m-bold l-scenarios-overview__title"><%= @scenario.name %></div>

@@ -50,6 +50,17 @@ class ScenariosController < ApplicationController
     render json: result
   end
 
+  def download_time_series
+    csv_download = DownloadTimeSeriesValues.new(current_user).call(
+      @scenario.time_series_values
+    )
+    send_data(
+      csv_download.export,
+      type: 'text/csv; charset=utf-8; header=present',
+      disposition: 'attachment; filename=scenario_time_series_data.csv'
+    )
+  end
+
   private
 
   def scenario_params

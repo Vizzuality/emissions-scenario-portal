@@ -164,6 +164,20 @@ RSpec.describe ScenariosController, type: :controller do
       end
     end
 
+    describe 'GET download_time_series' do
+      it 'returns scenario time series file' do
+        FactoryGirl.create(:time_series_value, scenario: team_scenario)
+
+        get :download_time_series, params: {
+          model_id: team_model.id, id: team_scenario.id
+        }
+        expect(response.content_type).to eq('text/csv')
+        expect(response.headers['Content-Disposition']).to eq(
+          'attachment; filename=scenario_time_series_data.csv'
+        )
+      end
+    end
+
     it 'filters parameters correctly for update' do
       scenario_params = {
         name: 'ABC',

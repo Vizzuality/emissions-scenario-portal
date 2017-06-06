@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     resources :scenarios, only: [:index, :show, :edit, :update, :destroy] do
       post :upload_meta_data, on: :collection
       post :upload_time_series, on: :collection, to: 'time_series_values#upload', as: :upload_time_series
+      get :download_time_series, on: :member
     end
     resources :indicators, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
       post :upload_meta_data, on: :collection#, as: :upload_indicators_meta_data
