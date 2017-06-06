@@ -1,4 +1,5 @@
 require 'scenarios_data'
+require 'file_upload_status'
 
 class UploadScenarios
   def initialize(user, model)

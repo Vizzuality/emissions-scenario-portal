@@ -1,4 +1,5 @@
 require 'time_series_values_data'
+require 'file_upload_status'
 
 class UploadTimeSeriesValues
   def initialize(user, model)
