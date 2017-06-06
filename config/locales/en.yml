@@ -284,9 +284,12 @@ en:
     overshoot:
       name: "Overshoot"
       definition: "Is overshoot of the target end date allowed?"
-    emissions_target:
-      name: "Emissions Target"
-      definition: "What emissions target does the scenario use (e.g., 50 Gt CO2-equiv)?"
+    other_target_type:
+      name: "Other Target Type"
+      definition: "Is there another target type included in the scenario? E.g. energy access, poverty alleviation"
+    other_target:
+      name: "Other Target"
+      definition: "Please describe the target included."
     large_scale_bioccs:
       name: "Large-scale BioCCS"
       definition: "Does the scenario rely on deployment of large-scale bioenergy with carbon capture and storage for emission mitigation?"

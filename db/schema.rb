@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170606211856) do
+ActiveRecord::Schema.define(version: 20170606212331) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -124,7 +124,6 @@ ActiveRecord::Schema.define(version: 20170606211856) do
     t.text     "time_horizon"
     t.text     "time_step"
     t.text     "climate_target_type"
-    t.text     "emissions_target"
     t.text     "large_scale_bioccs"
     t.text     "technology_assumptions"
     t.text     "gdp_assumptions"
@@ -143,6 +142,8 @@ ActiveRecord::Schema.define(version: 20170606211856) do
     t.text     "climate_target_detailed"
     t.text     "climate_target_date"
     t.text     "overshoot"
+    t.text     "other_target_type"
+    t.text     "other_target"
     t.index ["model_id"], name: "index_scenarios_on_model_id", using: :btree
   end
 

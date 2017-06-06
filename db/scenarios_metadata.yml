@@ -71,8 +71,9 @@
 - name: :overshoot
   picklist: true
   small: 'size'
-- name: :emissions_target
-  picklist: true
+- name: :other_target_type
+  size: 'small'
+- name: :other_target
   size: 'large'
 - name: :large_scale_bioccs
   picklist: true
