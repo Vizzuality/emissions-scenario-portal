@@ -14,6 +14,7 @@ class ScenariosHeaders
     :description,
     :key_usage,
     :project,
+    :literature_reference,
     :geographic_coverage_region,
     :geographic_coverage_country,
     :sectoral_coverage,
@@ -37,7 +38,6 @@ class ScenariosHeaders
     :global_warming_potentials,
     :policy_cut_off_year_for_baseline,
     :project_study,
-    :literature_reference,
     :point_of_contact
   ].map do |property_name|
     {

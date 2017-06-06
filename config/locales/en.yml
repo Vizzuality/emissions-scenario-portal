@@ -236,6 +236,9 @@ en:
     project:
       name: "Project"
       definition: "If applicable list model comparison or individual project"
+    literature_reference:
+      name: "Literature Reference"
+      definition: "Was the scenario used in a publication? provide literature reference"
     geographic_coverage_region:
       name: "Geographic Coverage-Region"
       definition: "What geographic regions are covered by the scenario?"
@@ -305,9 +308,6 @@ en:
     project_study:
       name: "Project/Study"
       definition: "Was this scenario created for an intercomparison project or research study?"
-    literature_reference:
-      name: "Literature Reference"
-      definition: "Please list a literature reference for the scenario information."
     point_of_contact:
       name: "Point-of-Contact"
       definition: "Who provided the scenario data and/or who can serve as a point-of-contact for questions regarding the scenario?"

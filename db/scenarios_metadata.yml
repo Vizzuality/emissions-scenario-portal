@@ -21,6 +21,8 @@
   size: 'large'
 - name: :project
   size: 'large'
+- name: :literature_reference
+  size: 'small'
 - name: :geographic_coverage_region
   picklist: true
   multiple: true
@@ -90,7 +92,5 @@
   picklist: true
   multiple: true
   size: 'large'
-- name: :literature_reference
-  size: 'small'
 - name: :point_of_contact
   size: 'large'
