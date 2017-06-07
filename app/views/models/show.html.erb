@@ -18,9 +18,9 @@
       %>
     </div>
     <div class="small-4 columns">
-      <%= render 'shared/components/c_model_news_card',
-        title: 'Latest updates'
-      %>
+      <%= link_to new_model_url, class: 'l-models__new-model' do %>
+        <div class="c-hollow-button"><span>Create new model</span></div>
+      <% end %>
     </div>
   </div>
   <div class="row">
