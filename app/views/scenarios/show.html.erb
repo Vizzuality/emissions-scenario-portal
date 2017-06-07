@@ -72,11 +72,11 @@
       </div>
       <div class="small-12 columns">
         <div class="l-scenarios-overview__table-shorts row js-table-filter" data-filter-type="order">
-          <div class="small-2 columns">
+          <div class="small-3 columns">
             <%= render 'shared/components/c_order_filter_button',
               text: 'Indicator',
               other_class: '-no-wrap',
-              column_key: 'name' %>
+              column_key: 'alias' %>
           </div>
           <div class="small-2 columns">
             <%= render 'shared/components/c_order_filter_button',
@@ -84,7 +84,7 @@
               other_class: '-no-wrap',
               column_key: 'unit' %>
           </div>
-          <div class="small-5 columns">
+          <div class="small-4 columns">
             <%= render 'shared/components/c_order_filter_button',
               text: 'Description',
               other_class: '-no-wrap',
@@ -102,13 +102,13 @@
     <% @indicators.each do |indicator| %>
       <div class="c-table-list-item">
         <div class="row">
-          <div class="small-2 columns">
-            <div class="c-table-list-item__text f-ff1-m-bold"><%= link_to indicator.name, model_indicator_url(@model, indicator) %></div>
+          <div class="small-3 columns">
+            <div class="c-table-list-item__text f-ff1-m-bold"><%= link_to indicator.alias, model_indicator_url(@model, indicator) %></div>
           </div>
           <div class="small-2 columns">
             <div class="c-table-list-item__text f-ff1-m"><%= indicator.unit %></div>
           </div>
-          <div class="small-5 columns">
+          <div class="small-4 columns">
             <div class="c-table-list-item__text f-ff1-m">
               <%= indicator.definition && truncate(indicator.definition, length: 150) %>
             </div>

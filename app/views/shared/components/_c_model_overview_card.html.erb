@@ -21,6 +21,8 @@
         <%
           if item.is_a?(Model)
             name = item.abbreviation
+          elsif item.is_a?(Indicator)
+            name = item.alias
           else
             name = item.name
           end
