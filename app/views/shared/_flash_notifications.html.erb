@@ -1,10 +1,14 @@
 <ul class="c-notifications-list">
+  <%
+    upload_errors = flash[:upload_errors]
+    flash.delete(:upload_errors)
+  %>
   <% flash.each do |name, msg| %>
     <%
       if name == 'alert'
         notification_class = '-red'
         notification_icon = 'icon-alert'
-      else
+      elsif name =='notice'
         notification_class = '-green'
         notification_icon = 'icon-check'
       end
@@ -13,6 +17,14 @@
       <div class="c-notification <%= notification_class %> -show-animation js-notification">
         <svg class="icon"><use xlink:href="#<%= notification_icon %>"></use></svg>
         <div class="f-ff1-s"><%= msg %></div>
+        <% if name == 'alert' && upload_errors.present? %>
+          <div class="c-upload-errors-list" style="display:none">
+            <%= upload_errors_to_csv(upload_errors) %>
+          </div>
+          <div class="js-upload-errors" style="width: 25%;">
+            <div class="c-flying-button"><span>Download list of errors</span></div>
+          </div>
+        <% end %>
       </div>
     </li>
   <% end %>

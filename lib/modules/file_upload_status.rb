@@ -9,4 +9,8 @@ class FileUploadStatus
   def number_of_rows_saved
     number_of_rows - number_of_rows_failed
   end
+
+  def no_errors?
+    @number_of_rows_failed.zero?
+  end
 end

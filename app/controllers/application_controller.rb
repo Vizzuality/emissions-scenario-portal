@@ -45,6 +45,10 @@ class ApplicationController < ActionController::Base
       ) and return
     end
     result = service_class_name.new(current_user, @model).call(@uploaded_io)
-    render json: result
+    msg = "#{result.number_of_rows_saved} of #{result.number_of_rows} rows \
+saved."
+    redirect_to redirect_url, notice: msg and return if result.no_errors?
+    msg += ' Please review the list of errors before trying to upload again.'
+    redirect_to redirect_url, alert: msg, flash: {upload_errors: result.errors}
   end
 end

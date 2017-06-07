@@ -149,7 +149,8 @@ RSpec.describe ScenariosController, type: :controller do
             'scenarios-correct.csv', 'text/csv'
           )
         }
-        expect(JSON.parse(response.body)).to include('number_of_rows_failed')
+        expect(response).to redirect_to(model_scenarios_url(team_model))
+        expect(flash[:alert]).to match(/upload again/)
       end
 
       it 'prevents unauthorized access' do

@@ -39,15 +39,11 @@ class ScenariosController < ApplicationController
   end
 
   def upload_meta_data
-    @uploaded_io = params[:scenarios_file]
-    unless @uploaded_io.present?
-      redirect_to(
-        model_scenarios_url(@model),
-        alert: 'Please provide an upload file'
-      ) and return
-    end
-    result = UploadScenarios.new(current_user, @model).call(@uploaded_io)
-    render json: result
+    handle_io_upload(
+      :scenarios_file,
+      UploadScenarios,
+      model_scenarios_url(@model)
+    )
   end
 
   def download_time_series

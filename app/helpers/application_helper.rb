@@ -93,4 +93,14 @@ module ApplicationHelper
                        'js-multisingle-select'
                      end}"
   end
+
+  def upload_errors_to_csv(upload_errors)
+    csv = ['Row, Error']
+    upload_errors.each do |row_no, row_errors|
+      row_errors.values do |message|
+        csv << "#{row_no},\"#{message}\""
+      end
+    end
+    csv.join("\n")
+  end
 end
