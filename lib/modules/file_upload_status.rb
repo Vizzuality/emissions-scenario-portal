@@ -13,4 +13,23 @@ class FileUploadStatus
   def no_errors?
     @number_of_rows_failed.zero?
   end
+
+  def errors_to_csv
+    csv =
+      if errors[:type] == :headers
+        ['Header, Error']
+      else
+        ['Row, Error']
+      end
+    errors.except(:type).each do |key, message_hash_or_string|
+      if message_hash_or_string.is_a?(Hash)
+        message_hash_or_string.values.each do |message|
+          csv << "#{key},\"#{message}\""
+        end
+      else
+        csv << "#{key},\"#{message_hash_or_string}\""
+      end
+    end
+    csv.join("\n")
+  end
 end

@@ -19,7 +19,7 @@
         <div class="f-ff1-s"><%= msg %></div>
         <% if name == 'alert' && upload_errors.present? %>
           <div class="c-upload-errors-list" style="display:none">
-            <%= upload_errors_to_csv(upload_errors) %>
+            <%= upload_errors %>
           </div>
           <div class="js-upload-errors" style="width: 25%;">
             <div class="c-flying-button"><span>Download list of errors</span></div>

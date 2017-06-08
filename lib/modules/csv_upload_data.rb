@@ -3,7 +3,7 @@ module CsvUploadData
     @number_of_rows = File.foreach(@path).count - 1
     @number_of_rows_failed, @errors =
       if @headers.errors.any?
-        [@number_of_rows, @headers.errors]
+        [@number_of_rows, @headers.errors.merge(type: :headers)]
       else
         [0, {}]
       end

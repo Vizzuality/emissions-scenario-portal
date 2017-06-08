@@ -49,6 +49,8 @@ class ApplicationController < ActionController::Base
 saved."
     redirect_to redirect_url, notice: msg and return if result.no_errors?
     msg += ' Please review the list of errors before trying to upload again.'
-    redirect_to redirect_url, alert: msg, flash: {upload_errors: result.errors}
+    redirect_to redirect_url, alert: msg, flash: {
+      upload_errors: result.errors_to_csv
+    }
   end
 end
