@@ -4,6 +4,7 @@ module CsvUploadHeaders
   def initialize_headers(path)
     @headers = CSV.open(path, 'r') do |csv|
       headers = csv.first
+      break [] unless headers.present?
       # detect any blank columns to the right which might ruin the parsing
       blank_columns_to_the_right = headers.reverse.inject(0) do |memo, obj|
         break memo unless obj.blank?
