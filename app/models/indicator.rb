@@ -31,6 +31,18 @@ class Indicator < ApplicationRecord
   end
 
   class << self
+    def for_model(model)
+      model_indicators = Indicator.select(:id, :parent_id).
+        where(model_id: model.id)
+      Indicator.
+        joins("LEFT JOIN (#{model_indicators.to_sql}) model_indicators \
+ON indicators.id = model_indicators.parent_id").
+        where(
+          'model_id = ? OR model_id IS NULL AND model_indicators.id IS NULL',
+          model.id
+        )
+    end
+
     def fetch_all(options)
       indicators = Indicator
       options.each_with_index do |filter|
