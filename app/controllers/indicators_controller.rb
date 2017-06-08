@@ -7,7 +7,12 @@ class IndicatorsController < ApplicationController
   before_action :set_filter_params, only: [:index]
 
   def index
-    @indicators = Indicator.fetch_all(@filter_params)
+    @indicators =
+      if current_user.admin?
+        Indicator.fetch_all(@filter_params)
+      else
+        Indicator.for_model(@model).fetch_all(@filter_params)
+      end
     @categories = Indicator.except(:order).
       order(:category).
       distinct.pluck(:category)

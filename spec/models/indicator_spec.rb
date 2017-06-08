@@ -69,4 +69,24 @@ RSpec.describe Indicator, type: :model do
       expect(indicator.time_series_data?).to be(true)
     end
   end
+
+  describe :for_model do
+    let(:model1) { FactoryGirl.create(:model) }
+    let(:model2) { FactoryGirl.create(:model) }
+    let!(:core_indicator1) { FactoryGirl.create(:indicator) }
+    let!(:core_indicator2) { FactoryGirl.create(:indicator) }
+    let!(:model_indicator) {
+      FactoryGirl.create(:indicator, parent: core_indicator1, model: model1)
+    }
+    it 'returns only core indicators for model without model indicators' do
+      expect(Indicator.for_model(model2)).to match_array(
+        [core_indicator1, core_indicator2]
+      )
+    end
+    it 'returns core and model indicators for model with model indicators' do
+      expect(Indicator.for_model(model1)).to match_array(
+        [model_indicator, core_indicator2]
+      )
+    end
+  end
 end
