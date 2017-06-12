@@ -71,6 +71,10 @@ class TimeSeriesValuesData
 
   def model(row, errors)
     model_abbreviation = value_for(row, :model_abbreviation)
+    if model_abbreviation.blank?
+      errors['model'] = 'Model must be present'
+      return nil
+    end
     identification = "model: #{model_abbreviation}"
 
     models = Model.where(abbreviation: model_abbreviation)

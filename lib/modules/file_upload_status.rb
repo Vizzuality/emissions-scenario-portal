@@ -24,6 +24,9 @@ class FileUploadStatus
     errors.except(:type).each do |key, message_hash_or_string|
       if message_hash_or_string.is_a?(Hash)
         message_hash_or_string.values.each do |message|
+          if message.is_a?(ActiveModel::Errors)
+            message = message.map { |k, v| "#{k}: #{v}" }.join(', ')
+          end
           csv << "#{key},\"#{message}\""
         end
       else

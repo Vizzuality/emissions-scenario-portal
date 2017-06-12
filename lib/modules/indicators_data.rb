@@ -21,9 +21,8 @@ class IndicatorsData
     elsif slug.present?
       process_core_indicator(slug, row, row_no)
     else
-      @errors[row_no] = {
-        error: 'At least one of ESP Slug and Model Indicator name required'
-      }
+      @errors[row_no]['slug'] = 'At least one of ESP Slug and Model Indicator /
+name required'
     end
     if @errors[row_no].any?
       @number_of_rows_failed += 1
@@ -108,10 +107,10 @@ class IndicatorsData
   def create_or_update_indicator(indicator, attributes, row_no)
     if indicator.nil?
       indicator = Indicator.new(attributes)
-      @errors[row_no] = indicator.errors unless indicator.save
+      @errors[row_no]['indicator'] = indicator.errors unless indicator.save
     else
       unless indicator.update_attributes(attributes)
-        @errors[row_no] = indicator.errors
+        @errors[row_no]['indicator'] = indicator.errors
       end
     end
   end

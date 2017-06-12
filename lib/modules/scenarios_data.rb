@@ -31,7 +31,7 @@ class ScenariosData
 
     scenario ||= Scenario.new
     scenario.attributes = scenario_attributes
-    @errors[row_no] = scenario.errors unless scenario.save
+    @errors[row_no]['scenario'] = scenario.errors unless scenario.save
 
     if @errors[row_no].any?
       @number_of_rows_failed += 1
@@ -50,6 +50,10 @@ class ScenariosData
 
   def model(row, errors)
     model_abbreviation = value_for(row, :model_abbreviation)
+    if model_abbreviation.blank?
+      errors['model'] = 'Model must be present'
+      return nil
+    end
     identification = "model: #{model_abbreviation}"
 
     models = Model.where(abbreviation: model_abbreviation)

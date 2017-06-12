@@ -23,7 +23,7 @@ module CsvUploadData
   def matching_object(object_collection, object_type, identification, errors)
     if object_collection.count > 1
       errors[object_type] = "More than one #{object_type} found \
-(#{identification}"
+(#{identification})"
       nil
     elsif object_collection.count.zero?
       errors[object_type] = "#{object_type.capitalize} does not exist \
