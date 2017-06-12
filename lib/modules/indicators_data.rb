@@ -61,7 +61,7 @@ name required'
 
     id_attributes = Indicator.slug_to_hash(slug)
     indicator = matching_object(
-      Indicator.where(id_attributes),
+      Indicator.where(id_attributes).where('parent_id IS NULL'),
       'indicator',
       "indicator: #{slug}",
       @errors[row_no]
