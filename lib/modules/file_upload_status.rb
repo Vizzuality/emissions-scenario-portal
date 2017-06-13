@@ -14,25 +14,59 @@ class FileUploadStatus
     @number_of_rows_failed.zero?
   end
 
-  def errors_to_csv
-    csv =
-      if errors[:type] == :headers
-        ['Header, Error']
-      else
-        ['Row, Error']
-      end
+  def error_type
+    errors[:type] == :headers ? :headers : :rows
+  end
+
+  def errors_to_array
+    rows = []
     errors.except(:type).each do |key, message_hash_or_string|
-      if message_hash_or_string.is_a?(Hash)
-        message_hash_or_string.values.each do |message|
-          if message.is_a?(ActiveModel::Errors)
-            message = message.map { |k, v| "#{k}: #{v}" }.join(', ')
+      rows_to_append =
+        if message_hash_or_string.is_a?(Hash)
+          message_hash_or_string.values.map do |message|
+            if message.is_a?(ActiveModel::Errors)
+              message = message.map { |k, v| "#{k}: #{v}" }.join(', ')
+            end
+            "#{key},\"#{message}\""
           end
-          csv << "#{key},\"#{message}\""
+        else
+          ["#{key},\"#{message_hash_or_string}\""]
         end
+      rows += rows_to_append
+    end
+    rows
+  end
+
+  def errors_to_csv
+    header_row =
+      if errors[:type] == :headers
+        'Header, Error'
       else
-        csv << "#{key},\"#{message_hash_or_string}\""
+        'Row, Error'
+      end
+    csv = [header_row]
+    size_in_bytes = header_row.bytesize + 1
+    remaining_errors = errors_to_array
+    remaining_errors_cnt = remaining_errors.size
+    errors_to_array.each do |row|
+      if size_in_bytes + (row.bytesize + 1) +
+          (remaining_errors_message(remaining_errors_cnt).bytesize + 1) < 1800
+        csv << row
+        size_in_bytes += (row.bytesize + 1)
+        remaining_errors_cnt -= 1
+      else
+        csv << remaining_errors_message(remaining_errors_cnt)
+        size_in_bytes += (
+          remaining_errors_message(remaining_errors_cnt).bytesize + 1
+        )
+        break
       end
     end
     csv.join("\n")
+  end
+
+  def remaining_errors_message(error_count)
+    return '' unless error_count.positive?
+    ",\"#{error_count} erroneous #{error_type} suppressed\""
   end
 end
