@@ -1,3 +1,4 @@
+require 'charlock_holmes'
 module CsvUploadData
   def initialize_stats
     @number_of_rows = File.foreach(@path).count - 1
@@ -11,7 +12,10 @@ module CsvUploadData
 
   def process
     return if @headers.errors.any?
-    CSV.open(@path, 'r', headers: true).each.with_index(2) do |row, row_no|
+    detection = CharlockHolmes::EncodingDetector.detect(File.read(@path))
+    CSV.open(
+      @path, 'r', headers: true, encoding: detection[:encoding]
+    ).each.with_index(2) do |row, row_no|
       process_row(row, row_no)
     end
   end
