@@ -17,7 +17,7 @@ class TimeSeriesValuesHeaders
       property_name: :region
     },
     {
-      display_name: 'Indicator Name',
+      display_name: 'ESP Indicator Name',
       property_name: :indicator_name
     },
     {
