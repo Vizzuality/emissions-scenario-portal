@@ -29,4 +29,22 @@ RSpec.describe Scenario, type: :model do
       expect { scenario.destroy }.to change(TimeSeriesValue, :count).by(-1)
     end
   end
+
+  describe :indicators do
+    let(:indicator) { FactoryGirl.create(:indicator) }
+    let(:scenario) { FactoryGirl.create(:scenario) }
+    let!(:time_series_value1) {
+      FactoryGirl.create(
+        :time_series_value, indicator: indicator, scenario: scenario
+      )
+    }
+    let!(:time_series_value2) {
+      FactoryGirl.create(
+        :time_series_value, indicator: indicator, scenario: scenario
+      )
+    }
+    it 'should not double count' do
+      expect(scenario.indicators.count).to eq(1)
+    end
+  end
 end
