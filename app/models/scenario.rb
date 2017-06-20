@@ -43,7 +43,7 @@ class Scenario < ApplicationRecord
   class << self
     def fetch_all(options)
       scenarios = Scenario
-      options.each_with_index do |filter|
+      options.each do |filter|
         scenarios = apply_filter(scenarios, options, filter[0], filter[1])
       end
       unless options['order_type'].present?

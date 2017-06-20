@@ -50,7 +50,7 @@ ON indicators.id = model_indicators.parent_id").
 
     def fetch_all(options)
       indicators = Indicator
-      options.each_with_index do |filter|
+      options.each do |filter|
         indicators = apply_filter(indicators, options, filter[0], filter[1])
       end
       unless options['order_type'].present?

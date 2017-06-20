@@ -21,7 +21,7 @@ class Team < ApplicationRecord
   class << self
     def fetch_all(options)
       teams = Team
-      options.each_with_index do |filter|
+      options.each do |filter|
         teams = apply_filter(teams, options, filter[0], filter[1])
       end
       teams = teams.order(name: :asc) unless options['order_type'].present?
