@@ -112,4 +112,50 @@ RSpec.describe Indicator, type: :model do
       expect(indicator.scenarios.count).to eq(1)
     end
   end
+
+  describe :fetch_all do
+    let!(:indicator1) {
+      FactoryGirl.create(
+        :indicator,
+        category: 'Energy', subcategory: 'Energy use by fuel', name: 'Biomass'
+      )
+    }
+    let!(:indicator2) {
+      FactoryGirl.create(
+        :indicator,
+        category: 'Emissions', subcategory: 'CO2 by sector', name: 'Industry'
+      )
+    }
+    context 'when using filters' do
+      it 'filters by category' do
+        expect(
+          Indicator.fetch_all('category' => 'Energy')
+        ).to match_array([indicator1])
+      end
+    end
+    context 'when using text search' do
+      it 'searches by category' do
+        expect(
+          Indicator.fetch_all('search' => 'Energy')
+        ).to match_array([indicator1])
+      end
+      it 'searches by slug' do
+        expect(
+          Indicator.fetch_all('search' => 'Emissions|CO2 by sector|Industry')
+        ).to match_array([indicator2])
+      end
+    end
+    context 'when sorting' do
+      it 'orders by name' do
+        expect(
+          Indicator.fetch_all('order_type' => 'name')
+        ).to eq([indicator1, indicator2])
+      end
+      it 'orders by slug' do
+        expect(
+          Indicator.fetch_all('order_type' => 'alias')
+        ).to eq([indicator2, indicator1])
+      end
+    end
+  end
 end
