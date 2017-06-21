@@ -89,4 +89,22 @@ RSpec.describe Indicator, type: :model do
       )
     end
   end
+
+  describe :scenarios do
+    let(:indicator) { FactoryGirl.create(:indicator) }
+    let(:scenario) { FactoryGirl.create(:scenario) }
+    let!(:time_series_value1) {
+      FactoryGirl.create(
+        :time_series_value, indicator: indicator, scenario: scenario
+      )
+    }
+    let!(:time_series_value2) {
+      FactoryGirl.create(
+        :time_series_value, indicator: indicator, scenario: scenario
+      )
+    }
+    it 'should not double count' do
+      expect(indicator.scenarios.count).to eq(1)
+    end
+  end
 end

@@ -6,7 +6,6 @@ class Scenario < ApplicationRecord
 
   belongs_to :model
   has_many :time_series_values, dependent: :destroy
-  has_many :indicators, through: :time_series_values
 
   validates :name, presence: true
   validates :model, presence: true
@@ -28,6 +27,14 @@ class Scenario < ApplicationRecord
   end)
 
   ORDERS = %w[name updated_at time_series indicators].freeze
+
+  def indicators
+    Indicator.joins(
+      "JOIN (
+        #{time_series_values.select(:indicator_id).group(:indicator_id).to_sql}
+      ) s ON indicators.id = s.indicator_id"
+    )
+  end
 
   def time_series_data?
     time_series_values.any?
