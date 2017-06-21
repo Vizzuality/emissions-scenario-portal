@@ -56,10 +56,10 @@ class ScenariosHeaders
   def initialize(path)
     initialize_headers(path)
     @errors = {}
-    parse_headers
+    parse_headers('/esp_scenarios_template.csv')
   end
 
-  def parse_headers
+  def parse_headers(template_url)
     expected_headers = EXPECTED_HEADERS.
       map { |eh| eh[:display_name].downcase.gsub(/[^a-z0-9]/i, '') }
     @actual_headers = @headers.
@@ -73,10 +73,9 @@ class ScenariosHeaders
         }
       else
         message = 'Unrecognised column header.'
-        suggestion = 'Please consult the template for correct structure.'
-        # TODO url
+        suggestion = 'Please consult the [template] for correct structure.'
         @errors[header] = FileUploadError.new(
-          message, suggestion, 'TODO', 'TODO'
+          message, suggestion, url: template_url, placeholder: 'template'
         )
         {
           display_name: header

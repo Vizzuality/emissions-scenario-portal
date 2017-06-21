@@ -2,6 +2,8 @@ require 'charlock_holmes'
 require 'file_upload_error'
 
 module CsvUploadData
+  delegate :url_helpers, to: 'Rails.application.routes'
+
   def initialize_stats
     @number_of_rows = File.foreach(@path).count - 1
     @number_of_rows_failed, @errors =
@@ -26,18 +28,24 @@ module CsvUploadData
     row[@headers.actual_index_for_property(property_name)]
   end
 
-  def matching_object(object_collection, object_type, identification, errors)
+  def matching_object(
+    object_collection, object_type, identification, errors, link
+  )
+    link_options = {url: link, placeholder: 'here'}
     if object_collection.count > 1
       message = "More than one #{object_type} found (#{identification})."
-      suggestion = 'Please resolve duplicates in the database.'
-      errors[object_type] = format_error(message, suggestion)
+      suggestion = 'Please resolve duplicates in the database [here].'
+      errors[object_type] = format_error(
+        message, suggestion, link_options
+      )
       nil
     elsif object_collection.count.zero?
       message = "#{object_type.capitalize} does not exist (#{identification})."
       suggestion = "Please ensure the correct reference is used or add \
-missing data into the system first."
-      # TODO: url
-      errors[object_type] = format_error(message, suggestion)
+missing data into the system [here]."
+      errors[object_type] = format_error(
+        message, suggestion, link_options
+      )
       nil
     else
       object_collection.first
@@ -55,20 +63,30 @@ missing data into the system first."
     identification = "model: #{model_abbreviation}"
 
     models = Model.where(abbreviation: model_abbreviation)
-    model = matching_object(models, 'model', identification, errors)
+    model = matching_object(
+      models, 'model', identification, errors, url_helpers.models_path
+    )
     return nil if model.nil?
     if @user.cannot?(:manage, model)
       message = "Access denied to manage model (#{identification})."
-      suggestion = 'Please verify your team\'s permissions.'
-      # TODO: url
-      errors['model'] = format_error(message, suggestion)
+      suggestion = 'Please verify your team\'s permissions [here].'
+      errors['model'] = format_error(
+        message,
+        suggestion,
+        url: url_helpers.team_path(@user.team),
+        placeholder: 'here'
+      )
       return nil
     end
     model
   end
 
-  def format_error(message, suggestion)
-    FileUploadError.new(message, suggestion, 'TODO', 'TODO')
+  def format_error(message, suggestion, link_options = nil)
+    FileUploadError.new(
+      message,
+      suggestion,
+      link_options
+    )
   end
 
   def process_other_errors(row_errors, object_errors)

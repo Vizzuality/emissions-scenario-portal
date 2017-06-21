@@ -35,7 +35,7 @@ class TimeSeriesValuesData
     return [] if errors['indicator'].present?
     location = location(row, errors)
     return [] if errors['location'].present?
-    unit_of_entry = unit_of_entry(indicator, row, errors)
+    unit_of_entry = unit_of_entry(model, indicator, row, errors)
     return [] if errors['unit_of_entry'].present?
 
     year_values = @headers.year_headers.map do |h|
@@ -83,7 +83,13 @@ class TimeSeriesValuesData
 #{scenario_name}"
 
     scenarios = Scenario.where(name: scenario_name, model_id: model.id)
-    matching_object(scenarios, 'scenario', identification, errors)
+    matching_object(
+      scenarios,
+      'scenario',
+      identification,
+      errors,
+      url_helpers.model_scenarios_path(model)
+    )
   end
 
   def indicator(model, row, errors)
@@ -100,17 +106,25 @@ class TimeSeriesValuesData
     indicators = Indicator.where(alias: indicator_name)
     model_indicators = indicators.where(model_id: model.id)
     indicators = model_indicators if model_indicators.any?
-    matching_object(indicators, 'indicator', identification, errors)
+    matching_object(
+      indicators,
+      'indicator',
+      identification,
+      errors,
+      url_helpers.model_indicators_path(model)
+    )
   end
 
   def location(row, errors)
     location_name = value_for(row, :region)
     identification = "location: #{location_name}"
     locations = Location.where(name: location_name)
-    matching_object(locations, 'location', identification, errors)
+    matching_object(
+      locations, 'location', identification, errors, url_helpers.locations_path
+    )
   end
 
-  def unit_of_entry(indicator, row, errors)
+  def unit_of_entry(model, indicator, row, errors)
     return nil if indicator.nil?
     unit_of_entry = value_for(row, :unit_of_entry)
     return nil if unit_of_entry.nil?
@@ -118,10 +132,14 @@ class TimeSeriesValuesData
         unit_of_entry != indicator.unit_of_entry
       message = "Conversion factor unavailable for unit of entry \
 #{unit_of_entry}."
-      suggestion = 'Please ensure unit of entry is compatible with indicator \
-standardized unit'
-      # TODO: url
-      errors['unit_of_entry'] = format_error(message, suggestion)
+      suggestion = 'Please ensure unit of entry is compatible with [indicator]\
+ standardized unit'
+      errors['unit_of_entry'] = format_error(
+        message,
+        suggestion,
+        url: url_helpers.model_indicator_path(model, indicator),
+        placeholder: 'indicator'
+      )
     end
     unit_of_entry
   end

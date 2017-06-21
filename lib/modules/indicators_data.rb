@@ -59,9 +59,13 @@ indicator instead.'
     if @user.cannot?(:manage, @model)
       message = "Access denied to manage model indicators \
 (#{model.abbreviation})."
-      suggestion = 'Please verify your team\'s permissions.'
-      # TODO: url
-      errors['model'] = format_error(message, suggestion)
+      suggestion = 'Please verify your team\'s permissions [here].'
+      errors['model'] = format_error(
+        message,
+        suggestion,
+        url: url_helpers.model_url(@model),
+        placeholder: 'here'
+      )
       return nil
     end
     unless slug.present?
@@ -73,7 +77,8 @@ indicator instead.'
       Indicator.where(id_attributes).where('parent_id IS NULL'),
       'indicator',
       "indicator: #{slug}",
-      @errors[row_no]
+      @errors[row_no],
+      url_helpers.model_indicators_path(@model)
     )
     return unless indicator
 

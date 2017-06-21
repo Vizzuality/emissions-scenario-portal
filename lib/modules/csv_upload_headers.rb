@@ -2,6 +2,8 @@ require 'csv'
 require 'file_upload_error'
 
 module CsvUploadHeaders
+  delegate :url_helpers, to: 'Rails.application.routes'
+
   def initialize_headers(path)
     @headers = CSV.open(path, 'r') do |csv|
       headers = csv.first
@@ -15,7 +17,7 @@ module CsvUploadHeaders
     end.map(&:downcase)
   end
 
-  def parse_headers
+  def parse_headers(template_url)
     expected_headers = self.class::EXPECTED_HEADERS.
       map do |eh|
         eh[:display_name].
@@ -34,10 +36,9 @@ module CsvUploadHeaders
         }
       else
         message = 'Unrecognised column header.'
-        suggestion = 'Please consult the template for correct structure.'
-        # TODO url
+        suggestion = 'Please consult the [template] for correct structure.'
         @errors[header] = FileUploadError.new(
-          message, suggestion, 'TODO', 'TODO'
+          message, suggestion, url: template_url, placeholder: 'template'
         )
         {
           display_name: header
