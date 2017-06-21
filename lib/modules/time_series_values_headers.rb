@@ -37,10 +37,10 @@ class TimeSeriesValuesHeaders
   def initialize(path)
     initialize_headers(path)
     @errors = {}
-    parse_headers
+    parse_headers('/esp_time_series_template.csv')
   end
 
-  def parse_headers
+  def parse_headers(template_url)
     expected_headers = EXPECTED_HEADERS.
       map { |eh| eh[:display_name].downcase.gsub(/[^a-z0-9]/i, '') }
     @actual_headers = @headers.
@@ -58,7 +58,11 @@ class TimeSeriesValuesHeaders
           year_header: true
         }
       else
-        @errors[header] = 'Unrecognised header'
+        message = 'Unrecognised column header.'
+        suggestion = 'Please consult the [template] for correct structure.'
+        @errors[header] = FileUploadError.new(
+          message, suggestion, url: template_url, placeholder: 'template'
+        )
         {
           display_name: header
         }

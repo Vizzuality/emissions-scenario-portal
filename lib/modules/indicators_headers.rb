@@ -46,6 +46,6 @@ class IndicatorsHeaders
     initialize_headers(path)
     @model = model
     @errors = {}
-    parse_headers
+    parse_headers('/esp_indicators_template.csv')
   end
 end

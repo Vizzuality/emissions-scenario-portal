@@ -1,5 +1,9 @@
 require 'charlock_holmes'
+require 'file_upload_error'
+
 module CsvUploadData
+  delegate :url_helpers, to: 'Rails.application.routes'
+
   def initialize_stats
     @number_of_rows = File.foreach(@path).count - 1
     @number_of_rows_failed, @errors =
@@ -24,17 +28,71 @@ module CsvUploadData
     row[@headers.actual_index_for_property(property_name)]
   end
 
-  def matching_object(object_collection, object_type, identification, errors)
+  def matching_object(
+    object_collection, object_type, identification, errors, link
+  )
+    link_options = {url: link, placeholder: 'here'}
     if object_collection.count > 1
-      errors[object_type] = "More than one #{object_type} found \
-(#{identification})"
+      message = "More than one #{object_type} found (#{identification})."
+      suggestion = 'Please resolve duplicates in the database [here].'
+      errors[object_type] = format_error(
+        message, suggestion, link_options
+      )
       nil
     elsif object_collection.count.zero?
-      errors[object_type] = "#{object_type.capitalize} does not exist \
-(#{identification})"
+      message = "#{object_type.capitalize} does not exist (#{identification})."
+      suggestion = "Please ensure the correct reference is used or add \
+missing data into the system [here]."
+      errors[object_type] = format_error(
+        message, suggestion, link_options
+      )
       nil
     else
       object_collection.first
+    end
+  end
+
+  def model(row, errors)
+    model_abbreviation = value_for(row, :model_abbreviation)
+    if model_abbreviation.blank?
+      message = 'Model must be present.'
+      suggestion = 'Please fill in the model abbreviation.'
+      errors['model'] = format_error(message, suggestion)
+      return nil
+    end
+    identification = "model: #{model_abbreviation}"
+
+    models = Model.where(abbreviation: model_abbreviation)
+    model = matching_object(
+      models, 'model', identification, errors, url_helpers.models_path
+    )
+    return nil if model.nil?
+    if @user.cannot?(:manage, model)
+      message = "Access denied to manage model (#{identification})."
+      suggestion = 'Please verify your team\'s permissions [here].'
+      errors['model'] = format_error(
+        message,
+        suggestion,
+        url: url_helpers.team_path(@user.team),
+        placeholder: 'here'
+      )
+      return nil
+    end
+    model
+  end
+
+  def format_error(message, suggestion, link_options = nil)
+    FileUploadError.new(
+      message,
+      suggestion,
+      link_options
+    )
+  end
+
+  def process_other_errors(row_errors, object_errors)
+    object_errors.each do |key, value|
+      next if row_errors.key?(key.to_s)
+      row_errors[key] = "#{key.capitalize} #{value}."
     end
   end
 end

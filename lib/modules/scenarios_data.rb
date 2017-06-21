@@ -24,6 +24,11 @@ class ScenariosData
         end
       ]
     )
+    if scenario_attributes[:name].blank?
+      message = 'Scenario name must be present.'
+      suggestion = 'Please fill in missing data.'
+      @errors[row_no]['name'] = format_error(message, suggestion)
+    end
 
     scenario = model && Scenario.where(
       model_id: model.id, name: scenario_attributes[:name]
@@ -31,7 +36,7 @@ class ScenariosData
 
     scenario ||= Scenario.new
     scenario.attributes = scenario_attributes
-    @errors[row_no]['scenario'] = scenario.errors unless scenario.save
+    process_other_errors(@errors[row_no], scenario.errors) unless scenario.save
 
     if @errors[row_no].any?
       @number_of_rows_failed += 1
@@ -46,23 +51,5 @@ class ScenariosData
       value = value.split(';').map(&:strip) unless value.blank?
     end
     value
-  end
-
-  def model(row, errors)
-    model_abbreviation = value_for(row, :model_abbreviation)
-    if model_abbreviation.blank?
-      errors['model'] = 'Model must be present'
-      return nil
-    end
-    identification = "model: #{model_abbreviation}"
-
-    models = Model.where(abbreviation: model_abbreviation)
-    model = matching_object(models, 'model', identification, errors)
-    return nil if model.nil?
-    if @user.cannot?(:manage, model)
-      errors['model'] = "Access denied: model (#{identification})"
-      return nil
-    end
-    model
   end
 end
