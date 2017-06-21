@@ -73,6 +73,12 @@ class TimeSeriesValuesData
   def scenario(model, row, errors)
     return nil if model.nil?
     scenario_name = value_for(row, :scenario_name)
+    if scenario_name.blank?
+      message = 'Scenario must be present.'
+      suggestion = 'Please fill in the scenario name.'
+      errors['scenario'] = format_error(message, suggestion)
+      return nil
+    end
     identification = "model: #{model.abbreviation}, scenario: \
 #{scenario_name}"
 
@@ -83,6 +89,12 @@ class TimeSeriesValuesData
   def indicator(model, row, errors)
     return nil if model.nil?
     indicator_name = value_for(row, :indicator_name)
+    if indicator_name.blank?
+      message = 'Indicator must be present.'
+      suggestion = 'Please fill in the ESP indicator name.'
+      errors['indicator'] = format_error(message, suggestion)
+      return nil
+    end
     identification = "indicator: #{indicator_name}"
 
     indicators = Indicator.where(alias: indicator_name)
