@@ -5,11 +5,11 @@ class IndicatorsHeaders
 
   EXPECTED_HEADERS = [
     {
-      display_name: 'ESP Slug',
+      display_name: 'ESP Indicator Name',
       property_name: :slug
     },
     {
-      display_name: 'Model Indicator name',
+      display_name: 'Model Indicator Name',
       property_name: :model_slug
     },
     {

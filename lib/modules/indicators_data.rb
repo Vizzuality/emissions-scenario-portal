@@ -21,8 +21,8 @@ class IndicatorsData
     elsif slug.present?
       process_core_indicator(slug, row, row_no)
     else
-      @errors[row_no]['slug'] = 'At least one of ESP Slug and Model Indicator /
-name required'
+      @errors[row_no]['slug'] = 'At least one of ESP Indicator Name and Model /
+Indicator Name required'
     end
     if @errors[row_no].any?
       @number_of_rows_failed += 1
