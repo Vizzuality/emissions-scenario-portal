@@ -58,7 +58,12 @@ class TimeSeriesValuesHeaders
           year_header: true
         }
       else
-        @errors[header] = 'Unrecognised header'
+        message = 'Unrecognised column header.'
+        suggestion = 'Please consult the template for correct structure.'
+        # TODO url
+        @errors[header] = FileUploadError.new(
+          message, suggestion, 'TODO', 'TODO'
+        )
         {
           display_name: header
         }

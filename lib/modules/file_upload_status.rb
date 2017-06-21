@@ -20,14 +20,14 @@ class FileUploadStatus
 
   def errors_to_array
     rows = []
-    errors.except(:type).each do |key, message_hash_or_string|
+    errors.except(:type).each do |key, message_hash_or_struct|
       rows_to_append =
-        if message_hash_or_string.is_a?(Hash)
-          message_hash_or_string.values.map do |message|
+        if message_hash_or_struct.is_a?(Hash)
+          message_hash_or_struct.values.map do |message|
             "#{key},\"#{message}\""
           end
         else
-          ["#{key},\"#{message_hash_or_string}\""]
+          ["#{key},\"#{message_hash_or_struct}\""]
         end
       rows += rows_to_append
     end

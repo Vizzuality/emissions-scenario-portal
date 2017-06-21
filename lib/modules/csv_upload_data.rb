@@ -1,4 +1,6 @@
 require 'charlock_holmes'
+require 'file_upload_error'
+
 module CsvUploadData
   def initialize_stats
     @number_of_rows = File.foreach(@path).count - 1
@@ -66,7 +68,7 @@ missing data into the system first."
   end
 
   def format_error(message, suggestion)
-    [message, suggestion].join(' ')
+    FileUploadError.new(message, suggestion, 'TODO', 'TODO')
   end
 
   def process_other_errors(row_errors, object_errors)
