@@ -4,7 +4,7 @@ FileUploadError = Struct.new(
   def suggestion_with_link
     suggestion.sub(
       /\[#{link_options[:placeholder]}\]/,
-      "<a href=\"#{link_options[:url]}\">#{link_options[:placeholder]}</a>"
+      "<a href=\"\"#{link_options[:url]}\"\">#{link_options[:placeholder]}</a>"
     )
   end
 
