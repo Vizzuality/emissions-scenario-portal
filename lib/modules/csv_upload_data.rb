@@ -26,15 +26,46 @@ module CsvUploadData
 
   def matching_object(object_collection, object_type, identification, errors)
     if object_collection.count > 1
-      errors[object_type] = "More than one #{object_type} found \
-(#{identification})"
+      message = "More than one #{object_type} found (#{identification})."
+      suggestion = 'Please resolve duplicates in the database.'
+      errors[object_type] = format_error(message, suggestion)
       nil
     elsif object_collection.count.zero?
-      errors[object_type] = "#{object_type.capitalize} does not exist \
-(#{identification})"
+      message = "#{object_type.capitalize} does not exist (#{identification})."
+      suggestion = "Please ensure the correct reference is used or add \
+missing data into the system first."
+      # TODO: url
+      errors[object_type] = format_error(message, suggestion)
       nil
     else
       object_collection.first
     end
+  end
+
+  def model(row, errors)
+    model_abbreviation = value_for(row, :model_abbreviation)
+    if model_abbreviation.blank?
+      message = 'Model must be present.'
+      suggestion = 'Please fill in the model abbreviation.'
+      errors['model'] = format_error(message, suggestion)
+      return nil
+    end
+    identification = "model: #{model_abbreviation}"
+
+    models = Model.where(abbreviation: model_abbreviation)
+    model = matching_object(models, 'model', identification, errors)
+    return nil if model.nil?
+    if @user.cannot?(:manage, model)
+      message = "Access denied to manage model (#{identification})."
+      suggestion = 'Please verify your team\'s permissions.'
+      # TODO: url
+      errors['model'] = format_error(message, suggestion)
+      return nil
+    end
+    model
+  end
+
+  def format_error(message, suggestion)
+    [message, suggestion].join(' ')
   end
 end

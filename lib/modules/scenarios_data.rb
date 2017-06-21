@@ -31,6 +31,7 @@ class ScenariosData
 
     scenario ||= Scenario.new
     scenario.attributes = scenario_attributes
+    # TODO: parse
     @errors[row_no]['scenario'] = scenario.errors unless scenario.save
 
     if @errors[row_no].any?
@@ -46,23 +47,5 @@ class ScenariosData
       value = value.split(';').map(&:strip) unless value.blank?
     end
     value
-  end
-
-  def model(row, errors)
-    model_abbreviation = value_for(row, :model_abbreviation)
-    if model_abbreviation.blank?
-      errors['model'] = 'Model must be present'
-      return nil
-    end
-    identification = "model: #{model_abbreviation}"
-
-    models = Model.where(abbreviation: model_abbreviation)
-    model = matching_object(models, 'model', identification, errors)
-    return nil if model.nil?
-    if @user.cannot?(:manage, model)
-      errors['model'] = "Access denied: model (#{identification})"
-      return nil
-    end
-    model
   end
 end

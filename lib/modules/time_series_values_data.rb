@@ -15,6 +15,7 @@ class TimeSeriesValuesData
     @errors[row_no] = {}
 
     values_by_year(row, @errors[row_no]).each do |tsv|
+      # TODO: parse
       @errors[row_no][tsv.year] = tsv.errors unless tsv.save
     end
 
@@ -69,24 +70,6 @@ class TimeSeriesValuesData
     end
   end
 
-  def model(row, errors)
-    model_abbreviation = value_for(row, :model_abbreviation)
-    if model_abbreviation.blank?
-      errors['model'] = 'Model must be present'
-      return nil
-    end
-    identification = "model: #{model_abbreviation}"
-
-    models = Model.where(abbreviation: model_abbreviation)
-    model = matching_object(models, 'model', identification, errors)
-    return nil if model.nil?
-    if @user.cannot?(:manage, model)
-      errors['model'] = "Access denied: model (#{identification})"
-      return nil
-    end
-    model
-  end
-
   def scenario(model, row, errors)
     return nil if model.nil?
     scenario_name = value_for(row, :scenario_name)
@@ -121,8 +104,12 @@ class TimeSeriesValuesData
     return nil if unit_of_entry.nil?
     if unit_of_entry != indicator.unit &&
         unit_of_entry != indicator.unit_of_entry
-      errors['unit_of_entry'] = "Conversion factor unavailable for unit of \
-entry #{unit_of_entry}"
+      message = "Conversion factor unavailable for unit of entry \
+#{unit_of_entry}."
+      suggestion = 'Please ensure unit of entry is compatible with indicator \
+standardized unit'
+      # TODO: url
+      errors['unit_of_entry'] = format_error(message, suggestion)
     end
     unit_of_entry
   end

@@ -32,7 +32,7 @@ module CsvUploadHeaders
           expected_index: expected_index
         }
       else
-        @errors[header] = 'Unrecognised header'
+        @errors[header] = 'Unrecognised header. Please consult the template.'
         {
           display_name: header
         }
