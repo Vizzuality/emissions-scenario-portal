@@ -68,4 +68,11 @@ missing data into the system first."
   def format_error(message, suggestion)
     [message, suggestion].join(' ')
   end
+
+  def process_other_errors(row_errors, object_errors)
+    object_errors.each do |key, value|
+      next if row_errors.key?(key.to_s)
+      row_errors[key] = "#{key.capitalize} #{value}."
+    end
+  end
 end

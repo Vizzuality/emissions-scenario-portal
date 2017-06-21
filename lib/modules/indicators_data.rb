@@ -116,12 +116,13 @@ indicator instead.'
   def create_or_update_indicator(indicator, attributes, row_no)
     if indicator.nil?
       indicator = Indicator.new(attributes)
-      # TODO: parse
-      @errors[row_no]['indicator'] = indicator.errors unless indicator.save
+      return indicator if indicator.save
+      process_other_errors(@errors[row_no], indicator.errors)
     else
       unless indicator.update_attributes(attributes)
-        # TODO: parse
-        @errors[row_no]['indicator'] = indicator.errors
+        process_other_errors(
+          @errors[row_no], indicator.errors
+        )
       end
     end
   end

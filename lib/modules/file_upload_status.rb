@@ -24,9 +24,6 @@ class FileUploadStatus
       rows_to_append =
         if message_hash_or_string.is_a?(Hash)
           message_hash_or_string.values.map do |message|
-            if message.is_a?(ActiveModel::Errors)
-              message = message.map { |k, v| "#{k}: #{v}" }.join(', ')
-            end
             "#{key},\"#{message}\""
           end
         else

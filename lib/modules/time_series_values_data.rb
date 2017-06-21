@@ -15,8 +15,8 @@ class TimeSeriesValuesData
     @errors[row_no] = {}
 
     values_by_year(row, @errors[row_no]).each do |tsv|
-      # TODO: parse
-      @errors[row_no][tsv.year] = tsv.errors unless tsv.save
+      next if tsv.save
+      process_other_errors(@errors[row_no], tsv.errors, tsv.year)
     end
 
     if @errors[row_no].any?
@@ -41,7 +41,7 @@ class TimeSeriesValuesData
     year_values = @headers.year_headers.map do |h|
       year = h[:display_name].to_i
       value = row[@headers.actual_index_of_year(h[:display_name])]
-      value.blank? ? nil : [year, value.to_f]
+      value.blank? ? nil : [year, value]
     end.compact
 
     year_values.map do |year, value|
@@ -124,5 +124,14 @@ standardized unit'
       errors['unit_of_entry'] = format_error(message, suggestion)
     end
     unit_of_entry
+  end
+
+  def process_other_errors(row_errors, object_errors, year)
+    object_errors.each do |key, value|
+      next if row_errors.key?(key.to_s)
+      message = "Year #{year}: #{key.capitalize} #{value}."
+      suggestion = ''
+      row_errors[year] = format_error(message, suggestion)
+    end
   end
 end
