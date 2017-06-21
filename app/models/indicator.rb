@@ -86,14 +86,12 @@ ON indicators.id = model_indicators.parent_id").
 
     def slug_to_hash(slug)
       return {} unless slug.present?
-      slug_parts = slug && slug.split('|').map(&:strip)
+      slug_parts = slug && slug.split('|')
       return {} if slug_parts.empty?
-      slug_hash = {category: slug_parts[0]}
-      if slug_parts.length == 2
-        slug_hash[:name] = slug_parts[1]
-      elsif slug_parts.length == 3
-        slug_hash[:subcategory] = slug_parts[1]
-        slug_hash[:name] = slug_parts[2]
+      slug_hash = {category: slug_parts[0].strip}
+      if slug_parts.length >= 2
+        slug_hash[:subcategory] = slug_parts[1].strip
+        slug_hash[:name] = slug_parts[2].strip if slug_parts.length == 3
       end
       slug_hash
     end
