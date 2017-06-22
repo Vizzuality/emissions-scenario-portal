@@ -33,10 +33,10 @@ RSpec.describe MetadataAttributes::Info, type: :model do
 
   describe :picklist? do
     let(:picklist_attribute_info) {
-      Model.attribute_info(:platform)
+      Model.attribute_info(:expertise)
     }
     let(:not_picklist_attribute_info) {
-      Model.attribute_info(:platform_detailed)
+      Model.attribute_info(:expertise_detailed)
     }
     it 'should be true when attribute is a picklist' do
       expect(picklist_attribute_info.picklist?).to be(true)
@@ -48,7 +48,7 @@ RSpec.describe MetadataAttributes::Info, type: :model do
 
   describe :multiple? do
     let(:multiple_attribute_info) {
-      Model.attribute_info(:platform)
+      Model.attribute_info(:sectoral_coverage)
     }
     let(:not_multiple_attribute_info) {
       Model.attribute_info(:platform_detailed)
@@ -77,16 +77,16 @@ RSpec.describe MetadataAttributes::Info, type: :model do
   end
 
   describe :size do
-    it 'platform should have large size' do
-      expect(Model.attribute_info(:platform).size).to eq('large')
+    it 'expertise_detailed should have large size' do
+      expect(Model.attribute_info(:expertise_detailed).size).to eq('large')
     end
   end
 
   describe :category do
-    it 'platform should be in General Info category' do
+    it 'expertise should be in General Info category' do
       expect(
-        Model.attribute_info(:platform).category
-      ).to eq('Details & Description')
+        Model.attribute_info(:expertise).category
+      ).to eq('About')
     end
   end
 end
