@@ -47,7 +47,11 @@ class ModelsController < ApplicationController
   end
 
   def upload_meta_data
-    # TODO: implement
+    handle_io_upload(
+      :models_file,
+      UploadModels,
+      models_url
+    )
   end
 
   private

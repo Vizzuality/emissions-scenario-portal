@@ -125,6 +125,24 @@ RSpec.describe ModelsController, type: :controller do
       end
     end
 
+    describe 'POST upload_meta_data' do
+      it 'redirects with error when file not given' do
+        post :upload_meta_data
+        expect(response).to redirect_to(models_url)
+        expect(flash[:alert]).to match(/upload file/)
+      end
+
+      pending 'redirects with upload errors' do
+        post :upload_meta_data, params: {
+          models_file: fixture_file_upload(
+            'models-correct.csv', 'text/csv'
+          )
+        }
+        expect(response).to redirect_to(models_url)
+        expect(flash[:alert]).to match(/upload again/)
+      end
+    end
+
     it 'filters parameters correctly for update' do
       model_params = {
         abbreviation: 'ABC',
