@@ -19,6 +19,14 @@
   picklist: true
   size: 'large'
   category: 'Scenario context'
+  options: [
+    'BAU/reference',
+    'NDCs',
+    'NDCs-Conditional',
+    'NDCs-Unconditional',
+    'Decarbonization',
+    'not specified'
+  ]
 - name: :purpose_or_objective
   size: 'large'
   category: 'Scenario context'
@@ -54,11 +62,30 @@
   multiple: true
   size: 'large'
   category: 'Coverage'
+  options: [
+    'BC', 'CO', 'CO2', 'CH4', 'F-gases (HFC, PFC, SF6)', 'HFCs', 'Kyoto gases',
+    'not applicable', 'not specified', 'NMVOC', 'Nox', 'N2O', 'OC', 'PFCs',
+    'PM10', 'PM2.5', 'Sox', 'SO2', 'Sulfur', 'sulfur aerosols', 'VOC'
+  ]
 - name: :policy_coverage
   picklist: true
   multiple: true
   size: 'small'
   category: 'Coverage'
+  options: [
+    'accelerated deployment of energy technologies', 'air pollution measures',
+    'border tariff', 'cap-and-trade', 'carbon price', 'carbon tax',
+    'CO2 concentration target', 'electric vehicles', 'emissions cap',
+    'emissions trading', 'energy efficiency standards', 'energy tax',
+    'feed-in tariff', 'fuel economy standards', 'fuel switching', 'import tax',
+    'investment incentives', 'methane leakage', 'performance standards',
+    'permit trading', 'production subsidies', 'radiative forcing limit',
+    'renewable portfolio standards', 'regulations',
+    'research and development (R&D) measures', 'revenue recycling',
+    'subsidies', 'tax credits and incentives', 'taxes',
+    'technology capacity targets', 'technology switching', 'temperature limit',
+    'tradable certificates', 'permits or allowances'
+  ]
 - name: :policy_coverage_detailed
   size: 'large'
   category: 'Coverage'
@@ -67,6 +94,20 @@
   multiple: true
   size: 'large'
   category: 'Coverage'
+  options: [
+    'accelerated deployment of energy technologies', 'air pollution measures',
+    'border tariff', 'cap-and-trade', 'carbon price', 'carbon tax',
+    'CO2 concentration target', 'electric vehicles', 'emissions cap',
+    'emissions trading', 'energy efficiency standards', 'energy tax',
+    'feed-in tariff', 'fuel economy standards', 'fuel switching', 'import tax',
+    'investment incentives', 'methane leakage', 'performance standards',
+    'permit trading', 'production subsidies', 'radiative forcing limit',
+    'renewable portfolio standards', 'regulations',
+    'research and development (R&D) measures', 'revenue recycling',
+    'subsidies', 'tax credits and incentives', 'taxes',
+    'technology capacity targets', 'technology switching', 'temperature limit',
+    'tradable certificates, permits or allowances'
+  ]
 - name: :technology_coverage_detailed
   size: 'small'
   category: 'Coverage'
@@ -75,14 +116,28 @@
   multiple: true
   size: 'large'
   category: 'Coverage'
+  options: [
+    'biofuels', 'biogas', 'biomass', 'biomass w/ CCS', 'biomass w/o CCS',
+    'coal', 'coal w/ CCS', 'coal w/o CCS', 'electricity', 'fossil',
+    'fossil w/ CCS', 'fossil w/o CCS', 'gas', 'gas unconventional',
+    'gas w/ CCS', 'gas w/o CCS', 'geothermal', 'heat', 'hydro', 'hydrogen',
+    'limestone', 'liquids', 'natural gas', 'non-biomass renewable',
+    'not applicable', 'not specified', 'nuclear', 'ocean', 'oil', 'oil w/ CCS',
+    'oil w/o CCS', 'other renewable energy', 'petroleum',
+    'petroleum and other liquids', 'renewables', 'solar', 'solar CSP',
+    'solar PV', 'tidal', 'uranium', 'waste', 'wave', 'wind', 'wind-offshore',
+    'wind-onshore'
+  ]
 - name: :time_horizon
   picklist: true
   size: 'small'
   category: 'Coverage'
+  options: ['2030', '2040', '2050', '2100', '2150', 'manual']
 - name: :time_step
   picklist: true
   size: 'large'
   category: 'Coverage'
+  options: ['1', '2', '5', '10', '20', 'manual']
 - name: :climate_target_type
   picklist: true
   size: 'small'
@@ -93,10 +148,15 @@
 - name: :climate_target_date
   size: 'small'
   category: 'Targets'
+  options: [
+  'carbon budget', 'emissions concentration target', 'not applicable',
+  'not specified', 'radiative forcing', 'temperature target'
+  ]
 - name: :overshoot
   picklist: true
   small: 'size'
   category: 'Targets'
+  options: ['yes', 'no', 'not specified']
 - name: :other_target_type
   size: 'small'
   category: 'Targets'
@@ -110,6 +170,7 @@
   picklist: true
   size: 'small'
   category: 'Assumptions'
+  options: ['no', 'not applicable', 'not specified', 'yes']
 - name: :technology_assumptions
   size: 'large'
   category: 'Assumptions'
