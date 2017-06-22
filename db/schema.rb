@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170622101820) do
+ActiveRecord::Schema.define(version: 20170622112751) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,9 +58,9 @@ ActiveRecord::Schema.define(version: 20170622101820) do
     t.text     "platform_detailed"
     t.text     "purpose_or_objective"
     t.text     "description"
-    t.text     "key_usage",                         default: [],              array: true
+    t.text     "key_usage"
     t.text     "scenario_coverage"
-    t.text     "scenario_coverage_details",         default: [],              array: true
+    t.text     "scenario_coverage_detailed"
     t.text     "geographic_coverage"
     t.text     "geographic_coverage_region",        default: [],              array: true
     t.text     "geographic_coverage_country",       default: [],              array: true
@@ -122,7 +122,7 @@ ActiveRecord::Schema.define(version: 20170622101820) do
     t.text     "technology_assumptions"
     t.text     "gdp_assumptions"
     t.text     "population_assumptions"
-    t.text     "discount_rates",                   default: [],              array: true
+    t.text     "discount_rates"
     t.text     "emission_factors"
     t.text     "global_warming_potentials"
     t.text     "policy_cut_off_year_for_baseline"

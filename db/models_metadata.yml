@@ -40,7 +40,6 @@
   size: 'small'
   category: 'About'
 - name: :license
-  picklist: true
   size: 'large'
   category: 'About'
 - name: :availability
@@ -63,8 +62,6 @@
   size: 'large'
   category: 'Scope and Methods'
 - name: :key_usage
-  picklist: true
-  multiple: true
   size: 'large'
   category: 'Scope and Methods'
 - name: :concept
@@ -98,9 +95,7 @@
     'BAU/reference', 'NDCs', 'NDCs-Conditional', 'NDCs-Unconditional',
     'Decarbonization', 'Development Target', 'Other'
   ]
-- name: :scenario_coverage_details
-  picklist: true
-  multiple: true
+- name: :scenario_coverage_detailed
   size: 'large'
   category: 'Coverage'
 - name: :geographic_coverage
@@ -126,6 +121,7 @@
   multiple: true
   size: 'large'
   category: 'Coverage'
+  # options coming from locations table
 - name: :sectoral_coverage
   picklist: true
   multiple: true

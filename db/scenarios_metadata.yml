@@ -47,16 +47,30 @@
   multiple: true
   size: 'small'
   category: 'Coverage'
+  options: [
+    'Africa', 'Annex-1', 'Asia', 'Australia', 'Central Asia',
+    'East Asia and Pacific', 'Europe', 'G20', 'Latin America and Caribbean',
+    'Middle East', 'Middle East and North Africa', 'North America', 'OECD',
+    'Rest of World', 'South America', 'South Asia', 'Southeast Asia'
+  ]
 - name: :geographic_coverage_country
   picklist: true
   multiple: true
   size: 'small'
   category: 'Coverage'
+  # options coming from locations table
 - name: :sectoral_coverage
   picklist: true
   multiple: true
   size: 'small'
   category: 'Coverage'
+  options: [
+    'agriculture', 'buildings (residential and commercial)', 'electricity',
+    'forestry', 'fugitive emissions', 'industry',
+    'industry and industrial processes',
+    'land-use, land-use change, and forestry (LULUCF)', 'services',
+    'transportation', 'waste'
+  ]
 - name: :gas_and_pollutant_coverage
   picklist: true
   multiple: true
@@ -142,16 +156,16 @@
   picklist: true
   size: 'small'
   category: 'Targets'
+  options: [
+  'carbon budget', 'emissions concentration target', 'not applicable',
+  'not specified', 'radiative forcing', 'temperature target'
+  ]
 - name: :climate_target_detailed
   size: 'large'
   category: 'Targets'
 - name: :climate_target_date
   size: 'small'
   category: 'Targets'
-  options: [
-  'carbon budget', 'emissions concentration target', 'not applicable',
-  'not specified', 'radiative forcing', 'temperature target'
-  ]
 - name: :overshoot
   picklist: true
   small: 'size'
@@ -181,8 +195,6 @@
   size: 'large'
   category: 'Assumptions'
 - name: :discount_rates
-  picklist: true
-  multiple: true
   size: 'small'
   category: 'Assumptions'
 - name: :emission_factors
