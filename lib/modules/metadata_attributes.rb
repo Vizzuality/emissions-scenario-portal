@@ -1,6 +1,7 @@
 module MetadataAttributes
   class Info
-    attr_reader :name, :size, :category, :ref_object_symbol, :ref_attr_symbol
+    attr_reader :name, :size, :category, :ref_object_symbol, :ref_attr_symbol,
+                :options
 
     def initialize(options)
       @name = options['name']
@@ -17,6 +18,7 @@ module MetadataAttributes
       @multiple = options['multiple']
       @size = options['size']
       @category = options['category'] || 'Miscellany'
+      @options = options['options']
     end
 
     def reference?

@@ -73,6 +73,7 @@ module ApplicationHelper
   def values_for_attribute_dropdown(object, attr_info)
     picklist_values = object.class.
       distinct.order(attr_info.name).pluck(attr_info.name)
+    picklist_values += attr_info.options.uniq if attr_info.options.present?
     picklist_values = picklist_values.flatten.uniq if attr_info.multiple?
     picklist_values.compact
   end
