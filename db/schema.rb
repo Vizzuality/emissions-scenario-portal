@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170605090043) do
+ActiveRecord::Schema.define(version: 20170623073453) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,60 +43,54 @@ ActiveRecord::Schema.define(version: 20170605090043) do
 
   create_table "models", force: :cascade do |t|
     t.integer  "team_id"
-    t.datetime "created_at",                                       null: false
-    t.datetime "updated_at",                                       null: false
-    t.text     "abbreviation",                                     null: false
-    t.text     "full_name",                                        null: false
+    t.datetime "created_at",                                     null: false
+    t.datetime "updated_at",                                     null: false
+    t.text     "abbreviation",                                   null: false
+    t.text     "full_name",                                      null: false
     t.text     "current_version"
-    t.text     "linkages_and_extensions"
     t.integer  "development_year"
-    t.text     "programming_language",                default: [],              array: true
-    t.text     "maintainer_type"
+    t.text     "programming_language",              default: [],              array: true
     t.text     "maintainer_name"
     t.text     "license"
-    t.text     "license_detailed"
     t.text     "availability"
     t.text     "expertise"
     t.text     "expertise_detailed"
-    t.text     "platform",                            default: [],              array: true
     t.text     "platform_detailed"
-    t.text     "category"
-    t.text     "category_detailed"
-    t.text     "hybrid_classification"
-    t.text     "hybrid_classification_detailed"
     t.text     "purpose_or_objective"
     t.text     "description"
-    t.text     "key_usage",                           default: [],              array: true
-    t.text     "scenario_coverage"
-    t.text     "scenario_coverage_details",           default: [],              array: true
+    t.text     "key_usage"
+    t.text     "scenario_coverage_detailed"
     t.text     "geographic_coverage"
-    t.text     "geographic_coverage_region",          default: [],              array: true
-    t.text     "geographic_coverage_country",         default: [],              array: true
-    t.text     "sectoral_coverage",                   default: [],              array: true
-    t.text     "gas_and_pollutant_coverage",          default: [],              array: true
-    t.text     "policy_coverage",                     default: [],              array: true
-    t.text     "technology_coverage",                 default: [],              array: true
+    t.text     "geographic_coverage_region",        default: [],              array: true
+    t.text     "geographic_coverage_country",       default: [],              array: true
+    t.text     "sectoral_coverage",                 default: [],              array: true
+    t.text     "gas_and_pollutant_coverage",        default: [],              array: true
+    t.text     "policy_coverage",                   default: [],              array: true
+    t.text     "technology_coverage",               default: [],              array: true
     t.text     "technology_coverage_detailed"
-    t.text     "energy_resource_coverage",            default: [],              array: true
+    t.text     "energy_resource_coverage",          default: [],              array: true
     t.text     "time_horizon"
     t.text     "time_step"
     t.text     "equilibrium_type"
-    t.text     "foresight"
     t.text     "spatial_resolution"
     t.text     "population_assumptions"
     t.text     "gdp_assumptions"
     t.text     "other_assumptions"
     t.integer  "base_year"
     t.text     "input_data"
-    t.text     "calibration_and_validation"
-    t.text     "languages",                           default: [],              array: true
-    t.text     "tutorial_and_training_opportunities", default: [],              array: true
-    t.text     "system_requirements"
-    t.text     "run_time"
     t.text     "publications_and_notable_projects"
     t.text     "citation"
     t.text     "url"
     t.text     "point_of_contact"
+    t.text     "parent_model"
+    t.text     "descendent_models"
+    t.text     "concept"
+    t.text     "solution_method"
+    t.text     "anticipation",                      default: [],              array: true
+    t.text     "policy_coverage_detailed"
+    t.text     "behaviour"
+    t.text     "land_use"
+    t.text     "scenario_coverage",                 default: [],              array: true
     t.index ["abbreviation"], name: "index_models_on_abbreviation", unique: true, using: :btree
     t.index ["team_id"], name: "index_models_on_team_id", using: :btree
   end
@@ -108,7 +102,6 @@ ActiveRecord::Schema.define(version: 20170605090043) do
     t.datetime "updated_at",                                    null: false
     t.text     "model_abbreviation"
     t.text     "model_version"
-    t.text     "provider_type"
     t.text     "provider_name"
     t.date     "release_date"
     t.text     "category"
@@ -124,21 +117,25 @@ ActiveRecord::Schema.define(version: 20170605090043) do
     t.text     "energy_resource_coverage",         default: [],              array: true
     t.text     "time_horizon"
     t.text     "time_step"
-    t.text     "climate_target"
-    t.text     "emissions_target"
+    t.text     "climate_target_type"
     t.text     "large_scale_bioccs"
     t.text     "technology_assumptions"
     t.text     "gdp_assumptions"
     t.text     "population_assumptions"
-    t.text     "discount_rates",                   default: [],              array: true
+    t.text     "discount_rates"
     t.text     "emission_factors"
     t.text     "global_warming_potentials"
     t.text     "policy_cut_off_year_for_baseline"
-    t.text     "project_study",                    default: [],              array: true
     t.text     "literature_reference"
-    t.text     "point_of_contact"
-    t.text     "proposed_portal_name"
-    t.text     "climate_policy_instrument"
+    t.text     "purpose_or_objective"
+    t.text     "key_usage"
+    t.text     "project"
+    t.text     "climate_target_detailed"
+    t.text     "climate_target_date"
+    t.text     "overshoot"
+    t.text     "other_target_type"
+    t.text     "other_target"
+    t.text     "burden_sharing"
     t.index ["model_id"], name: "index_scenarios_on_model_id", using: :btree
   end
 

@@ -7,19 +7,19 @@ RSpec.describe ApplicationHelper, type: :helper do
       let(:form) {
         ActionView::Helpers::FormBuilder.new(:model, model, self, {})
       }
-      it 'returns a text input for platform_details' do
+      it 'returns a text input for expertise_detailed' do
         expect(
-          helper.attribute_input(model, form, :platform_detailed)
+          helper.attribute_input(model, form, :expertise_detailed)
         ).to match('input .* type="text"')
       end
-      it 'returns a multiple select input for platform' do
+      it 'returns a multiple select input for anticipation' do
         expect(
-          helper.attribute_input(model, form, :platform)
+          helper.attribute_input(model, form, :anticipation)
         ).to match('js-multiple-select')
       end
-      it 'returns a single select input for maintainer_type' do
+      it 'returns a single select input for geographic_coverage' do
         expect(
-          helper.attribute_input(model, form, :maintainer_type)
+          helper.attribute_input(model, form, :geographic_coverage)
         ).to match('js-multisingle-select')
       end
     end
@@ -53,18 +53,18 @@ RSpec.describe ApplicationHelper, type: :helper do
   end
 
   describe :attribute_name do
-    it 'returns Platform for platform' do
+    it 'returns Expertise for expertise' do
       expect(
-        helper.attribute_name(model, :platform)
-      ).to eq('Platform')
+        helper.attribute_name(model, :expertise)
+      ).to eq('Expertise')
     end
   end
 
   describe :attribute_definition do
-    it 'returns Platform for platform' do
+    it 'returns Platform for expertise' do
       expect(
-        helper.attribute_definition(model, :platform)
-      ).to eq('What platform is the model run on?')
+        helper.attribute_definition(model, :expertise)
+      ).to eq('What is the skill level required to run the model?')
     end
   end
 end

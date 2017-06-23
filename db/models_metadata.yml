@@ -1,117 +1,171 @@
 - name: :abbreviation
   size: 'small'
-  category: 'General Info'
+  category: 'About'
 - name: :full_name
   size: 'large'
-  category: 'General Info'
+  category: 'About'
 - name: :current_version
   size: 'small'
-  category: 'General Info'
-- name: :linkages_and_extensions
+  category: 'About'
+- name: :maintainer_name
   size: 'large'
-  category: 'General Info'
-- name: :development_year
-  size: 'small'
-  category: 'General Info'
+  category: 'About'
+- name: :description
+  size: 'large'
+  category: 'About'
+- name: :publications_and_notable_projects
+  size: 'large'
+  category: 'About'
+- name: :citation
+  size: 'large'
+  category: 'About'
+- name: :url
+  size: 'large'
+  category: 'About'
+- name: :point_of_contact
+  size: 'large'
+  category: 'About'
+- name: :parent_model
+  size: 'large'
+  category: 'About'
+- name: :descendent_models
+  size: 'large'
+  category: 'About'
 - name: :programming_language
   picklist: true
   multiple: true
   size: 'large'
-  category: 'General Info'
-- name: :maintainer_type
-  picklist: true
+  category: 'About'
+- name: :development_year
   size: 'small'
-  category: 'General Info'
-- name: :maintainer_name
-  size: 'large'
-  category: 'General Info'
+  category: 'About'
 - name: :license
-  picklist: true
   size: 'large'
-  category: 'Usage & License'
-- name: :license_detailed
-  size: 'large'
-  category: 'Usage & License'
+  category: 'About'
 - name: :availability
   picklist: true
   size: 'large'
-  category: 'Usage & License'
+  category: 'About'
+  options: ['no', 'yes']
 - name: :expertise
   picklist: true
   size: 'large'
-  category: 'Usage & License'
+  category: 'About'
+  options: ['advanced', 'intermediate', 'beginner']
 - name: :expertise_detailed
   size: 'large'
-  category: 'Usage & License'
-- name: :platform
-  picklist: true
-  multiple: true
-  size: 'large'
-  category: 'Details & Description'
+  category: 'About'
 - name: :platform_detailed
   size: 'large'
-  category: 'Details & Description'
-- name: :category
-  picklist: true
-  size: 'large'
-  category: 'Details & Description'
-- name: :category_detailed
-  size: 'large'
-  category: 'Details & Description'
-- name: :hybrid_classification
-  picklist: true
-  size: 'large'
-  category: 'Details & Description'
-- name: :hybrid_classification_detailed
-  size: 'large'
-  category: 'Details & Description'
+  category: 'About'
 - name: :purpose_or_objective
   size: 'large'
-  category: 'Details & Description'
-- name: :description
-  size: 'large'
-  category: 'Details & Description'
+  category: 'Scope and Methods'
 - name: :key_usage
+  size: 'large'
+  category: 'Scope and Methods'
+- name: :concept
+  size: 'large'
+  category: 'Scope and Methods'
+- name: :solution_method
+  size: 'large'
+  category: 'Scope and Methods'
+- name: :equilibrium_type
+  picklist: true
+  size: 'large'
+  category: 'Scope and Methods'
+  options: [
+    'general', 'non-equilibrium (systems dynamics)', ' partial',
+    'not specified'
+  ]
+- name: :anticipation
   picklist: true
   multiple: true
   size: 'large'
-  category: 'Details & Description'
+  category: 'Scope and Methods'
+  options: [
+    'extrapolation of present state', 'fully dynamic', 'limited', 'myopic',
+    'perfect', 'recursive dynamic', 'static'
+  ]
 - name: :scenario_coverage
   picklist: true
+  multiple: true
   size: 'large'
   category: 'Coverage'
-- name: :scenario_coverage_details
-  picklist: true
-  multiple: true
+  options: [
+    'BAU/reference', 'NDCs', 'NDCs-Conditional', 'NDCs-Unconditional',
+    'Decarbonization', 'Development Target', 'Other'
+  ]
+- name: :scenario_coverage_detailed
   size: 'large'
   category: 'Coverage'
 - name: :geographic_coverage
   picklist: true
   size: 'large'
   category: 'Coverage'
+  options: [
+    'customizable', 'flexible', 'multi-regional', 'national', 'regional'
+  ]
 - name: :geographic_coverage_region
   picklist: true
   multiple: true
   size: 'large'
   category: 'Coverage'
+  options: [
+    'Africa', 'Annex-1', 'Asia', 'Australia', 'Central Asia',
+    'East Asia and Pacific', 'Europe', 'G20', 'Latin America and Caribbean',
+    'Middle East', 'Middle East and North Africa', 'North America', 'OECD',
+    'Rest of World', 'South America', 'South Asia', 'Southeast Asia'
+  ]
 - name: :geographic_coverage_country
   picklist: true
   multiple: true
   size: 'large'
   category: 'Coverage'
+  # options coming from locations table
 - name: :sectoral_coverage
   picklist: true
   multiple: true
   size: 'large'
   category: 'Coverage'
+  options: [
+    'agriculture', 'buildings (residential and commercial)', 'electricity',
+    'forestry', 'fugitive emissions', 'industry',
+    'industry and industrial processes',
+    'land-use, land-use change, and forestry (LULUCF)', 'services',
+    'transportation', 'waste'
+  ]
 - name: :gas_and_pollutant_coverage
   picklist: true
   multiple: true
   size: 'large'
   category: 'Coverage'
+  options: [
+    'BC', 'CO', 'CO2', 'CH4', 'F-gases (HFC, PFC, SF6)', 'HFCs', 'Kyoto gases',
+    'NMVOC', 'Nox', 'N2O', 'OC', 'PFCs', 'PM10', 'PM2.5', 'Sox', 'SO2',
+    'Sulfur', 'sulfur aerosols', 'VOC'
+  ]
 - name: :policy_coverage
   picklist: true
   multiple: true
+  size: 'large'
+  category: 'Coverage'
+  options: [
+    'accelerated deployment of energy technologies', 'air pollution measures',
+    'border tariff', 'cap-and-trade', 'carbon price', 'carbon tax',
+    'CO2 concentration target', 'electric vehicles', 'emissions cap',
+    'emissions trading', 'energy efficiency standards', 'energy tax',
+    'feed-in tariff', 'fuel economy standards', 'fuel switching', 'import tax',
+    'investment incentives', 'methane leakage', 'performance standards',
+    'permit trading', 'production subsidies', 'radiative forcing limit',
+    'renewable portfolio standards', 'regulations',
+    'research and development (R&D) measures', 'resource constraints',
+    'revenue recycling', 'subsidies', 'tax credits and incentives', 'taxes',
+    'tax reforms', 'technology capacity targets', 'technology constraints',
+    'technology switching', 'temperature limit',
+    'tradable certificates, permits, or allowances'
+  ]
+- name: :policy_coverage_detailed
   size: 'large'
   category: 'Coverage'
 - name: :technology_coverage
@@ -119,6 +173,14 @@
   multiple: true
   size: 'large'
   category: 'Coverage'
+  options: [
+    'BECCS', 'BioCCS', 'bioenergy', 'CCS', 'cogeneration',
+    'combined heat and power (CHP)', 'distributed generation',
+    'electric vehicles', 'energy efficiency', 'energy use technologies',
+    'fuel cells', 'full electrification in transport', 'heat pumps',
+    'hydraulic power', 'hydrogen', 'hydrogen systems', 'IGCC', 'nuclear',
+    'renewables', 'RES', 'storage'
+  ]
 - name: :technology_coverage_detailed
   size: 'large'
   category: 'Coverage'
@@ -127,25 +189,33 @@
   multiple: true
   size: 'large'
   category: 'Coverage'
+  options: [
+    'biofuels', 'biogas', 'biomass', 'biomass w/ CCS', 'biomass w/o CCS',
+    'coal', 'coal w/ CCS', 'coal w/o CCS', 'electricity', 'fossil',
+    'fossil w/ CCS', 'fossil w/o CCS', 'gas', 'gas unconventional',
+    'gas w/ CCS', 'gas w/o CCS', 'geothermal', 'heat', 'hydro', 'hydrogen',
+    'jet fuel', 'limestone', 'liquids', 'natural gas', 'non-biomass renewable',
+    'nuclear', 'ocean', 'oil', 'oil w/ CCS', 'oil w/o CCS',
+    'other renewable energy', 'petroleum', 'petroleum and other liquids',
+    'renewables', 'solar', 'solar CSP', 'solar PV', 'tidal', 'uranium',
+    'waste', 'wave', 'wind', 'wind-offshore', 'wind-onshore'
+  ]
+- name: :base_year
+  size: 'large'
+  category: 'Coverage'
 - name: :time_horizon
   picklist: true
   size: 'large'
-  category: 'Time'
+  category: 'Coverage'
+  options: ['2030', '2040', '2050', '2100', '2150', 'manual']
 - name: :time_step
   picklist: true
   size: 'large'
-  category: 'Time'
-- name: :equilibrium_type
-  picklist: true
-  size: 'large'
-  category: 'Assumptions'
-- name: :foresight
-  picklist: true
-  size: 'large'
-  category: 'Assumptions'
+  category: 'Coverage'
+  options: ['1', '5', '10', '20', 'manual']
 - name: :spatial_resolution
   size: 'large'
-  category: 'Assumptions'
+  category: 'Coverage'
 - name: :population_assumptions
   size: 'large'
   category: 'Assumptions'
@@ -155,40 +225,12 @@
 - name: :other_assumptions
   size: 'large'
   category: 'Assumptions'
-- name: :base_year
-  size: 'large'
-  category: 'Requirements'
 - name: :input_data
   size: 'large'
-  category: 'Requirements'
-- name: :calibration_and_validation
+  category: 'Assumptions'
+- name: :behaviour
   size: 'large'
-  category: 'Requirements'
-- name: :languages
-  picklist: true
-  multiple: true
+  category: 'Assumptions'
+- name: :land_use
   size: 'large'
-  category: 'Requirements'
-- name: :tutorial_and_training_opportunities
-  picklist: true,
-  multiple: true
-  size: 'large'
-  category: 'Requirements'
-- name: :system_requirements
-  size: 'large'
-  category: 'Requirements'
-- name: :run_time
-  size: 'large'
-  category: 'Requirements'
-- name: :publications_and_notable_projects
-  size: 'large'
-  category: 'Requirements'
-- name: :citation
-  size: 'large'
-  category: 'Requirements'
-- name: :url
-  size: 'large'
-  category: 'Requirements'
-- name: :point_of_contact
-  size: 'large'
-  category: 'Requirements'
+  category: 'Assumptions'
