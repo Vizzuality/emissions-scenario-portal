@@ -60,15 +60,9 @@ RSpec.describe ModelsController, type: :controller do
         expect(assigns[:models].count).to eq(1)
       end
 
-      it 'renders index when more than one model available' do
-        FactoryGirl.create(:model, team: @user.team)
+      it 'renders index' do
         get :index
         expect(response).to render_template(:index)
-      end
-
-      it 'redirects to model when only one model available' do
-        get :index
-        expect(response).to redirect_to(model_url(team_model))
       end
     end
 
