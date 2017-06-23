@@ -42,7 +42,7 @@ module ApplicationHelper
     picklist_values = values_for_attribute_dropdown(
       object, attr_info
     )
-    options = {prompt: 'Please select'}
+    options = {prompt: 'Select or add elements'}
     html_options = {}
     html_options[:multiple] = true
     html_options[:class] = picklist_class(is_multiple)
@@ -57,7 +57,7 @@ module ApplicationHelper
     select_values, selection = values_for_reference_dropdown(
       object, attr_info
     )
-    options = {prompt: 'Please select'}
+    options = {prompt: 'Select or add elements'}
     html_options = {class: 'js-form-input js-select'}
 
     content_tag :div, class: "c-select -#{size}" do
