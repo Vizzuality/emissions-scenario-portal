@@ -19,12 +19,7 @@ module CsvUploadHeaders
 
   def parse_headers(template_url)
     expected_headers = self.class::EXPECTED_HEADERS.
-      map do |eh|
-        eh[:display_name].
-          sub(/Model/, @model.abbreviation).
-          downcase.
-          gsub(/[^a-z0-9]/i, '')
-      end
+      map { |eh| eh[:display_name].downcase.gsub(/[^a-z0-9]/i, '') }
     @actual_headers = @headers.
       map { |ah| ah.downcase.gsub(/[^a-z0-9]/i, '') }.
       map do |header|

@@ -48,4 +48,34 @@ class IndicatorsHeaders
     @errors = {}
     parse_headers('/esp_indicators_template.csv')
   end
+
+  def parse_headers(template_url)
+    expected_headers = EXPECTED_HEADERS.
+      map do |eh|
+        eh[:display_name].
+          sub(/Model/, @model.abbreviation).
+          downcase.
+          gsub(/[^a-z0-9]/i, '')
+      end
+    @actual_headers = @headers.
+      map { |ah| ah.downcase.gsub(/[^a-z0-9]/i, '') }.
+      map do |header|
+      expected_index = expected_headers.index(header)
+      if expected_index.present?
+        {
+          display_name: header,
+          expected_index: expected_index
+        }
+      else
+        message = 'Unrecognised column header.'
+        suggestion = 'Please consult the [template] for correct structure.'
+        @errors[header] = FileUploadError.new(
+          message, suggestion, url: template_url, placeholder: 'template'
+        )
+        {
+          display_name: header
+        }
+      end
+    end
+  end
 end
