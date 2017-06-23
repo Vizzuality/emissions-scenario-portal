@@ -40,6 +40,7 @@ gem 'devise'
 gem 'devise_invitable'
 gem 'sendgrid-ruby'
 gem 'pg_csv'
+gem 'pg_search'
 gem 'charlock_holmes'
 
 group :development, :test do

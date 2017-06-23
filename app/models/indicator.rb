@@ -3,6 +3,7 @@ class Indicator < ApplicationRecord
     Rails.root.join('db', 'indicators_metadata.yml')
   ).freeze
   include MetadataAttributes
+  include PgSearch
 
   ORDERS = %w[alias name category subcategory definition unit].freeze
 
@@ -13,6 +14,10 @@ class Indicator < ApplicationRecord
   validates :category, presence: true
   before_validation :ignore_blank_array_values
   before_save :update_alias, if: proc { |i| i.parent.blank? }
+
+  pg_search_scope :search_for, against: [
+    :category, :subcategory, :name, :alias
+  ]
 
   def update_alias
     self.alias = [category, subcategory, name].join('|')
@@ -45,7 +50,7 @@ ON indicators.id = model_indicators.parent_id").
 
     def fetch_all(options)
       indicators = Indicator
-      options.each_with_index do |filter|
+      options.each do |filter|
         indicators = apply_filter(indicators, options, filter[0], filter[1])
       end
       unless options['order_type'].present?
@@ -61,7 +66,7 @@ ON indicators.id = model_indicators.parent_id").
 
       case filter
       when 'search'
-        indicators.where('lower(name) LIKE ?', "%#{value.downcase}%")
+        indicators.search_for(value)
       when 'order_type'
         fetch_with_order(
           indicators,
