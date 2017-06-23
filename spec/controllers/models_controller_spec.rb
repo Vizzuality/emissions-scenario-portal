@@ -132,10 +132,10 @@ RSpec.describe ModelsController, type: :controller do
         expect(flash[:alert]).to match(/upload file/)
       end
 
-      pending 'redirects with upload errors' do
+      it 'redirects with upload errors' do
         post :upload_meta_data, params: {
           models_file: fixture_file_upload(
-            'models-correct.csv', 'text/csv'
+            'models-invalid_column.csv', 'text/csv'
           )
         }
         expect(response).to redirect_to(models_url)

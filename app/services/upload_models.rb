@@ -8,12 +8,12 @@ class UploadModels
   end
 
   def call(uploaded_io)
-    # data = ModelsData.new(uploaded_io.tempfile, @user)
-    # data.process
+    data = ModelsData.new(uploaded_io.tempfile, @user)
+    data.process
     FileUploadStatus.new(
-      0, #data.number_of_rows,
-      0, #data.number_of_rows_failed,
-      {} #data.errors
+      data.number_of_rows,
+      data.number_of_rows_failed,
+      data.errors
     )
   end
 end
