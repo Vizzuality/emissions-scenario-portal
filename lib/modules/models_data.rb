@@ -41,7 +41,7 @@ class ModelsData
       )
     end
 
-    model ||= Model.new
+    model ||= Model.new(team: @user.team)
     model.attributes = model_attributes
     process_other_errors(@errors[row_no], model.errors) unless model.save
 
