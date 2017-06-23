@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170622112751) do
+ActiveRecord::Schema.define(version: 20170623073453) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,7 +59,6 @@ ActiveRecord::Schema.define(version: 20170622112751) do
     t.text     "purpose_or_objective"
     t.text     "description"
     t.text     "key_usage"
-    t.text     "scenario_coverage"
     t.text     "scenario_coverage_detailed"
     t.text     "geographic_coverage"
     t.text     "geographic_coverage_region",        default: [],              array: true
@@ -91,6 +90,7 @@ ActiveRecord::Schema.define(version: 20170622112751) do
     t.text     "policy_coverage_detailed"
     t.text     "behaviour"
     t.text     "land_use"
+    t.text     "scenario_coverage",                 default: [],              array: true
     t.index ["abbreviation"], name: "index_models_on_abbreviation", unique: true, using: :btree
     t.index ["team_id"], name: "index_models_on_team_id", using: :btree
   end

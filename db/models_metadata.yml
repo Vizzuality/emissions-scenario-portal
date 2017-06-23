@@ -89,6 +89,7 @@
   ]
 - name: :scenario_coverage
   picklist: true
+  multiple: true
   size: 'large'
   category: 'Coverage'
   options: [
