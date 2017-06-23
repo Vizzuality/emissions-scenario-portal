@@ -3,9 +3,7 @@ class ModelsController < ApplicationController
 
   before_action :set_nav_links, only: [:index, :show, :edit]
 
-  def index
-    redirect_to model_url(@models.first) and return if @models.length == 1
-  end
+  def index; end
 
   def new
     @model = Model.new
