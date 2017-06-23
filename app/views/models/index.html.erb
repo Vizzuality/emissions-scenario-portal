@@ -9,7 +9,13 @@
   </div>
   <div class="row">
     <div class="small-12 columns">
-      <div class="l-models__title f-ff3-m-bold">Select the model you want to manage</div>
+      <div class="l-models__title f-ff3-m-bold">
+        <% if current_user.admin? %>
+          Manage all models in the system
+        <% else %>
+          Manage your team's models
+        <% end %>
+      </div>
     </div>
   </div>
   <div class="row">
