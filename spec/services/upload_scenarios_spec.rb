@@ -105,6 +105,29 @@ RSpec.describe UploadScenarios do
     end
   end
 
+  context 'when missing name' do
+    let(:file) {
+      Rack::Test::UploadedFile.new(
+        File.join(
+          Rails.root,
+          'spec',
+          'fixtures',
+          'scenarios-missing_name.csv'
+        )
+      )
+    }
+
+    it 'should not have saved any rows' do
+      expect { subject }.not_to(change { Scenario.count })
+    end
+    it 'should report no rows saved' do
+      expect(subject.number_of_rows_saved).to eq(0)
+    end
+    it 'should report all rows failed' do
+      expect(subject.number_of_rows_failed).to eq(1)
+    end
+  end
+
   context 'when user without permissions' do
     let(:file) {
       Rack::Test::UploadedFile.new(
