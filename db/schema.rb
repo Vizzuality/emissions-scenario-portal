@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170623073453) do
+ActiveRecord::Schema.define(version: 20170626094831) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "tablefunc"
 
   create_table "indicators", force: :cascade do |t|
     t.text     "category",                              null: false
