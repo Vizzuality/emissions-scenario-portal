@@ -61,27 +61,50 @@
           <div class="c-form-items">
             <ul class="l-teams-edit__member">
               <% @team.users.each do |user| %>
-                <li>
-                  <div class="f-ff1-m">
-                    <span class="f-ff1-m-bold"><%= user.name %></span> <%= user.email %>
+              <%= form_for [@team, user] do |f| %>
+                <li class="row">
+                  <div class="small-4 columns">
+                    <%= f.text_field :name, class: 'c-input-text js-form-input', placeholder: 'Name' %>
                   </div>
-                  <%= link_to team_user_url(@team, user),
-                              method: :delete,
-                              data: { confirm: 'Are you sure?' } do %>
-                    <div class="c-delete-button">
-                      <svg class="icon"><use xlink:href="#icon-delete"></use></svg>
-                    </div>
-                  <% end %>
+                  <div class="small-4 columns">
+                    <%= f.text_field :email, class: 'c-input-text js-form-input', placeholder: 'Email' %>
+                  </div>
+                  <div class="small-2 columns">
+                    <%= f.label :admin , class: 'f-ff1-m' do %>
+                      <%= f.check_box :admin, class: 'js-form-input' %> Admin
+                    <% end %>
+                  </div>
+                  <div class="small-2 columns">
+                    <%= link_to team_user_url(@team, user),
+                                method: :delete,
+                                data: { confirm: 'Are you sure?' } do %>
+                      <div class="c-delete-button">
+                        <svg class="icon"><use xlink:href="#icon-delete"></use></svg>
+                      </div>
+                    <% end %>
+                    Delete
+                  </div>
                 </li>
+              <% end %>
               <% end %>
             </ul>
             <%= form_tag(team_users_url(@team)) do %>
-              <div class="c-form-item l-teams-edit__add-member">
-                <%= text_field_tag 'user[email]',
+              <div class="c-form-item l-teams-edit__add-member row">
+                <div class="small-4 columns">
+                  <%= text_field_tag 'user[name]',
+                                   nil,
+                                   placeholder: 'Enter member name ',
+                                   class: 'c-input-text js-form-input' %>
+                </div>
+                <div class="small-4 columns">
+                  <%= text_field_tag 'user[email]',
                                    nil,
                                    placeholder: 'Enter member email ',
                                    class: 'c-input-text js-form-input' %>
-                <%= submit_tag 'Add', class: 'c-button' %>
+                </div>
+                <div class="small-2 columns">
+                  <%= submit_tag 'Add', class: 'c-button' %>
+                </div>
               </div>
             <% end %>
           </div>
