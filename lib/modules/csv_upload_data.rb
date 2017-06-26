@@ -5,7 +5,13 @@ module CsvUploadData
   delegate :url_helpers, to: 'Rails.application.routes'
 
   def initialize_stats
-    @number_of_rows = File.foreach(@path).count - 1
+    @encoding_detection = CharlockHolmes::EncodingDetector.detect(
+      File.read(@path)
+    )
+    @number_of_rows = CSV.open(
+      @path, 'r', headers: true, encoding: @encoding_detection[:encoding],
+      &:count
+    )
     @number_of_rows_failed, @errors =
       if @headers.errors.any?
         [@number_of_rows, @headers.errors.merge(type: :headers)]
@@ -16,9 +22,8 @@ module CsvUploadData
 
   def process
     return if @headers.errors.any?
-    detection = CharlockHolmes::EncodingDetector.detect(File.read(@path))
     CSV.open(
-      @path, 'r', headers: true, encoding: detection[:encoding]
+      @path, 'r', headers: true, encoding: @encoding_detection[:encoding]
     ).each.with_index(2) do |row, row_no|
       process_row(row, row_no)
     end

@@ -22,10 +22,10 @@
 en:
   models:
     abbreviation:
-      name: "Abbreviation"
+      name: "Model Abbreviation"
       definition: "What is the model abbreviation?"
     full_name:
-      name: "Full Name"
+      name: "Model Full Name"
       definition: "What is the full model name?"
     current_version:
       name: "Current Version(s)"

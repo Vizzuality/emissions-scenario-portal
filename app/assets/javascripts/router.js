@@ -11,6 +11,7 @@
      */
     routes: {
       '': 'Models#index',
+      'models': 'Models#index',
       'models/:id': 'Models#show',
       'models/:id/edit': 'Models#edit',
       'models/:modelId/scenarios': 'Scenarios#index',

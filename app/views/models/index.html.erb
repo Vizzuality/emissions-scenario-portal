@@ -1,5 +1,16 @@
 <%= render 'shared/components/c_landing_header', no_nav: true %>
 <div class="l-models">
+  <div class="l-models__upload-block">
+    <div class="row">
+      <div class="small-12 columns">
+        <%= render 'shared/components/c_upload_card',
+                   form_url: upload_meta_data_models_url,
+                   input_id: 'models_file',
+                   structure_url: '/esp_models_template.csv',
+                   button_text: 'Upload or update models' %>
+      </div>
+    </div>
+  </div>
   <div class="row align-right">
     <div class="small-3 columns">
       <%= link_to new_model_url, class: 'l-models__new-model' do %>
