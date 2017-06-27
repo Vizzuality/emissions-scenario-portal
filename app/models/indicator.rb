@@ -50,8 +50,8 @@ ON indicators.id = model_indicators.parent_id").
 
     def fetch_all(options)
       indicators = Indicator
-      options.each do |filter|
-        indicators = apply_filter(indicators, options, filter[0], filter[1])
+      options.each do |filter, value|
+        indicators = apply_filter(indicators, options, filter, value)
       end
       unless options['order_type'].present?
         indicators = indicators.order(name: :asc)
@@ -60,19 +60,17 @@ ON indicators.id = model_indicators.parent_id").
     end
 
     def apply_filter(indicators, options, filter, value)
-      if ['category'].include? filter
-        return fetch_equal_value(indicators, filter, value)
-      end
-
       case filter
       when 'search'
         indicators.search_for(value)
       when 'order_type'
         fetch_with_order(
-          indicators,
-          value,
-          options['order_direction']
+          indicators, value, options['order_direction']
         )
+      when 'type'
+        fetch_by_type(indicators, value)
+      when 'category'
+        fetch_equal_value(indicators, filter, value)
       else
         indicators
       end
@@ -89,6 +87,17 @@ ON indicators.id = model_indicators.parent_id").
       indicators.where("#{filter} IN (?)", value.split(','))
     end
 
+    def fetch_by_type(indicators, value)
+      return indicators if value.blank?
+      return indicators.where('model_id IS NULL') if value == 'core'
+      team_id = sanitise_positive_integer(value.split('-').last)
+      if team_id.present?
+        indicators.joins(:model).where('models.team_id' => team_id)
+      else
+        indicators
+      end
+    end
+
     def slug_to_hash(slug)
       return {} unless slug.present?
       slug_parts = slug && slug.split('|')
@@ -100,12 +109,20 @@ ON indicators.id = model_indicators.parent_id").
       end
       slug_hash
     end
+
+    def sanitise_positive_integer(i, default = nil)
+      new_i =
+        if i.is_a?(String)
+          tmp = i.to_i
+          tmp.to_s == i ? tmp : nil
+        else
+          i
+        end
+      new_i && new_i.positive? ? new_i : default
+    end
   end
 
   def time_series_data?
     time_series_values.any?
   end
-
-  # TODO: validate comparable indicator has convertible unit
-  # TODO: unit conversions
 end

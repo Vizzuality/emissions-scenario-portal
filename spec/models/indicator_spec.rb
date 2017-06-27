@@ -120,10 +120,14 @@ RSpec.describe Indicator, type: :model do
         category: 'Energy', subcategory: 'Energy use by fuel', name: 'Biomass'
       )
     }
+    let(:model) {
+      FactoryGirl.create(:model)
+    }
     let!(:indicator2) {
       FactoryGirl.create(
         :indicator,
-        category: 'Emissions', subcategory: 'CO2 by sector', name: 'Industry'
+        category: 'Emissions', subcategory: 'CO2 by sector', name: 'Industry',
+        model: model
       )
     }
     context 'when using filters' do
@@ -131,6 +135,16 @@ RSpec.describe Indicator, type: :model do
         expect(
           Indicator.fetch_all('category' => 'Energy')
         ).to match_array([indicator1])
+      end
+      it 'filters by type: core' do
+        expect(
+          Indicator.fetch_all('type' => 'core')
+        ).to match_array([indicator1])
+      end
+      it 'filters by type: team' do
+        expect(
+          Indicator.fetch_all('type' => "team-#{model.team_id}")
+        ).to match_array([indicator2])
       end
     end
     context 'when using text search' do
