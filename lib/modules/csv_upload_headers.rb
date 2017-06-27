@@ -5,7 +5,7 @@ module CsvUploadHeaders
   delegate :url_helpers, to: 'Rails.application.routes'
 
   def initialize_headers(path)
-    @headers = CSV.open(path, 'r') do |csv|
+    @headers = CSV.open(path, 'r', encoding: @encoding) do |csv|
       headers = csv.first
       break [] unless headers.present?
       # detect any blank columns to the right which might ruin the parsing

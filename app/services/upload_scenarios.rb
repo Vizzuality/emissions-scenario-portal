@@ -13,7 +13,7 @@ class UploadScenarios
     data.process
     FileUploadStatus.new(
       data.number_of_rows,
-      data.number_of_rows_failed,
+      data.number_of_records_failed,
       data.errors
     )
   end

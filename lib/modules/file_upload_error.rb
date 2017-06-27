@@ -2,10 +2,15 @@ FileUploadError = Struct.new(
   :message, :suggestion, :link_options
 ) do
   def suggestion_with_link
-    suggestion.sub(
-      /\[#{link_options[:placeholder]}\]/,
-      "<a href=\"\"#{link_options[:url]}\"\">#{link_options[:placeholder]}</a>"
-    )
+    if link_options
+      url = link_options[:url]
+      placeholder = link_options[:placeholder]
+      suggestion.sub(
+        /\[#{placeholder}\]/, "<a href=\"\"#{url}\"\">#{placeholder}</a>"
+      )
+    else
+      suggestion
+    end
   end
 
   def to_s

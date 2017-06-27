@@ -1,5 +1,6 @@
-require 'scenarios_data'
+require 'models_data'
 require 'file_upload_status'
+require 'charlock_holmes'
 
 class UploadModels
   def initialize(user, _model)
@@ -8,11 +9,16 @@ class UploadModels
   end
 
   def call(uploaded_io)
-    data = ModelsData.new(uploaded_io.tempfile, @user)
+    @encoding_detection = CharlockHolmes::EncodingDetector.detect(
+      File.read(uploaded_io.tempfile)
+    )
+    data = ModelsData.new(
+      uploaded_io.tempfile, @user, @encoding_detection[:encoding]
+    )
     data.process
     FileUploadStatus.new(
-      data.number_of_rows,
-      data.number_of_rows_failed,
+      data.number_of_records,
+      data.number_of_records_failed,
       data.errors
     )
   end
