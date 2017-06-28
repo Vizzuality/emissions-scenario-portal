@@ -1,8 +1,14 @@
 require 'csv'
-require 'file_upload_error'
+require 'csv_upload_helpers'
 
 module CsvUploadHeaders
   delegate :url_helpers, to: 'Rails.application.routes'
+
+  def self.included(base)
+    base.class_eval do
+      include CsvUploadHelpers
+    end
+  end
 
   def initialize_headers(path)
     @headers = CSV.open(path, 'r', encoding: @encoding) do |csv|
@@ -15,13 +21,6 @@ module CsvUploadHeaders
       end
       break headers[0..(headers.length - blank_columns_to_the_right - 1)]
     end.map(&:downcase)
-  end
-
-  def actual_index_for_property(property_name)
-    expected_index = self.class::EXPECTED_PROPERTIES[property_name][:index]
-    @actual_headers.index do |h|
-      h[:expected_index] == expected_index
-    end
   end
 
   def unrecognised_header_error(errors, template_url, header, expected_header)

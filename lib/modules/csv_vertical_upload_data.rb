@@ -1,8 +1,13 @@
+require 'csv_upload_helpers'
+
 module CsvVerticalUploadData
   attr_reader :number_of_records, :number_of_records_failed, :errors
 
   def self.included(base)
     base.extend(ClassMethods)
+    base.class_eval do
+      include CsvUploadHelpers
+    end
   end
 
   module ClassMethods
@@ -83,12 +88,5 @@ module CsvVerticalUploadData
       value = value.split(';').map(&:strip) unless value.blank?
     end
     value
-  end
-
-  def actual_index_for_property(property_name)
-    expected_index = self.class::EXPECTED_PROPERTIES[property_name][:index]
-    @actual_headers.index do |h|
-      h[:expected_index] == expected_index
-    end
   end
 end
