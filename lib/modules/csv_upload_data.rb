@@ -14,6 +14,10 @@ module CsvUploadData
     @number_of_records = CSV.open(
       @path, 'r', headers: true, encoding: @encoding, &:count
     )
+    initialize_errors
+  end
+
+  def initialize_errors
     @number_of_records_failed, @errors =
       if @headers.errors.any?
         [@number_of_records, @headers.errors.merge(type: :headers)]

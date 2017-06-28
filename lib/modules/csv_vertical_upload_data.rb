@@ -23,12 +23,7 @@ module CsvVerticalUploadData
   def initialize_stats
     @number_of_records = @headers.data_headers &&
       @headers.data_headers.length || 0
-    @number_of_records_failed, @errors =
-      if @headers.errors.any?
-        [@number_of_records, @headers.errors.merge(type: :headers)]
-      else
-        [0, {}]
-      end
+    initialize_errors
   end
 
   def parse_vertical_headers(header_column)
