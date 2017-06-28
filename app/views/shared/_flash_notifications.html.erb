@@ -30,3 +30,23 @@
   <% end %>
   <% flash.clear %>
 </ul>
+<% if @upload_errors.present? %>
+  <div>
+    <h1><%= @upload_errors[:title] %></h1>
+    <table>
+    <% @upload_errors[:errors].each do |error| %>
+      <tr>
+        <th>
+          <%= error[:loc] %>
+        </th>
+        <td>
+          <%= error[:message] %>
+          <span>
+            <%= error[:suggestion] %>
+          </span>
+        </td>
+      </tr>
+    <% end %>
+    </table>
+  </div>
+<% end %>
