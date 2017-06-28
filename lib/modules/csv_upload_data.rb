@@ -1,16 +1,9 @@
-require 'charlock_holmes'
 require 'file_upload_error'
 
 module CsvUploadData
   delegate :url_helpers, to: 'Rails.application.routes'
 
   def initialize_stats
-    unless @encoding
-      encoding_detection = CharlockHolmes::EncodingDetector.detect(
-        File.read(@path)
-      )
-      @encoding = encoding_detection[:encoding]
-    end
     @number_of_records = CSV.open(
       @path, 'r', headers: true, encoding: @encoding, &:count
     )

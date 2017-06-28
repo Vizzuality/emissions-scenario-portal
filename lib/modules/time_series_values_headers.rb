@@ -1,4 +1,4 @@
-require 'csv'
+require 'csv_upload_headers'
 
 class TimeSeriesValuesHeaders
   include CsvUploadHeaders
@@ -34,7 +34,8 @@ class TimeSeriesValuesHeaders
 
   attr_reader :errors
 
-  def initialize(path)
+  def initialize(path, encoding)
+    @encoding = encoding
     initialize_headers(path)
     @errors = {}
     parse_headers('/esp_time_series_template.csv')

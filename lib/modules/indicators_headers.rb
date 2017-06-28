@@ -42,7 +42,8 @@ class IndicatorsHeaders
 
   attr_reader :errors
 
-  def initialize(path, model)
+  def initialize(path, model, encoding)
+    @encoding = encoding
     initialize_headers(path)
     @model = model
     @errors = {}

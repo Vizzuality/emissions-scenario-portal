@@ -1,14 +1,16 @@
+require 'csv_upload_data'
 require 'indicators_headers'
 
 class IndicatorsData
   include CsvUploadData
   attr_reader :number_of_records, :number_of_records_failed, :errors
 
-  def initialize(path, user, model)
+  def initialize(path, user, model, encoding)
     @path = path
     @user = user
     @model = model
-    @headers = IndicatorsHeaders.new(@path, @model)
+    @encoding = encoding
+    @headers = IndicatorsHeaders.new(@path, @model, @encoding)
     initialize_stats
   end
 
