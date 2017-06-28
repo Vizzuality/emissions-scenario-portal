@@ -11,12 +11,12 @@ module CsvUploadData
       )
       @encoding = encoding_detection[:encoding]
     end
-    @number_of_rows = CSV.open(
+    @number_of_records = CSV.open(
       @path, 'r', headers: true, encoding: @encoding, &:count
     )
     @number_of_records_failed, @errors =
       if @headers.errors.any?
-        [@number_of_rows, @headers.errors.merge(type: :headers)]
+        [@number_of_records, @headers.errors.merge(type: :headers)]
       else
         [0, {}]
       end

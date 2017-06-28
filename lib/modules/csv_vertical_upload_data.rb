@@ -10,7 +10,7 @@ module CsvVerticalUploadData
       Hash[
         property_names.map.with_index do |property_name, index|
           details = {
-            display_name: I18n.t(Model.key_for_name(property_name)),
+            display_name: I18n.t(self::DATA_CLASS.key_for_name(property_name)),
             property_name: property_name,
             index: index
           }
@@ -62,8 +62,9 @@ module CsvVerticalUploadData
     data = CSV.read(
       @path, 'r', headers: true, encoding: @encoding
     )
-    # TODO: hard coded column position
-    header_column = data.map { |d| d[1] }
+    header_column = data.map do |d|
+      d[CsvVerticalUploadHeaders::ATTRIBUTE_NAME_INDEX]
+    end
     parse_vertical_headers(header_column)
 
     if @errors.any?

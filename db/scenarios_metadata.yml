@@ -5,9 +5,6 @@
 - name: :model_version
   size: 'small'
   category: 'Model and provider'
-- name: :name
-  size: 'large'
-  category: 'Model and provider'
 - name: :provider_name
   size: 'large'
   category: 'Model and provider'
@@ -15,6 +12,9 @@
   date: true
   size: 'small'
   category: 'Model and provider'
+- name: :name
+  size: 'large'
+  category: 'Scenario context'
 - name: :category
   picklist: true
   size: 'large'

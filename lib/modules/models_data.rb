@@ -6,6 +6,8 @@ class ModelsData
   include CsvUploadData
   include CsvVerticalUploadData
 
+  DATA_CLASS = Model
+
   PROPERTY_NAMES = [
     :abbreviation,
     :full_name,

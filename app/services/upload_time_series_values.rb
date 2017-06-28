@@ -12,7 +12,7 @@ class UploadTimeSeriesValues
     data = TimeSeriesValuesData.new(uploaded_io.tempfile, @user)
     data.process
     FileUploadStatus.new(
-      data.number_of_rows,
+      data.number_of_records,
       data.number_of_records_failed,
       data.errors
     )

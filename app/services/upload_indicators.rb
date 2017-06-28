@@ -12,7 +12,7 @@ class UploadIndicators
     data = IndicatorsData.new(uploaded_io.tempfile, @user, @model)
     data.process
     FileUploadStatus.new(
-      data.number_of_rows,
+      data.number_of_records,
       data.number_of_records_failed,
       data.errors
     )

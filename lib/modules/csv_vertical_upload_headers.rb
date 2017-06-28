@@ -10,6 +10,8 @@ module CsvVerticalUploadHeaders
     'Picklist options (Data Entry)'
   ].freeze
 
+  ATTRIBUTE_NAME_INDEX = 1 # Indicator column
+
   def parse_headers(template_url)
     expected_headers = EXPECTED_HEADERS.
       map { |eh| eh.downcase.gsub(/[^a-z0-9]/i, '') }

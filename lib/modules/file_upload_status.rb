@@ -48,7 +48,7 @@ class FileUploadStatus
     remaining_errors_cnt = remaining_errors.size
     errors_to_array.each do |row|
       if size_in_bytes + (row.bytesize + 1) +
-          (remaining_errors_message(remaining_errors_cnt).bytesize + 1) < 1800
+          (remaining_errors_message(remaining_errors_cnt).bytesize + 1) < 1700
         csv << row
         size_in_bytes += (row.bytesize + 1)
         remaining_errors_cnt -= 1
