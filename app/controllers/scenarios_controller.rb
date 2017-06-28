@@ -39,11 +39,15 @@ class ScenariosController < ApplicationController
   end
 
   def upload_meta_data
-    handle_io_upload(
-      :scenarios_file,
-      UploadScenarios,
-      model_scenarios_url(@model)
-    )
+    file_name = :scenarios_file
+    redirect_url = model_scenarios_url(@model)
+    handle_io_upload(file_name, redirect_url) do
+      UploadIndicators.new(current_user, @model).call(@uploaded_io)
+    end and return
+    @upload_errors = @upload_result.errors_to_hash
+    set_filter_params
+    index
+    render action: :index
   end
 
   def download_time_series
