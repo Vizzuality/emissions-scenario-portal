@@ -23,10 +23,10 @@ RSpec.describe UploadScenarios do
       expect { subject }.to change { Scenario.count }.by(1)
     end
     it 'should report all rows saved' do
-      expect(subject.number_of_rows_saved).to eq(1)
+      expect(subject.number_of_records_saved).to eq(1)
     end
     it 'should report no rows failed' do
-      expect(subject.number_of_rows_failed).to eq(0)
+      expect(subject.number_of_records_failed).to eq(0)
     end
   end
 
@@ -52,10 +52,10 @@ RSpec.describe UploadScenarios do
       expect { subject }.not_to(change { Scenario.count })
     end
     it 'should report all rows saved' do
-      expect(subject.number_of_rows_saved).to eq(1)
+      expect(subject.number_of_records_saved).to eq(1)
     end
     it 'should report no rows failed' do
-      expect(subject.number_of_rows_failed).to eq(0)
+      expect(subject.number_of_records_failed).to eq(0)
     end
   end
 
@@ -75,10 +75,10 @@ RSpec.describe UploadScenarios do
       expect { subject }.not_to(change { Scenario.count })
     end
     it 'should report no rows saved' do
-      expect(subject.number_of_rows_saved).to eq(0)
+      expect(subject.number_of_records_saved).to eq(0)
     end
     it 'should report all rows failed' do
-      expect(subject.number_of_rows_failed).to eq(1)
+      expect(subject.number_of_records_failed).to eq(1)
     end
   end
 
@@ -98,10 +98,10 @@ RSpec.describe UploadScenarios do
       expect { subject }.not_to(change { Scenario.count })
     end
     it 'should report no rows saved' do
-      expect(subject.number_of_rows_saved).to eq(0)
+      expect(subject.number_of_records_saved).to eq(0)
     end
     it 'should report all rows failed' do
-      expect(subject.number_of_rows_failed).to eq(1)
+      expect(subject.number_of_records_failed).to eq(2)
     end
   end
 
@@ -121,10 +121,33 @@ RSpec.describe UploadScenarios do
       expect { subject }.not_to(change { Scenario.count })
     end
     it 'should report no rows saved' do
-      expect(subject.number_of_rows_saved).to eq(0)
+      expect(subject.number_of_records_saved).to eq(0)
     end
     it 'should report all rows failed' do
-      expect(subject.number_of_rows_failed).to eq(1)
+      expect(subject.number_of_records_failed).to eq(1)
+    end
+  end
+
+  context 'when invalid property' do
+    let(:file) {
+      Rack::Test::UploadedFile.new(
+        File.join(
+          Rails.root,
+          'spec',
+          'fixtures',
+          'scenarios-invalid_property.csv'
+        )
+      )
+    }
+
+    it 'should not have saved any rows' do
+      expect { subject }.not_to(change { Scenario.count })
+    end
+    it 'should report no rows saved' do
+      expect(subject.number_of_records_saved).to eq(0)
+    end
+    it 'should report all rows failed' do
+      expect(subject.number_of_records_failed).to eq(1)
     end
   end
 
@@ -146,10 +169,10 @@ RSpec.describe UploadScenarios do
       expect { subject }.not_to(change { Scenario.count })
     end
     it 'should report no rows saved' do
-      expect(subject.number_of_rows_saved).to eq(0)
+      expect(subject.number_of_records_saved).to eq(0)
     end
     it 'should report all rows failed' do
-      expect(subject.number_of_rows_failed).to eq(1)
+      expect(subject.number_of_records_failed).to eq(1)
     end
   end
 end

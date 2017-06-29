@@ -2,7 +2,7 @@ Category,Indicator,Definition/ Input Explanation,Data Type,Picklist options (Dat
 About,Model Abbreviation,What is the model abbreviation?,Text (Alphanumeric),,Model A,Model B
 About,Model Full Name,What is the full model name?,Text (Alphanumeric),,Model A-101,Model B-101
 About,Current Version(s),What is the most recent version of the model?,Text (Alphanumeric),,,
-About,Maintainer Name,Who is the institute or enterprise responsible for development of the model?,Text (Alphanumeric),,,
+About,Maintainer,Who is the institute or enterprise responsible for development of the model?,Text (Alphanumeric),,,
 About,Description,Provide a brief overview of the model and it's key focus areas.,Text (Alphanumeric),,,
 About,Publications & Notable Projects,What are some studies or notable projects that have used the model?,Text (Alphanumeric),,,
 About,Citation,Is there a preferred citation for referencing the use of this model?,Text (Alphanumeric),,,

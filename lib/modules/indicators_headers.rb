@@ -42,7 +42,8 @@ class IndicatorsHeaders
 
   attr_reader :errors
 
-  def initialize(path, model)
+  def initialize(path, model, encoding)
+    @encoding = encoding
     initialize_headers(path)
     @model = model
     @errors = {}
@@ -67,11 +68,7 @@ class IndicatorsHeaders
           expected_index: expected_index
         }
       else
-        message = 'Unrecognised column header.'
-        suggestion = 'Please consult the [template] for correct structure.'
-        @errors[header] = FileUploadError.new(
-          message, suggestion, url: template_url, placeholder: 'template'
-        )
+        unrecognised_header_error(@errors, template_url, header, nil)
         {
           display_name: header
         }

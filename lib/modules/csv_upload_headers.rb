@@ -1,11 +1,17 @@
 require 'csv'
-require 'file_upload_error'
+require 'csv_upload_helpers'
 
 module CsvUploadHeaders
   delegate :url_helpers, to: 'Rails.application.routes'
 
+  def self.included(base)
+    base.class_eval do
+      include CsvUploadHelpers
+    end
+  end
+
   def initialize_headers(path)
-    @headers = CSV.open(path, 'r') do |csv|
+    @headers = CSV.open(path, 'r', encoding: @encoding) do |csv|
       headers = csv.first
       break [] unless headers.present?
       # detect any blank columns to the right which might ruin the parsing
@@ -15,37 +21,5 @@ module CsvUploadHeaders
       end
       break headers[0..(headers.length - blank_columns_to_the_right - 1)]
     end.map(&:downcase)
-  end
-
-  def parse_headers(template_url)
-    expected_headers = self.class::EXPECTED_HEADERS.
-      map { |eh| eh[:display_name].downcase.gsub(/[^a-z0-9]/i, '') }
-    @actual_headers = @headers.
-      map { |ah| ah.downcase.gsub(/[^a-z0-9]/i, '') }.
-      map do |header|
-      expected_index = expected_headers.index(header)
-      if expected_index.present?
-        {
-          display_name: header,
-          expected_index: expected_index
-        }
-      else
-        message = 'Unrecognised column header.'
-        suggestion = 'Please consult the [template] for correct structure.'
-        @errors[header] = FileUploadError.new(
-          message, suggestion, url: template_url, placeholder: 'template'
-        )
-        {
-          display_name: header
-        }
-      end
-    end
-  end
-
-  def actual_index_for_property(property_name)
-    expected_index = self.class::EXPECTED_PROPERTIES[property_name][:index]
-    @actual_headers.index do |h|
-      h[:expected_index] == expected_index
-    end
   end
 end

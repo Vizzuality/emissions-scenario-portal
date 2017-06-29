@@ -1,4 +1,4 @@
-require 'csv'
+require 'csv_upload_headers'
 
 class TimeSeriesValuesHeaders
   include CsvUploadHeaders
@@ -34,7 +34,8 @@ class TimeSeriesValuesHeaders
 
   attr_reader :errors
 
-  def initialize(path)
+  def initialize(path, encoding)
+    @encoding = encoding
     initialize_headers(path)
     @errors = {}
     parse_headers('/esp_time_series_template.csv')
@@ -58,11 +59,7 @@ class TimeSeriesValuesHeaders
           year_header: true
         }
       else
-        message = 'Unrecognised column header.'
-        suggestion = 'Please consult the [template] for correct structure.'
-        @errors[header] = FileUploadError.new(
-          message, suggestion, url: template_url, placeholder: 'template'
-        )
+        unrecognised_header_error(@errors, template_url, header, nil)
         {
           display_name: header
         }

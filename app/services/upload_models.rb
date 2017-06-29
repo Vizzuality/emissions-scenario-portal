@@ -1,19 +1,14 @@
-require 'scenarios_data'
-require 'file_upload_status'
+require 'models_data'
 
-class UploadModels
+class UploadModels < UploadCsvFile
   def initialize(user, _model)
     @user = user
     @errors = {}
   end
 
-  def call(uploaded_io)
-    data = ModelsData.new(uploaded_io.tempfile, @user)
-    data.process
-    FileUploadStatus.new(
-      data.number_of_rows,
-      data.number_of_rows_failed,
-      data.errors
+  def initialize_data(uploaded_io)
+    @data = ModelsData.new(
+      uploaded_io.tempfile, @user, encoding(uploaded_io.tempfile)
     )
   end
 end
