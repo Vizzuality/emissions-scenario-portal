@@ -10,8 +10,26 @@
       </div>
     </div>
     <div class="row">
-      <div class="columns">
+      <div class="small-12 columns">
         <div class="l-indicators__title f-ff3-m-bold"><%= @indicator.alias %></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="small-2 columns">
+        <div class="f-ff1-m-bold">Category</div>
+        <div class="f-ff1-m l-indicators-overview__data"><%= @indicator.category %></div>
+      </div>
+      <div class="small-2 columns">
+        <div class="f-ff1-m-bold">Subcategory</div>
+        <div class="f-ff1-m l-indicators-overview__data"><%= @indicator.subcategory %></div>
+      </div>
+      <div class="small-2 columns">
+        <div class="f-ff1-m-bold">Unit</div>
+        <div class="f-ff1-m l-indicators-overview__data"><%= @indicator.unit %></div>
+      </div>
+      <div class="small-4 columns">
+        <div class="f-ff1-m-bold">Description</div>
+        <div class="f-ff1-m l-indicators-overview__data"><%= @indicator.definition %></div>
       </div>
       <div class="small-2 columns">
         <%= link_to edit_model_indicator_url(@model, @indicator) do %>
