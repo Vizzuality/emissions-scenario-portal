@@ -50,7 +50,7 @@ class ModelsController < ApplicationController
     file_name = :models_file
     redirect_url = models_url
     handle_io_upload(file_name, redirect_url) do
-      UploadModels.new(current_user, @model).call(@uploaded_io)
+      UploadModels.new(current_user).call(@uploaded_io)
     end and return
     @upload_errors = @upload_result.errors_to_hash
     set_filter_params

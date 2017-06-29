@@ -1,7 +1,7 @@
 require 'models_data'
 
 class UploadModels < UploadCsvFile
-  def initialize(user, _model)
+  def initialize(user)
     @user = user
     @errors = {}
   end
