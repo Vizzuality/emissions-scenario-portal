@@ -60,14 +60,10 @@ class IndicatorsController < ApplicationController
   end
 
   def upload_meta_data
-    file_name = :indicators_file
-    redirect_url = model_indicators_url(@model)
-    handle_io_upload(file_name, redirect_url) do
+    handle_io_upload(:indicators_file, model_indicators_url(@model)) do
       UploadIndicators.new(current_user, @model).
         call(@uploaded_io)
     end and return
-    @upload_errors = @upload_result.errors_to_hash
-    set_filter_params
     index
     render action: :index
   end

@@ -40,13 +40,15 @@ class ApplicationController < ActionController::Base
     @uploaded_io = params[file_name]
     unless @uploaded_io.present?
       redirect_to(
-        redirect_url,
-        alert: 'Please provide an upload file'
+        redirect_url, alert: 'Please provide an upload file'
       ) and return true
     end
     @upload_result = yield
-    return false unless @upload_result.no_errors?
+    unless @upload_result.no_errors?
+      @upload_errors = @upload_result.errors_to_hash
+      set_filter_params
+      return false
+    end
     redirect_to redirect_url, notice: @upload_result.stats_message
-    true
   end
 end
