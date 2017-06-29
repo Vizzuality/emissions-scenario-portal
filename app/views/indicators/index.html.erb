@@ -22,8 +22,9 @@
         <label class="f-ff1-m">Filter by type</label>
         <div class="c-select">
           <%= select_tag 'filters[type]',
-                         types_for_select,
-                         class: 'js-form-input js-select' %>
+                        types_for_select,
+                        class: 'js-form-input js-select',
+                        prompt: 'Select any type' %>
         </div>
       </div>
     </div>
@@ -31,11 +32,11 @@
       <div class="c-form-item js-table-filter" data-filter-type="multiselect" data-filter-key="category">
         <label class="f-ff1-m">Filter by Category</label>
         <div class="c-select">
-          <select multiple class="js-form-input js-multiple-select" data-placeholder="Select any category">
-            <% @categories.each do |category| %>
-              <option value="<%= category %>"><%= category %></option>
-            <% end %>
-          </select>
+          <%= select_tag 'filters[category]',
+                        categories_for_select,
+                        class: 'js-form-input js-multiple-select',
+                        'data-placeholder' => 'Select any category',
+                        multiple: true %>
         </div>
       </div>
     </div>
