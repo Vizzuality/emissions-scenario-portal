@@ -52,13 +52,9 @@ class ModelsController < ApplicationController
   end
 
   def upload_meta_data
-    file_name = :models_file
-    redirect_url = models_url
-    handle_io_upload(file_name, redirect_url) do
+    handle_io_upload(:models_file, models_url) do
       UploadModels.new(current_user).call(@uploaded_io)
     end and return
-    @upload_errors = @upload_result.errors_to_hash
-    set_filter_params
     index
     render action: :index
   end
