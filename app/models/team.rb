@@ -18,6 +18,8 @@ class Team < ApplicationRecord
 
   ORDERS = %w[name models members].freeze
 
+  accepts_nested_attributes_for :users
+
   class << self
     def fetch_all(options)
       teams = Team
