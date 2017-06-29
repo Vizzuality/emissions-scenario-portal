@@ -43,6 +43,7 @@ class Indicator < ApplicationRecord
       {
         scenario_name: tsv['scenario_name'],
         location_name: tsv['region'],
+        unit_of_entry: tsv['unit_of_entry'],
         values: years.map { |y| tsv[y] }
       }
     end

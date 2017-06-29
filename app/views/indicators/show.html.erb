@@ -49,6 +49,7 @@
     <thead>
       <th>Scenario</th>
       <th>Country</th>
+      <th>Unit of Entry</th>
       <% @time_series_values_pivot[:years].each do |year| %>
         <th>
           <%= year %>
@@ -60,6 +61,7 @@
         <tr>
           <td><%= row[:scenario_name] %></td>
           <td><%= row[:location_name] %></td>
+          <td><%= row[:unit_of_entry] %></td>
           <% row[:values].each do |value| %>
             <td><%= value %></td>
           <% end %>

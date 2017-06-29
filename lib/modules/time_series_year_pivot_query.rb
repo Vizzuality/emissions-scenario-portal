@@ -3,7 +3,10 @@ class TimeSeriesYearPivotQuery
     @main_query = original_query.
       joins(:indicator, {scenario: :model}, :location).
       select(TimeSeriesYearPivotQuery.column_names).
-      order('scenarios.name', 'indicators.alias', 'locations.name')
+      order(
+        'scenarios.name', 'indicators.alias', 'locations.name',
+        'time_series_values.unit_of_entry'
+      )
     @years_query = original_query.select(:year).order(:year).distinct
   end
 
@@ -29,7 +32,7 @@ class TimeSeriesYearPivotQuery
   def crosstab_query
     years_output_column_names = years.map { |y| "\"#{y}\" numeric" }
     output_column_names = [
-      'row_no int[]',
+      'row_no text[]',
       'model_abbreviation text',
       'scenario_name text',
       'region text',
@@ -50,8 +53,14 @@ class TimeSeriesYearPivotQuery
 
   class << self
     def column_names
+      grouping_columns = [
+        'indicators.name',
+        'scenarios.name',
+        'locations.name',
+        'time_series_values.unit_of_entry'
+      ]
       column_names = [
-        'ARRAY[indicator_id, scenario_id, location_id]::INT[] AS rowno'
+        "ARRAY[#{grouping_columns.join(',')}]::TEXT[] AS row_no"
       ] + column_aliases + [:year, :value]
       column_names[
         column_names.index(:model_abbreviation)
