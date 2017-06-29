@@ -62,6 +62,23 @@ class Indicator < ApplicationRecord
     scenarios.joins(:model).map(&:model)
   end
 
+  def time_series_values_pivot
+    pivot = TimeSeriesYearPivotQuery.new(time_series_values)
+    result = TimeSeriesValue.find_by_sql(pivot.query)
+    years = pivot.years
+    data = result.map do |tsv|
+      {
+        scenario_name: tsv['scenario_name'],
+        location_name: tsv['region'],
+        values: years.map { |y| tsv[y] }
+      }
+    end
+    {
+      years: years,
+      data: data
+    }
+  end
+
   class << self
     def for_model(model)
       team_indicators = Indicator.select(:id, :parent_id).
