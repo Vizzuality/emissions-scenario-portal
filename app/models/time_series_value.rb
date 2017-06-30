@@ -49,7 +49,7 @@ class TimeSeriesValue < ApplicationRecord
     def apply_search_filter(relation, options)
       search_term = options.delete('search')
       return relation unless search_term.present?
-      relation.search_for(search_term)
+      relation.search_for(search_term).except(:order)
     end
 
     def format_pivot_result(pivot, result)
