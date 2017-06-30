@@ -116,7 +116,7 @@ class TimeSeriesValuesData
   end
 
   def location(row, errors)
-    location_name = value_for(row, :region)
+    location_name = value_for(row, :location_name)
     identification = "location: #{location_name}"
     locations = Location.where(name: location_name)
     matching_object(

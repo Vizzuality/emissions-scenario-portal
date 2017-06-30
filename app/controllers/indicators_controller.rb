@@ -4,7 +4,7 @@ class IndicatorsController < ApplicationController
   authorize_resource through: :model
 
   before_action :set_nav_links, only: [:index, :show, :edit]
-  before_action :set_filter_params, only: [:index]
+  before_action :set_filter_params, only: [:index, :show]
 
   def index
     @indicators =
@@ -55,7 +55,9 @@ class IndicatorsController < ApplicationController
   end
 
   def show
-    @time_series_values_pivot = @indicator.time_series_values_pivot
+    @time_series_values_pivot = TimeSeriesValue.fetch_all(
+      @indicator.time_series_values, @filter_params
+    )
   end
 
   def destroy
