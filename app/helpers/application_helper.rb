@@ -76,7 +76,7 @@ module ApplicationHelper
       concat(form.label(attr_info.name, '') do
         content_tag :div, class: 'c-checkbox__box' do
           content_tag(:svg, content_tag(:use, '', { 'xlink:href' => '#icon-checkbox-off' }), class: 'icon icon-checkbox-off') +
-            content_tag(:svg, content_tag(:use, '', { 'xlink:href' => '#icon-checkbox-on' }), class: 'icon icon-checkbox-on')
+          content_tag(:svg, content_tag(:use, '', { 'xlink:href' => '#icon-checkbox-on' }), class: 'icon icon-checkbox-on')
         end
       end)
     end
