@@ -1,0 +1,13 @@
+<%
+  placeholder ||= ''
+  js_class ||= ''
+%>
+<div class="c-input-search">
+  <%= text_field_tag 'search',
+                     nil,
+                     placeholder: placeholder,
+                     class: "c-input-text #{js_class}",
+                     data: data %>
+  <span class="c-input-search__clear js-input-search-clear -hidden"></span>
+  <svg class="icon"><use xlink:href="#icon-search"></use></svg>
+</div>

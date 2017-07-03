@@ -63,10 +63,13 @@
       <div class="small-3 columns">
         <div class="c-form-item">
           <label></label>
-          <div class="c-input-search">
-            <input type="text" placeholder="Filter by name" class="c-input-text js-table-filter" data-filter-type="search" data-filter-key="search"/>
-            <svg class="icon"><use xlink:href="#icon-search"></use></svg>
-          </div>
+          <%= render 'shared/components/form/c_input_search.html',
+                     placeholder: 'Filter by name',
+                     js_class: 'js-table-filter',
+                     data: {
+                       'filter-type' => 'search',
+                       'filter-key' => 'search'
+                     } %>
         </div>
       </div>
       <div class="small-12 columns">
