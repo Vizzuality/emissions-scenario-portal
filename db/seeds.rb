@@ -39,7 +39,6 @@
   current_version: '4',
   development_year: 2012,
   programming_language: ['Python'],
-  maintainer_type: 'private',
   maintainer_name: 'Pacific Northwest National Laboratory (PNNL)',
   license: 'Free and Open Source',
   team: @team_amazing
