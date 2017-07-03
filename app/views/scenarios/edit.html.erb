@@ -1,6 +1,5 @@
 <%= render 'shared/components/c_landing_header',
-  title: @scenario.name,
-  no_settings: true %>
+  title: @scenario.name %>
 
 <%= form_for [@model, @scenario] do |f| %>
   <div class="l-scenarios-edit">
