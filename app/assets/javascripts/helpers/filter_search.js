@@ -56,7 +56,7 @@
     _setClearButtonEvent: function () {
       this.$clearButton.on('click', function () {
         this._cleanInput();
-      }.bind(this))
+      }.bind(this));
     },
 
     _checkClearButton: function (value) {
