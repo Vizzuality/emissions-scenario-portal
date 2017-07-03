@@ -1,6 +1,5 @@
 <%= render 'shared/components/c_landing_header',
-  title: "#{@model.abbreviation}. #{@model.full_name}",
-  no_settings: true %>
+  title: "#{@model.abbreviation}. #{@model.full_name}" %>
 <%= form_for @model do |f| %>
   <%
     form_blocks = Hash.new
