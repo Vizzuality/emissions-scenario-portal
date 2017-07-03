@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170626094831) do
+ActiveRecord::Schema.define(version: 20170703083250) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,7 +104,7 @@ ActiveRecord::Schema.define(version: 20170626094831) do
     t.text     "model_abbreviation"
     t.text     "model_version"
     t.text     "provider_name"
-    t.date     "release_date"
+    t.text     "release_date"
     t.text     "category"
     t.text     "description"
     t.text     "geographic_coverage_region",       default: [],              array: true

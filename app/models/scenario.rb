@@ -9,7 +9,6 @@ class Scenario < ApplicationRecord
 
   validates :name, presence: true
   validates :model, presence: true
-  # TODO: validate release date is a date
   before_validation :ignore_blank_array_values
 
   delegate :abbreviation, to: :model, prefix: :model

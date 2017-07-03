@@ -9,7 +9,6 @@
   size: 'large'
   category: 'Model and provider'
 - name: :release_date
-  date: true
   size: 'small'
   category: 'Model and provider'
 - name: :name

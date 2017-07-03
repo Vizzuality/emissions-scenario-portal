@@ -33,10 +33,6 @@ module MetadataAttributes
       @multiple.present?
     end
 
-    def date?
-      @input_type == :date
-    end
-
     def checkbox?
       @input_type == :checkbox
     end
