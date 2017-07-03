@@ -16,7 +16,7 @@ module ApplicationHelper
     elsif attr_info.picklist?
       picklist_input(object, form, attr_info)
     elsif attr_info.checkbox?
-      form.check_box attr_info.name, class: 'js-form-input'
+      checkbox_input(object, form, attr_info)
     else
       text_input(object, form, attr_info)
     end
@@ -67,6 +67,18 @@ module ApplicationHelper
         options,
         html_options
       )
+    end
+  end
+
+  def checkbox_input(_object, form, attr_info)
+    content_tag :div, class: 'c-checkbox' do
+      concat(form.check_box attr_info.name)
+      concat(form.label(attr_info.name, '') do
+        content_tag :div, class: 'c-checkbox__box' do
+          content_tag(:svg, content_tag(:use, '', { 'xlink:href' => '#icon-checkbox-off' }), class: 'icon icon-checkbox-off') +
+            content_tag(:svg, content_tag(:use, '', { 'xlink:href' => '#icon-checkbox-on' }), class: 'icon icon-checkbox-on')
+        end
+      end)
     end
   end
 
