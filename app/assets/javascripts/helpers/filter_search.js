@@ -69,6 +69,7 @@
 
     _cleanInput: function () {
       this.$el.val('');
+      this.$clearButton.addClass('-hidden');
     }
   });
 
