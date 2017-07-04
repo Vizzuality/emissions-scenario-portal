@@ -3,7 +3,10 @@ class ModelsController < ApplicationController
 
   before_action :set_nav_links, only: [:index, :show, :edit]
 
-  def index; end
+  def index
+    @team = current_user.team
+    @team_members = @team.users.order(:name).pluck(:name)
+  end
 
   def new
     @model = Model.new
