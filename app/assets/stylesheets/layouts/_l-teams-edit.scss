@@ -18,11 +18,15 @@
     margin-top: rem(20px);
   }
 
+  .l-teams-edit__form-members {
+    border-bottom: 0;
+  }
+
   .l-teams-edit__member {
 
     li {
 
-      &:not(:last-child) {
+      &:not(:last-of-type) {
         margin-bottom: rem(20px);
       }
 
@@ -49,8 +53,16 @@
     }
   }
 
+  .l-teams-edit__form-add-members {
+    margin-top: 0;
+    border-top: 0;
+
+    .c-form-items {
+      padding-top: 0;
+    }
+  }
+
   .l-teams-edit__add-member {
-    margin-top: rem(17px) !important;
 
     .c-input-text {
       display: inline-block;

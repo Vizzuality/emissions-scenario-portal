@@ -54,7 +54,7 @@
         </div>
 
         <% if @team.persisted? %>
-          <div class="c-form" data-block-key="<%= Digest::MD5.hexdigest('Members') %>">
+          <div class="c-form l-teams-edit__form-members" data-block-key="<%= Digest::MD5.hexdigest('Members') %>">
             <div class="c-item-header -color-2">
               <div class="f-ff1-xs">Members</div>
             </div>
@@ -90,30 +90,34 @@
                     </div>
                   </li>
                 <% end %>
-                <%= form_tag(team_users_url(@team)) do %>
-                  <div class="c-form-item l-teams-edit__add-member row">
-                    <div class="small-4 columns">
-                      <%= text_field_tag 'user[name]',
-                                         nil,
-                                         placeholder: 'Enter member name ',
-                                         class: 'c-input-text js-form-input' %>
-                    </div>
-                    <div class="small-4 columns">
-                      <%= text_field_tag 'user[email]',
-                                         nil,
-                                         placeholder: 'Enter member email ',
-                                         class: 'c-input-text js-form-input' %>
-                    </div>
-                    <div class="small-2 columns">
-                      <%= submit_tag 'Add', class: 'c-button' %>
-                    </div>
-                  </div>
-                <% end %>
               </ul>
             </div>
           </div>
         <% end %>
       <% end %>
+      <div class="c-form l-teams-edit__form-add-members">
+        <%= form_tag(team_users_url(@team)) do %>
+          <div class="c-form-items">
+            <div class="c-form-item l-teams-edit__add-member row">
+              <div class="small-4 columns">
+                <%= text_field_tag 'user[name]',
+                                   nil,
+                                   placeholder: 'Enter member name ',
+                                   class: 'c-input-text js-form-input' %>
+              </div>
+              <div class="small-4 columns">
+                <%= text_field_tag 'user[email]',
+                                   nil,
+                                   placeholder: 'Enter member email ',
+                                   class: 'c-input-text js-form-input' %>
+              </div>
+              <div class="small-2 columns">
+                <%= submit_tag 'Add', class: 'c-button' %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
