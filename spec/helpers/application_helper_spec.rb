@@ -28,10 +28,10 @@ RSpec.describe ApplicationHelper, type: :helper do
       let(:form) {
         ActionView::Helpers::FormBuilder.new(:scenario, scenario, self, {})
       }
-      it 'returns a date input field for release_date' do
+      it 'returns a text input field for release_date' do
         expect(
           helper.attribute_input(scenario, form, :release_date)
-        ).to match('js-datepicker-input')
+        ).to match('js-form-input')
       end
       it 'returns a select input for model_abbreviation' do
         expect(

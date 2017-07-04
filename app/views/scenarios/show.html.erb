@@ -22,10 +22,6 @@
         <div class="f-ff1-m-bold">Last edit</div>
         <div class="f-ff1-m l-scenarios-overview__data"><%= @scenario.updated_at.strftime("%b %d %Y") %></div>
       </div>
-      <div class="small-2 columns">
-        <div class="f-ff1-m-bold">Published</div>
-        <div class="f-ff1-m l-scenarios-overview__data">TODO</div>
-      </div>
       <div class="small-1 columns">
         <%= link_to edit_model_scenario_url(@model, @scenario) do %>
           <div class="c-edit-button">
@@ -71,7 +67,7 @@
       </div>
       <div class="small-12 columns">
         <div class="l-scenarios-overview__table-shorts row js-table-filter" data-filter-type="order">
-          <div class="small-3 columns">
+          <div class="small-5 columns">
             <%= render 'shared/components/c_order_filter_button',
               text: 'Indicator',
               other_class: '-no-wrap',
@@ -89,10 +85,6 @@
               other_class: '-no-wrap',
               column_key: 'definition' %>
           </div>
-          <div class="small-2 columns">
-            <%= render 'shared/components/c_order_filter_button',
-              text: 'Added by' %>
-          </div>
         </div>
       </div>
     </div>
@@ -101,7 +93,7 @@
     <% @indicators.each do |indicator| %>
       <div class="c-table-list-item">
         <div class="row">
-          <div class="small-3 columns">
+          <div class="small-5 columns">
             <div class="c-table-list-item__text f-ff1-m-bold"><%= link_to indicator.alias, model_indicator_url(@model, indicator) %></div>
           </div>
           <div class="small-2 columns">
@@ -111,9 +103,6 @@
             <div class="c-table-list-item__text f-ff1-m">
               <%= indicator.definition && truncate(indicator.definition, length: 150) %>
             </div>
-          </div>
-          <div class="small-2 columns">
-            <div class="c-table-list-item__text f-ff1-m">TODO</div>
           </div>
           <div class="small-1 columns">
             <div class="c-table-list-item__actions">
