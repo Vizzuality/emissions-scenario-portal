@@ -232,22 +232,35 @@
  * @section Buttons
  * @markup
  *   <div class="c-edit-button">
- *    <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+ *    <div class="c-edit-button__bubble">
+ *      <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+ *    </div>
+ *    <div class="f-ff1-s">Edit</div>
  *   </div>
  */
 .c-edit-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: rem(28px);
-  height: rem(28px);
-  border-radius: 100%;
-  background-color: $color-app-6;
   cursor: pointer;
 
   .icon {
     width: rem(14px);
     height: rem(14px);
     fill: $color-app-3;
+  }
+
+  .c-edit-button__bubble {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: rem(28px);
+    height: rem(28px);
+    border-radius: 100%;
+    background-color: $color-app-6;
+  }
+
+  .f-ff1-s {
+    display: inline-block;
+    position: relative;
+    top: rem(-2px);
+    left: rem(3px);
   }
 }
