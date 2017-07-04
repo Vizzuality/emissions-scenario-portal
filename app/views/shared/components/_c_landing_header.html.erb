@@ -4,7 +4,7 @@
   no_nav ||= false
 %>
 <%= render 'shared/components/c_wri_header' %>
-<div class="c-landing-header <% if no_nav %>-no-nav<% end %>">
+<div class="c-landing-header <% if no_nav || !@nav_links.present? %>-no-nav<% end %>">
   <div class="row">
     <div class="small-7 columns">
       <div class="f-ff2-xl-extralight c-landing-header__title">
