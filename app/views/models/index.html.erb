@@ -39,4 +39,24 @@
       </div>
     <% end %>
   </div>
+  <% if current_user.admin? %>
+    <div class="row">
+    <div class="small-12 columns">
+      <%= render 'shared/components/c_columns_table',
+                 title: 'Team',
+                 edit_url: edit_team_path(@team),
+                 columns: [
+                   {
+                     title: 'Name',
+                     data: @team.name
+                   },
+                   {
+                     title: 'Members',
+                     data: @team_members.join(', ')
+                   }
+                 ]
+      %>
+    </div>
+  </div>
+  <% end %>
 </div>
