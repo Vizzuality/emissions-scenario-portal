@@ -80,9 +80,7 @@ ON indicators.id = model_indicators.parent_id").
       order_direction = get_order_direction(order_direction)
       order_type = get_order_type(ORDERS, order_type)
 
-      if order_type == 'type'
-        order_type = 'parent_id'
-      end
+      order_type = 'parent_id' if order_type == 'type'
       indicators.order(order_type => order_direction, name: :asc)
     end
 
