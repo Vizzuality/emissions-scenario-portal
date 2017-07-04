@@ -1,8 +1,8 @@
 /**
- * @molecule Table 4 columns
+ * @molecule Columns table
  * @section Tables
  * @markup
- *  <div class="c-4-columns-table">
+ *  <div class="c-columns-table">
  *    <div class="c-item-header -color-2">
  *      <div class="f-ff1-xs">Metadata</div>
  *      <div class="c-item-header__actions">
@@ -11,26 +11,26 @@
  *    </div>
  *    <div class="row">
  *      <div class="small-3 columns">
- *        <ul class="c-4-columns-table__list f-ff1-m">
+ *        <ul class="c-columns-table__list f-ff1-m">
  *          <li class="f-ff1-m-bold">Maintainer</li>
  *          <li>Pacific Northwest National</li>
  *          <li>Laboratory (PNNL)</li>
  *        </ul>
  *      </div>
  *      <div class="small-3 columns">
- *        <ul class="c-4-columns-table__list f-ff1-m">
+ *        <ul class="c-columns-table__list f-ff1-m">
  *          <li class="f-ff1-m-bold">Regional scope</li>
  *          <li>Global</li>
  *        </ul>
  *      </div>
  *      <div class="small-3 columns">
- *        <ul class="c-4-columns-table__list f-ff1-m">
+ *        <ul class="c-columns-table__list f-ff1-m">
  *          <li class="f-ff1-m-bold">Sector focus</li>
  *          <li>All sectors (IAM)</li>
  *        </ul>
  *      </div>
  *      <div class="small-3 columns">
- *        <ul class="c-4-columns-table__list f-ff1-m">
+ *        <ul class="c-columns-table__list f-ff1-m">
  *          <li class="f-ff1-m-bold">Time horizon</li>
  *          <li>2100</li>
  *        </ul>
@@ -38,7 +38,7 @@
  *    </div>
  *  </div>
  */
-.c-4-columns-table {
+.c-columns-table {
   position: relative;
   width: 100%;
   padding-bottom: rem(30px);
@@ -46,7 +46,7 @@
   background-color: $color-app-3;
   border: solid 1px $color-app-5;
 
-  .c-4-columns-table__list {
+  .c-columns-table__list {
     position: relative;
     height: calc(100% - #{rem(23px)});
     margin: rem(23px) 0 0 0;
@@ -60,7 +60,7 @@
     }
   }
 
-  .columns:not(:first-child) .c-4-columns-table__list:before {
+  .columns:not(:first-child) .c-columns-table__list:before {
     content: '';
     position: absolute;
     left: rem(-1px);

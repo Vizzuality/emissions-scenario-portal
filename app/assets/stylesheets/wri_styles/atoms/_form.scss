@@ -120,6 +120,7 @@
  *  <div style="width: 100%; background-color: #eeeeee; padding: 50px;">
  *    <div class="c-input-search">
  *      <input type="text" placeholder="Search" class="c-input-text"/>
+ *      <span class="c-input-search__clear -hidden"></span>
  *      <svg class="icon"><use xlink:href="#icon-search"></use></svg>
  *    </div>
  *  </div>
@@ -142,7 +143,7 @@
   }
 
   .c-input-text {
-    padding-right: rem(35px);
+    padding-right: rem(55px);
     border: 0;
   }
 
@@ -153,6 +154,34 @@
     width: rem(17px);
     height: rem(17px);
     fill: rgba($color-app-2, 0.5);
+  }
+
+  .c-input-search__clear {
+    position: absolute;
+    right: rem(33px);
+    top: rem(10px);
+    width: rem(16px);
+    height: rem(16px);
+    cursor: pointer;
+
+    &:before,
+    &:after {
+      content: '';
+      position: absolute;
+      top: rem(3px);
+      left: rem(7px);
+      height: rem(10px);
+      width: rem(2px);
+      background-color: $color-app-2;
+    }
+
+    &:before {
+      transform: rotate(45deg);
+    }
+
+    &:after {
+      transform: rotate(-45deg);
+    }
   }
 }
 

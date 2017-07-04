@@ -24,9 +24,27 @@
   </div>
   <div class="row">
     <div class="small-12 columns">
-      <%= render 'shared/components/c_4_columns_table',
-        model: @model,
-        title: 'Metadata'
+      <%= render 'shared/components/c_columns_table',
+        title: 'Metadata',
+        edit_url: edit_model_url(@model),
+        columns: [
+          {
+            title: 'Maintainer',
+            data: @model.maintainer_name
+          },
+          {
+            title: 'Regional scope',
+            data: @model.geographic_coverage
+          },
+          {
+            title: 'Sector focus',
+            data: @model.sectoral_coverage.join(', ')
+          },
+          {
+            title: 'Time horizon',
+            data: @model.time_horizon
+          }
+        ]
       %>
     </div>
   </div>
