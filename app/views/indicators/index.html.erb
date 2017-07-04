@@ -59,7 +59,7 @@
   </div>
   <div class="l-indicators__table-shorts js-table-filter" data-filter-type="order">
     <div class="row">
-      <div class="small-2 columns">
+      <div class="small-3 columns">
         <%= render 'shared/components/c_order_filter_button',
                    text: 'Name',
                    other_class: '-no-wrap',
@@ -88,8 +88,8 @@
   <% @indicators.each do |indicator| %>
     <div class="c-table-list-item">
       <div class="row">
-        <div class="small-2 columns">
-          <div class="c-table-list-item__text f-ff1-m-bold"><%= indicator.name %></div>
+        <div class="small-3 columns">
+          <div class="c-table-list-item__text f-ff1-m-bold"><%= indicator.alias %></div>
         </div>
         <div class="small-2 columns">
           <div class="c-table-list-item__text f-ff1-m"><%= indicator.unit %></div>
@@ -102,17 +102,16 @@
         <div class="small-2 columns">
           <div class="c-table-list-item__text f-ff1-m">
             <% if indicator.parent_id.present? %>
-              <% parent_indicator = Indicator.find(indicator.parent_id) %>
               Custom
               <div class="l-indicators__based-on">
-                Based on: <%= link_to parent_indicator.name, edit_model_indicator_url(@model, parent_indicator) %>
+                Based on: <%= link_to indicator.parent.name, edit_model_indicator_url(@model, indicator.parent) %>
               </div>
             <% else %>
               Default
             <% end %>
           </div>
         </div>
-        <div class="small-3 columns">
+        <div class="small-2 columns">
           <div class="c-table-list-item__actions">
             <%= link_to model_indicator_url(@model, indicator), method: :delete, data: {confirm: destroy_confirmation_message(indicator)} do %>
               <div class="c-remove-button">

@@ -49,7 +49,7 @@ ON indicators.id = model_indicators.parent_id").
     end
 
     def fetch_all(options)
-      indicators = Indicator
+      indicators = Indicator.includes(:parent)
       options.each do |filter, value|
         indicators = apply_filter(indicators, options, filter, value)
       end
