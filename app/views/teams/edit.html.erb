@@ -68,46 +68,51 @@
                     <div class="small-4 columns">
                       <%= ff.text_field :email, class: 'c-input-text js-form-input', placeholder: 'Email' %>
                     </div>
-                    <div class="small-2 columns">
-                      <%= ff.label :admin , class: 'f-ff1-s' do %>
-                        <%= ff.check_box :admin, class: 'js-form-input' %> Admin
-                      <% end %>
-                    </div>
-                    <div class="small-2 columns f-ff1-s">
+                    <div class="small-4 columns">
+                      <div class="c-checkbox">
+                        <%= ff.check_box :admin %>
+                        <%= ff.label :admin do %>
+                          <div class="c-checkbox__box">
+                            <svg class="icon icon-checkbox-off"><use xlink:href="#icon-checkbox-off"></use></svg>
+                            <svg class="icon icon-checkbox-on"><use xlink:href="#icon-checkbox-on"></use></svg>
+                          </div>
+                          <div class="f-ff1-s">Admin</div>
+                        <% end %>
+                      </div>
                       <%= link_to team_user_url(@team, ff.object),
                                   method: :delete,
                                   data: { confirm: 'Are you sure?' } do %>
-                        <div class="c-delete-button">
+                        <div class="c-remove-button">
                           <svg class="icon"><use xlink:href="#icon-delete"></use></svg>
+                          <div class="f-ff1-s">Delete</div>
                         </div>
-                        Delete
                       <% end %>
                     </div>
                   </li>
+                <% end %>
+                <%= form_tag(team_users_url(@team)) do %>
+                  <div class="c-form-item l-teams-edit__add-member row">
+                    <div class="small-4 columns">
+                      <%= text_field_tag 'user[name]',
+                                         nil,
+                                         placeholder: 'Enter member name ',
+                                         class: 'c-input-text js-form-input' %>
+                    </div>
+                    <div class="small-4 columns">
+                      <%= text_field_tag 'user[email]',
+                                         nil,
+                                         placeholder: 'Enter member email ',
+                                         class: 'c-input-text js-form-input' %>
+                    </div>
+                    <div class="small-2 columns">
+                      <%= submit_tag 'Add', class: 'c-button' %>
+                    </div>
+                  </div>
                 <% end %>
               </ul>
             </div>
           </div>
         <% end %>
-      <% end %>
-      <%= form_tag(team_users_url(@team)) do %>
-        <div class="c-form-item l-teams-edit__add-member row">
-          <div class="small-4 columns">
-            <%= text_field_tag 'user[name]',
-                             nil,
-                             placeholder: 'Enter member name ',
-                             class: 'c-input-text js-form-input' %>
-          </div>
-          <div class="small-4 columns">
-            <%= text_field_tag 'user[email]',
-                             nil,
-                             placeholder: 'Enter member email ',
-                             class: 'c-input-text js-form-input' %>
-          </div>
-          <div class="small-2 columns">
-            <%= submit_tag 'Add', class: 'c-button' %>
-          </div>
-        </div>
       <% end %>
     </div>
   </div>
