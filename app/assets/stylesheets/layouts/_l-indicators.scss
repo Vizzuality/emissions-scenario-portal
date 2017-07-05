@@ -30,5 +30,13 @@
     .c-table-list-item__text {
       line-height: 1.56;
     }
+
+    .l-indicators__based-on {
+      opacity: 0.5;
+
+      a {
+        text-decoration: underline;
+      }
+    }
   }
 }

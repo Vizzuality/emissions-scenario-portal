@@ -59,30 +59,13 @@
   </div>
   <div class="l-indicators__table-shorts js-table-filter" data-filter-type="order">
     <div class="row">
-      <div class="small-2 columns">
-        <%= render 'shared/components/c_order_filter_button',
-                   text: 'ESP Indicator Name',
-                   other_class: '-no-wrap',
-                   column_key: 'alias' %>
-      </div>
-      <div class="small-2 columns">
-        <%= render 'shared/components/c_order_filter_button',
-                   text: 'Category',
-                   other_class: '-no-wrap',
-                   column_key: 'category' %>
-      </div>
-      <div class="small-2 columns">
-        <%= render 'shared/components/c_order_filter_button',
-                   text: 'Subcategory',
-                   column_key: 'subcategory' %>
-      </div>
-      <div class="small-1 columns">
+      <div class="small-3 columns">
         <%= render 'shared/components/c_order_filter_button',
                    text: 'Name',
                    other_class: '-no-wrap',
                    column_key: 'name' %>
       </div>
-      <div class="small-1 columns">
+      <div class="small-2 columns">
         <%= render 'shared/components/c_order_filter_button',
                    text: 'Unit',
                    other_class: '-no-wrap',
@@ -94,24 +77,21 @@
                    other_class: '-no-wrap',
                    column_key: 'definition' %>
       </div>
+      <div class="small-2 columns">
+        <%= render 'shared/components/c_order_filter_button',
+                   text: 'Type',
+                   other_class: '-no-wrap',
+                   column_key: 'type' %>
+      </div>
     </div>
   </div>
   <% @indicators.each do |indicator| %>
     <div class="c-table-list-item">
       <div class="row">
-        <div class="small-2 columns">
-          <div class="c-table-list-item__text f-ff1-m-bold"><%= link_to indicator.alias, model_indicator_url(@model, indicator) %></div>
+        <div class="small-3 columns">
+          <div class="c-table-list-item__text f-ff1-m-bold"><%= indicator.alias %></div>
         </div>
         <div class="small-2 columns">
-          <div class="c-table-list-item__text f-ff1-m"><%= indicator.category %></div>
-        </div>
-        <div class="small-2 columns">
-          <div class="c-table-list-item__text f-ff1-m"><%= indicator.subcategory %></div>
-        </div>
-        <div class="small-1 columns">
-          <div class="c-table-list-item__text f-ff1-m"><%= indicator.name %></div>
-        </div>
-        <div class="small-1 columns">
           <div class="c-table-list-item__text f-ff1-m"><%= indicator.unit %></div>
         </div>
         <div class="small-3 columns">
@@ -119,16 +99,32 @@
             <%= indicator.definition && truncate(indicator.definition, length: 120) %>
           </div>
         </div>
-        <div class="small-1 columns">
+        <div class="small-2 columns">
+          <div class="c-table-list-item__text f-ff1-m">
+            <% if indicator.parent_id.present? %>
+              Custom
+              <div class="l-indicators__based-on">
+                Based on: <%= link_to indicator.parent.name, edit_model_indicator_url(@model, indicator.parent) %>
+              </div>
+            <% else %>
+              Default
+            <% end %>
+          </div>
+        </div>
+        <div class="small-2 columns">
           <div class="c-table-list-item__actions">
             <%= link_to model_indicator_url(@model, indicator), method: :delete, data: {confirm: destroy_confirmation_message(indicator)} do %>
-              <div class="c-delete-button">
+              <div class="c-remove-button">
                 <svg class="icon"><use xlink:href="#icon-delete"></use></svg>
+                <div class="f-ff1-s">Delete</div>
               </div>
             <% end %>
             <%= link_to edit_model_indicator_url(@model, indicator) do %>
               <div class="c-edit-button">
-                <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+                <div class="c-edit-button__bubble">
+                  <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+                </div>
+                <div class="f-ff1-s">Edit</div>
               </div>
             <% end %>
           </div>

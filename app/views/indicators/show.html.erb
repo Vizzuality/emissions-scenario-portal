@@ -35,7 +35,10 @@
       <div class="small-1 columns">
         <%= link_to edit_model_indicator_url(@model, @indicator) do %>
           <div class="c-edit-button">
-            <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+            <div class="c-edit-button__bubble">
+              <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+            </div>
+            <div class="f-ff1-s">Edit</div>
           </div>
         <% end %>
       </div>

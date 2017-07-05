@@ -5,7 +5,7 @@ class Indicator < ApplicationRecord
   include MetadataAttributes
   include PgSearch
 
-  ORDERS = %w[alias name category subcategory definition unit].freeze
+  ORDERS = %w[alias name category subcategory definition unit type].freeze
 
   belongs_to :parent, class_name: 'Indicator', optional: true
   has_many :time_series_values, dependent: :destroy
@@ -49,7 +49,7 @@ ON indicators.id = model_indicators.parent_id").
     end
 
     def fetch_all(options)
-      indicators = Indicator
+      indicators = Indicator.includes(:parent)
       options.each do |filter, value|
         indicators = apply_filter(indicators, options, filter, value)
       end
@@ -80,6 +80,7 @@ ON indicators.id = model_indicators.parent_id").
       order_direction = get_order_direction(order_direction)
       order_type = get_order_type(ORDERS, order_type)
 
+      order_type = 'parent_id' if order_type == 'type'
       indicators.order(order_type => order_direction, name: :asc)
     end
 
