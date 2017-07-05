@@ -6,17 +6,13 @@
     </div>
     <div class="small-3 columns">
       <div class="c-form-item">
-        <div class="c-input-search">
-          <%= text_field_tag 'search',
-                             nil,
-                             placeholder: 'Filter by name',
-                             class: 'c-input-text js-table-filter',
-                             data: {
-                               'filter-type' => 'search',
-                               'filter-key' => 'search'
-                             } %>
-          <svg class="icon"><use xlink:href="#icon-search"></use></svg>
-        </div>
+        <%= render 'shared/components/form/c_input_search.html',
+                   placeholder: 'Filter by name',
+                   js_class: 'js-table-filter',
+                   data: {
+                     'filter-type' => 'search',
+                     'filter-key' => 'search'
+                   } %>
       </div>
     </div>
     <div class="small-3 columns">
@@ -59,7 +55,10 @@
             <% end %>
             <%= link_to edit_location_path(location) do %>
               <div class="c-edit-button">
-                <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+                <div class="c-edit-button__bubble">
+                  <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+                </div>
+                <div class="f-ff1-s">Edit</div>
               </div>
             <% end %>
           </div>

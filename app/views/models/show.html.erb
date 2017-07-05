@@ -1,33 +1,45 @@
 <%= render 'shared/components/c_landing_header',
-  title: "#{@model.abbreviation}. #{@model.full_name}",
-  no_settings: true %>
+  title: "#{@model.abbreviation}. #{@model.full_name}" %>
 <div class="l-model-overview">
   <div class="row">
-    <div class="small-4 columns">
+    <div class="small-6 columns">
       <%= render 'shared/components/c_model_overview_card',
         title: 'Scenarios',
         values: @scenarios,
         button_url: model_scenarios_url(@model)
       %>
     </div>
-    <div class="small-4 columns">
+    <div class="small-6 columns">
       <%= render 'shared/components/c_model_overview_card',
         title: 'Indicators',
         values: @indicators,
         button_url: model_indicators_url(@model)
       %>
     </div>
-    <div class="small-4 columns">
-      <%= link_to new_model_url, class: 'l-models__new-model' do %>
-        <div class="c-hollow-button"><span>Create new model</span></div>
-      <% end %>
-    </div>
   </div>
   <div class="row">
     <div class="small-12 columns">
-      <%= render 'shared/components/c_4_columns_table',
-        model: @model,
-        title: 'Metadata'
+      <%= render 'shared/components/c_columns_table',
+                 title: 'Metadata',
+                 edit_url: edit_model_url(@model),
+                 columns: [
+                   {
+                     title: 'Maintainer',
+                     data: @model.maintainer_name
+                   },
+                   {
+                     title: 'Regional scope',
+                     data: @model.geographic_coverage
+                   },
+                   {
+                     title: 'Sector focus',
+                     data: @model.sectoral_coverage.join(', ')
+                   },
+                   {
+                     title: 'Time horizon',
+                     data: @model.time_horizon
+                   }
+                 ]
       %>
     </div>
   </div>

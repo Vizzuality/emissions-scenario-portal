@@ -13,9 +13,6 @@ class IndicatorsController < ApplicationController
       else
         Indicator.for_model(@model).fetch_all(@filter_params)
       end
-    @categories = Indicator.except(:order).
-      order(:category).
-      distinct.pluck(:category)
   end
 
   def new

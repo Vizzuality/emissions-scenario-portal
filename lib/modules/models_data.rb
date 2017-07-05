@@ -1,29 +1,86 @@
+require 'csv_upload_data'
+require 'csv_vertical_upload_data'
 require 'models_headers'
 
 class ModelsData
   include CsvUploadData
-  attr_reader :number_of_rows, :number_of_rows_failed, :errors
+  include CsvVerticalUploadData
 
-  def initialize(path, user)
+  DATA_CLASS = Model
+
+  PROPERTY_NAMES = [
+    :abbreviation,
+    :full_name,
+    :current_version,
+    :maintainer_name,
+    :description,
+    :publications_and_notable_projects,
+    :citation,
+    :url,
+    :point_of_contact,
+    :parent_model,
+    :descendent_models,
+    :programming_language,
+    :development_year,
+    :license,
+    :availability,
+    :expertise,
+    :expertise_detailed,
+    :platform_detailed,
+    :purpose_or_objective,
+    :key_usage,
+    :concept,
+    :solution_method,
+    :equilibrium_type,
+    :anticipation,
+    :scenario_coverage,
+    :scenario_coverage_detailed,
+    :geographic_coverage,
+    :geographic_coverage_region,
+    :geographic_coverage_country,
+    :sectoral_coverage,
+    :gas_and_pollutant_coverage,
+    :policy_coverage,
+    :policy_coverage_detailed,
+    :technology_coverage,
+    :technology_coverage_detailed,
+    :energy_resource_coverage,
+    :base_year,
+    :time_horizon,
+    :time_step,
+    :spatial_resolution,
+    :population_assumptions,
+    :gdp_assumptions,
+    :other_assumptions,
+    :input_data,
+    :behaviour,
+    :land_use
+  ].freeze
+
+  EXPECTED_PROPERTIES = build_properties(PROPERTY_NAMES).freeze
+
+  def initialize(path, user, encoding)
     @path = path
     @user = user
-    @headers = ModelsHeaders.new(@path)
+    @encoding = encoding
+    @headers = ModelsHeaders.new(@path, @encoding)
+    @template_url = '/esp_models_template.csv'
     initialize_stats
   end
 
-  def process_row(row, row_no)
-    @errors[row_no] = {}
+  def process_column(col, col_no)
+    @errors[col_no] = {}
 
     model_attributes =
       Hash[
         Model.attribute_infos.map(&:name).map do |attr|
-          [attr, value_for(row, attr)]
+          [attr, value_for(col, attr)]
         end
       ]
     if model_attributes[:abbreviation].blank?
       message = 'Model abbreviation must be present.'
       suggestion = 'Please fill in missing data.'
-      @errors[row_no]['name'] = format_error(message, suggestion)
+      @errors[col_no]['name'] = format_error(message, suggestion)
     end
 
     model = Model.where(
@@ -33,7 +90,7 @@ class ModelsData
     if model && @user.cannot?(:manage, model)
       message = "Access denied to manage model (#{model.abbreviation})."
       suggestion = 'Please verify your team\'s permissions [here].'
-      @errors[row_no]['model'] = format_error(
+      @errors[col_no]['model'] = format_error(
         message,
         suggestion,
         url: url_helpers.team_path(@user.team),
@@ -43,20 +100,16 @@ class ModelsData
 
     model ||= Model.new(team: @user.team)
     model.attributes = model_attributes
-    process_other_errors(@errors[row_no], model.errors) unless model.save
+    process_other_errors(@errors[col_no], model.errors) unless model.save
 
-    if @errors[row_no].any?
-      @number_of_rows_failed += 1
+    if @errors[col_no].any?
+      @number_of_records_failed += 1
     else
-      @errors.delete(row_no)
+      @errors.delete(col_no)
     end
   end
 
-  def value_for(row, property_name)
-    value = row[@headers.actual_index_for_property(property_name)]
-    if Model.attribute_info(property_name).multiple?
-      value = value.split(';').map(&:strip) unless value.blank?
-    end
-    value
+  def multiple_selection?(property_name)
+    Model.attribute_info(property_name).multiple?
   end
 end

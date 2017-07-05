@@ -1,6 +1,5 @@
 <%= render 'shared/components/c_landing_header',
-  title: @model.full_name,
-  no_settings: true %>
+  title: @model.full_name %>
 <div class="l-indicators-overview">
   <div class="l-indicators-overview__data-block">
     <div class="row align-right">
@@ -35,7 +34,10 @@
       <div class="small-2 columns">
         <%= link_to edit_model_indicator_url(@model, @indicator) do %>
           <div class="c-edit-button">
-            <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+            <div class="c-edit-button__bubble">
+              <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+            </div>
+            <div class="f-ff1-s">Edit</div>
           </div>
           Edit metadata
         <% end %>

@@ -1,13 +1,15 @@
+require 'csv_upload_data'
 require 'time_series_values_headers'
 
 class TimeSeriesValuesData
   include CsvUploadData
-  attr_reader :number_of_rows, :number_of_rows_failed, :errors
+  attr_reader :number_of_records, :number_of_records_failed, :errors
 
-  def initialize(path, user)
+  def initialize(path, user, encoding)
     @path = path
     @user = user
-    @headers = TimeSeriesValuesHeaders.new(@path)
+    @encoding = encoding
+    @headers = TimeSeriesValuesHeaders.new(@path, @encoding)
     initialize_stats
   end
 
@@ -20,7 +22,7 @@ class TimeSeriesValuesData
     end
 
     if @errors[row_no].any?
-      @number_of_rows_failed += 1
+      @number_of_records_failed += 1
     else
       @errors.delete(row_no)
     end

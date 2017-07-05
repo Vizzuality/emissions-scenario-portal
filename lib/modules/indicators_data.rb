@@ -1,14 +1,16 @@
+require 'csv_upload_data'
 require 'indicators_headers'
 
 class IndicatorsData
   include CsvUploadData
-  attr_reader :number_of_rows, :number_of_rows_failed, :errors
+  attr_reader :number_of_records, :number_of_records_failed, :errors
 
-  def initialize(path, user, model)
+  def initialize(path, user, model, encoding)
     @path = path
     @user = user
     @model = model
-    @headers = IndicatorsHeaders.new(@path, @model)
+    @encoding = encoding
+    @headers = IndicatorsHeaders.new(@path, @model, @encoding)
     initialize_stats
   end
 
@@ -27,7 +29,7 @@ must be present.'
       @errors[row_no]['slug'] = format_error(message, suggestion)
     end
     if @errors[row_no].any?
-      @number_of_rows_failed += 1
+      @number_of_records_failed += 1
     else
       @errors.delete(row_no)
     end

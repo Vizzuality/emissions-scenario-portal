@@ -2,10 +2,9 @@
   title ||= nil
   user ||= current_user
   no_nav ||= false
-  no_settings ||= false
 %>
 <%= render 'shared/components/c_wri_header' %>
-<div class="c-landing-header <% if no_nav %>-no-nav<% end %>">
+<div class="c-landing-header <% if no_nav || !@nav_links.present? %>-no-nav<% end %>">
   <div class="row">
     <div class="small-7 columns">
       <div class="f-ff2-xl-extralight c-landing-header__title">
@@ -19,17 +18,16 @@
     <div class="small-5 columns">
       <div class="c-landing-header__buttons">
         <% if user.present? %>
-          <div class="c-user-button">
-            <div class="f-ff1-s"><%= user.name || user.email %></div>
-            <svg class="icon"><use xlink:href="#icon-avatar"></use></svg>
-          </div>
-          <div class="c-settings-button">
-            <div class="f-ff1-s"><%= link_to 'Settings', edit_profile_path %></div>
-            <svg class="icon"><use xlink:href="#icon-settings"></use></svg>
-          </div>
-          <% unless user.admin? && user.team %>
-            <div class="c-settings-button">
-              <div class="f-ff1-s"><%= link_to 'My Team', edit_team_path(user.team) %></div>
+          <%= link_to edit_profile_path do %>
+            <div class="c-user-button">
+              <svg class="icon"><use xlink:href="#icon-avatar"></use></svg>
+              <div class="f-ff1-s"><%= user.name || user.email %></div>
+            </div>
+          <% end %>
+          <%= link_to destroy_user_session_url, method: :delete  do %>
+            <div class="c-signout-button">
+              <svg class="icon"><use xlink:href="#icon-signout"></use></svg>
+              <div class="f-ff1-s">Sign out</div>
             </div>
           <% end %>
         <% end %>

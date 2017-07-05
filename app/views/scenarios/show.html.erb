@@ -1,6 +1,5 @@
 <%= render 'shared/components/c_landing_header',
-  title: @model.full_name,
-  no_settings: true %>
+  title: @model.full_name %>
 
 <div class="l-scenarios-overview">
   <div class="l-scenarios-overview__data-block">
@@ -23,14 +22,13 @@
         <div class="f-ff1-m-bold">Last edit</div>
         <div class="f-ff1-m l-scenarios-overview__data"><%= @scenario.updated_at.strftime("%b %d %Y") %></div>
       </div>
-      <div class="small-2 columns">
-        <div class="f-ff1-m-bold">Published</div>
-        <div class="f-ff1-m l-scenarios-overview__data">TODO</div>
-      </div>
       <div class="small-1 columns">
         <%= link_to edit_model_scenario_url(@model, @scenario) do %>
           <div class="c-edit-button">
-            <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+            <div class="c-edit-button__bubble">
+              <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+            </div>
+            <div class="f-ff1-s">Edit</div>
           </div>
         <% end %>
       </div>
@@ -64,15 +62,18 @@
       <div class="small-3 columns">
         <div class="c-form-item">
           <label></label>
-          <div class="c-input-search">
-            <input type="text" placeholder="Filter by name" class="c-input-text js-table-filter" data-filter-type="search" data-filter-key="search"/>
-            <svg class="icon"><use xlink:href="#icon-search"></use></svg>
-          </div>
+          <%= render 'shared/components/form/c_input_search.html',
+                     placeholder: 'Filter by name',
+                     js_class: 'js-table-filter',
+                     data: {
+                       'filter-type' => 'search',
+                       'filter-key' => 'search'
+                     } %>
         </div>
       </div>
       <div class="small-12 columns">
         <div class="l-scenarios-overview__table-shorts row js-table-filter" data-filter-type="order">
-          <div class="small-3 columns">
+          <div class="small-5 columns">
             <%= render 'shared/components/c_order_filter_button',
               text: 'Indicator',
               other_class: '-no-wrap',
@@ -90,10 +91,6 @@
               other_class: '-no-wrap',
               column_key: 'definition' %>
           </div>
-          <div class="small-2 columns">
-            <%= render 'shared/components/c_order_filter_button',
-              text: 'Added by' %>
-          </div>
         </div>
       </div>
     </div>
@@ -102,7 +99,7 @@
     <% @indicators.each do |indicator| %>
       <div class="c-table-list-item">
         <div class="row">
-          <div class="small-3 columns">
+          <div class="small-5 columns">
             <div class="c-table-list-item__text f-ff1-m-bold"><%= link_to indicator.alias, model_indicator_url(@model, indicator) %></div>
           </div>
           <div class="small-2 columns">
@@ -113,9 +110,6 @@
               <%= indicator.definition && truncate(indicator.definition, length: 150) %>
             </div>
           </div>
-          <div class="small-2 columns">
-            <div class="c-table-list-item__text f-ff1-m">TODO</div>
-          </div>
           <div class="small-1 columns">
             <div class="c-table-list-item__actions">
               <%= link_to model_indicator_url(@model, indicator), method: :delete, data: {confirm: destroy_confirmation_message(indicator)} do %>
@@ -125,7 +119,10 @@
               <% end %>
               <%= link_to edit_model_indicator_url(@model, indicator) do %>
                 <div class="c-edit-button">
-                  <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+                  <div class="c-edit-button__bubble">
+                    <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+                  </div>
+                  <div class="f-ff1-s">Edit</div>
                 </div>
               <% end %>
             </div>

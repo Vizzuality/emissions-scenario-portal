@@ -11,10 +11,6 @@
   <body>
     <%= render 'shared/icons' %>
     <%= render 'shared/flash_notifications', notifications: flash %>
-    <% if user_signed_in? %>
-      <%= current_user.name %>
-      <%= link_to 'Sign out', destroy_user_session_url, method: :delete %>
-    <% end %>
     <%= yield %>
   </body>
 </html>

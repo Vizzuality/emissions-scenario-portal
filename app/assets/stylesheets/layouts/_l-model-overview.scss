@@ -6,11 +6,11 @@
     margin-bottom: rem(20px);
   }
 
-  .c-4-columns-table .c-item-header__actions {
+  .c-columns-table .c-item-header__actions {
 
     .icon-edit {
       position: relative;
-      top: 2px;
+      top: rem(2px);
       fill: $color-app-2;
       width: rem(15px);
       height: rem(15px);

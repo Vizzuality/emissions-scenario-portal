@@ -1,16 +1,20 @@
 module IndicatorsHelper
   def types_for_select
-    options_for_select(
-      [
-        ['Added by your team', 'team'],
-        ['Added by anyone', 'all']
-      ]
-    )
+    options = [['Core indicators', 'core']]
+    options +=
+      if current_user.admin?
+        Team.all.map do |t|
+          ["Variations added by team: #{t.name}", "team-#{t.id}"]
+        end
+      else
+        [['Variations added by your team', "team-#{current_user.team_id}"]]
+      end
+    options_for_select(options)
   end
 
   def categories_for_select
     options_for_select(
-      @indicators.except(:order).order(:category).distinct.pluck(:category)
+      Indicator.order(:category).distinct.pluck(:category)
     )
   end
 
