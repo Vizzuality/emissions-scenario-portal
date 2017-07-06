@@ -23,7 +23,7 @@ RSpec.describe UploadIndicators do
       expect { subject }.to change { Indicator.count }.by(3)
     end
     it 'should report all rows saved' do
-      expect(subject.number_of_records_saved).to eq(3)
+      expect(subject.number_of_records_saved).to eq(2)
     end
     it 'should report no rows failed' do
       expect(subject.number_of_records_failed).to eq(0)
@@ -47,6 +47,7 @@ RSpec.describe UploadIndicators do
         category: 'Emissions',
         subcategory: 'CO2 by sector',
         name: 'industry',
+        unit: 'Mt CO2e/yr',
         model: nil,
         parent: nil
       )
@@ -55,7 +56,7 @@ RSpec.describe UploadIndicators do
       expect { subject }.to change { Indicator.count }.by(2)
     end
     it 'should report all rows saved' do
-      expect(subject.number_of_records_saved).to eq(3)
+      expect(subject.number_of_records_saved).to eq(2)
     end
     it 'should report no rows failed' do
       expect(subject.number_of_records_failed).to eq(0)
