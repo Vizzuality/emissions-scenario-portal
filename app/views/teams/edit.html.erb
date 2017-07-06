@@ -95,29 +95,31 @@
           </div>
         <% end %>
       <% end %>
-      <div class="c-form l-teams-edit__form-add-members">
-        <%= form_tag(team_users_url(@team)) do %>
-          <div class="c-form-items">
-            <div class="c-form-item l-teams-edit__add-member row">
-              <div class="small-4 columns">
-                <%= text_field_tag 'user[name]',
-                                   nil,
-                                   placeholder: 'Enter member name ',
-                                   class: 'c-input-text js-form-input' %>
-              </div>
-              <div class="small-4 columns">
-                <%= text_field_tag 'user[email]',
-                                   nil,
-                                   placeholder: 'Enter member email ',
-                                   class: 'c-input-text js-form-input' %>
-              </div>
-              <div class="small-2 columns">
-                <%= submit_tag 'Add', class: 'c-button' %>
+      <% if @team.persisted? %>
+        <div class="c-form l-teams-edit__form-add-members">
+          <%= form_tag(team_users_url(@team)) do %>
+            <div class="c-form-items">
+              <div class="c-form-item l-teams-edit__add-member row">
+                <div class="small-4 columns">
+                  <%= text_field_tag 'user[name]',
+                                     nil,
+                                     placeholder: 'Enter member name ',
+                                     class: 'c-input-text js-form-input' %>
+                </div>
+                <div class="small-4 columns">
+                  <%= text_field_tag 'user[email]',
+                                     nil,
+                                     placeholder: 'Enter member email ',
+                                     class: 'c-input-text js-form-input' %>
+                </div>
+                <div class="small-2 columns">
+                  <%= submit_tag 'Add', class: 'c-button' %>
+                </div>
               </div>
             </div>
-          </div>
-        <% end %>
-      </div>
+          <% end %>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>
