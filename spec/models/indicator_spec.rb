@@ -26,6 +26,31 @@ RSpec.describe Indicator, type: :model do
     end
   end
 
+  describe :scope do
+    let(:model) { FactoryGirl.create(:model) }
+    let(:system_indicator) {
+      FactoryGirl.create(:indicator, parent: nil, model: nil)
+    }
+    let(:team_indicator) {
+      FactoryGirl.create(:indicator, parent: nil, model: model)
+    }
+    let(:team_variation) {
+      FactoryGirl.create(:indicator, parent: system_indicator, model: model)
+    }
+    it 'is a system indicator' do
+      expect(system_indicator.scope).to eq(:system_indicator)
+    end
+    it 'is a team indicator' do
+      expect(team_indicator.scope).to eq(:team_indicator)
+    end
+    it 'is a team variation' do
+      expect(team_variation.scope).to eq(:team_variation)
+    end
+    it 'is a team variation' do
+      expect(team_variation.variation?).to be(true)
+    end
+  end
+
   describe :destroy do
     let(:indicator) { FactoryGirl.create(:indicator) }
     let!(:time_series_value) {

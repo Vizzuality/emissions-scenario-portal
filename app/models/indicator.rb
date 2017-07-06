@@ -19,6 +19,20 @@ class Indicator < ApplicationRecord
     :category, :subcategory, :name, :alias
   ]
 
+  def scope
+    if parent_id.blank? && model_id.blank? # TODO: link with team?
+      :system_indicator
+    elsif parent_id.blank?
+      :team_indicator
+    else
+      :team_variation
+    end
+  end
+
+  def variation?
+    scope == :team_variation
+  end
+
   def update_alias
     self.alias = [category, subcategory, name].join('|')
   end
