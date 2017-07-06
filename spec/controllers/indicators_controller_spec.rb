@@ -267,6 +267,15 @@ RSpec.describe IndicatorsController, type: :controller do
           }
         }.to change(team_model.indicators, :count).by(1)
       end
+
+      it 'renders edit when forking failse' do
+        put :update, params: {
+          model_id: team_model.id,
+          id: master_indicator.id,
+          indicator: {unit: ['random']}
+        }
+        expect(response).to render_template(:edit)
+      end
     end
 
     describe 'GET show' do

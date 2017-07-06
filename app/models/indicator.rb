@@ -13,6 +13,8 @@ class Indicator < ApplicationRecord
 
   validates :category, presence: true
   validates :model, presence: true, if: proc { |i| i.parent.present? }
+  validate :unit_compatible_with_parent, if: proc { |i| i.parent.present? }
+  validate :parent_is_not_variation, if: proc { |i| i.parent.present? }
   before_validation :ignore_blank_array_values
   before_save :update_alias, if: proc { |i| i.parent.blank? }
 
@@ -32,6 +34,23 @@ class Indicator < ApplicationRecord
 
   def variation?
     scope == :team_variation
+  end
+
+  def unit_compatible_with_parent
+    return true if unit.blank? && parent.unit.blank? || unit == parent.unit
+    errors[:unit] << 'Unit incompatible with parent indicator.'
+  end
+
+  def parent_is_not_variation
+    return true unless parent.variation?
+    errors[:parent] << 'Parent indicator cannot be a variation.'
+  end
+
+  def fork_variation(variation_attributes)
+    indicator = dup
+    indicator.parent = self
+    indicator.attributes = variation_attributes
+    indicator
   end
 
   def update_alias

@@ -35,7 +35,10 @@ RSpec.describe Indicator, type: :model do
       FactoryGirl.create(:indicator, parent: nil, model: model)
     }
     let(:team_variation) {
-      FactoryGirl.create(:indicator, parent: system_indicator, model: model)
+      FactoryGirl.create(
+        :indicator,
+        parent: system_indicator, model: model, unit: system_indicator.unit
+      )
     }
     it 'is a system indicator' do
       expect(system_indicator.scope).to eq(:system_indicator)
@@ -54,7 +57,10 @@ RSpec.describe Indicator, type: :model do
       FactoryGirl.create(:indicator, parent: nil, model: nil)
     }
     let(:team_variation) {
-      FactoryGirl.create(:indicator, parent: system_indicator, model: model)
+      FactoryGirl.create(
+        :indicator,
+        parent: system_indicator, model: model, unit: system_indicator.unit
+      )
     }
     describe :variation? do
       it 'is a team variation' do
@@ -65,6 +71,11 @@ RSpec.describe Indicator, type: :model do
       expect(
         FactoryGirl.build(:indicator, parent: system_indicator, model: nil)
       ).to have(1).errors_on(:model)
+    end
+    it 'should be invalid if parent is a variation' do
+      expect(
+        FactoryGirl.build(:indicator, parent: team_variation, model: model)
+      ).to have(1).errors_on(:parent)
     end
   end
 

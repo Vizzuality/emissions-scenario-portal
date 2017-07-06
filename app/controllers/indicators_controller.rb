@@ -21,10 +21,8 @@ class IndicatorsController < ApplicationController
   end
 
   def create
-    @parent_indicator = @indicator # when forking
-    @indicator = Indicator.new(indicator_params)
+    initialize_or_fork_indicator
     @indicator.model = @model unless current_user.admin?
-    @indicator.parent = @parent_indicator
     if @indicator.save
       redirect_to model_indicator_url(@model, @indicator),
                   notice: 'Indicator was successfully created.'
@@ -86,5 +84,14 @@ class IndicatorsController < ApplicationController
     params.require(:indicator).permit(
       *Indicator.attribute_symbols_for_strong_params
     )
+  end
+
+  def initialize_or_fork_indicator
+    @indicator =
+      if @indicator.present? # we came here from system indicator update
+        @indicator.fork_variation(indicator_params)
+      else
+        Indicator.new(indicator_params)
+      end
   end
 end
