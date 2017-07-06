@@ -12,6 +12,7 @@ class Indicator < ApplicationRecord
   belongs_to :model, optional: true
 
   validates :category, presence: true
+  validates :model, presence: true, if: proc { |i| i.parent.present? }
   before_validation :ignore_blank_array_values
   before_save :update_alias, if: proc { |i| i.parent.blank? }
 

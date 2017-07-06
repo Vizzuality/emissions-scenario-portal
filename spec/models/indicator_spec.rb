@@ -46,8 +46,25 @@ RSpec.describe Indicator, type: :model do
     it 'is a team variation' do
       expect(team_variation.scope).to eq(:team_variation)
     end
-    it 'is a team variation' do
-      expect(team_variation.variation?).to be(true)
+  end
+
+  context 'variations' do
+    let(:model) { FactoryGirl.create(:model) }
+    let(:system_indicator) {
+      FactoryGirl.create(:indicator, parent: nil, model: nil)
+    }
+    let(:team_variation) {
+      FactoryGirl.create(:indicator, parent: system_indicator, model: model)
+    }
+    describe :variation? do
+      it 'is a team variation' do
+        expect(team_variation.variation?).to be(true)
+      end
+    end
+    it 'should be invalid if model not present' do
+      expect(
+        FactoryGirl.build(:indicator, parent: system_indicator, model: nil)
+      ).to have(1).errors_on(:model)
     end
   end
 
