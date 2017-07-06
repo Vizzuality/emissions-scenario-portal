@@ -12,4 +12,12 @@ RSpec.describe Team, type: :model do
       FactoryGirl.build(:team, name: 'A-Team')
     ).to have(1).errors_on(:name)
   end
+  describe :members_list_for_display do
+    let(:team) { FactoryGirl.create(:team) }
+    it 'displays email if name blank' do
+      FactoryGirl.create(:user, name: 'A', email: 'a@example.com', team: team)
+      FactoryGirl.create(:user, name: '', email: 'b@example.com', team: team)
+      expect(team.members_list_for_display).to eq('A, b@example.com')
+    end
+  end
 end

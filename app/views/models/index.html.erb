@@ -39,8 +39,7 @@
       </div>
     <% end %>
   </div>
-  <% if current_user.admin? %>
-    <div class="row">
+  <div class="row">
     <div class="small-12 columns">
       <%= render 'shared/components/c_columns_table',
                  title: 'Team',
@@ -52,11 +51,10 @@
                    },
                    {
                      title: 'Members',
-                     data: @team_members.join(', ')
+                     data: @team.members_list_for_display
                    }
                  ]
       %>
     </div>
   </div>
-  <% end %>
 </div>
