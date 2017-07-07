@@ -54,12 +54,13 @@ RSpec.describe Indicator, type: :model do
   context 'variations' do
     let(:model) { FactoryGirl.create(:model) }
     let(:system_indicator) {
-      FactoryGirl.create(:indicator, parent: nil, model: nil)
+      FactoryGirl.create(:indicator, parent: nil, model: nil, category: 'A')
     }
     let(:team_variation) {
       FactoryGirl.create(
         :indicator,
-        parent: system_indicator, model: model, unit: system_indicator.unit
+        parent: system_indicator, model: model, category: 'B',
+        unit: system_indicator.unit
       )
     }
     describe :variation? do
@@ -76,6 +77,11 @@ RSpec.describe Indicator, type: :model do
       expect(
         FactoryGirl.build(:indicator, parent: team_variation, model: model)
       ).to have(1).errors_on(:parent)
+    end
+    describe :update_category do
+      it 'updates category to match parent' do
+        expect(team_variation.category).to eq('A')
+      end
     end
   end
 

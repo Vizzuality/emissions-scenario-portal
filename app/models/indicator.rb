@@ -18,6 +18,7 @@ class Indicator < ApplicationRecord
   validate :parent_is_not_variation, if: proc { |i| i.parent.present? }
   before_validation :ignore_blank_array_values
   before_save :update_alias, if: proc { |i| i.parent.blank? }
+  before_save :update_category, if: proc { |i| i.parent.present? }
 
   pg_search_scope :search_for, against: [
     :category, :subcategory, :name, :alias
@@ -56,6 +57,13 @@ class Indicator < ApplicationRecord
 
   def update_alias
     self.alias = [category, subcategory, name].join('|')
+  end
+
+  def update_category
+    self.category = parent.category
+    self.subcategory = parent.subcategory
+    self.name = parent.name
+    self.stackable_subcategory = parent.stackable_subcategory
   end
 
   def scenarios
