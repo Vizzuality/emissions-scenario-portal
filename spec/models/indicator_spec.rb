@@ -116,6 +116,10 @@ RSpec.describe Indicator, type: :model do
         subject
         expect(team_indicator.variation?).to be(true)
       end
+      it 'should mark new system indicator as auto generated' do
+        subject
+        expect(team_indicator.parent.auto_generated).to be(true)
+      end
     end
   end
 

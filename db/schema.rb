@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170703083250) do
+ActiveRecord::Schema.define(version: 20170707123455) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20170703083250) do
     t.decimal  "conversion_factor"
     t.integer  "parent_id"
     t.text     "alias"
+    t.boolean  "auto_generated",        default: false
     t.index ["model_id"], name: "index_indicators_on_model_id", using: :btree
     t.index ["parent_id"], name: "index_indicators_on_parent_id", using: :btree
   end

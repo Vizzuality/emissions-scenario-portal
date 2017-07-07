@@ -55,7 +55,7 @@ class Indicator < ApplicationRecord
     indicator = dup
     indicator.parent = self
     indicator.attributes = variation_attributes
-    # TODO: flag this as auto created
+    indicator.auto_generated = true
     indicator
   end
 
@@ -63,7 +63,7 @@ class Indicator < ApplicationRecord
     system_indicator = dup
     system_indicator.model_id = nil
     system_indicator.parent_id = nil
-    # TODO: flag this as auto created
+    system_indicator.auto_generated = true
     system_indicator
   end
 
