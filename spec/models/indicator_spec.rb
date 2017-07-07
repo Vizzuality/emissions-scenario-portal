@@ -85,6 +85,40 @@ RSpec.describe Indicator, type: :model do
     end
   end
 
+  context 'forking system indicators from team indicators' do
+    let(:model) { FactoryGirl.create(:model) }
+    let!(:team_indicator) { FactoryGirl.create(:indicator, model: model) }
+
+    describe :promote_parent_to_system_indicator do
+      subject {
+        FactoryGirl.create(:indicator, parent: team_indicator, model: model)
+      }
+      it 'should create 2 new indicators' do
+        expect { subject }.to(change { Indicator.count }.by(2))
+      end
+      it 'should turn team indicator into variation' do
+        subject
+        expect(team_indicator.variation?).to be(true)
+      end
+      it 'should not link variation to old team indicator' do
+        expect(subject.parent).not_to eq(team_indicator)
+      end
+      it 'should link both variations to new system indicator' do
+        expect(subject.parent).to eq(team_indicator.parent)
+      end
+    end
+    describe :promote_to_system_indicator do
+      subject { team_indicator.promote_to_system_indicator }
+      it 'should create a new system indicator' do
+        expect { subject }.to(change { Indicator.count }.by(1))
+      end
+      it 'should turn the team indicator into a variation' do
+        subject
+        expect(team_indicator.variation?).to be(true)
+      end
+    end
+  end
+
   describe :destroy do
     let(:indicator) { FactoryGirl.create(:indicator) }
     let!(:time_series_value) {

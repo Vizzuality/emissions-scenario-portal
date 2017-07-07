@@ -19,6 +19,9 @@ class Indicator < ApplicationRecord
   before_validation :ignore_blank_array_values
   before_save :update_alias, if: proc { |i| i.parent.blank? }
   before_save :update_category, if: proc { |i| i.parent.present? }
+  before_save :promote_parent_to_system_indicator, if: proc { |i|
+    i.parent.present? && i.parent.model_id.present?
+  }
 
   pg_search_scope :search_for, against: [
     :category, :subcategory, :name, :alias
@@ -52,7 +55,16 @@ class Indicator < ApplicationRecord
     indicator = dup
     indicator.parent = self
     indicator.attributes = variation_attributes
+    # TODO: flag this as auto created
     indicator
+  end
+
+  def fork_system_indicator
+    system_indicator = dup
+    system_indicator.model_id = nil
+    system_indicator.parent_id = nil
+    # TODO: flag this as auto created
+    system_indicator
   end
 
   def update_alias
@@ -64,6 +76,16 @@ class Indicator < ApplicationRecord
     self.subcategory = parent.subcategory
     self.name = parent.name
     self.stackable_subcategory = parent.stackable_subcategory
+  end
+
+  def promote_to_system_indicator
+    system_indicator = fork_system_indicator
+    create_parent(system_indicator.attributes)
+  end
+
+  def promote_parent_to_system_indicator
+    system_indicator = parent.promote_to_system_indicator
+    self.parent = system_indicator
   end
 
   def scenarios
