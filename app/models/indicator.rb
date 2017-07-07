@@ -38,12 +38,12 @@ class Indicator < ApplicationRecord
 
   def unit_compatible_with_parent
     return true if unit.blank? && parent.unit.blank? || unit == parent.unit
-    errors[:unit] << 'Unit incompatible with parent indicator.'
+    errors[:unit] << 'incompatible with parent indicator'
   end
 
   def parent_is_not_variation
     return true unless parent.variation?
-    errors[:parent] << 'Parent indicator cannot be a variation.'
+    errors[:parent] << 'cannot be a variation'
   end
 
   def fork_variation(variation_attributes)
@@ -135,7 +135,7 @@ ON indicators.id = model_indicators.parent_id").
 
     def slug_to_hash(slug)
       return {} unless slug.present?
-      slug_parts = slug && slug.split('|')
+      slug_parts = slug && slug.split('|', 3)
       return {} if slug_parts.empty?
       slug_hash = {category: slug_parts[0].strip}
       if slug_parts.length >= 2

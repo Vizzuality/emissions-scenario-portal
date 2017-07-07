@@ -37,11 +37,11 @@ must be present.'
   end
 
   def process_core_indicator(slug, row, row_no)
-    if @user.cannot?(:manage, Model)
+    if @user.cannot?(:create, Indicator.new(model_id: nil))
       message = 'Access denied to manage core indicators.'
       suggestion = 'ESP admins curate core indicators. Please add a team \
 indicator instead.'
-      errors['model'] = format_error(message, suggestion)
+      @errors[row_no]['model'] = format_error(message, suggestion)
       return nil
     end
     id_attributes = Indicator.slug_to_hash(slug)
@@ -59,14 +59,14 @@ indicator instead.'
   end
 
   def process_team_indicator_or_variation(slug, model_slug, row, row_no)
-    if @user.cannot?(:manage, @model)
+    if @user.cannot?(:create, Indicator.new(model_id: @model.id))
       message = "Access denied to manage team indicators \
-(#{model.abbreviation})."
+(#{@model.abbreviation})."
       suggestion = 'Please verify your team\'s permissions [here].'
-      errors['model'] = format_error(
+      @errors[row_no]['model'] = format_error(
         message,
         suggestion,
-        url: url_helpers.model_url(@model),
+        url: url_helpers.team_path(@user.team),
         placeholder: 'here'
       )
       return nil
@@ -74,11 +74,13 @@ indicator instead.'
     if slug.present?
       id_attributes = Indicator.slug_to_hash(slug)
       indicator = Indicator.where(id_attributes).where('parent_id IS NULL').
-        first
+        order('model_id IS NULL').first
       # try creating the indicator if admin
-      indicator = process_core_indicator(
-        slug, row, row_no
-      ) if indicator.nil? && @user.can?(:manage, Model)
+      if indicator.nil? && @user.admin?
+        indicator = process_core_indicator(
+          slug, row, row_no
+        )
+      end
     end
 
     if indicator.present?

@@ -115,6 +115,11 @@ RSpec.describe Indicator, type: :model do
         Indicator.slug_to_hash('A|B')
       ).to eq(category: 'A', subcategory: 'B')
     end
+    it 'parses a long slug' do
+      expect(
+        Indicator.slug_to_hash('A|B|C|D')
+      ).to eq(category: 'A', subcategory: 'B', name: 'C|D')
+    end
   end
 
   describe :time_series_data? do

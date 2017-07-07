@@ -1,3 +1,4 @@
 ESP Indicator Name,Model A Indicator Name,Stackable sub-category?,Standardized Unit,Unit of Entry,Conversion factor,Definition,
-Emissions|CO2 by sector|industry ,Emissions|CO2|Fossil Fuels and Industry|Energy Demand|Industry,yes,Mt CO2e/yr,Mt CO2e/yr,,"carbon dioxide emissions from the industrial sector, including feedstocks, including agriculture and fishing",
+Emissions|CO2 by sector|electricity,,yes,Mt CO2e/yr,Mt CO2e/yr,,"carbon dioxide emissions from the industrial sector, including feedstocks, including agriculture and fishing",
+Emissions|CO2 by sector|industry,Emissions|CO2|Fossil Fuels and Industry|Energy Demand|Industry,yes,Mt CO2e/yr,Mt CO2e/yr,,"carbon dioxide emissions from the industrial sector, including feedstocks, including agriculture and fishing",
 ,Emissions|CO2|Fossil Fuels and Industry|Energy Demand|Transport,yes,Mt CO2e/yr,Mt CO2e/yr,,"carbon dioxide emissions from the industrial sector, including feedstocks, including agriculture and fishing",
