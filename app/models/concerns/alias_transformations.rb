@@ -8,7 +8,7 @@ module AliasTransformations
   end
 
   def update_alias
-    self.alias = [category, subcategory, name].join('|')
+    self.alias = [category, subcategory, name].join('|').chomp('|')
   end
 
   class_methods do
