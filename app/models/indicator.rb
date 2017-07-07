@@ -5,6 +5,7 @@ class Indicator < ApplicationRecord
   include MetadataAttributes
   include PgSearch
   include Sanitizer
+  include AliasTransformations
 
   ORDERS = %w[alias name category subcategory definition unit type].freeze
 
@@ -17,7 +18,6 @@ class Indicator < ApplicationRecord
   validate :unit_compatible_with_parent, if: proc { |i| i.parent.present? }
   validate :parent_is_not_variation, if: proc { |i| i.parent.present? }
   before_validation :ignore_blank_array_values
-  before_save :update_alias, if: proc { |i| i.parent.blank? }
   before_save :update_category, if: proc { |i| i.parent.present? }
   before_save :promote_parent_to_system_indicator, if: proc { |i|
     i.parent.present? && i.parent.model_id.present?
@@ -65,10 +65,6 @@ class Indicator < ApplicationRecord
     system_indicator.parent_id = nil
     system_indicator.auto_generated = true
     system_indicator
-  end
-
-  def update_alias
-    self.alias = [category, subcategory, name].join('|')
   end
 
   def update_category
@@ -162,18 +158,6 @@ ON indicators.id = model_indicators.parent_id").
       else
         indicators
       end
-    end
-
-    def slug_to_hash(slug)
-      return {} unless slug.present?
-      slug_parts = slug && slug.split('|', 3)
-      return {} if slug_parts.empty?
-      slug_hash = {category: slug_parts[0].strip}
-      if slug_parts.length >= 2
-        slug_hash[:subcategory] = slug_parts[1].strip
-        slug_hash[:name] = slug_parts[2].strip if slug_parts.length == 3
-      end
-      slug_hash
     end
   end
 
