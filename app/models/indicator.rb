@@ -4,6 +4,7 @@ class Indicator < ApplicationRecord
   ).freeze
   include MetadataAttributes
   include PgSearch
+  include Sanitizer
 
   ORDERS = %w[alias name category subcategory definition unit type].freeze
 
@@ -143,17 +144,6 @@ ON indicators.id = model_indicators.parent_id").
         slug_hash[:name] = slug_parts[2].strip if slug_parts.length == 3
       end
       slug_hash
-    end
-
-    def sanitise_positive_integer(i, default = nil)
-      new_i =
-        if i.is_a?(String)
-          tmp = i.to_i
-          tmp.to_s == i ? tmp : nil
-        else
-          i
-        end
-      new_i && new_i.positive? ? new_i : default
     end
   end
 
