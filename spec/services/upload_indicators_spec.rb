@@ -77,7 +77,7 @@ RSpec.describe UploadIndicators do
         subcategory: 'CO2 by sector',
         name: 'industry',
         unit: 'Mt CO2e/yr',
-        model: nil,
+        team: nil,
         parent: nil
       )
     end
@@ -172,7 +172,7 @@ RSpec.describe UploadIndicators do
         subcategory: 'CO2 by sector',
         name: 'transport',
         unit: 'Mt CO2e/yr',
-        model: nil,
+        team: nil,
         parent: nil
       )
       FactoryGirl.create(
@@ -181,7 +181,7 @@ RSpec.describe UploadIndicators do
         subcategory: 'CO2',
         name: 'Fossil Fuels and Industry|Energy Demand|Transport',
         unit: 'Mt CO2e/yr',
-        model: model,
+        team: model.team,
         parent: system_indicator,
         alias: 'Emissions|CO2|Fossil Fuels and Industry|Energy Demand|Transport'
       )

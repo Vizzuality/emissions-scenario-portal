@@ -16,13 +16,13 @@ class IndicatorsController < ApplicationController
   end
 
   def new
-    @indicator = Indicator.new(model: @model)
+    @indicator = Indicator.new(team: @model.team)
     render action: :edit
   end
 
   def create
     initialize_or_fork_indicator
-    @indicator.model = @model unless current_user.admin?
+    @indicator.team = current_user.team unless current_user.admin?
     if @indicator.save
       redirect_to model_indicator_url(@model, @indicator),
                   notice: 'Indicator was successfully created.'
@@ -38,7 +38,7 @@ class IndicatorsController < ApplicationController
   def update
     # If this is a researcher trying to update a master indicator
     # fork the indicator
-    create and return if !current_user.admin? && @indicator.model.nil?
+    create and return if !current_user.admin? && @indicator.team.nil?
     if @indicator.update_attributes(indicator_params)
       redirect_to model_indicator_url(@model, @indicator),
                   notice: 'Indicator was successfully updated.'

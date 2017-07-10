@@ -20,7 +20,7 @@ module IndicatorsHelper
 
   def values_for_indicator_parent_dropdown(indicator)
     selection = indicator.parent
-    select_values = Indicator.where('model_id IS NULL').select(:id, :alias).map do |i|
+    select_values = Indicator.where('team_id IS NULL').select(:id, :alias).map do |i|
       [i.alias, i.id]
     end
     [select_values, selection]

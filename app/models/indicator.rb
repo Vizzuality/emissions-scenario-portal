@@ -11,16 +11,16 @@ class Indicator < ApplicationRecord
 
   belongs_to :parent, class_name: 'Indicator', optional: true
   has_many :time_series_values, dependent: :destroy
-  belongs_to :model, optional: true
+  belongs_to :team, optional: true
 
   validates :category, presence: true
-  validates :model, presence: true, if: proc { |i| i.parent.present? }
+  validates :team, presence: true, if: proc { |i| i.parent.present? }
   validate :unit_compatible_with_parent, if: proc { |i| i.parent.present? }
   validate :parent_is_not_variation, if: proc { |i| i.parent.present? }
   before_validation :ignore_blank_array_values
   before_save :update_category, if: proc { |i| i.parent.present? }
   before_save :promote_parent_to_system_indicator, if: proc { |i|
-    i.parent.present? && i.parent.model_id.present?
+    i.parent.present? && i.parent.team_id.present?
   }
 
   pg_search_scope :search_for, against: [
@@ -28,7 +28,7 @@ class Indicator < ApplicationRecord
   ]
 
   def scope
-    if parent_id.blank? && model_id.blank? # TODO: link with team?
+    if parent_id.blank? && team_id.blank?
       :system_indicator
     elsif parent_id.blank?
       :team_indicator
@@ -61,7 +61,7 @@ class Indicator < ApplicationRecord
 
   def fork_system_indicator
     system_indicator = dup
-    system_indicator.model_id = nil
+    system_indicator.team_id = nil
     system_indicator.parent_id = nil
     system_indicator.auto_generated = true
     system_indicator
@@ -98,14 +98,14 @@ class Indicator < ApplicationRecord
 
   class << self
     def for_model(model)
-      model_indicators = Indicator.select(:id, :parent_id).
-        where(model_id: model.id)
+      team_indicators = Indicator.select(:id, :parent_id).
+        where(team_id: model.team_id)
       Indicator.
-        joins("LEFT JOIN (#{model_indicators.to_sql}) model_indicators \
-ON indicators.id = model_indicators.parent_id").
+        joins("LEFT JOIN (#{team_indicators.to_sql}) team_indicators \
+ON indicators.id = team_indicators.parent_id").
         where(
-          'model_id = ? OR model_id IS NULL AND model_indicators.id IS NULL',
-          model.id
+          'team_id = ? OR team_id IS NULL AND team_indicators.id IS NULL',
+          model.team_id
         )
     end
 
@@ -151,10 +151,10 @@ ON indicators.id = model_indicators.parent_id").
 
     def fetch_by_type(indicators, value)
       return indicators if value.blank?
-      return indicators.where('model_id IS NULL') if value == 'core'
+      return indicators.where('team_id IS NULL') if value == 'core'
       team_id = sanitise_positive_integer(value.split('-').last)
       if team_id.present?
-        indicators.joins(:model).where('models.team_id' => team_id)
+        indicators.where(team_id: team_id)
       else
         indicators
       end

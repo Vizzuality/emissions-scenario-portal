@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170707123455) do
+ActiveRecord::Schema.define(version: 20170710093733) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,7 +23,6 @@ ActiveRecord::Schema.define(version: 20170707123455) do
     t.text     "unit"
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
-    t.integer  "model_id"
     t.text     "subcategory"
     t.boolean  "stackable_subcategory", default: false
     t.text     "unit_of_entry"
@@ -31,8 +30,9 @@ ActiveRecord::Schema.define(version: 20170707123455) do
     t.integer  "parent_id"
     t.text     "alias"
     t.boolean  "auto_generated",        default: false
-    t.index ["model_id"], name: "index_indicators_on_model_id", using: :btree
+    t.integer  "team_id"
     t.index ["parent_id"], name: "index_indicators_on_parent_id", using: :btree
+    t.index ["team_id"], name: "index_indicators_on_team_id", using: :btree
   end
 
   create_table "locations", force: :cascade do |t|
@@ -195,7 +195,7 @@ ActiveRecord::Schema.define(version: 20170707123455) do
   end
 
   add_foreign_key "indicators", "indicators", column: "parent_id"
-  add_foreign_key "indicators", "models"
+  add_foreign_key "indicators", "teams"
   add_foreign_key "models", "teams"
   add_foreign_key "scenarios", "models"
   add_foreign_key "time_series_values", "indicators"

@@ -3,11 +3,13 @@ require 'rails_helper'
 RSpec.describe IndicatorsController, type: :controller do
   context 'when admin' do
     login_admin
-    let(:team_model) { FactoryGirl.create(:model, team: @user.team) }
-    let(:some_model) { FactoryGirl.create(:model) }
-    let(:team_indicator) { FactoryGirl.create(:indicator, model: team_model) }
-    let(:some_indicator) { FactoryGirl.create(:indicator, model: some_model) }
-    let(:master_indicator) { FactoryGirl.create(:indicator, model: nil) }
+    let(:user_team) { @user.team }
+    let(:some_team) { FactoryGirl.create(:team) }
+    let(:team_model) { FactoryGirl.create(:model, team: user_team) }
+    let(:some_model) { FactoryGirl.create(:model, team: some_team) }
+    let(:team_indicator) { FactoryGirl.create(:indicator, team: user_team) }
+    let(:some_indicator) { FactoryGirl.create(:indicator, team: some_team) }
+    let(:master_indicator) { FactoryGirl.create(:indicator, team: nil) }
 
     describe 'GET index' do
       it 'assigns all indicators for own team\'s model' do
@@ -102,7 +104,7 @@ RSpec.describe IndicatorsController, type: :controller do
             id: master_indicator.id,
             indicator: {category: ['ABC']}
           }
-        }.not_to change(team_model.indicators, :count)
+        }.not_to change(user_team.indicators, :count)
       end
     end
 
@@ -149,11 +151,13 @@ RSpec.describe IndicatorsController, type: :controller do
 
   context 'when user' do
     login_user
-    let(:team_model) { FactoryGirl.create(:model, team: @user.team) }
-    let(:some_model) { FactoryGirl.create(:model) }
-    let(:team_indicator) { FactoryGirl.create(:indicator, model: team_model) }
-    let(:some_indicator) { FactoryGirl.create(:indicator, model: some_model) }
-    let(:master_indicator) { FactoryGirl.create(:indicator, model: nil) }
+    let(:user_team) { @user.team }
+    let(:some_team) { FactoryGirl.create(:team) }
+    let(:team_model) { FactoryGirl.create(:model, team: user_team) }
+    let(:some_model) { FactoryGirl.create(:model, team: some_team) }
+    let(:team_indicator) { FactoryGirl.create(:indicator, team: user_team) }
+    let(:some_indicator) { FactoryGirl.create(:indicator, team: some_team) }
+    let(:master_indicator) { FactoryGirl.create(:indicator, team: nil) }
 
     describe 'GET index' do
       it 'renders index' do
@@ -265,7 +269,7 @@ RSpec.describe IndicatorsController, type: :controller do
             id: master_indicator.id,
             indicator: {category: ['ABC']}
           }
-        }.to change(team_model.indicators, :count).by(1)
+        }.to change(user_team.indicators, :count).by(1)
       end
 
       it 'renders edit when forking failse' do

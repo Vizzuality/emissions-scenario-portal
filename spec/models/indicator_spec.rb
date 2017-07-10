@@ -27,17 +27,17 @@ RSpec.describe Indicator, type: :model do
   end
 
   describe :scope do
-    let(:model) { FactoryGirl.create(:model) }
+    let(:team) { FactoryGirl.create(:team) }
     let(:system_indicator) {
-      FactoryGirl.create(:indicator, parent: nil, model: nil)
+      FactoryGirl.create(:indicator, parent: nil, team: nil)
     }
     let(:team_indicator) {
-      FactoryGirl.create(:indicator, parent: nil, model: model)
+      FactoryGirl.create(:indicator, parent: nil, team: team)
     }
     let(:team_variation) {
       FactoryGirl.create(
         :indicator,
-        parent: system_indicator, model: model, unit: system_indicator.unit
+        parent: system_indicator, team: team, unit: system_indicator.unit
       )
     }
     it 'is a system indicator' do
@@ -52,14 +52,14 @@ RSpec.describe Indicator, type: :model do
   end
 
   context 'variations' do
-    let(:model) { FactoryGirl.create(:model) }
+    let(:team) { FactoryGirl.create(:team) }
     let(:system_indicator) {
-      FactoryGirl.create(:indicator, parent: nil, model: nil, category: 'A')
+      FactoryGirl.create(:indicator, parent: nil, team: nil, category: 'A')
     }
     let(:team_variation) {
       FactoryGirl.create(
         :indicator,
-        parent: system_indicator, model: model, category: 'B',
+        parent: system_indicator, team: team, category: 'B',
         unit: system_indicator.unit
       )
     }
@@ -68,14 +68,14 @@ RSpec.describe Indicator, type: :model do
         expect(team_variation.variation?).to be(true)
       end
     end
-    it 'should be invalid if model not present' do
+    it 'should be invalid if team not present' do
       expect(
-        FactoryGirl.build(:indicator, parent: system_indicator, model: nil)
-      ).to have(1).errors_on(:model)
+        FactoryGirl.build(:indicator, parent: system_indicator, team: nil)
+      ).to have(1).errors_on(:team)
     end
     it 'should be invalid if parent is a variation' do
       expect(
-        FactoryGirl.build(:indicator, parent: team_variation, model: model)
+        FactoryGirl.build(:indicator, parent: team_variation, team: team)
       ).to have(1).errors_on(:parent)
     end
     describe :update_category do
@@ -86,12 +86,12 @@ RSpec.describe Indicator, type: :model do
   end
 
   context 'forking system indicators from team indicators' do
-    let(:model) { FactoryGirl.create(:model) }
-    let!(:team_indicator) { FactoryGirl.create(:indicator, model: model) }
+    let(:team) { FactoryGirl.create(:team) }
+    let!(:team_indicator) { FactoryGirl.create(:indicator, team: team) }
 
     describe :promote_parent_to_system_indicator do
       subject {
-        FactoryGirl.create(:indicator, parent: team_indicator, model: model)
+        FactoryGirl.create(:indicator, parent: team_indicator, team: team)
       }
       it 'should create 2 new indicators' do
         expect { subject }.to(change { Indicator.count }.by(2))
@@ -182,17 +182,17 @@ RSpec.describe Indicator, type: :model do
     let(:model2) { FactoryGirl.create(:model) }
     let!(:core_indicator1) { FactoryGirl.create(:indicator) }
     let!(:core_indicator2) { FactoryGirl.create(:indicator) }
-    let!(:model_indicator) {
-      FactoryGirl.create(:indicator, parent: core_indicator1, model: model1)
+    let!(:team_indicator) {
+      FactoryGirl.create(:indicator, parent: core_indicator1, team: model1.team)
     }
-    it 'returns only core indicators for model without model indicators' do
+    it 'returns only core indicators for model without team indicators' do
       expect(Indicator.for_model(model2)).to match_array(
         [core_indicator1, core_indicator2]
       )
     end
-    it 'returns core and model indicators for model with model indicators' do
+    it 'returns core and model indicators for model with team indicators' do
       expect(Indicator.for_model(model1)).to match_array(
-        [model_indicator, core_indicator2]
+        [team_indicator, core_indicator2]
       )
     end
   end
@@ -222,14 +222,14 @@ RSpec.describe Indicator, type: :model do
         category: 'Energy', subcategory: 'Energy use by fuel', name: 'Biomass'
       )
     }
-    let(:model) {
-      FactoryGirl.create(:model)
+    let(:team) {
+      FactoryGirl.create(:team)
     }
     let!(:indicator2) {
       FactoryGirl.create(
         :indicator,
         category: 'Emissions', subcategory: 'CO2 by sector', name: 'Industry',
-        model: model
+        team: team
       )
     }
     context 'when using filters' do
@@ -245,7 +245,7 @@ RSpec.describe Indicator, type: :model do
       end
       it 'filters by type: team' do
         expect(
-          Indicator.fetch_all('type' => "team-#{model.team_id}")
+          Indicator.fetch_all('type' => "team-#{team.id}")
         ).to match_array([indicator2])
       end
     end
