@@ -11,7 +11,7 @@ class IndicatorsController < ApplicationController
       if current_user.admin?
         Indicator.fetch_all(@filter_params)
       else
-        Indicator.for_model(@model).fetch_all(@filter_params)
+        Indicator.for_team(@model.team).fetch_all(@filter_params)
       end
   end
 

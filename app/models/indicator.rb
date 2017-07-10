@@ -97,15 +97,16 @@ class Indicator < ApplicationRecord
   end
 
   class << self
-    def for_model(model)
+    def for_team(team)
       team_indicators = Indicator.select(:id, :parent_id).
-        where(team_id: model.team_id)
+        where(team_id: team.id)
       Indicator.
         joins("LEFT JOIN (#{team_indicators.to_sql}) team_indicators \
 ON indicators.id = team_indicators.parent_id").
         where(
-          'team_id = ? OR team_id IS NULL AND team_indicators.id IS NULL',
-          model.team_id
+          "team_id = ? OR team_id IS NULL AND team_indicators.id IS NULL OR \
+team_id != ? AND indicators.parent_id IS NULL",
+          team.id, team.id
         )
     end
 

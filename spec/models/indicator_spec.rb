@@ -177,22 +177,25 @@ RSpec.describe Indicator, type: :model do
     end
   end
 
-  describe :for_model do
-    let(:model1) { FactoryGirl.create(:model) }
-    let(:model2) { FactoryGirl.create(:model) }
+  describe :for_team do
+    let(:team1) { FactoryGirl.create(:team) }
+    let(:team2) { FactoryGirl.create(:team) }
     let!(:core_indicator1) { FactoryGirl.create(:indicator) }
     let!(:core_indicator2) { FactoryGirl.create(:indicator) }
-    let!(:team_indicator) {
-      FactoryGirl.create(:indicator, parent: core_indicator1, team: model1.team)
+    let!(:team_indicator1) {
+      FactoryGirl.create(:indicator, parent: nil, team: team1)
     }
-    it 'returns only core indicators for model without team indicators' do
-      expect(Indicator.for_model(model2)).to match_array(
-        [core_indicator1, core_indicator2]
+    let!(:team_variation1) {
+      FactoryGirl.create(:indicator, parent: core_indicator1, team: team1)
+    }
+    it 'returns core and team indicators' do
+      expect(Indicator.for_team(team2)).to match_array(
+        [core_indicator1, core_indicator2, team_indicator1]
       )
     end
-    it 'returns core and model indicators for model with team indicators' do
-      expect(Indicator.for_model(model1)).to match_array(
-        [team_indicator, core_indicator2]
+    it 'returns core, team and variation indicators' do
+      expect(Indicator.for_team(team1)).to match_array(
+        [team_variation1, core_indicator2, team_indicator1]
       )
     end
   end
