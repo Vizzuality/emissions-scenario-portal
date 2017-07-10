@@ -216,7 +216,7 @@ RSpec.describe Indicator, type: :model do
   end
 
   describe :fetch_all do
-    let!(:indicator1) {
+    let!(:system_indicator) {
       FactoryGirl.create(
         :indicator,
         category: 'Energy', subcategory: 'Energy use by fuel', name: 'Biomass'
@@ -225,52 +225,64 @@ RSpec.describe Indicator, type: :model do
     let(:team) {
       FactoryGirl.create(:team)
     }
-    let!(:indicator2) {
+    let!(:team_indicator) {
       FactoryGirl.create(
         :indicator,
         category: 'Emissions', subcategory: 'CO2 by sector', name: 'Industry',
         team: team
       )
     }
+    let!(:other_indicator) {
+      FactoryGirl.create(
+        :indicator,
+        category: 'Emissions', subcategory: 'CO2 by sector', name: 'Transport',
+        team: FactoryGirl.create(:team)
+      )
+    }
     context 'when using filters' do
       it 'filters by category' do
         expect(
           Indicator.fetch_all('category' => 'Energy')
-        ).to match_array([indicator1])
+        ).to match_array([system_indicator])
       end
-      it 'filters by type: core' do
+      it 'filters by type: system' do
         expect(
-          Indicator.fetch_all('type' => 'core')
-        ).to match_array([indicator1])
+          Indicator.fetch_all('type' => 'system')
+        ).to match_array([system_indicator])
       end
       it 'filters by type: team' do
         expect(
           Indicator.fetch_all('type' => "team-#{team.id}")
-        ).to match_array([indicator2])
+        ).to match_array([team_indicator])
+      end
+      it 'filters by type: other' do
+        expect(
+          Indicator.fetch_all('type' => "other-#{team.id}")
+        ).to match_array([other_indicator])
       end
     end
     context 'when using text search' do
       it 'searches by category' do
         expect(
           Indicator.fetch_all('search' => 'Energy')
-        ).to match_array([indicator1])
+        ).to match_array([system_indicator])
       end
       it 'searches by slug' do
         expect(
           Indicator.fetch_all('search' => 'Emissions|CO2 by sector|Industry')
-        ).to match_array([indicator2])
+        ).to match_array([team_indicator])
       end
     end
     context 'when sorting' do
       it 'orders by name' do
         expect(
           Indicator.fetch_all('order_type' => 'name')
-        ).to eq([indicator1, indicator2])
+        ).to eq([system_indicator, team_indicator, other_indicator])
       end
       it 'orders by slug' do
         expect(
           Indicator.fetch_all('order_type' => 'alias')
-        ).to eq([indicator2, indicator1])
+        ).to eq([team_indicator, other_indicator, system_indicator])
       end
     end
   end

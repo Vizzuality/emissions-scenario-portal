@@ -151,12 +151,16 @@ ON indicators.id = team_indicators.parent_id").
 
     def fetch_by_type(indicators, value)
       return indicators if value.blank?
-      return indicators.where('team_id IS NULL') if value == 'core'
-      team_id = sanitise_positive_integer(value.split('-').last)
-      if team_id.present?
+      return indicators.where('team_id IS NULL') if value == 'system'
+      scope, team_id_str = value.split('-')
+      team_id = sanitise_positive_integer(team_id_str)
+      return indicators unless team_id.present?
+      if scope == 'team'
         indicators.where(team_id: team_id)
       else
-        indicators
+        indicators.
+          where('team_id IS NOT NULL AND team_id != ?', team_id).
+          where('indicators.parent_id IS NULL')
       end
     end
   end
