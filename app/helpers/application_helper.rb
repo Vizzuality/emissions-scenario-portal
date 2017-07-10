@@ -45,18 +45,14 @@ module ApplicationHelper
   end
 
   def reference_input(object, form, attr_info)
-    size = attr_info.size
     object_name = object.class.to_s.downcase
     attr_name = attr_info.ref_object_symbol
     select_values, selection =
-      send(
-        :"values_for_#{object_name}_#{attr_name}_dropdown",
-        object
-      )
+      send(:"values_for_#{object_name}_#{attr_name}_dropdown", object)
     options = {prompt: 'Select elements'}
     html_options = {class: 'js-select'}
 
-    content_tag :div, class: "c-select -#{size}" do
+    content_tag :div, class: "c-select -#{attr_info.size}" do
       form.select(
         attr_info.ref_object_symbol + '_id',
         options_for_select(select_values, selection.try(:id)),
