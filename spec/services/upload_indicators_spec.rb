@@ -188,7 +188,7 @@ RSpec.describe UploadIndicators do
     end
 
     it 'should not have saved any rows' do
-      expect { subject }.to(change { Indicator.count }.by(1))
+      expect { subject }.to(change { Indicator.count }.by(2))
     end
     it 'should report no rows saved' do
       expect(subject.number_of_records_saved).to eq(1)
