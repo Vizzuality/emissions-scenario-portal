@@ -18,6 +18,9 @@ class Indicator < ApplicationRecord
 
   validates :category, presence: true
   validates :team, presence: true, if: proc { |i| i.parent.present? }
+  validates :conversion_factor, presence: {
+    message: "can't be blank if unit of entry differs from standard unit"
+  }, if: proc { |i| i.unit_of_entry.present? && i.unit_of_entry != unit }
   validate :unit_compatible_with_parent, if: proc { |i| i.parent.present? }
   validate :parent_is_not_variation, if: proc { |i| i.parent.present? }
   before_validation :ignore_blank_array_values
