@@ -5,7 +5,6 @@ class ModelsController < ApplicationController
 
   def index
     @team = current_user.team
-    @team_members = @team.users.order(:name).pluck(:name)
   end
 
   def new

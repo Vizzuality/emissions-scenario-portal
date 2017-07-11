@@ -20,6 +20,12 @@ class Team < ApplicationRecord
 
   accepts_nested_attributes_for :users
 
+  def members_list_for_display
+    users.select([:name, :email]).map do |u|
+      u.name.present? ? u.name : u.email
+    end.sort.join(', ')
+  end
+
   class << self
     def fetch_all(options)
       teams = Team
