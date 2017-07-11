@@ -45,14 +45,14 @@ module ApplicationHelper
   end
 
   def reference_input(object, form, attr_info)
-    size = attr_info.size
-    select_values, selection = values_for_reference_dropdown(
-      object, attr_info
-    )
-    options = {prompt: 'Select or add elements'}
-    html_options = {class: 'js-form-input js-select'}
+    object_name = object.class.to_s.downcase
+    attr_name = attr_info.ref_object_symbol
+    select_values, selection =
+      send(:"values_for_#{object_name}_#{attr_name}_dropdown", object)
+    options = {prompt: 'Select elements'}
+    html_options = {class: 'js-select'}
 
-    content_tag :div, class: "c-select -#{size}" do
+    content_tag :div, class: "c-select -#{attr_info.size}" do
       form.select(
         attr_info.ref_object_symbol + '_id',
         options_for_select(select_values, selection.try(:id)),
@@ -87,15 +87,6 @@ module ApplicationHelper
     picklist_values += attr_info.options.uniq if attr_info.options.present?
     picklist_values = picklist_values.flatten.uniq if attr_info.multiple?
     picklist_values.compact
-  end
-
-  def values_for_reference_dropdown(object, attr_info)
-    ref_object = object.send(attr_info.ref_object_symbol)
-    ref_klass = attr_info.ref_object_symbol.capitalize.constantize
-    select_values = ref_klass.select(:id, attr_info.ref_attr_symbol).map do |v|
-      [v.send(attr_info.ref_attr_symbol), v.id]
-    end
-    [select_values, ref_object]
   end
 
   def picklist_class(is_multiple)

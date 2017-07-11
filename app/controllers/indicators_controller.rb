@@ -11,20 +11,18 @@ class IndicatorsController < ApplicationController
       if current_user.admin?
         Indicator.fetch_all(@filter_params)
       else
-        Indicator.for_model(@model).fetch_all(@filter_params)
+        Indicator.for_team(@model.team).fetch_all(@filter_params)
       end
   end
 
   def new
-    @indicator = Indicator.new(model: @model)
+    @indicator = Indicator.new(team: @model.team)
     render action: :edit
   end
 
   def create
-    @parent_indicator = @indicator # when forking
-    @indicator = Indicator.new(indicator_params)
-    @indicator.model = @model unless current_user.admin?
-    @indicator.parent = @parent_indicator
+    initialize_or_fork_indicator
+    @indicator.team = current_user.team unless current_user.admin?
     if @indicator.save
       redirect_to model_indicator_url(@model, @indicator),
                   notice: 'Indicator was successfully created.'
@@ -40,7 +38,7 @@ class IndicatorsController < ApplicationController
   def update
     # If this is a researcher trying to update a master indicator
     # fork the indicator
-    create and return if !current_user.admin? && @indicator.model.nil?
+    create and return if !current_user.admin? && @indicator.team.nil?
     if @indicator.update_attributes(indicator_params)
       redirect_to model_indicator_url(@model, @indicator),
                   notice: 'Indicator was successfully updated.'
@@ -86,5 +84,14 @@ class IndicatorsController < ApplicationController
     params.require(:indicator).permit(
       *Indicator.attribute_symbols_for_strong_params
     )
+  end
+
+  def initialize_or_fork_indicator
+    @indicator =
+      if @indicator.present? # we came here from system indicator update
+        @indicator.fork_variation(indicator_params)
+      else
+        Indicator.new(indicator_params)
+      end
   end
 end

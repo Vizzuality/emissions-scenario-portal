@@ -1,13 +1,18 @@
 module IndicatorsHelper
   def types_for_select
-    options = [['Core indicators', 'core']]
+    options = [
+      ['System indicators', 'system']
+    ]
     options +=
       if current_user.admin?
         Team.all.map do |t|
-          ["Variations added by team: #{t.name}", "team-#{t.id}"]
+          ["Indicators added by team: #{t.name}", "team-#{t.id}"]
         end
       else
-        [['Variations added by your team', "team-#{current_user.team_id}"]]
+        [
+          ['Indicators added by your team', "team-#{current_user.team_id}"],
+          ['Indicators added by other teams', "other-#{current_user.team_id}"]
+        ]
       end
     options_for_select(options)
   end
@@ -16,6 +21,15 @@ module IndicatorsHelper
     options_for_select(
       Indicator.order(:category).distinct.pluck(:category)
     )
+  end
+
+  def values_for_indicator_parent_dropdown(indicator)
+    selection = indicator.parent
+    select_values = Indicator.where('team_id IS NULL').select(:id, :alias).
+      map do |i|
+        [i.alias, i.id]
+      end
+    [select_values, selection]
   end
 
   def destroy_confirmation_message(indicator)

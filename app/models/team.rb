@@ -1,6 +1,7 @@
 class Team < ApplicationRecord
   has_many :users, dependent: :restrict_with_error
   has_many :models, dependent: :nullify
+  has_many :indicators, dependent: :restrict_with_error
 
   validates :name, presence: true, uniqueness: true
 

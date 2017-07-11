@@ -160,6 +160,9 @@ en:
       name: "Land-use"
       definition: "What are the land-use assumptions?"
   indicators:
+    parent_id:
+      name: "Parent indicator"
+      definition: "Which system indicator is this a variation of?"
     alias:
       name: "Model Indicator Name"
       definition: "Alias for a core indicator (only applicable for derived indicators)"
