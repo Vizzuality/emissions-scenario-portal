@@ -75,7 +75,9 @@
   <div class="c-table-list-item">
     <div class="row">
       <div class="small-3 columns">
-        <div class="c-table-list-item__text f-ff1-m-bold"><%= indicator.alias %></div>
+        <div class="c-table-list-item__text f-ff1-m-bold">
+          <%= link_to indicator.alias, model_indicator_url(@model, indicator) %>
+        </div>
       </div>
       <div class="small-2 columns">
         <div class="c-table-list-item__text f-ff1-m"><%= indicator.unit %></div>
@@ -90,7 +92,7 @@
           <%= indicator.scope.to_s.humanize %>
           <% if indicator.variation? %>
             <div class="l-indicators__based-on">
-              Based on: <%= link_to indicator.parent.alias, edit_model_indicator_url(@model, indicator.parent) %>
+              Based on: <%= link_to indicator.parent.alias, model_indicator_url(@model, indicator.parent) %>
             </div>
           <% end %>
         </div>
@@ -105,13 +107,24 @@
               </div>
             <% end %>
           <% end %>
-          <%= link_to edit_model_indicator_url(@model, indicator) do %>
-            <div class="c-edit-button">
-              <div class="c-edit-button__bubble">
-                <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+          <% if current_user.can?(:manage, indicator) %>
+            <%= link_to edit_model_indicator_url(@model, indicator) do %>
+              <div class="c-edit-button">
+                <div class="c-edit-button__bubble">
+                  <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+                </div>
+                <div class="f-ff1-s">Edit</div>
               </div>
-              <div class="f-ff1-s">Edit</div>
-            </div>
+            <% end %>
+          <% else %>
+            <%= link_to fork_model_indicator_url(@model, indicator) do %>
+              <div class="c-edit-button">
+                <div class="c-edit-button__bubble">
+                  <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+                </div>
+                <div class="f-ff1-s">Fork</div>
+              </div>
+            <% end %>
           <% end %>
         </div>
       </div>

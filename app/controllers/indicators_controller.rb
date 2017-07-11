@@ -3,7 +3,7 @@ class IndicatorsController < ApplicationController
   load_resource except: [:new, :create, :index]
   authorize_resource through: :model
 
-  before_action :set_nav_links, only: [:index, :show, :edit]
+  before_action :set_nav_links, only: [:index, :show, :edit, :fork]
   before_action :set_filter_params, only: [:index]
 
   def index
@@ -34,6 +34,15 @@ class IndicatorsController < ApplicationController
   end
 
   def edit; end
+
+  def fork
+    redirect_to :edit and return if @indicator.team_id == current_user.team_id
+    original_indicator = @indicator
+    @indicator = original_indicator.dup
+    @indicator.parent = original_indicator
+    puts @indicator.inspect
+    render :edit
+  end
 
   def update
     # If this is a researcher trying to update a master indicator
