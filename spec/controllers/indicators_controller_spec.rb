@@ -156,7 +156,9 @@ RSpec.describe IndicatorsController, type: :controller do
     let!(:team_model) { FactoryGirl.create(:model, team: user_team) }
     let!(:some_model) { FactoryGirl.create(:model, team: some_team) }
     let(:team_indicator) { FactoryGirl.create(:indicator, team: user_team) }
-    let(:some_indicator) { FactoryGirl.create(:indicator, team: some_team, unit: 'km') }
+    let(:some_indicator) {
+      FactoryGirl.create(:indicator, team: some_team, unit: 'km')
+    }
     let(:master_indicator) { FactoryGirl.create(:indicator, team: nil) }
 
     describe 'GET index' do
@@ -218,7 +220,8 @@ RSpec.describe IndicatorsController, type: :controller do
           expect {
             post :create, params: {
               model_id: team_model.id, indicator: {
-                parent_id: some_indicator.id, category: ['Unicorns'], unit: ['km']
+                parent_id: some_indicator.id, category: ['Unicorns'],
+                unit: ['km']
               }
             }
           }.to change { Indicator.count }.by(2)
@@ -228,16 +231,18 @@ RSpec.describe IndicatorsController, type: :controller do
           expect {
             post :create, params: {
               model_id: team_model.id, indicator: {
-                parent_id: some_indicator.id, category: ['Unicorns'], unit: ['m']
+                parent_id: some_indicator.id, category: ['Unicorns'],
+                unit: ['m']
               }
             }
-          }.not_to change { Indicator.count }
+          }.not_to(change { Indicator.count })
         end
 
         it 'links old team indicator to new system indicator' do
           post :create, params: {
             model_id: team_model.id, indicator: {
-              parent_id: some_indicator.id, category: ['Unicorns'], unit: ['km']
+              parent_id: some_indicator.id, category: ['Unicorns'],
+              unit: ['km']
             }
           }
           expect(some_indicator.reload.parent).to be_present

@@ -45,21 +45,26 @@ module ApplicationHelper
   end
 
   def reference_input(object, form, attr_info)
-    object_name = object.class.to_s.downcase
-    attr_name = attr_info.ref_object_symbol
-    select_values, selection =
-      send(:"values_for_#{object_name}_#{attr_name}_dropdown", object)
-    options = {prompt: 'Select elements'}
-    html_options = {class: 'js-select'}
-
+    select_values, selection, disabled =
+      values_for_reference_dropdown(object, attr_info)
+    options = {prompt: 'Select element'}
+    html_options = {class: 'js-select', disabled: disabled}
+    object_method = attr_info.ref_object_symbol + '_id'
     content_tag :div, class: "c-select -#{attr_info.size}" do
-      form.select(
-        attr_info.ref_object_symbol + '_id',
+      concat form.select(
+        object_method,
         options_for_select(select_values, selection.try(:id)),
         options,
         html_options
       )
+      concat form.hidden_field(object_method) if disabled
     end
+  end
+
+  def values_for_reference_dropdown(object, attr_info)
+    object_name = object.class.to_s.downcase
+    attr_name = attr_info.ref_object_symbol
+    send(:"values_for_#{object_name}_#{attr_name}_dropdown", object)
   end
 
   def checkbox_input(_object, form, attr_info)
