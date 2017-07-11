@@ -10,6 +10,9 @@ class Indicator < ApplicationRecord
   ORDERS = %w[alias name category subcategory definition unit type].freeze
 
   belongs_to :parent, class_name: 'Indicator', optional: true
+  has_many :variations,
+           class_name: 'Indicator', foreign_key: :parent_id,
+           dependent: :nullify
   has_many :time_series_values, dependent: :destroy
   belongs_to :team, optional: true
 

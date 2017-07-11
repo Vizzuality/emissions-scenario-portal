@@ -125,11 +125,16 @@ RSpec.describe Indicator, type: :model do
 
   describe :destroy do
     let(:indicator) { FactoryGirl.create(:indicator) }
+    let!(:variation) { FactoryGirl.create(:indicator, parent: indicator) }
     let!(:time_series_value) {
       FactoryGirl.create(:time_series_value, indicator: indicator)
     }
     it 'should destroy all time series values' do
       expect { indicator.destroy }.to change(TimeSeriesValue, :count).by(-1)
+    end
+    it 'should nullify parent in variations' do
+      indicator.destroy
+      expect(variation.reload.parent).to be_nil
     end
   end
 
