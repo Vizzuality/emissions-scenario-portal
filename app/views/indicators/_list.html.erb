@@ -97,11 +97,13 @@
       </div>
       <div class="small-2 columns">
         <div class="c-table-list-item__actions">
-          <%= link_to model_indicator_url(@model, indicator), method: :delete, data: {confirm: destroy_confirmation_message(indicator)} do %>
-            <div class="c-remove-button">
-              <svg class="icon"><use xlink:href="#icon-delete"></use></svg>
-              <div class="f-ff1-s">Delete</div>
-            </div>
+          <% if current_user.can?(:destroy, indicator) %>
+            <%= link_to model_indicator_url(@model, indicator), method: :delete, data: {confirm: destroy_confirmation_message(indicator)} do %>
+              <div class="c-remove-button">
+                <svg class="icon"><use xlink:href="#icon-delete"></use></svg>
+                <div class="f-ff1-s">Delete</div>
+              </div>
+            <% end %>
           <% end %>
           <%= link_to edit_model_indicator_url(@model, indicator) do %>
             <div class="c-edit-button">
