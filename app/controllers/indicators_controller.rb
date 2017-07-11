@@ -21,7 +21,7 @@ class IndicatorsController < ApplicationController
   end
 
   def create
-    initialize_or_fork_indicator
+    @indicator = Indicator.new(indicator_params)
     @indicator.team = current_user.team unless current_user.admin?
     if @indicator.save
       redirect_to model_indicator_url(@model, @indicator),
@@ -36,18 +36,16 @@ class IndicatorsController < ApplicationController
   def edit; end
 
   def fork
-    redirect_to :edit and return if @indicator.team_id == current_user.team_id
+    if @indicator.team_id == current_user.team_id
+      redirect_to edit_model_indicator_url(@model, @indicator) and return
+    end
     original_indicator = @indicator
     @indicator = original_indicator.dup
     @indicator.parent = original_indicator
-    puts @indicator.inspect
     render :edit
   end
 
   def update
-    # If this is a researcher trying to update a master indicator
-    # fork the indicator
-    create and return if !current_user.admin? && @indicator.team.nil?
     if @indicator.update_attributes(indicator_params)
       redirect_to model_indicator_url(@model, @indicator),
                   notice: 'Indicator was successfully updated.'
@@ -93,14 +91,5 @@ class IndicatorsController < ApplicationController
     params.require(:indicator).permit(
       *Indicator.attribute_symbols_for_strong_params
     )
-  end
-
-  def initialize_or_fork_indicator
-    @indicator =
-      if @indicator.present? # we came here from system indicator update
-        @indicator.fork_variation(indicator_params)
-      else
-        Indicator.new(indicator_params)
-      end
   end
 end

@@ -11,7 +11,11 @@ class Ability
       can :manage, Model, team_id: team.id
       can :manage, Scenario, model: {team_id: team.id}
       can :download_time_series, Scenario
-      can :fork, Indicator
+      can :fork, Indicator do |indicator|
+        Rails.logger.debug indicator.inspect
+        Rails.logger.debug team.inspect
+        team.id == indicator.team_id || indicator.parent_id.blank?
+      end
       can :read, Indicator do |indicator|
         team.id == indicator.team_id || indicator.parent_id.blank?
       end

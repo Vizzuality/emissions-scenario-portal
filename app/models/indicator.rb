@@ -82,7 +82,9 @@ class Indicator < ApplicationRecord
 
   def promote_to_system_indicator
     system_indicator = fork_system_indicator
-    create_parent(system_indicator.attributes)
+    new_parent = create_parent(system_indicator.attributes)
+    new_parent.variations << self
+    new_parent
   end
 
   def promote_parent_to_system_indicator
