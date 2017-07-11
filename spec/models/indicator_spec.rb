@@ -125,7 +125,11 @@ RSpec.describe Indicator, type: :model do
 
   describe :destroy do
     let(:indicator) { FactoryGirl.create(:indicator) }
-    let!(:variation) { FactoryGirl.create(:indicator, parent: indicator) }
+    let!(:variation) {
+      FactoryGirl.create(
+        :indicator, parent: indicator, team: FactoryGirl.create(:team)
+      )
+    }
     let!(:time_series_value) {
       FactoryGirl.create(:time_series_value, indicator: indicator)
     }
