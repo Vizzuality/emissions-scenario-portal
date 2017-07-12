@@ -16,7 +16,9 @@
       }.bind(this));
     },
 
-    show: function () { },
+    show: function () {
+      new App.View.Table();
+    },
 
     edit: function () {
       new App.View.Form();

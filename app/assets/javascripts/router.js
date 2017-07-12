@@ -19,7 +19,7 @@
       'models/:modelId/scenarios/:id/edit': 'Scenarios#edit',
       'models/:modelId/indicators': 'Indicators#index',
       'models/:modelId/indicators/:id/edit': 'Indicators#edit',
-      'models/:modelId/indicators/:id': 'Indicators#edit',
+      'models/:modelId/indicators/:id': 'Indicators#show',
       'teams': 'Teams#index',
       'teams/:id/edit': 'Teams#edit',
       'teams/:id': 'Teams#edit',
