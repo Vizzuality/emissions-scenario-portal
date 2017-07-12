@@ -20,6 +20,10 @@
 
     edit: function () {
       new App.View.Form();
+    },
+
+    fork: function () {
+      new App.View.Form();
     }
 
   });
