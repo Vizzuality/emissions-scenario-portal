@@ -11,18 +11,18 @@ class IndicatorsController < ApplicationController
       if current_user.admin?
         Indicator.fetch_all(@filter_params)
       else
-        Indicator.for_team(@model.team).fetch_all(@filter_params)
+        Indicator.for_model(@model).fetch_all(@filter_params)
       end
   end
 
   def new
-    @indicator = Indicator.new(team: @model.team)
+    @indicator = Indicator.new(model: @model)
     render action: :edit
   end
 
   def create
     @indicator = Indicator.new(indicator_params)
-    @indicator.team = current_user.team unless current_user.admin?
+    @indicator.model = @model unless current_user.admin?
     if @indicator.save
       redirect_to model_indicator_url(@model, @indicator),
                   notice: 'Indicator was successfully created.'
@@ -36,7 +36,7 @@ class IndicatorsController < ApplicationController
   def edit; end
 
   def fork
-    if @indicator.team_id == current_user.team_id
+    if current_user.team.model_ids.include?(@indicator.model_id)
       redirect_to edit_model_indicator_url(@model, @indicator) and return
     end
     original_indicator = @indicator

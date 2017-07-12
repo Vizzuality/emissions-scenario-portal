@@ -5,12 +5,12 @@ module ScopeManagement
 
   included do
     before_save :promote_parent_to_system_indicator, if: proc { |i|
-      i.parent.present? && i.parent.team_id.present?
+      i.parent.present? && i.parent.model_id.present?
     }
   end
 
   def scope
-    if parent_id.blank? && team_id.blank?
+    if parent_id.blank? && model_id.blank?
       :system_indicator
     elsif parent_id.blank?
       :team_indicator
@@ -33,7 +33,7 @@ module ScopeManagement
 
   def fork_system_indicator
     system_indicator = dup
-    system_indicator.team_id = nil
+    system_indicator.model_id = nil
     system_indicator.parent_id = nil
     system_indicator.auto_generated = true
     system_indicator

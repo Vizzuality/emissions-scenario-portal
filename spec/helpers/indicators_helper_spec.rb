@@ -2,18 +2,19 @@ require 'rails_helper'
 
 RSpec.describe IndicatorsHelper, type: :helper do
   let(:team) { FactoryGirl.create(:team) }
-  let(:other_team) { FactoryGirl.create(:team) }
+  let(:model) { FactoryGirl.create(:model, team: team) }
+  let(:other_model) { FactoryGirl.create(:model) }
   let(:system_indicator) { FactoryGirl.create(:indicator, category: 'A') }
   let!(:team_variation) {
     FactoryGirl.create(
-      :indicator, alias: '1|2|3', parent: system_indicator, team: team
+      :indicator, alias: '1|2|3', parent: system_indicator, model: model
     )
   }
   let!(:team_indicator) {
-    FactoryGirl.create(:indicator, category: 'B', team: team)
+    FactoryGirl.create(:indicator, category: 'B', model: model)
   }
   let!(:other_team_indicator) {
-    FactoryGirl.create(:indicator, category: 'B', team: other_team)
+    FactoryGirl.create(:indicator, category: 'B', model: other_model)
   }
 
   describe :types_for_select do

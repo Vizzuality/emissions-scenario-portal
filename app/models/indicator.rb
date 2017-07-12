@@ -15,10 +15,10 @@ class Indicator < ApplicationRecord
            class_name: 'Indicator', foreign_key: :parent_id,
            dependent: :nullify
   has_many :time_series_values, dependent: :destroy
-  belongs_to :team, optional: true
+  belongs_to :model, optional: true
 
   validates :category, presence: true
-  validates :team, presence: true, if: proc { |i| i.parent.present? }
+  validates :model, presence: true, if: proc { |i| i.parent.present? }
   validates :conversion_factor, presence: {
     message: "can't be blank if unit of entry differs from standard unit"
   }, if: proc { |i| i.unit_of_entry.present? && i.unit_of_entry != unit }
@@ -61,16 +61,16 @@ class Indicator < ApplicationRecord
   end
 
   class << self
-    def for_team(team)
+    def for_model(model)
       team_indicators = Indicator.select(:id, :parent_id).
-        where(team_id: team.id)
+        where(model_id: model.id)
       Indicator.
         joins("LEFT JOIN (#{team_indicators.to_sql}) team_indicators \
 ON indicators.id = team_indicators.parent_id").
         where(
-          "team_id = ? OR team_id IS NULL AND team_indicators.id IS NULL OR \
-team_id != ? AND indicators.parent_id IS NULL",
-          team.id, team.id
+          "model_id = ? OR model_id IS NULL AND team_indicators.id IS NULL OR \
+model_id != ? AND indicators.parent_id IS NULL",
+          model.id, model.id
         )
     end
 
@@ -116,15 +116,15 @@ team_id != ? AND indicators.parent_id IS NULL",
 
     def fetch_by_type(indicators, value)
       return indicators if value.blank?
-      return indicators.where('team_id IS NULL') if value == 'system'
+      return indicators.where('model_id IS NULL') if value == 'system'
       scope, team_id_str = value.split('-')
       team_id = sanitise_positive_integer(team_id_str)
       return indicators unless team_id.present?
       if scope == 'team'
-        indicators.where(team_id: team_id)
+        indicators.joins(:model).where('models.team_id' => team_id)
       else
-        indicators.
-          where('team_id IS NOT NULL AND team_id != ?', team_id).
+        indicators.joins(:model).
+          where('models.team_id IS NOT NULL AND models.team_id != ?', team_id).
           where('indicators.parent_id IS NULL')
       end
     end

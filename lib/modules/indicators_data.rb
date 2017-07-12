@@ -9,7 +9,6 @@ class IndicatorsData
     @path = path
     @user = user
     @model = model
-    @team = @model.team
     @encoding = encoding
     @headers = IndicatorsHeaders.new(@path, @model, @encoding)
     initialize_stats
@@ -38,7 +37,7 @@ must be present.'
   end
 
   def process_core_indicator(slug, row, row_no)
-    if @user.cannot?(:create, Indicator.new(team_id: nil))
+    if @user.cannot?(:create, Indicator.new(model_id: nil))
       message = 'Access denied to manage core indicators.'
       suggestion = 'ESP admins curate core indicators. Please add a team \
 indicator instead.'
@@ -60,7 +59,7 @@ indicator instead.'
   end
 
   def process_team_indicator_or_variation(slug, model_slug, row, row_no)
-    if @user.cannot?(:create, Indicator.new(team_id: @team.id))
+    if @user.cannot?(:create, Indicator.new(model_id: @model.id))
       message = "Access denied to manage team indicators \
 (#{@model.abbreviation})."
       suggestion = 'Please verify your team\'s permissions [here].'
@@ -75,7 +74,7 @@ indicator instead.'
     if slug.present?
       id_attributes = Indicator.slug_to_hash(slug)
       indicator = Indicator.where(id_attributes).where('parent_id IS NULL').
-        order('team_id IS NULL').first
+        order('model_id IS NULL').first
       # try creating the indicator if admin
       if indicator.nil? && @user.admin?
         indicator = process_core_indicator(
@@ -93,7 +92,7 @@ indicator instead.'
 
   def process_team_indicator(model_slug, row, row_no)
     team_indicator = Indicator.where(
-      alias: model_slug, team_id: @team.id
+      alias: model_slug, model_id: @model.id
     ).first
     id_attributes = Indicator.slug_to_hash(model_slug)
     attributes = id_attributes.merge(
@@ -103,7 +102,7 @@ indicator instead.'
       conversion_factor: value_for(row, :conversion_factor),
       definition: value_for(row, :definition),
       alias: model_slug,
-      team_id: @team.id
+      model_id: @model.id
     )
 
     create_or_update_indicator(team_indicator, attributes, row_no)
@@ -111,7 +110,7 @@ indicator instead.'
 
   def process_team_variation(parent_indicator, model_slug, row, row_no)
     team_variation = Indicator.where(
-      alias: model_slug, team_id: @team.id, parent_id: parent_indicator.id
+      alias: model_slug, model_id: @model.id, parent_id: parent_indicator.id
     ).first
     id_attributes = Indicator.slug_to_hash(model_slug)
     attributes = id_attributes.merge(
@@ -121,7 +120,7 @@ indicator instead.'
       conversion_factor: value_for(row, :conversion_factor),
       definition: value_for(row, :definition),
       alias: model_slug,
-      team_id: @team.id,
+      model_id: @model.id,
       parent_id: parent_indicator.id
     )
 
