@@ -6,6 +6,7 @@ class Indicator < ApplicationRecord
   include PgSearch
   include Sanitizer
   include AliasTransformations
+  include ScopeManagement
 
   ORDERS = %w[alias name category subcategory definition unit type].freeze
 
@@ -25,27 +26,10 @@ class Indicator < ApplicationRecord
   validate :parent_is_not_variation, if: proc { |i| i.parent.present? }
   before_validation :ignore_blank_array_values
   before_save :update_category, if: proc { |i| i.parent.present? }
-  before_save :promote_parent_to_system_indicator, if: proc { |i|
-    i.parent.present? && i.parent.team_id.present?
-  }
 
   pg_search_scope :search_for, against: [
     :category, :subcategory, :name, :alias
   ]
-
-  def scope
-    if parent_id.blank? && team_id.blank?
-      :system_indicator
-    elsif parent_id.blank?
-      :team_indicator
-    else
-      :team_variation
-    end
-  end
-
-  def variation?
-    scope == :team_variation
-  end
 
   def unit_compatible_with_parent
     return true if unit.blank? && parent.unit.blank? || unit == parent.unit
@@ -57,39 +41,11 @@ class Indicator < ApplicationRecord
     errors[:parent] << 'cannot be a variation'
   end
 
-  def fork_variation(variation_attributes)
-    indicator = dup
-    indicator.parent = self
-    indicator.attributes = variation_attributes
-    indicator.auto_generated = true
-    indicator
-  end
-
-  def fork_system_indicator
-    system_indicator = dup
-    system_indicator.team_id = nil
-    system_indicator.parent_id = nil
-    system_indicator.auto_generated = true
-    system_indicator
-  end
-
   def update_category
     self.category = parent.category
     self.subcategory = parent.subcategory
     self.name = parent.name
     self.stackable_subcategory = parent.stackable_subcategory
-  end
-
-  def promote_to_system_indicator
-    system_indicator = fork_system_indicator
-    new_parent = create_parent(system_indicator.attributes)
-    new_parent.variations << self
-    new_parent
-  end
-
-  def promote_parent_to_system_indicator
-    system_indicator = parent.promote_to_system_indicator
-    self.parent = system_indicator
   end
 
   def scenarios
