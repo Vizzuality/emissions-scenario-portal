@@ -32,6 +32,17 @@ RSpec.describe Model, type: :model do
     end
   end
 
+  describe :scenarios? do
+    let(:model) { FactoryGirl.create(:model) }
+    it 'should be true when time series values present' do
+      FactoryGirl.create(:scenario, model: model)
+      expect(model.scenarios?).to be(true)
+    end
+    it 'should be true when time series values absent' do
+      expect(model.scenarios?).to be(false)
+    end
+  end
+
   describe :attribute_infos do
     it 'should be an array' do
       expect(Model.attribute_infos.size).to eq(Model::ALL_ATTRIBUTES.size)

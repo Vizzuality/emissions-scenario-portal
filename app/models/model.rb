@@ -5,7 +5,7 @@ class Model < ApplicationRecord
   include MetadataAttributes
 
   belongs_to :team
-  has_many :scenarios, dependent: :restrict_with_error
+  has_many :scenarios, dependent: :destroy
   has_many :indicators, dependent: :destroy
 
   validates :abbreviation, presence: true, uniqueness: true
@@ -27,4 +27,8 @@ class Model < ApplicationRecord
   )
   validates :team, team_reassignment: true
   before_validation :ignore_blank_array_values
+
+  def scenarios?
+    scenarios.any?
+  end
 end

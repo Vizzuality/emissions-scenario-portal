@@ -45,6 +45,23 @@ RSpec.describe ScenariosController, type: :controller do
         delete :destroy, params: {model_id: some_model.id, id: some_scenario.id}
         expect(response).to redirect_to(model_scenarios_url(some_model))
       end
+
+      it 'destroys the scenario' do
+        expect {
+          delete :destroy, params: {
+            model_id: some_model.id, id: some_scenario.id
+          }
+        }.to change { Scenario.count }.by(-1)
+      end
+
+      it 'destroys linked time series data' do
+        FactoryGirl.create(:time_series_value, scenario: some_scenario)
+        expect {
+          delete :destroy, params: {
+            model_id: some_model.id, id: some_scenario.id
+          }
+        }.to change { TimeSeriesValue.count }.by(-1)
+      end
     end
   end
 
