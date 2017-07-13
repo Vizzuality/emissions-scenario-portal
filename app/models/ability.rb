@@ -30,6 +30,7 @@ class Ability
         user.team.nil? || user.team_id == team.id
       end
       can :destroy, User, team_id: team.id
+      can :read, Location
     end
     #
     # The first argument to `can` is the action you are giving the user

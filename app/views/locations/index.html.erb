@@ -2,7 +2,7 @@
 <div class="l-locations">
   <div class="row">
     <div class="small-6 columns">
-      <div class="f-ff3-m-bold l-locations__title">Countries <span>(<%= @locations.length %>)</span></div>
+      <div class="f-ff3-m-bold l-locations__title">Countries and regions<span>(<%= @locations.length %>)</span></div>
     </div>
     <div class="small-3 columns">
       <div class="c-form-item">
@@ -15,13 +15,15 @@
                    } %>
       </div>
     </div>
-    <div class="small-3 columns">
-      <%= link_to new_location_path do %>
-        <div class="c-button">
-          <span>Add new country</span>
-        </div>
-      <% end %>
-    </div>
+    <% if current_user.can?(:create, Location) %>
+      <div class="small-3 columns">
+        <%= link_to new_location_path do %>
+          <div class="c-button">
+            <span>Add new country</span>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
   </div>
   <div class="l-locations__table-shorts js-table-filter" data-filter-type="order">
     <div class="row">
@@ -54,18 +56,22 @@
         </div>
         <div class="small-1 columns">
           <div class="c-table-list-item__actions">
-            <%= link_to location_path(location), method: :delete, data: { confirm: 'Are you sure?' } do %>
-              <div class="c-delete-button">
-                <svg class="icon"><use xlink:href="#icon-delete"></use></svg>
-              </div>
-            <% end %>
-            <%= link_to edit_location_path(location) do %>
-              <div class="c-edit-button">
-                <div class="c-edit-button__bubble">
-                  <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+            <% if current_user.can?(:destroy, location) %>
+              <%= link_to location_path(location), method: :delete, data: { confirm: 'Are you sure?' } do %>
+                <div class="c-delete-button">
+                  <svg class="icon"><use xlink:href="#icon-delete"></use></svg>
                 </div>
-                <div class="f-ff1-s">Edit</div>
-              </div>
+              <% end %>
+            <% end %>
+            <% if current_user.can?(:update, location) %>
+              <%= link_to edit_location_path(location) do %>
+                <div class="c-edit-button">
+                  <div class="c-edit-button__bubble">
+                    <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+                  </div>
+                  <div class="f-ff1-s">Edit</div>
+                </div>
+              <% end %>
             <% end %>
           </div>
         </div>
