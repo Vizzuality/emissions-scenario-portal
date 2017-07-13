@@ -8,7 +8,9 @@ class Indicator < ApplicationRecord
   include AliasTransformations
   include ScopeManagement
 
-  ORDERS = %w[alias name category subcategory definition unit type].freeze
+  ORDERS = %w[
+    alias name category subcategory definition unit parent_name
+  ].freeze
 
   belongs_to :parent, class_name: 'Indicator', optional: true
   has_many :variations,
@@ -106,8 +108,8 @@ model_id != ? AND indicators.parent_id IS NULL",
       order_direction = get_order_direction(order_direction)
       order_type = get_order_type(ORDERS, order_type)
 
-      order_type = 'parent_id' if order_type == 'type'
-      indicators.order(order_type => order_direction, name: :asc)
+      order_type = 'parents_indicators.alias' if order_type == 'parent_name'
+      indicators.order("#{order_type} #{order_direction}", name: :asc)
     end
 
     def fetch_equal_value(indicators, filter, value)
@@ -116,7 +118,9 @@ model_id != ? AND indicators.parent_id IS NULL",
 
     def fetch_by_type(indicators, value)
       return indicators if value.blank?
-      return indicators.where('model_id IS NULL') if value == 'system'
+      if value == 'system'
+        return indicators.where('indicators.model_id IS NULL')
+      end
       scope, team_id_str = value.split('-')
       team_id = sanitise_positive_integer(team_id_str)
       return indicators unless team_id.present?

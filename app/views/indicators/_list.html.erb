@@ -53,6 +53,12 @@
     </div>
     <div class="small-2 columns">
       <%= render 'shared/components/c_order_filter_button',
+                 text: 'Based on',
+                 other_class: '-no-wrap',
+                 column_key: 'parent_name' %>
+    </div>
+    <div class="small-2 columns">
+      <%= render 'shared/components/c_order_filter_button',
                  text: 'Unit',
                  other_class: '-no-wrap',
                  column_key: 'unit' %>
@@ -62,12 +68,6 @@
                  text: 'Description',
                  other_class: '-no-wrap',
                  column_key: 'definition' %>
-    </div>
-    <div class="small-2 columns">
-      <%= render 'shared/components/c_order_filter_button',
-                 text: 'Type',
-                 other_class: '-no-wrap',
-                 column_key: 'type' %>
     </div>
   </div>
 </div>
@@ -80,21 +80,18 @@
         </div>
       </div>
       <div class="small-2 columns">
+        <div class="c-table-list-item__text f-ff1-m-bold">
+          <% if indicator.variation? %>
+            <%= link_to indicator.parent.alias, model_indicator_url(@model, indicator.parent) %>
+          <% end %>
+        </div>
+      </div>
+      <div class="small-2 columns">
         <div class="c-table-list-item__text f-ff1-m"><%= indicator.unit %></div>
       </div>
       <div class="small-3 columns">
         <div class="c-table-list-item__text f-ff1-m">
           <%= indicator.definition && truncate(indicator.definition, length: 120) %>
-        </div>
-      </div>
-      <div class="small-2 columns">
-        <div class="c-table-list-item__text f-ff1-m">
-          <%= indicator.scope.to_s.humanize %>
-          <% if indicator.variation? %>
-            <div class="l-indicators__based-on">
-              Based on: <%= link_to indicator.parent.alias, model_indicator_url(@model, indicator.parent) %>
-            </div>
-          <% end %>
         </div>
       </div>
       <div class="small-2 columns">
