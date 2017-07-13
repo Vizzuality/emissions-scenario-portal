@@ -22,8 +22,8 @@ RSpec.describe Model, type: :model do
   describe :create do
     it 'ignores blank array values for multiple selection attributes' do
       attributes = FactoryGirl.attributes_for(:model).
-        merge(programming_language: ['', 'Python', 'ruby', 'perl'])
-      expect(Model.create(attributes).programming_language.length).to eq(3)
+        merge(anticipation: ['', 'perfect', 'static'])
+      expect(Model.create(attributes).anticipation.length).to eq(2)
     end
     it 'ignores blank array values for single selection attributes' do
       attributes = FactoryGirl.attributes_for(:model).

@@ -140,7 +140,7 @@ RSpec.describe ModelsController, type: :controller do
     it 'filters parameters correctly for update' do
       model_params = {
         abbreviation: 'ABC',
-        programming_language: ['', 'ruby', 'perl'],
+        anticipation: ['', 'perfect', 'static'],
         time_horizon: ['', 'century']
       }
       expect_any_instance_of(Model).to receive(:update_attributes).

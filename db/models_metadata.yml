@@ -32,8 +32,6 @@
   size: 'large'
   category: 'About'
 - name: :programming_language
-  picklist: true
-  multiple: true
   size: 'large'
   category: 'About'
 - name: :development_year
