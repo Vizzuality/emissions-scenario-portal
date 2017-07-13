@@ -11,9 +11,9 @@ class ScenariosData
   PROPERTY_NAMES = [
     :model_abbreviation,
     :model_version,
-    :name,
     :provider_name,
     :release_date,
+    :name,
     :category,
     :purpose_or_objective,
     :description,

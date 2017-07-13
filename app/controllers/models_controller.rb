@@ -54,6 +54,15 @@ class ModelsController < ApplicationController
     )
   end
 
+  def upload_template
+    csv_template = ModelsUploadTemplate.new
+    send_data(
+      csv_template.export,
+      type: 'text/csv; charset=utf-8; header=present',
+      disposition: 'attachment; filename=models_upload_template.csv'
+    )
+  end
+
   private
 
   def model_params

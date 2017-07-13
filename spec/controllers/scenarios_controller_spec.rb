@@ -165,6 +165,18 @@ RSpec.describe ScenariosController, type: :controller do
       end
     end
 
+    describe 'GET upload_template' do
+      it 'returns a template file' do
+        get :upload_template, params: {
+          model_id: team_model.id
+        }
+        expect(response.content_type).to eq('text/csv')
+        expect(response.headers['Content-Disposition']).to eq(
+          'attachment; filename=scenarios_upload_template.csv'
+        )
+      end
+    end
+
     describe 'GET download_time_series' do
       it 'returns scenario time series file' do
         FactoryGirl.create(:time_series_value, scenario: team_scenario)
