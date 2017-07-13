@@ -50,12 +50,13 @@ class ScenariosData
 
   EXPECTED_PROPERTIES = build_properties(PROPERTY_NAMES).freeze
 
-  def initialize(path, user, encoding)
+  def initialize(path, user, model, encoding)
     @path = path
     @user = user
+    @model = model
     @encoding = encoding
-    @headers = ScenariosHeaders.new(@path, @encoding)
-    @template_url = '/esp_scenarios_template.csv'
+    @headers = ScenariosHeaders.new(@path, @model, @encoding)
+    @template_url = url_helpers.upload_template_model_scenarios_path(@model)
     initialize_stats
   end
 

@@ -34,11 +34,14 @@ class TimeSeriesValuesHeaders
 
   attr_reader :errors
 
-  def initialize(path, encoding)
+  def initialize(path, model, encoding)
     @encoding = encoding
     initialize_headers(path)
+    @model = model
     @errors = {}
-    parse_headers('/esp_time_series_template.csv')
+    parse_headers(
+      url_helpers.upload_time_series_template_model_scenarios_path(@model)
+    )
   end
 
   def parse_headers(template_url)
