@@ -131,13 +131,10 @@ indicator instead.'
     if indicator.nil?
       indicator = Indicator.new(attributes)
       return indicator if indicator.save
-      process_other_errors(@errors[row_no], indicator.errors)
-    else
-      unless indicator.update_attributes(attributes)
-        process_other_errors(
-          @errors[row_no], indicator.errors
-        )
-      end
+    elsif indicator.update_attributes(attributes)
+      return indicator
     end
+    process_other_errors(@errors[row_no], indicator.errors)
+    nil
   end
 end
