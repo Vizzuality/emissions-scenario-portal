@@ -3,10 +3,7 @@ require 'scenarios_data'
 
 class ScenariosUploadTemplate < CsvVerticalUploadTemplate
   def headers
-    [
-      'Category', 'Indicator', 'Definition/Input Explanation', 'Data Type',
-      'Picklist options (Data Entry)', 'Scenario 1'
-    ]
+    super + ['Scenario 1']
   end
 
   def property_names

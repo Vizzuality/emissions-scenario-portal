@@ -3,10 +3,7 @@ require 'models_data'
 
 class ModelsUploadTemplate < CsvVerticalUploadTemplate
   def headers
-    [
-      'Category', 'Indicator', 'Definition/Input Explanation', 'Data Type',
-      'Picklist options (Data Entry)', 'Model 1'
-    ]
+    super + ['Model 1']
   end
 
   def property_names

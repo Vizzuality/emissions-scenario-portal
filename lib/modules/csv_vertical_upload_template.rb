@@ -1,6 +1,13 @@
 require 'csv'
 
 class CsvVerticalUploadTemplate
+  def headers
+    [
+      'Category', 'Indicator', 'Definition/Input Explanation', 'Data Type',
+      'Picklist options (Data Entry)'
+    ]
+  end
+
   def export
     CSV.generate do |csv|
       csv << headers
