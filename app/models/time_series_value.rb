@@ -7,7 +7,7 @@ class TimeSeriesValue < ApplicationRecord
     :year,
     presence: true,
     numericality: {only_integer: true, allow_nil: true},
-    inclusion: {in: 1900..2100, allow_nil: true}
+    inclusion: {in: 1900..3000, allow_nil: true}
   )
   validates :value, presence: true, numericality: {allow_nil: true}
   validates :scenario, presence: true

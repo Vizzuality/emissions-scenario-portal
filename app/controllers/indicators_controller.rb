@@ -74,6 +74,15 @@ class IndicatorsController < ApplicationController
     )
   end
 
+  def upload_template
+    csv_template = IndicatorsUploadTemplate.new
+    send_data(
+      csv_template.export,
+      type: 'text/csv; charset=utf-8; header=present',
+      disposition: 'attachment; filename=indicators_upload_template.csv'
+    )
+  end
+
   def download_time_series
     csv_download = DownloadTimeSeriesValues.new(current_user).call(
       @indicator.time_series_values

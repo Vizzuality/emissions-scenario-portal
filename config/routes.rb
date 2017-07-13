@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     resources :scenarios, only: [:index, :show, :edit, :update, :destroy] do
       post :upload_meta_data, on: :collection
       post :upload_time_series, on: :collection, to: 'time_series_values#upload', as: :upload_time_series
+      get :upload_time_series_template, on: :collection, to: 'time_series_values#upload_template', as: :upload_time_series_template
       get :download_time_series, on: :member
       get :upload_template, on: :collection
     end
@@ -16,6 +17,7 @@ Rails.application.routes.draw do
       post :upload_meta_data, on: :collection#, as: :upload_indicators_meta_data
       get :download_time_series, on: :member
       get :fork, on: :member
+      get :upload_template, on: :collection
     end
   end
 
