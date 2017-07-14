@@ -20,8 +20,22 @@ RSpec.describe UploadTimeSeriesValues do
       conversion_factor: 25.0
     )
   }
-  let!(:location) {
+  let(:variation) {
+    FactoryGirl.create(
+      :indicator,
+      parent: indicator,
+      alias: "#{model.abbreviation} #{indicator.alias}",
+      model: model,
+      unit: indicator.unit,
+      unit_of_entry: indicator.unit_of_entry,
+      conversion_factor: indicator.conversion_factor
+    )
+  }
+  let!(:location1) {
     FactoryGirl.create(:location, name: 'Poland', iso_code2: 'PL')
+  }
+  let!(:location2) {
+    FactoryGirl.create(:location, name: 'Portugal', iso_code2: 'PT')
   }
   subject { UploadTimeSeriesValues.new(user, model).call(file) }
 
@@ -36,13 +50,11 @@ RSpec.describe UploadTimeSeriesValues do
         )
       )
     }
-    it 'should have saved all rows' do
+    it 'should have saved all time series values' do
       expect { subject }.to change { TimeSeriesValue.count }.by(2)
     end
-    it 'should have saved correct amounts' do
-      expect { subject }.to change {
-        indicator.time_series_values.sum(:value)
-      }.by(30)
+    it 'should have created a variation' do
+      expect { subject }.to change { indicator.variations.count }.by(1)
     end
     it 'should report all rows saved' do
       expect(subject.number_of_records_saved).to eq(1) # 1 row with 2 values
@@ -67,8 +79,8 @@ RSpec.describe UploadTimeSeriesValues do
       FactoryGirl.create(
         :time_series_value,
         scenario: scenario,
-        indicator: indicator,
-        location: location,
+        indicator: variation,
+        location: location1,
         year: 2005,
         value: 100
       )
@@ -78,7 +90,7 @@ RSpec.describe UploadTimeSeriesValues do
     end
     it 'should have saved correct amounts' do
       expect { subject }.to change {
-        indicator.time_series_values.sum(:value)
+        variation.time_series_values.sum(:value)
       }.by(-70)
     end
     it 'should report all rows saved' do
@@ -135,6 +147,52 @@ RSpec.describe UploadTimeSeriesValues do
     end
   end
 
+  context 'when file with missing indicator' do
+    let(:file) {
+      Rack::Test::UploadedFile.new(
+        File.join(
+          Rails.root,
+          'spec',
+          'fixtures',
+          'time_series_values-missing_indicator.csv'
+        )
+      )
+    }
+
+    it 'should not have saved any rows' do
+      expect { subject }.not_to(change { TimeSeriesValue.count })
+    end
+    it 'should report no rows saved' do
+      expect(subject.number_of_records_saved).to eq(0)
+    end
+    it 'should report all rows failed' do
+      expect(subject.number_of_records_failed).to eq(1)
+    end
+  end
+
+  context 'when file with missing scenario' do
+    let(:file) {
+      Rack::Test::UploadedFile.new(
+        File.join(
+          Rails.root,
+          'spec',
+          'fixtures',
+          'time_series_values-missing_scenario.csv'
+        )
+      )
+    }
+
+    it 'should not have saved any rows' do
+      expect { subject }.not_to(change { TimeSeriesValue.count })
+    end
+    it 'should report no rows saved' do
+      expect(subject.number_of_records_saved).to eq(0)
+    end
+    it 'should report all rows failed' do
+      expect(subject.number_of_records_failed).to eq(1)
+    end
+  end
+
   context 'when file with incompatible unit' do
     let(:file) {
       Rack::Test::UploadedFile.new(
@@ -149,6 +207,29 @@ RSpec.describe UploadTimeSeriesValues do
 
     it 'should not have saved any rows' do
       expect { subject }.not_to(change { TimeSeriesValue.count })
+    end
+    it 'should report no rows saved' do
+      expect(subject.number_of_records_saved).to eq(0)
+    end
+    it 'should report all rows failed' do
+      expect(subject.number_of_records_failed).to eq(1)
+    end
+  end
+
+  context 'when file with invalid value' do
+    let(:file) {
+      Rack::Test::UploadedFile.new(
+        File.join(
+          Rails.root,
+          'spec',
+          'fixtures',
+          'time_series_values-invalid_value.csv'
+        )
+      )
+    }
+
+    it 'should not have saved any rows' do
+      expect { subject }.to(change { TimeSeriesValue.count }.by(1))
     end
     it 'should report no rows saved' do
       expect(subject.number_of_records_saved).to eq(0)
@@ -210,6 +291,140 @@ RSpec.describe UploadTimeSeriesValues do
     end
     it 'should report all rows failed' do
       expect(subject.number_of_records_failed).to eq(1)
+    end
+  end
+
+  context 'when variation exists yet system indicator is used' do
+    let(:file) {
+      Rack::Test::UploadedFile.new(
+        File.join(
+          Rails.root,
+          'spec',
+          'fixtures',
+          'time_series_values-system_instead_of_variation.csv'
+        )
+      )
+    }
+    before(:each) {
+      variation
+    }
+    it 'should have saved values' do
+      expect { subject }.to(change { TimeSeriesValue.count }.by(2))
+    end
+    it 'should have created values against variation' do
+      expect { subject }.to(
+        change { variation.time_series_values.count }.by(2)
+      )
+    end
+    it 'should report all rows saved' do
+      expect(subject.number_of_records_saved).to eq(1)
+    end
+    it 'should report no rows failed' do
+      expect(subject.number_of_records_failed).to eq(0)
+    end
+  end
+
+  context 'when another model\'s team indicator matched' do
+    let(:file) {
+      Rack::Test::UploadedFile.new(
+        File.join(
+          Rails.root,
+          'spec',
+          'fixtures',
+          'time_series_values-another_team_indicator.csv'
+        )
+      )
+    }
+    let(:other_model) { FactoryGirl.create(:model) }
+    let!(:team_indicator) {
+      FactoryGirl.create(
+        :indicator,
+        category: 'Emissions',
+        subcategory: 'GHG Emissions',
+        name: 'direct',
+        stackable_subcategory: true,
+        unit: 'Mt CO2e/yr',
+        unit_of_entry: 'Mt CH4/yr',
+        conversion_factor: 25.0,
+        alias: 'Emissions|GHG Emissions|direct',
+        model: other_model,
+        parent: nil
+      )
+    }
+    it 'should have saved values' do
+      expect { subject }.to(change { TimeSeriesValue.count }.by(2))
+    end
+    it 'should have turned team indicator into variation' do
+      subject
+      expect(team_indicator.reload.variation?).to be(true)
+    end
+    it 'should have created a new variation' do
+      subject
+      expect(team_indicator.reload.parent.variations.count).to eq(2)
+    end
+    it 'should have created values against new variation' do
+      subject
+      variation = Indicator.where(
+        parent_id: team_indicator.reload.parent_id,
+        alias: "#{model.abbreviation} #{team_indicator.alias}"
+      ).first
+      expect(variation.time_series_values.count).to eq(2)
+    end
+    it 'should report all rows saved' do
+      expect(subject.number_of_records_saved).to eq(1)
+    end
+    it 'should report no rows failed' do
+      expect(subject.number_of_records_failed).to eq(0)
+    end
+  end
+
+  context 'when another model\'s variation matched' do
+    let(:file) {
+      Rack::Test::UploadedFile.new(
+        File.join(
+          Rails.root,
+          'spec',
+          'fixtures',
+          'time_series_values-another_variation.csv'
+        )
+      )
+    }
+    let(:other_model) { FactoryGirl.create(:model, abbreviation: 'Model B') }
+    let!(:variation) {
+      FactoryGirl.create(
+        :indicator,
+        category: 'Emissions',
+        subcategory: 'GHG Emissions',
+        name: 'direct',
+        stackable_subcategory: true,
+        unit: 'Mt CO2e/yr',
+        unit_of_entry: 'Mt CH4/yr',
+        conversion_factor: 25.0,
+        alias: 'Model B Emissions|GHG Emissions|direct',
+        model: other_model,
+        parent: indicator
+      )
+    }
+    it 'should have saved values' do
+      expect { subject }.to(change { TimeSeriesValue.count }.by(2))
+    end
+    it 'should have created a new variation' do
+      subject
+      expect(variation.reload.parent.variations.count).to eq(2)
+    end
+    it 'should have created values against new variation' do
+      subject
+      variation = Indicator.where(
+        parent_id: indicator.id,
+        alias: "#{model.abbreviation} #{indicator.alias}"
+      ).first
+      expect(variation.time_series_values.count).to eq(2)
+    end
+    it 'should report all rows saved' do
+      expect(subject.number_of_records_saved).to eq(1)
+    end
+    it 'should report no rows failed' do
+      expect(subject.number_of_records_failed).to eq(0)
     end
   end
 end

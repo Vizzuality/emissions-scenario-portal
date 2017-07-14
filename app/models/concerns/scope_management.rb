@@ -23,6 +23,14 @@ module ScopeManagement
     scope == :team_variation
   end
 
+  def team?
+    scope == :team_indicator
+  end
+
+  def system?
+    scope == :system_indicator
+  end
+
   def fork_variation(variation_attributes)
     indicator = dup
     indicator.parent = self

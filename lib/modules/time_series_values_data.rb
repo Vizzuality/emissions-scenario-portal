@@ -58,6 +58,7 @@ class TimeSeriesValuesData
       if existing_tsv
         existing_tsv.value = value
         existing_tsv.unit_of_entry = unit_of_entry
+        existing_tsv.indicator = indicator
         existing_tsv
       else
         TimeSeriesValue.new(
@@ -105,16 +106,63 @@ class TimeSeriesValuesData
     end
     identification = "indicator: #{indicator_name}"
 
-    indicators = Indicator.where(alias: indicator_name)
-    model_indicators = indicators.where(model_id: model.id)
-    indicators = model_indicators if model_indicators.any?
-    matching_object(
-      indicators,
+    indicator = matching_object(
+      best_matching_indicators(indicator_name, model),
       'indicator',
       identification,
       errors,
       url_helpers.model_indicators_path(model)
     )
+    indicator_or_auto_generated_variation(indicator, model)
+  end
+
+  def indicator_or_auto_generated_variation(indicator, model)
+    if indicator && (
+      indicator.system? || indicator.team? && indicator.model_id != model.id
+    )
+      # if all we have managed to match on is a system indicator
+      # or another model's team indicator
+      # fork a variation
+      variation = indicator.fork_variation(
+        alias: "#{model.abbreviation} #{indicator.alias}", model_id: model.id
+      )
+      variation.save!
+      # TODO: add warnings
+      # warnings['indicator'] = "A model variation of system indicator \
+      # #{indicator.alias} was automatically created"
+      indicator = variation
+    end
+    indicator
+  end
+
+  def best_matching_indicators(indicator_name, model)
+    # best match: variation or team indicator with matching alias and model
+    indicators = Indicator.where(alias: indicator_name, model_id: model.id)
+    if indicators.none?
+      # second best: variation with matching model and parent matching alias
+      indicators = Indicator.joins(:parent).where(
+        'parents_indicators.alias' => indicator_name, model_id: model.id
+      )
+    end
+    if indicators.none?
+      # third best: system indicator with matching alias
+      indicators = Indicator.where(
+        alias: indicator_name, parent_id: nil, model_id: nil
+      )
+    end
+    if indicators.none?
+      # fourth best: another model's team indicator with matching alias
+      indicators = Indicator.where(alias: indicator_name, parent_id: nil).
+        where('model_id IS NOT NULL')
+    end
+    if indicators.none?
+      # last resort: system indicator that has a variation with matching alias
+      indicators = Indicator.where(parent_id: nil).
+        joins(:variations).
+        where('variations_indicators.alias' => indicator_name)
+    end
+
+    indicators
   end
 
   def location(row, errors)
