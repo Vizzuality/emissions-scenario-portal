@@ -2,7 +2,9 @@ class ChangeTeamIdBackToModelId < ActiveRecord::Migration[5.0]
   def up
     add_reference :indicators, :model, index: true, foreign_key: true
     Indicator.where('team_id IS NOT NULL').each do |i|
-      i.model_id = i.team.models.first.try(:id)
+      team = Team.where(id: i.team_id).first
+      model_id = team && team.models.first.try(:id)
+      i.model_id = model_id
       i.save
     end
     remove_column :indicators, :team_id
