@@ -4,23 +4,90 @@ class Indicator < ApplicationRecord
   ).freeze
   include MetadataAttributes
   include PgSearch
+  include Sanitizer
+  include AliasTransformations
 
   ORDERS = %w[alias name category subcategory definition unit type].freeze
 
   belongs_to :parent, class_name: 'Indicator', optional: true
+  has_many :variations,
+           class_name: 'Indicator', foreign_key: :parent_id,
+           dependent: :nullify
   has_many :time_series_values, dependent: :destroy
-  belongs_to :model, optional: true
+  belongs_to :team, optional: true
 
   validates :category, presence: true
+  validates :team, presence: true, if: proc { |i| i.parent.present? }
+  validates :conversion_factor, presence: {
+    message: "can't be blank if unit of entry differs from standard unit"
+  }, if: proc { |i| i.unit_of_entry.present? && i.unit_of_entry != unit }
+  validate :unit_compatible_with_parent, if: proc { |i| i.parent.present? }
+  validate :parent_is_not_variation, if: proc { |i| i.parent.present? }
   before_validation :ignore_blank_array_values
-  before_save :update_alias, if: proc { |i| i.parent.blank? }
+  before_save :update_category, if: proc { |i| i.parent.present? }
+  before_save :promote_parent_to_system_indicator, if: proc { |i|
+    i.parent.present? && i.parent.team_id.present?
+  }
 
   pg_search_scope :search_for, against: [
     :category, :subcategory, :name, :alias
   ]
 
-  def update_alias
-    self.alias = [category, subcategory, name].join('|')
+  def scope
+    if parent_id.blank? && team_id.blank?
+      :system_indicator
+    elsif parent_id.blank?
+      :team_indicator
+    else
+      :team_variation
+    end
+  end
+
+  def variation?
+    scope == :team_variation
+  end
+
+  def unit_compatible_with_parent
+    return true if unit.blank? && parent.unit.blank? || unit == parent.unit
+    errors[:unit] << 'incompatible with parent indicator'
+  end
+
+  def parent_is_not_variation
+    return true unless parent.variation?
+    errors[:parent] << 'cannot be a variation'
+  end
+
+  def fork_variation(variation_attributes)
+    indicator = dup
+    indicator.parent = self
+    indicator.attributes = variation_attributes
+    indicator.auto_generated = true
+    indicator
+  end
+
+  def fork_system_indicator
+    system_indicator = dup
+    system_indicator.team_id = nil
+    system_indicator.parent_id = nil
+    system_indicator.auto_generated = true
+    system_indicator
+  end
+
+  def update_category
+    self.category = parent.category
+    self.subcategory = parent.subcategory
+    self.name = parent.name
+    self.stackable_subcategory = parent.stackable_subcategory
+  end
+
+  def promote_to_system_indicator
+    system_indicator = fork_system_indicator
+    create_parent(system_indicator.attributes)
+  end
+
+  def promote_parent_to_system_indicator
+    system_indicator = parent.promote_to_system_indicator
+    self.parent = system_indicator
   end
 
   def scenarios
@@ -36,15 +103,16 @@ class Indicator < ApplicationRecord
   end
 
   class << self
-    def for_model(model)
-      model_indicators = Indicator.select(:id, :parent_id).
-        where(model_id: model.id)
+    def for_team(team)
+      team_indicators = Indicator.select(:id, :parent_id).
+        where(team_id: team.id)
       Indicator.
-        joins("LEFT JOIN (#{model_indicators.to_sql}) model_indicators \
-ON indicators.id = model_indicators.parent_id").
+        joins("LEFT JOIN (#{team_indicators.to_sql}) team_indicators \
+ON indicators.id = team_indicators.parent_id").
         where(
-          'model_id = ? OR model_id IS NULL AND model_indicators.id IS NULL',
-          model.id
+          "team_id = ? OR team_id IS NULL AND team_indicators.id IS NULL OR \
+team_id != ? AND indicators.parent_id IS NULL",
+          team.id, team.id
         )
     end
 
@@ -90,36 +158,17 @@ ON indicators.id = model_indicators.parent_id").
 
     def fetch_by_type(indicators, value)
       return indicators if value.blank?
-      return indicators.where('model_id IS NULL') if value == 'core'
-      team_id = sanitise_positive_integer(value.split('-').last)
-      if team_id.present?
-        indicators.joins(:model).where('models.team_id' => team_id)
+      return indicators.where('team_id IS NULL') if value == 'system'
+      scope, team_id_str = value.split('-')
+      team_id = sanitise_positive_integer(team_id_str)
+      return indicators unless team_id.present?
+      if scope == 'team'
+        indicators.where(team_id: team_id)
       else
-        indicators
+        indicators.
+          where('team_id IS NOT NULL AND team_id != ?', team_id).
+          where('indicators.parent_id IS NULL')
       end
-    end
-
-    def slug_to_hash(slug)
-      return {} unless slug.present?
-      slug_parts = slug && slug.split('|')
-      return {} if slug_parts.empty?
-      slug_hash = {category: slug_parts[0].strip}
-      if slug_parts.length >= 2
-        slug_hash[:subcategory] = slug_parts[1].strip
-        slug_hash[:name] = slug_parts[2].strip if slug_parts.length == 3
-      end
-      slug_hash
-    end
-
-    def sanitise_positive_integer(i, default = nil)
-      new_i =
-        if i.is_a?(String)
-          tmp = i.to_i
-          tmp.to_s == i ? tmp : nil
-        else
-          i
-        end
-      new_i && new_i.positive? ? new_i : default
     end
   end
 

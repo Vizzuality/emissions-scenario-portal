@@ -101,13 +101,11 @@
         </div>
         <div class="small-2 columns">
           <div class="c-table-list-item__text f-ff1-m">
-            <% if indicator.parent_id.present? %>
-              Custom
+            <%= indicator.scope.to_s.humanize %>
+            <% if indicator.variation? %>
               <div class="l-indicators__based-on">
-                Based on: <%= link_to indicator.parent.name, edit_model_indicator_url(@model, indicator.parent) %>
+                Based on: <%= link_to indicator.parent.alias, edit_model_indicator_url(@model, indicator.parent) %>
               </div>
-            <% else %>
-              Default
             <% end %>
           </div>
         </div>

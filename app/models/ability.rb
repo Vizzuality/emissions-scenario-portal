@@ -12,16 +12,16 @@ class Ability
       can :manage, Scenario, model: {team_id: team.id}
       can :download_time_series, Scenario
       can :read, Indicator do |indicator|
-        indicator.model_id.nil?
+        indicator.team_id.nil?
       end
       can :edit, Indicator do |indicator|
-        indicator.model_id.nil?
+        indicator.team_id.nil?
       end
       can :update, Indicator do |indicator|
-        indicator.model_id.nil?
+        indicator.team_id.nil?
       end
       can :manage, Indicator do |indicator|
-        team.models.pluck(:id).include?(indicator.model_id)
+        team.id == indicator.team_id
       end
       can :download_time_series, Indicator
       can :show, Team, id: team.id

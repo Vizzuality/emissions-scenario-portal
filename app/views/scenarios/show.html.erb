@@ -43,7 +43,10 @@
         <div class="c-form-item">
           <label class="f-ff1-m">Filter by type</label>
           <div class="c-select">
-            <select></select>
+            <%= select_tag 'filters[type]',
+              types_for_select,
+              class: 'js-form-input js-select',
+              prompt: 'Select any type' %>
           </div>
         </div>
       </div>

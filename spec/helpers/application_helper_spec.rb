@@ -49,6 +49,11 @@ RSpec.describe ApplicationHelper, type: :helper do
           helper.attribute_input(indicator, form, :stackable_subcategory)
         ).to match('checkbox')
       end
+      it 'returns a select input for parent_id' do
+        expect(
+          helper.attribute_input(indicator, form, :parent_id)
+        ).to match('select')
+      end
     end
   end
 
