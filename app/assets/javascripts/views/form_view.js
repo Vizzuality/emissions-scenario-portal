@@ -43,9 +43,30 @@
     },
 
     _loadMultisingleSelect: function () {
+      var valuesSelect = [];
       this.$multisingleSelects.select2({
-        maximumSelectionLength: 1,
-        tags: true
+        placeholder: "Select a state",
+        tags: true,
+        maximumSelectionLength: 1
+      })
+      .on('select2:open', function(e) {
+        valuesSelect = [];
+        var idSelect = $(e.currentTarget).attr('id');
+        $('#'+idSelect+'> option').each(function(){
+          if ($(this).val() != '') {
+            valuesSelect.push($(this).val());
+          }
+        });
+      })
+      .on('change', function(e) {
+        var idSelect = $(e.currentTarget).attr('id');
+        if ($(e.currentTarget).val()) {
+          var selectValue = $(e.currentTarget).val()[0];
+          var boolean = $.inArray(selectValue, valuesSelect);
+          if (boolean === -1) {
+            $(e.currentTarget).append('<option value="'+selectValue+'">'+selectValue+'</option>');
+          }
+        }
       });
     },
 
