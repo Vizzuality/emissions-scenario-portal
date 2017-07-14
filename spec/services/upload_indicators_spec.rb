@@ -19,14 +19,43 @@ RSpec.describe UploadIndicators do
         )
       )
     }
-    it 'should have saved all rows' do
-      expect { subject }.to change { Indicator.count }.by(3)
+    context 'when admin' do
+      let(:user) { FactoryGirl.create(:user, admin: true) }
+      it 'should have saved all indicators' do
+        expect { subject }.to change { Indicator.count }.by(4)
+      end
+      it 'should report all rows saved' do
+        expect(subject.number_of_records_saved).to eq(3)
+      end
+      it 'should report no rows failed' do
+        expect(subject.number_of_records_failed).to eq(0)
+      end
     end
-    it 'should report all rows saved' do
-      expect(subject.number_of_records_saved).to eq(3)
+    context 'when researcher' do
+      it 'should have saved all non-system indicators' do
+        expect { subject }.to change { Indicator.count }.by(2)
+      end
+      it 'should report non-system indicators rows saved' do
+        expect(subject.number_of_records_saved).to eq(2)
+      end
+      it 'should report system indicator rows failed' do
+        expect(subject.number_of_records_failed).to eq(1)
+      end
     end
-    it 'should report no rows failed' do
-      expect(subject.number_of_records_failed).to eq(0)
+    context 'when researcher from another team' do
+      let(:user) { FactoryGirl.create(:user) }
+      let(:model) {
+        FactoryGirl.create(:model, abbreviation: 'Model A')
+      }
+      it 'should not have saved any indicators' do
+        expect { subject }.to change { Indicator.count }.by(0)
+      end
+      it 'should report no rows saved' do
+        expect(subject.number_of_records_saved).to eq(0)
+      end
+      it 'should report all rows failed' do
+        expect(subject.number_of_records_failed).to eq(3)
+      end
     end
   end
 
@@ -47,18 +76,33 @@ RSpec.describe UploadIndicators do
         category: 'Emissions',
         subcategory: 'CO2 by sector',
         name: 'industry',
-        model: nil,
+        unit: 'Mt CO2e/yr',
+        team: nil,
         parent: nil
       )
     end
-    it 'should not have saved new rows' do
-      expect { subject }.to change { Indicator.count }.by(2)
+    context 'when admin' do
+      let(:user) { FactoryGirl.create(:user, admin: true) }
+      it 'should not have saved new rows' do
+        expect { subject }.to change { Indicator.count }.by(3)
+      end
+      it 'should report all rows saved' do
+        expect(subject.number_of_records_saved).to eq(3)
+      end
+      it 'should report no rows failed' do
+        expect(subject.number_of_records_failed).to eq(0)
+      end
     end
-    it 'should report all rows saved' do
-      expect(subject.number_of_records_saved).to eq(3)
-    end
-    it 'should report no rows failed' do
-      expect(subject.number_of_records_failed).to eq(0)
+    context 'when researcher' do
+      it 'should not have saved new rows' do
+        expect { subject }.to change { Indicator.count }.by(2)
+      end
+      it 'should report all rows saved' do
+        expect(subject.number_of_records_saved).to eq(2)
+      end
+      it 'should report no rows failed' do
+        expect(subject.number_of_records_failed).to eq(1)
+      end
     end
   end
 
@@ -105,6 +149,52 @@ RSpec.describe UploadIndicators do
     end
     it 'should report all rows failed' do
       expect(subject.number_of_records_failed).to eq(1)
+    end
+  end
+
+  context 'when incompatible unit' do
+    let(:user) { FactoryGirl.create(:user, admin: true) }
+    let(:file) {
+      Rack::Test::UploadedFile.new(
+        File.join(
+          Rails.root,
+          'spec',
+          'fixtures',
+          'indicators-incompatible_unit.csv'
+        )
+      )
+    }
+
+    before(:each) do
+      system_indicator = FactoryGirl.create(
+        :indicator,
+        category: 'Emissions',
+        subcategory: 'CO2 by sector',
+        name: 'transport',
+        unit: 'Mt CO2e/yr',
+        team: nil,
+        parent: nil
+      )
+      FactoryGirl.create(
+        :indicator,
+        category: 'Emissions',
+        subcategory: 'CO2',
+        name: 'Fossil Fuels and Industry|Energy Demand|Transport',
+        unit: 'Mt CO2e/yr',
+        team: model.team,
+        parent: system_indicator,
+        alias: 'Emissions|CO2|Fossil Fuels and Industry|Energy Demand|Transport'
+      )
+    end
+
+    it 'should not have saved any rows' do
+      expect { subject }.to(change { Indicator.count }.by(2))
+    end
+    it 'should report no rows saved' do
+      expect(subject.number_of_records_saved).to eq(1)
+    end
+    it 'should report all rows failed' do
+      expect(subject.number_of_records_failed).to eq(2)
     end
   end
 end

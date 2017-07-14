@@ -1,4 +1,6 @@
-
+- name: :parent_id
+  reference: 'parent.alias'
+  size: 'large'
 - name: :alias
   size: 'large'
 - name: :name

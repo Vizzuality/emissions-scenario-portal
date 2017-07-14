@@ -7,7 +7,7 @@
                    form_url: upload_meta_data_models_url,
                    input_id: 'models_file',
                    structure_url: '/esp_models_template.csv',
-                   button_text: 'Upload or update models' %>
+                   button_text: 'Upload or update model meta information' %>
       </div>
     </div>
   </div>
@@ -39,8 +39,7 @@
       </div>
     <% end %>
   </div>
-  <% if current_user.admin? %>
-    <div class="row">
+  <div class="row">
     <div class="small-12 columns">
       <%= render 'shared/components/c_columns_table',
                  title: 'Team',
@@ -52,11 +51,10 @@
                    },
                    {
                      title: 'Members',
-                     data: @team_members.join(', ')
+                     data: @team.members_list_for_display
                    }
                  ]
       %>
     </div>
   </div>
-  <% end %>
 </div>

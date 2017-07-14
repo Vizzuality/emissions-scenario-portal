@@ -1,6 +1,7 @@
 class Team < ApplicationRecord
   has_many :users, dependent: :restrict_with_error
   has_many :models, dependent: :nullify
+  has_many :indicators, dependent: :restrict_with_error
 
   validates :name, presence: true, uniqueness: true
 
@@ -19,6 +20,12 @@ class Team < ApplicationRecord
   ORDERS = %w[name models members].freeze
 
   accepts_nested_attributes_for :users
+
+  def members_list_for_display
+    users.select([:name, :email]).map do |u|
+      u.name.present? ? u.name : u.email
+    end.sort.join(', ')
+  end
 
   class << self
     def fetch_all(options)
