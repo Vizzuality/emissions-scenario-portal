@@ -33,7 +33,16 @@
       var gridOptions = {
         columnDefs: this.columns,
         rowData: this.rows,
-        enableSorting: true
+        enableSorting: true,
+        unSortIcon: true,
+        headerHeight: 33,
+        rowHeight: 60,
+        colWidth: 150,
+        icons: {
+          sortUnSort: '<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-short"></use></svg>',
+          sortAscending: '<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-short"></use></svg>',
+          sortDescending: '<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-short"></use></svg>'
+        }
       };
       new agGrid.Grid(this.$el[0], gridOptions);
       this._adjustTableMargins();
@@ -47,8 +56,6 @@
       var margin = ($('body').width() - $('.small-12').width()) / 2;
       $('.ag-header').css('padding-left', margin);
       $('.ag-body').css('left', margin);
-
-      console.log(margin);
     },
     
     _formatData: function () {
@@ -63,7 +70,7 @@
       var years = this.$el.data('indicators');
       var rows = this.$el.data('rows');
 
-      this.columns.push({headerName: "Country", field: "country", pinned: true});
+      this.columns.push({headerName: "Country", field: "country", cellClass: 'f-ff1-m-bold', pinned: true});
       _.each(years, function(year) {
         this.columns.push({headerName: year.toString(), field: year.toString()});
       }.bind(this));
