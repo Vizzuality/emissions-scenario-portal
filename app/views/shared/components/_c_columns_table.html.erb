@@ -1,6 +1,7 @@
 <%
   title ||= ''
   edit_url ||= nil
+  destroy_url ||= nil
   grid_class = "small-#{(12 / columns.count).floor}"
 %>
 <div class="c-columns-table">
@@ -10,6 +11,13 @@
       <% if edit_url.present? %>
         <%= link_to edit_url do %>
           <svg class="icon icon-edit"><use xlink:href="#icon-edit"></use></svg>
+        <% end %>
+      <% end %>
+      <% if destroy_url.present? %>
+        <%= link_to destroy_url, method: :delete, data: {confirm: destroy_message} do %>
+          <div class="c-remove-button">
+            <svg class="icon"><use xlink:href="#icon-delete"></use></svg>
+          </div>
         <% end %>
       <% end %>
     </div>

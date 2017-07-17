@@ -46,6 +46,11 @@ class ModelsController < ApplicationController
     @indicators = Indicator.order(:category, :subcategory, :name)
   end
 
+  def destroy
+    @model.destroy
+    redirect_to models_url, notice: 'Model successfully destroyed.'
+  end
+
   def upload_meta_data
     handle_io_upload(
       :models_file,
