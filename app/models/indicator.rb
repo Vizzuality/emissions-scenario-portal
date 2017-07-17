@@ -7,6 +7,7 @@ class Indicator < ApplicationRecord
   include Sanitizer
   include AliasTransformations
   include ScopeManagement
+  include BestEffortMatching
 
   ORDERS = %w[
     alias name category subcategory definition unit parent_name

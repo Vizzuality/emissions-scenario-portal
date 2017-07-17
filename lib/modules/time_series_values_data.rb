@@ -107,7 +107,7 @@ class TimeSeriesValuesData
     identification = "indicator: #{indicator_name}"
 
     indicator = matching_object(
-      best_matching_indicators(indicator_name, model),
+      Indicator.best_effort_matches(indicator_name, model),
       'indicator',
       identification,
       errors,
@@ -133,36 +133,6 @@ class TimeSeriesValuesData
       indicator = variation
     end
     indicator
-  end
-
-  def best_matching_indicators(indicator_name, model)
-    # best match: variation or team indicator with matching alias and model
-    indicators = Indicator.where(alias: indicator_name, model_id: model.id)
-    if indicators.none?
-      # second best: variation with matching model and parent matching alias
-      indicators = Indicator.joins(:parent).where(
-        'parents_indicators.alias' => indicator_name, model_id: model.id
-      )
-    end
-    if indicators.none?
-      # third best: system indicator with matching alias
-      indicators = Indicator.where(
-        alias: indicator_name, parent_id: nil, model_id: nil
-      )
-    end
-    if indicators.none?
-      # fourth best: another model's team indicator with matching alias
-      indicators = Indicator.where(alias: indicator_name, parent_id: nil).
-        where('model_id IS NOT NULL')
-    end
-    if indicators.none?
-      # last resort: system indicator that has a variation with matching alias
-      indicators = Indicator.where(parent_id: nil).
-        joins(:variations).
-        where('variations_indicators.alias' => indicator_name)
-    end
-
-    indicators
   end
 
   def location(row, errors)
