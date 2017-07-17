@@ -4,7 +4,7 @@ module ScenariosHelper
     select_values = Model.select(:id, :abbreviation).map do |m|
       [m.abbreviation, m.id]
     end
-    [select_values, selection]
+    [select_values, selection, false]
   end
 
   def destroy_confirmation_message(scenario)

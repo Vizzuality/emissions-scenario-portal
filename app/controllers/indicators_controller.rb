@@ -3,7 +3,7 @@ class IndicatorsController < ApplicationController
   load_resource except: [:new, :create, :index]
   authorize_resource through: :model
 
-  before_action :set_nav_links, only: [:index, :show, :edit]
+  before_action :set_nav_links, only: [:index, :show, :edit, :fork]
   before_action :set_filter_params, only: [:index]
 
   def index
@@ -11,18 +11,18 @@ class IndicatorsController < ApplicationController
       if current_user.admin?
         Indicator.fetch_all(@filter_params)
       else
-        Indicator.for_team(@model.team).fetch_all(@filter_params)
+        Indicator.for_model(@model).fetch_all(@filter_params)
       end
   end
 
   def new
-    @indicator = Indicator.new(team: @model.team)
+    @indicator = Indicator.new(model: @model)
     render action: :edit
   end
 
   def create
-    initialize_or_fork_indicator
-    @indicator.team = current_user.team unless current_user.admin?
+    @indicator = Indicator.new(indicator_params)
+    @indicator.model = @model unless current_user.admin?
     if @indicator.save
       redirect_to model_indicator_url(@model, @indicator),
                   notice: 'Indicator was successfully created.'
@@ -35,10 +35,17 @@ class IndicatorsController < ApplicationController
 
   def edit; end
 
+  def fork
+    if current_user.team.model_ids.include?(@indicator.model_id)
+      redirect_to edit_model_indicator_url(@model, @indicator) and return
+    end
+    original_indicator = @indicator
+    @indicator = original_indicator.dup
+    @indicator.parent = original_indicator
+    render :edit
+  end
+
   def update
-    # If this is a researcher trying to update a master indicator
-    # fork the indicator
-    create and return if !current_user.admin? && @indicator.team.nil?
     if @indicator.update_attributes(indicator_params)
       redirect_to model_indicator_url(@model, @indicator),
                   notice: 'Indicator was successfully updated.'
@@ -84,14 +91,5 @@ class IndicatorsController < ApplicationController
     params.require(:indicator).permit(
       *Indicator.attribute_symbols_for_strong_params
     )
-  end
-
-  def initialize_or_fork_indicator
-    @indicator =
-      if @indicator.present? # we came here from system indicator update
-        @indicator.fork_variation(indicator_params)
-      else
-        Indicator.new(indicator_params)
-      end
   end
 end

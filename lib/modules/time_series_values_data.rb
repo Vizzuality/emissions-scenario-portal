@@ -106,8 +106,8 @@ class TimeSeriesValuesData
     identification = "indicator: #{indicator_name}"
 
     indicators = Indicator.where(alias: indicator_name)
-    team_indicators = indicators.where(team_id: model.team_id)
-    indicators = team_indicators if team_indicators.any?
+    model_indicators = indicators.where(model_id: model.id)
+    indicators = model_indicators if model_indicators.any?
     matching_object(
       indicators,
       'indicator',

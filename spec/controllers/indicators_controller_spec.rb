@@ -3,13 +3,11 @@ require 'rails_helper'
 RSpec.describe IndicatorsController, type: :controller do
   context 'when admin' do
     login_admin
-    let(:user_team) { @user.team }
-    let(:some_team) { FactoryGirl.create(:team) }
-    let(:team_model) { FactoryGirl.create(:model, team: user_team) }
-    let(:some_model) { FactoryGirl.create(:model, team: some_team) }
-    let(:team_indicator) { FactoryGirl.create(:indicator, team: user_team) }
-    let(:some_indicator) { FactoryGirl.create(:indicator, team: some_team) }
-    let(:master_indicator) { FactoryGirl.create(:indicator, team: nil) }
+    let(:team_model) { FactoryGirl.create(:model) }
+    let(:some_model) { FactoryGirl.create(:model) }
+    let(:team_indicator) { FactoryGirl.create(:indicator, model: team_model) }
+    let(:some_indicator) { FactoryGirl.create(:indicator, model: some_model) }
+    let(:master_indicator) { FactoryGirl.create(:indicator, model: nil) }
 
     describe 'GET index' do
       it 'assigns all indicators for own team\'s model' do
@@ -104,7 +102,7 @@ RSpec.describe IndicatorsController, type: :controller do
             id: master_indicator.id,
             indicator: {category: ['ABC']}
           }
-        }.not_to change(user_team.indicators, :count)
+        }.not_to change(team_model.indicators, :count)
       end
     end
 
@@ -153,11 +151,13 @@ RSpec.describe IndicatorsController, type: :controller do
     login_user
     let(:user_team) { @user.team }
     let(:some_team) { FactoryGirl.create(:team) }
-    let(:team_model) { FactoryGirl.create(:model, team: user_team) }
-    let(:some_model) { FactoryGirl.create(:model, team: some_team) }
-    let(:team_indicator) { FactoryGirl.create(:indicator, team: user_team) }
-    let(:some_indicator) { FactoryGirl.create(:indicator, team: some_team) }
-    let(:master_indicator) { FactoryGirl.create(:indicator, team: nil) }
+    let!(:team_model) { FactoryGirl.create(:model, team: user_team) }
+    let!(:some_model) { FactoryGirl.create(:model, team: some_team) }
+    let(:team_indicator) { FactoryGirl.create(:indicator, model: team_model) }
+    let(:some_indicator) {
+      FactoryGirl.create(:indicator, model: some_model, unit: 'km')
+    }
+    let(:master_indicator) { FactoryGirl.create(:indicator, model: nil) }
 
     describe 'GET index' do
       it 'renders index' do
@@ -211,6 +211,41 @@ RSpec.describe IndicatorsController, type: :controller do
         expect(response).to redirect_to(root_url)
         expect(flash[:alert]).to match(/You are not authorized/)
       end
+
+      context 'promoting team indicator to system indicator' do
+        before(:each) { some_indicator }
+        it 'creates 2 indicators' do
+          expect {
+            post :create, params: {
+              model_id: team_model.id, indicator: {
+                parent_id: some_indicator.id, category: ['Unicorns'],
+                unit: ['km']
+              }
+            }
+          }.to change { Indicator.count }.by(2)
+        end
+
+        it 'does not create any indicators if validations failed' do
+          expect {
+            post :create, params: {
+              model_id: team_model.id, indicator: {
+                parent_id: some_indicator.id, category: ['Unicorns'],
+                unit: ['m']
+              }
+            }
+          }.not_to(change { Indicator.count })
+        end
+
+        it 'links old team indicator to new system indicator' do
+          post :create, params: {
+            model_id: team_model.id, indicator: {
+              parent_id: some_indicator.id, category: ['Unicorns'],
+              unit: ['km']
+            }
+          }
+          expect(some_indicator.reload.parent).to be_present
+        end
+      end
     end
 
     describe 'GET edit' do
@@ -219,15 +254,35 @@ RSpec.describe IndicatorsController, type: :controller do
         expect(response).to render_template(:edit)
       end
 
-      it 'renders edit for master indicator' do
+      it 'prevents unauthorized access for master indicator' do
         get :edit, params: {model_id: team_model.id, id: master_indicator.id}
+        expect(response).to redirect_to(root_url)
+        expect(flash[:alert]).to match(/You are not authorized/)
+      end
+
+      it 'prevents unauthorized access for other team\'s indicator' do
+        get :edit, params: {model_id: team_model.id, id: some_indicator.id}
+        expect(response).to redirect_to(root_url)
+        expect(flash[:alert]).to match(/You are not authorized/)
+      end
+    end
+
+    describe 'GET fork' do
+      it 'renders edit for master indicator' do
+        get :fork, params: {model_id: team_model.id, id: master_indicator.id}
         expect(response).to render_template(:edit)
       end
 
-      it 'prevents unauthorized access' do
-        get :edit, params: {model_id: some_model.id, id: some_indicator.id}
-        expect(response).to redirect_to(root_url)
-        expect(flash[:alert]).to match(/You are not authorized/)
+      it 'renders edit for other team\'s indicator' do
+        get :fork, params: {model_id: team_model.id, id: some_indicator.id}
+        expect(response).to render_template(:edit)
+      end
+
+      it 'redirects to edit to own team\'s indicator' do
+        get :fork, params: {model_id: team_model.id, id: team_indicator.id}
+        expect(response).to redirect_to(
+          edit_model_indicator_url(team_model, team_indicator)
+        )
       end
     end
 
@@ -260,25 +315,6 @@ RSpec.describe IndicatorsController, type: :controller do
         }
         expect(response).to redirect_to(root_url)
         expect(flash[:alert]).to match(/You are not authorized/)
-      end
-
-      it 'creates a model-specific copy of a master indicator' do
-        expect {
-          put :update, params: {
-            model_id: team_model.id,
-            id: master_indicator.id,
-            indicator: {category: ['ABC']}
-          }
-        }.to change(user_team.indicators, :count).by(1)
-      end
-
-      it 'renders edit when forking failse' do
-        put :update, params: {
-          model_id: team_model.id,
-          id: master_indicator.id,
-          indicator: {unit: ['random']}
-        }
-        expect(response).to render_template(:edit)
       end
     end
 

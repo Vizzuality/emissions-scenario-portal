@@ -11,17 +11,16 @@ class Ability
       can :manage, Model, team_id: team.id
       can :manage, Scenario, model: {team_id: team.id}
       can :download_time_series, Scenario
+      can :fork, Indicator do |indicator|
+        team.model_ids.include?(indicator.model_id) ||
+          indicator.parent_id.blank?
+      end
       can :read, Indicator do |indicator|
-        indicator.team_id.nil?
-      end
-      can :edit, Indicator do |indicator|
-        indicator.team_id.nil?
-      end
-      can :update, Indicator do |indicator|
-        indicator.team_id.nil?
+        team.model_ids.include?(indicator.model_id) ||
+          indicator.parent_id.blank?
       end
       can :manage, Indicator do |indicator|
-        team.id == indicator.team_id
+        team.model_ids.include?(indicator.model_id)
       end
       can :download_time_series, Indicator
       can :show, Team, id: team.id
