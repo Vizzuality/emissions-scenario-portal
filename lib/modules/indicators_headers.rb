@@ -47,7 +47,7 @@ class IndicatorsHeaders
     initialize_headers(path)
     @model = model
     @errors = {}
-    parse_headers('/esp_indicators_template.csv')
+    parse_headers(url_helpers.upload_template_model_indicators_path(@model))
   end
 
   def parse_headers(template_url)

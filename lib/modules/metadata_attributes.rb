@@ -18,7 +18,23 @@ module MetadataAttributes
       @multiple = options['multiple']
       @size = options['size']
       @category = options['category'] || 'Miscellany'
-      @options = options['options']
+      @options = location_options || options['options']
+    end
+
+    def location_options
+      if @name == :geographic_coverage_region
+        Location.where(region: true).pluck(:name)
+      elsif @name == :geographic_coverage_country
+        Location.where(region: false).pluck(:name)
+      end
+    end
+
+    def input_type_for_display
+      if @input_type == :text || @input_type == :reference
+        'Text (Alphanumeric)'
+      else
+        @input_type.to_s.capitalize
+      end
     end
 
     def reference?

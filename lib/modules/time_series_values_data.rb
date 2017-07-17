@@ -5,11 +5,12 @@ class TimeSeriesValuesData
   include CsvUploadData
   attr_reader :number_of_records, :number_of_records_failed, :errors
 
-  def initialize(path, user, encoding)
+  def initialize(path, user, model, encoding)
     @path = path
     @user = user
+    @model = model
     @encoding = encoding
-    @headers = TimeSeriesValuesHeaders.new(@path, @encoding)
+    @headers = TimeSeriesValuesHeaders.new(@path, @model, @encoding)
     initialize_stats
   end
 

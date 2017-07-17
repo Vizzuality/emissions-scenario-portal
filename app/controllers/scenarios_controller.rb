@@ -46,6 +46,15 @@ class ScenariosController < ApplicationController
     )
   end
 
+  def upload_template
+    csv_template = ScenariosUploadTemplate.new
+    send_data(
+      csv_template.export,
+      type: 'text/csv; charset=utf-8; header=present',
+      disposition: 'attachment; filename=scenarios_upload_template.csv'
+    )
+  end
+
   def download_time_series
     csv_download = DownloadTimeSeriesValues.new(current_user).call(
       @scenario.time_series_values

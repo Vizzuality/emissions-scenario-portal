@@ -1,8 +1,7 @@
 class Location < ApplicationRecord
   validates :name, presence: true
-  validates :iso_code2, presence: true, unless: :region?
 
-  ORDERS = %w[name iso_code2].freeze
+  ORDERS = %w[name region].freeze
 
   class << self
     def fetch_all(options)

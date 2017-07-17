@@ -37,5 +37,17 @@ RSpec.describe TimeSeriesValuesController, type: :controller do
         expect(flash[:alert]).to match(/You are not authorized/)
       end
     end
+
+    describe 'GET upload_template' do
+      it 'returns a template file' do
+        get :upload_template, params: {
+          model_id: team_model.id
+        }
+        expect(response.content_type).to eq('text/csv')
+        expect(response.headers['Content-Disposition']).to eq(
+          'attachment; filename=time_series_values_upload_template.csv'
+        )
+      end
+    end
   end
 end

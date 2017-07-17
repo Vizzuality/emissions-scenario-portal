@@ -170,10 +170,20 @@ RSpec.describe ModelsController, type: :controller do
       end
     end
 
+    describe 'GET upload_template' do
+      it 'returns a template file' do
+        get :upload_template
+        expect(response.content_type).to eq('text/csv')
+        expect(response.headers['Content-Disposition']).to eq(
+          'attachment; filename=models_upload_template.csv'
+        )
+      end
+    end
+
     it 'filters parameters correctly for update' do
       model_params = {
         abbreviation: 'ABC',
-        programming_language: ['', 'ruby', 'perl'],
+        anticipation: ['', 'perfect', 'static'],
         time_horizon: ['', 'century']
       }
       expect_any_instance_of(Model).to receive(:update_attributes).

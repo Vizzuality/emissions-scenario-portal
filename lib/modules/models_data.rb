@@ -64,7 +64,7 @@ class ModelsData
     @user = user
     @encoding = encoding
     @headers = ModelsHeaders.new(@path, @encoding)
-    @template_url = '/esp_models_template.csv'
+    @template_url = url_helpers.upload_template_models_path
     initialize_stats
   end
 
