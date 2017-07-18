@@ -4,7 +4,11 @@ module AliasTransformations
   extend ActiveSupport::Concern
 
   included do
-    before_save :update_alias, if: proc { |i| i.parent.blank? }
+    # update alias if system indicator
+    # or team indicator with blank alias
+    before_save :update_alias, if: proc { |i|
+      i.parent_id.blank? && (i.model_id.blank? || i.alias.blank?)
+    }
   end
 
   def update_alias

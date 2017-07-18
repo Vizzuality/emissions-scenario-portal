@@ -87,11 +87,14 @@ RSpec.describe Indicator, type: :model do
 
   context 'forking system indicators from team indicators' do
     let(:model) { FactoryGirl.create(:model) }
+    let(:other_model) { FactoryGirl.create(:model) }
     let!(:team_indicator) { FactoryGirl.create(:indicator, model: model) }
 
     describe :promote_parent_to_system_indicator do
       subject {
-        FactoryGirl.create(:indicator, parent: team_indicator, model: model)
+        FactoryGirl.create(
+          :indicator, parent: team_indicator, model: other_model
+        )
       }
       it 'should create 2 new indicators' do
         expect { subject }.to(change { Indicator.count }.by(2))

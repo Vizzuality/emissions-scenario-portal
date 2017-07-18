@@ -17,14 +17,11 @@ class IndicatorsData
   def process_row(row, row_no)
     @errors[row_no] = {}
     slug = value_for(row, :slug)
-    model_slug = value_for(row, :model_slug)
-    if slug.present? && !model_slug.present?
-      process_core_indicator(slug, row, row_no)
-    elsif model_slug.present?
-      process_team_indicator_or_variation(slug, model_slug, row, row_no)
+
+    if slug.present?
+      process_indicator(slug, row, row_no)
     else
-      message = 'At least one of ESP Indicator Name and Model Indicator Name \
-must be present.'
+      message = 'ESP Indicator Name must be present.'
       suggestion = 'Please fill in missing data.'
       @errors[row_no]['slug'] = format_error(message, suggestion)
     end
@@ -36,7 +33,26 @@ must be present.'
     end
   end
 
-  def process_core_indicator(slug, row, row_no)
+  def process_indicator(slug, row, row_no)
+    model_slug = value_for(row, :model_slug)
+    id_attributes = Indicator.slug_to_hash(slug)
+    common_attributes = {
+      stackable_subcategory: value_for(row, :stackable_subcategory),
+      unit: value_for(row, :unit),
+      unit_of_entry: value_for(row, :unit_of_entry),
+      conversion_factor: value_for(row, :conversion_factor),
+      definition: value_for(row, :definition)
+    }
+    if !model_slug.present?
+      process_system_indicator(id_attributes, common_attributes, row_no)
+    else
+      process_team_variation(
+        id_attributes, common_attributes, slug, model_slug, row_no
+      )
+    end
+  end
+
+  def process_system_indicator(id_attributes, common_attributes, row_no)
     if @user.cannot?(:create, Indicator.new(model_id: nil))
       message = 'Access denied to manage core indicators.'
       suggestion = 'ESP admins curate core indicators. Please add a team \
@@ -44,21 +60,19 @@ indicator instead.'
       @errors[row_no]['model'] = format_error(message, suggestion)
       return nil
     end
-    id_attributes = Indicator.slug_to_hash(slug)
-    attributes = {
-      stackable_subcategory: value_for(row, :stackable_subcategory),
-      unit: value_for(row, :unit),
-      unit_of_entry: value_for(row, :unit_of_entry),
-      conversion_factor: value_for(row, :conversion_factor),
-      definition: value_for(row, :definition)
-    }
     indicator = Indicator.where(id_attributes).first
+    attributes = id_attributes.merge(common_attributes).merge(
+      model_id: nil,
+      parent_id: nil
+    )
     create_or_update_indicator(
-      indicator, id_attributes.merge(attributes), row_no
+      indicator, attributes, row_no
     )
   end
 
-  def process_team_indicator_or_variation(slug, model_slug, row, row_no)
+  def process_team_variation(
+    id_attributes, common_attributes, slug, model_slug, row_no
+  )
     if @user.cannot?(:create, Indicator.new(model_id: @model.id))
       message = "Access denied to manage team indicators \
 (#{@model.abbreviation})."
@@ -71,57 +85,31 @@ indicator instead.'
       )
       return nil
     end
-    if slug.present?
-      id_attributes = Indicator.slug_to_hash(slug)
-      indicator = Indicator.where(id_attributes).where('parent_id IS NULL').
-        order('model_id IS NULL').first
-      # try creating the indicator if admin
-      if indicator.nil? && @user.admin?
-        indicator = process_core_indicator(
-          slug, row, row_no
-        )
-      end
-    end
-
-    if indicator.present?
-      process_team_variation(indicator, model_slug, row, row_no)
-    else
-      process_team_indicator(model_slug, row, row_no)
-    end
-  end
-
-  def process_team_indicator(model_slug, row, row_no)
-    team_indicator = Indicator.where(
-      alias: model_slug, model_id: @model.id
+    indicator = Indicator.where(
+      parent_id: nil, model_id: nil, alias: slug
     ).first
-    id_attributes = Indicator.slug_to_hash(model_slug)
-    attributes = id_attributes.merge(
-      stackable_subcategory: value_for(row, :stackable_subcategory),
-      unit: value_for(row, :unit),
-      unit_of_entry: value_for(row, :unit_of_entry),
-      conversion_factor: value_for(row, :conversion_factor),
-      definition: value_for(row, :definition),
-      alias: model_slug,
-      model_id: @model.id
-    )
+    if indicator.nil?
+      team_indicator = Indicator.where(id_attributes).where(
+        parent_id: nil, model_id: @model.id
+      ).first
+      attributes = id_attributes.merge(common_attributes).merge(
+        alias: slug,
+        model_id: @model.id,
+        parent_id: nil
+      )
+      indicator = create_or_update_indicator(
+        team_indicator, attributes, row_no
+      )
+    end
+    return unless indicator
 
-    create_or_update_indicator(team_indicator, attributes, row_no)
-  end
-
-  def process_team_variation(parent_indicator, model_slug, row, row_no)
     team_variation = Indicator.where(
-      alias: model_slug, model_id: @model.id, parent_id: parent_indicator.id
+      parent_id: indicator.id, model_id: @model.id, alias: model_slug
     ).first
-    id_attributes = Indicator.slug_to_hash(model_slug)
-    attributes = id_attributes.merge(
-      stackable_subcategory: value_for(row, :stackable_subcategory),
-      unit: value_for(row, :unit),
-      unit_of_entry: value_for(row, :unit_of_entry),
-      conversion_factor: value_for(row, :conversion_factor),
-      definition: value_for(row, :definition),
+    attributes = id_attributes.merge(common_attributes).merge(
       alias: model_slug,
       model_id: @model.id,
-      parent_id: parent_indicator.id
+      parent_id: indicator.id
     )
 
     create_or_update_indicator(team_variation, attributes, row_no)

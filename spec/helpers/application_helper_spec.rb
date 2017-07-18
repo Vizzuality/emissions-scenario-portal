@@ -50,6 +50,7 @@ RSpec.describe ApplicationHelper, type: :helper do
         ).to match('checkbox')
       end
       it 'returns a select input for parent_id' do
+        assign(:model, model)
         expect(
           helper.attribute_input(indicator, form, :parent_id)
         ).to match('select')

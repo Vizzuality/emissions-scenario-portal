@@ -5,7 +5,10 @@ module ScopeManagement
 
   included do
     before_save :promote_parent_to_system_indicator, if: proc { |i|
-      i.parent.present? && i.parent.model_id.present?
+      i.parent.present? &&
+        i.parent.parent_id.blank? &&
+        i.parent.model_id.present? &&
+        i.model_id != i.parent.model_id
     }
   end
 
