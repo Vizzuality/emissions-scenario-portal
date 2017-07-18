@@ -2,11 +2,8 @@ require 'rails_helper'
 
 RSpec.describe UploadModels do
   let(:user) { FactoryGirl.create(:user) }
-  let!(:model) {
-    FactoryGirl.create(:model, team: user.team)
-  }
 
-  subject { UploadModels.new(user, model).call(file) }
+  subject { UploadModels.new(user).call(file) }
 
   context 'when file correct' do
     let(:file) {
@@ -146,7 +143,7 @@ RSpec.describe UploadModels do
       )
     end
     subject {
-      UploadModels.new(user, model).call(file)
+      UploadModels.new(user).call(file)
     }
     it 'should not have saved any rows' do
       expect { subject }.not_to(change { Model.count })

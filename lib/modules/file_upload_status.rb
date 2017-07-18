@@ -24,43 +24,35 @@ class FileUploadStatus
     end
   end
 
-  def errors_to_array
+  def errors_to_hash
+    error_count = errors.except(:type).keys.uniq.length
+    result = {
+      title: "Errors found in #{error_count} #{error_type}"
+    }
     rows = []
     errors.except(:type).each do |key, message_hash_or_struct|
       rows_to_append =
         if message_hash_or_struct.is_a?(Hash)
-          message_hash_or_struct.values.map do |message|
-            "#{key},\"#{message}\""
+          message_hash_or_struct.values.map do |struct|
+            {
+              loc: key,
+              message: struct.message,
+              suggestion: struct.suggestion
+            }
           end
         else
-          ["#{key},\"#{message_hash_or_struct}\""]
+          [
+            {
+              loc: key,
+              message: message_hash_or_struct.message,
+              suggestion: message_hash_or_struct.suggestion
+            }
+          ]
         end
       rows += rows_to_append
     end
-    rows
-  end
-
-  def errors_to_csv
-    header_row = "#{error_type.to_s.singularize.capitalize}, Error"
-    csv = [header_row]
-    size_in_bytes = header_row.bytesize + 1
-    remaining_errors = errors_to_array
-    remaining_errors_cnt = remaining_errors.size
-    errors_to_array.each do |row|
-      if size_in_bytes + (row.bytesize + 1) +
-          (remaining_errors_message(remaining_errors_cnt).bytesize + 1) < 1700
-        csv << row
-        size_in_bytes += (row.bytesize + 1)
-        remaining_errors_cnt -= 1
-      else
-        csv << remaining_errors_message(remaining_errors_cnt)
-        size_in_bytes += (
-          remaining_errors_message(remaining_errors_cnt).bytesize + 1
-        )
-        break
-      end
-    end
-    csv.join("\n")
+    result[:errors] = rows
+    result
   end
 
   def remaining_errors_message(error_count)

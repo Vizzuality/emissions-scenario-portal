@@ -71,11 +71,12 @@ class IndicatorsController < ApplicationController
   end
 
   def upload_meta_data
-    handle_io_upload(
-      :indicators_file,
-      UploadIndicators,
-      model_indicators_url(@model)
-    )
+    handle_io_upload(:indicators_file, model_indicators_url(@model)) do
+      UploadIndicators.new(current_user, @model).
+        call(@uploaded_io)
+    end and return
+    index
+    render action: :index
   end
 
   def upload_template
