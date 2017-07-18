@@ -59,6 +59,7 @@ class TimeSeriesValuesData
       if existing_tsv
         existing_tsv.value = value
         existing_tsv.unit_of_entry = unit_of_entry
+        existing_tsv.indicator = indicator
         existing_tsv
       else
         TimeSeriesValue.new(
@@ -106,16 +107,33 @@ class TimeSeriesValuesData
     end
     identification = "indicator: #{indicator_name}"
 
-    indicators = Indicator.where(alias: indicator_name)
-    model_indicators = indicators.where(model_id: model.id)
-    indicators = model_indicators if model_indicators.any?
-    matching_object(
-      indicators,
+    indicator = matching_object(
+      Indicator.best_effort_matches(indicator_name, model),
       'indicator',
       identification,
       errors,
       url_helpers.model_indicators_path(model)
     )
+    indicator_or_auto_generated_variation(indicator, model)
+  end
+
+  def indicator_or_auto_generated_variation(indicator, model)
+    if indicator && (
+      indicator.system? || indicator.team? && indicator.model_id != model.id
+    )
+      # if all we have managed to match on is a system indicator
+      # or another model's team indicator
+      # fork a variation
+      variation = indicator.fork_variation(
+        alias: "#{model.abbreviation} #{indicator.alias}", model_id: model.id
+      )
+      variation.save!
+      # TODO: add warnings
+      # warnings['indicator'] = "A model variation of system indicator \
+      # #{indicator.alias} was automatically created"
+      indicator = variation
+    end
+    indicator
   end
 
   def location(row, errors)
