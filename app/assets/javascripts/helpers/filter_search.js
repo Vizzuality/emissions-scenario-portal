@@ -7,8 +7,9 @@
   App.Helper.FilterSearch = Backbone.View.extend({
 
     events: {
-      'keydown' : '_onKeydown',
-      'keyup' : '_onKeyup'
+      'keydown': '_onKeydown',
+      'keyup': '_onKeyup',
+      'focus': '_onKeyup',
     },
 
     initialize: function(settings) {
