@@ -71,9 +71,13 @@ class Indicator < ApplicationRecord
         joins("LEFT JOIN (#{team_indicators.to_sql}) team_indicators \
 ON indicators.id = team_indicators.parent_id").
         where(
-          "model_id = ? OR model_id IS NULL AND team_indicators.id IS NULL OR \
-model_id != ? AND indicators.parent_id IS NULL",
-          model.id, model.id
+          "indicators.model_id = :model_id AND \
+indicators.parent_id IS NOT NULL OR \
+indicators.model_id = :model_id AND indicators.parent_id IS NULL AND \
+team_indicators.id IS NULL OR \
+indicators.model_id IS NULL AND team_indicators.id IS NULL OR \
+indicators.model_id != :model_id AND indicators.parent_id IS NULL",
+          model_id: model.id
         )
     end
 

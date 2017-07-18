@@ -200,6 +200,9 @@ RSpec.describe Indicator, type: :model do
     let!(:team_variation1) {
       FactoryGirl.create(:indicator, parent: core_indicator1, model: model1)
     }
+    let!(:team_variation2) {
+      FactoryGirl.create(:indicator, parent: team_indicator1, model: model1)
+    }
     it 'returns core and team indicators' do
       expect(Indicator.for_model(model2)).to match_array(
         [core_indicator1, core_indicator2, team_indicator1]
@@ -207,7 +210,7 @@ RSpec.describe Indicator, type: :model do
     end
     it 'returns core, team and variation indicators' do
       expect(Indicator.for_model(model1)).to match_array(
-        [team_variation1, core_indicator2, team_indicator1]
+        [team_variation1, core_indicator2, team_variation2]
       )
     end
   end
