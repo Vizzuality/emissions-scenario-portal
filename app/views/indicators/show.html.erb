@@ -11,28 +11,27 @@
     </div>
     <div class="row">
       <div class="small-12 columns">
-        <div class="f-ff1-m-bold">Indicator</div>
+        <div class="l-indicators__title f-ff3-m-bold"><%= @indicator.alias %></div>
       </div>
-      <div class="small-12 columns">
-        <div class="l-indicators-overview__title f-ff2-m"><%= @indicator.name %></div>
-      </div>
+    </div>
+    <div class="row">
       <div class="small-2 columns">
         <div class="f-ff1-m-bold">Category</div>
         <div class="f-ff1-m l-indicators-overview__data"><%= @indicator.category %></div>
       </div>
       <div class="small-2 columns">
+        <div class="f-ff1-m-bold">Subcategory</div>
+        <div class="f-ff1-m l-indicators-overview__data"><%= @indicator.subcategory %></div>
+      </div>
+      <div class="small-2 columns">
         <div class="f-ff1-m-bold">Unit</div>
         <div class="f-ff1-m l-indicators-overview__data"><%= @indicator.unit %></div>
       </div>
-      <div class="small-2 columns">
-        <div class="f-ff1-m-bold">Added by</div>
-        <div class="f-ff1-m l-indicators-overview__data"><%= @indicator.unit %></div>
-      </div>
-      <div class="small-5 columns">
+      <div class="small-4 columns">
         <div class="f-ff1-m-bold">Description</div>
         <div class="f-ff1-m l-indicators-overview__data"><%= @indicator.definition %></div>
       </div>
-      <div class="small-1 columns">
+      <div class="small-2 columns">
         <%= link_to edit_model_indicator_url(@model, @indicator) do %>
           <div class="c-edit-button">
             <div class="c-edit-button__bubble">
@@ -40,38 +39,54 @@
             </div>
             <div class="f-ff1-s">Edit</div>
           </div>
+          Edit metadata
         <% end %>
       </div>
     </div>
   </div>
-  <div class="l-indicators-overview__relations">
-    <div class="row">
-      <div class="small-4 columns">
-        <div class="f-ff1-m-bold">Models using this indicator</div>
-        <ul class="l-indicators-overview__relation-list">
-          <% @indicator.models.each do |model| %>
-            <li class="f-ff1-m">
-              <%= model.full_name %>
-              <%= link_to edit_model_url(model) do %>
-                <svg class="icon"><use xlink:href="#icon-link"></use></svg>
-              <% end %>
-            </li>
-          <% end %>
-        </ul>
-      </div>
-      <div class="small-4 columns">
-        <div class="f-ff1-m-bold">Scenarios using this indicator</div>
-        <ul class="l-indicators-overview__relation-list">
-          <% @indicator.scenarios.each do |scenario| %>
-            <li class="f-ff1-m">
-              <%= scenario.name %>
-              <%= link_to 'EDIT TODO link' do %>
-                <svg class="icon"><use xlink:href="#icon-link"></use></svg>
-              <% end %>
-            </li>
-          <% end %>
-        </ul>
+  <div class="row">
+    <div class="small-9 columns">
+      <div class="l-indicators__title f-ff3-m-bold">Time Series <span>(<%= @time_series_values_pivot[:data].length %>)</span></div>
+    </div>
+    <div class="small-3 columns">
+      <div class="c-form-item">
+        <label class="f-ff1-m-bold"></label>
+        <div class="c-input-search">
+          <%= text_field_tag 'search',
+                             nil,
+                             placeholder: 'Search',
+                             class: 'c-input-text js-table-filter',
+                             data: {
+                               'filter-type' => 'search',
+                               'filter-key' => 'search'
+                             } %>
+          <svg class="icon"><use xlink:href="#icon-search"></use></svg>
+        </div>
       </div>
     </div>
   </div>
+  <table>
+    <thead>
+      <th>Scenario</th>
+      <th>Country</th>
+      <th>Unit of Entry</th>
+      <% @time_series_values_pivot[:years].each do |year| %>
+        <th>
+          <%= year %>
+        </th>
+      <% end %>
+    </thead>
+    <tbody>
+      <% @time_series_values_pivot[:data].each do |row| %>
+        <tr>
+          <td><%= row[:scenario_name] %></td>
+          <td><%= row[:location_name] %></td>
+          <td><%= row[:unit_of_entry] %></td>
+          <% row[:values].each do |value| %>
+            <td><%= value %></td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>

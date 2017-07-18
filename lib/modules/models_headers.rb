@@ -11,6 +11,6 @@ class ModelsHeaders
     @encoding = encoding
     initialize_headers(path)
     @errors = {}
-    parse_headers('/esp_models_template.csv')
+    parse_headers(url_helpers.upload_template_models_path)
   end
 end

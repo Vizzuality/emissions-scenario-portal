@@ -32,10 +32,10 @@ RSpec.describe UploadTimeSeriesValues do
     )
   }
   let!(:location1) {
-    FactoryGirl.create(:location, name: 'Poland', iso_code2: 'PL')
+    FactoryGirl.create(:location, name: 'Poland')
   }
   let!(:location2) {
-    FactoryGirl.create(:location, name: 'Portugal', iso_code2: 'PT')
+    FactoryGirl.create(:location, name: 'Portugal')
   }
   subject { UploadTimeSeriesValues.new(user, model).call(file) }
 

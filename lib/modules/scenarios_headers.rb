@@ -7,10 +7,11 @@ class ScenariosHeaders
 
   attr_reader :errors
 
-  def initialize(path, encoding)
+  def initialize(path, model, encoding)
     @encoding = encoding
     initialize_headers(path)
+    @model = model
     @errors = {}
-    parse_headers('/esp_scenarios_template.csv')
+    parse_headers(url_helpers.upload_template_model_scenarios_path(@model))
   end
 end

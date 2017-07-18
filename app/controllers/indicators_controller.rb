@@ -4,7 +4,7 @@ class IndicatorsController < ApplicationController
   authorize_resource through: :model
 
   before_action :set_nav_links, only: [:index, :show, :edit, :fork]
-  before_action :set_filter_params, only: [:index]
+  before_action :set_filter_params, only: [:index, :show]
 
   def index
     @indicators =
@@ -56,7 +56,11 @@ class IndicatorsController < ApplicationController
     end
   end
 
-  def show; end
+  def show
+    @time_series_values_pivot = TimeSeriesValue.fetch_all(
+      @indicator.time_series_values, @filter_params
+    )
+  end
 
   def destroy
     @indicator.destroy
@@ -71,6 +75,15 @@ class IndicatorsController < ApplicationController
       :indicators_file,
       UploadIndicators,
       model_indicators_url(@model)
+    )
+  end
+
+  def upload_template
+    csv_template = IndicatorsUploadTemplate.new
+    send_data(
+      csv_template.export,
+      type: 'text/csv; charset=utf-8; header=present',
+      disposition: 'attachment; filename=indicators_upload_template.csv'
     )
   end
 

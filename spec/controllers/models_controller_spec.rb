@@ -47,6 +47,26 @@ RSpec.describe ModelsController, type: :controller do
         expect(response).to redirect_to(model_url(some_model))
       end
     end
+
+    describe 'DELETE destroy' do
+      it 'redirects to index' do
+        delete :destroy, params: {id: some_model.id}
+        expect(response).to redirect_to(models_url)
+      end
+
+      it 'destroys the model' do
+        expect {
+          delete :destroy, params: {id: some_model.id}
+        }.to change { Model.count }.by(-1)
+      end
+
+      it 'destroys linked scenarios' do
+        FactoryGirl.create(:scenario, model: some_model)
+        expect {
+          delete :destroy, params: {id: some_model.id}
+        }.to change { Scenario.count }.by(-1)
+      end
+    end
   end
 
   context 'when user' do
@@ -119,6 +139,19 @@ RSpec.describe ModelsController, type: :controller do
       end
     end
 
+    describe 'DELETE destroy' do
+      it 'redirects to index' do
+        delete :destroy, params: {id: team_model.id}
+        expect(response).to redirect_to(models_url)
+      end
+
+      it 'prevents unauthorized access' do
+        delete :destroy, params: {id: some_model.id}
+        expect(response).to redirect_to(root_url)
+        expect(flash[:alert]).to match(/You are not authorized/)
+      end
+    end
+
     describe 'POST upload_meta_data' do
       it 'redirects with error when file not given' do
         post :upload_meta_data
@@ -137,10 +170,20 @@ RSpec.describe ModelsController, type: :controller do
       end
     end
 
+    describe 'GET upload_template' do
+      it 'returns a template file' do
+        get :upload_template
+        expect(response.content_type).to eq('text/csv')
+        expect(response.headers['Content-Disposition']).to eq(
+          'attachment; filename=models_upload_template.csv'
+        )
+      end
+    end
+
     it 'filters parameters correctly for update' do
       model_params = {
         abbreviation: 'ABC',
-        programming_language: ['', 'ruby', 'perl'],
+        anticipation: ['', 'perfect', 'static'],
         time_horizon: ['', 'century']
       }
       expect_any_instance_of(Model).to receive(:update_attributes).

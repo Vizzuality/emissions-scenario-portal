@@ -46,11 +46,25 @@ class ModelsController < ApplicationController
     @indicators = Indicator.order(:category, :subcategory, :name)
   end
 
+  def destroy
+    @model.destroy
+    redirect_to models_url, notice: 'Model successfully destroyed.'
+  end
+
   def upload_meta_data
     handle_io_upload(
       :models_file,
       UploadModels,
       models_url
+    )
+  end
+
+  def upload_template
+    csv_template = ModelsUploadTemplate.new
+    send_data(
+      csv_template.export,
+      type: 'text/csv; charset=utf-8; header=present',
+      disposition: 'attachment; filename=models_upload_template.csv'
     )
   end
 

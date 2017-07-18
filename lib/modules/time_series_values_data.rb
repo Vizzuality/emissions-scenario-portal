@@ -5,11 +5,12 @@ class TimeSeriesValuesData
   include CsvUploadData
   attr_reader :number_of_records, :number_of_records_failed, :errors
 
-  def initialize(path, user, encoding)
+  def initialize(path, user, model, encoding)
     @path = path
     @user = user
+    @model = model
     @encoding = encoding
-    @headers = TimeSeriesValuesHeaders.new(@path, @encoding)
+    @headers = TimeSeriesValuesHeaders.new(@path, @model, @encoding)
     initialize_stats
   end
 
@@ -136,7 +137,7 @@ class TimeSeriesValuesData
   end
 
   def location(row, errors)
-    location_name = value_for(row, :region)
+    location_name = value_for(row, :location_name)
     identification = "location: #{location_name}"
     locations = Location.where(name: location_name)
     matching_object(

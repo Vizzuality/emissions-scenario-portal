@@ -22,6 +22,8 @@
       <%= render 'shared/components/c_columns_table',
                  title: 'Metadata',
                  edit_url: edit_model_url(@model),
+                 destroy_url: model_url(@model),
+                 destroy_message: model_destroy_confirmation_message(@model),
                  columns: [
                    {
                      title: 'Maintainer',

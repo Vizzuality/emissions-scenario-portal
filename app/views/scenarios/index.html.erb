@@ -7,14 +7,15 @@
         <%= render 'shared/components/c_upload_card',
           form_url: upload_meta_data_model_scenarios_url(@model),
           input_id: 'scenarios_file',
-          structure_url: '/esp_scenarios_template.csv',
+          structure_url: upload_template_model_scenarios_url(@model),
           button_text: 'Upload or update scenario meta information' %>
       </div>
       <div class="small-6 columns">
         <%= render 'shared/components/c_upload_card',
           form_url: upload_time_series_model_scenarios_url(@model),
           input_id: 'time_series_values_file',
-          structure_url: '/esp_time_series_template.csv',
+          structure_url: upload_time_series_template_model_scenarios_url(@model),
+          locations_reference: true,
           button_text: 'Upload or update scenario time series' %>
       </div>
     </div>

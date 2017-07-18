@@ -45,6 +45,23 @@ RSpec.describe ScenariosController, type: :controller do
         delete :destroy, params: {model_id: some_model.id, id: some_scenario.id}
         expect(response).to redirect_to(model_scenarios_url(some_model))
       end
+
+      it 'destroys the scenario' do
+        expect {
+          delete :destroy, params: {
+            model_id: some_model.id, id: some_scenario.id
+          }
+        }.to change { Scenario.count }.by(-1)
+      end
+
+      it 'destroys linked time series data' do
+        FactoryGirl.create(:time_series_value, scenario: some_scenario)
+        expect {
+          delete :destroy, params: {
+            model_id: some_model.id, id: some_scenario.id
+          }
+        }.to change { TimeSeriesValue.count }.by(-1)
+      end
     end
   end
 
@@ -162,6 +179,18 @@ RSpec.describe ScenariosController, type: :controller do
         }
         expect(response).to redirect_to(root_url)
         expect(flash[:alert]).to match(/You are not authorized/)
+      end
+    end
+
+    describe 'GET upload_template' do
+      it 'returns a template file' do
+        get :upload_template, params: {
+          model_id: team_model.id
+        }
+        expect(response.content_type).to eq('text/csv')
+        expect(response.headers['Content-Disposition']).to eq(
+          'attachment; filename=scenarios_upload_template.csv'
+        )
       end
     end
 

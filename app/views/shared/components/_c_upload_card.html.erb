@@ -1,7 +1,13 @@
+<% locations_reference ||= nil %>
 <div class="c-upload-card">
   <%= form_tag(form_url, method: :post, multipart: true) do %>
     <%= file_field_tag input_id, class: 'js-upload-card' %>
   <% end %>
   <div class="c-button"><span><%= button_text %></span></div>
-  <div class="f-ff1-s">Please follow <%= link_to 'this structure', structure_url %></div>
+  <div class="f-ff1-s">
+    Please follow <%= link_to 'this structure', structure_url %>
+      <% if locations_reference %>
+        and the <%= link_to 'list of countries and regions', locations_url %>
+      <% end %>
+  </div>
 </div>

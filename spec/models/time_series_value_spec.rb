@@ -26,4 +26,67 @@ RSpec.describe TimeSeriesValue, type: :model do
       FactoryGirl.build(:time_series_value, value: nil)
     ).to have(1).errors_on(:value)
   end
+  describe :fetch_all do
+    let(:scenario1) {
+      FactoryGirl.create(:scenario, name: 'XYZ')
+    }
+    let(:scenario2) {
+      FactoryGirl.create(:scenario, name: 'ABC')
+    }
+    let(:location1) {
+      FactoryGirl.create(:location, name: '123')
+    }
+    let(:location2) {
+      FactoryGirl.create(:location, name: '789')
+    }
+    let(:indicator) {
+      FactoryGirl.create(:indicator)
+    }
+    let!(:time_series_value1) {
+      FactoryGirl.create(
+        :time_series_value,
+        indicator: indicator, scenario: scenario1, location: location1,
+        year: 2005, value: 20
+      )
+    }
+    let!(:time_series_value2) {
+      FactoryGirl.create(
+        :time_series_value,
+        indicator: indicator, scenario: scenario2, location: location2,
+        year: 2005, value: 30
+      )
+    }
+    context 'when using text search' do
+      it 'searches by location name' do
+        expect(
+          TimeSeriesValue.fetch_all(
+            indicator.time_series_values, 'search' => '123'
+          )[:data].map { |tsv| tsv[:location_name] }
+        ).to match_array([location1.name])
+      end
+      it 'searches by scenario name' do
+        expect(
+          TimeSeriesValue.fetch_all(
+            indicator.time_series_values, 'search' => 'ABC'
+          )[:data].map { |tsv| tsv[:scenario_name] }
+        ).to match_array([scenario2.name])
+      end
+    end
+    context 'when sorting' do
+      it 'orders by location' do
+        expect(
+          TimeSeriesValue.fetch_all(
+            indicator.time_series_values, 'order_type' => 'location_name'
+          )[:data].map { |tsv| tsv[:location_name] }
+        ).to eq([location1.name, location2.name])
+      end
+      it 'orders by scenario' do
+        expect(
+          TimeSeriesValue.fetch_all(
+            indicator.time_series_values, 'order_type' => 'scenario_name'
+          )[:data].map { |tsv| tsv[:scenario_name] }
+        ).to eq([scenario2.name, scenario1.name])
+      end
+    end
+  end
 end

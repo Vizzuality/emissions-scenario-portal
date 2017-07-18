@@ -24,9 +24,17 @@
               <%= f.label :name, 'Country name', class: 'f-ff1-m' %>
               <%= f.text_field :name, class: 'c-input-text -large js-form-input' %>
             </div>
-            <div class="c-form-item <% if @location.errors.messages[:iso_code2].present? %>-error<% end %>">
-              <%= label :iso_code2, 'ISO-2 Code', class: 'f-ff1-m' %>
-              <%= f.text_field :iso_code2, class: 'c-input-text -small js-form-input' %>
+            <div class="c-form-item <% if @location.errors.messages[:region].present? %>-error<% end %>">
+              <div class="c-checkbox">
+                <%= f.check_box :region %>
+                <%= f.label :region do %>
+                  <div class="c-checkbox__box">
+                    <svg class="icon icon-checkbox-off"><use xlink:href="#icon-checkbox-off"></use></svg>
+                    <svg class="icon icon-checkbox-on"><use xlink:href="#icon-checkbox-on"></use></svg>
+                  </div>
+                  <div class="f-ff1-s">Is it a region?</div>
+                <% end %>
+              </div>
             </div>
           </div>
         </div>

@@ -22,13 +22,24 @@ RSpec.describe Model, type: :model do
   describe :create do
     it 'ignores blank array values for multiple selection attributes' do
       attributes = FactoryGirl.attributes_for(:model).
-        merge(programming_language: ['', 'Python', 'ruby', 'perl'])
-      expect(Model.create(attributes).programming_language.length).to eq(3)
+        merge(anticipation: ['', 'perfect', 'static'])
+      expect(Model.create(attributes).anticipation.length).to eq(2)
     end
     it 'ignores blank array values for single selection attributes' do
       attributes = FactoryGirl.attributes_for(:model).
         merge(time_horizon: ['', 'century'])
       expect(Model.create(attributes).time_horizon).to eq('century')
+    end
+  end
+
+  describe :scenarios? do
+    let(:model) { FactoryGirl.create(:model) }
+    it 'should be true when time series values present' do
+      FactoryGirl.create(:scenario, model: model)
+      expect(model.scenarios?).to be(true)
+    end
+    it 'should be true when time series values absent' do
+      expect(model.scenarios?).to be(false)
     end
   end
 

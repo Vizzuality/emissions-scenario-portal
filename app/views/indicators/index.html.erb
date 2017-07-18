@@ -7,7 +7,7 @@
         <%= render 'shared/components/c_upload_card',
                    form_url: upload_meta_data_model_indicators_url(@model),
                    input_id: 'indicators_file',
-                   structure_url: '/esp_indicators_template.csv',
+                   structure_url: upload_template_model_indicators_url(@model),
                    button_text: 'Upload or update indicators' %>
       </div>
     </div>
