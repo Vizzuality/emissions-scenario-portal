@@ -23,6 +23,8 @@
 //= require tether-tooltip
 //= require_self
 
+//= require_tree ./lib/
+
 //= require_tree ./helpers/
 //= require_tree ./views/
 //= require_tree ./controllers/

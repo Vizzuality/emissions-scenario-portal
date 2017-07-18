@@ -11,7 +11,7 @@
     </div>
     <div class="row">
       <div class="small-12 columns">
-        <div class="l-indicators__title f-ff3-m-bold"><%= @indicator.alias %></div>
+        <div class="l-indicators-overview__title f-ff3-m-bold"><%= @indicator.alias %></div>
       </div>
     </div>
     <div class="row">
@@ -46,47 +46,26 @@
   </div>
   <div class="row">
     <div class="small-9 columns">
-      <div class="l-indicators__title f-ff3-m-bold">Time Series <span>(<%= @time_series_values_pivot[:data].length %>)</span></div>
+
+      <div class="l-indicators-overview__table-title f-ff3-m-bold">Time Series <span>(<%= @time_series_values_pivot[:data].length %>)</span></div>
     </div>
     <div class="small-3 columns">
       <div class="c-form-item">
-        <label class="f-ff1-m-bold"></label>
         <div class="c-input-search">
-          <%= text_field_tag 'search',
-                             nil,
-                             placeholder: 'Search',
-                             class: 'c-input-text js-table-filter',
-                             data: {
-                               'filter-type' => 'search',
-                               'filter-key' => 'search'
-                             } %>
+          <%= render 'shared/components/form/c_input_search.html',
+                     placeholder: 'Search',
+                     js_class: 'js-table-filter',
+                     data: {
+                       'filter-type' => 'search',
+                       'filter-key' => 'search'
+                     } %>
           <svg class="icon"><use xlink:href="#icon-search"></use></svg>
         </div>
       </div>
     </div>
   </div>
-  <table>
-    <thead>
-      <th>Scenario</th>
-      <th>Country</th>
-      <th>Unit of Entry</th>
-      <% @time_series_values_pivot[:years].each do |year| %>
-        <th>
-          <%= year %>
-        </th>
-      <% end %>
-    </thead>
-    <tbody>
-      <% @time_series_values_pivot[:data].each do |row| %>
-        <tr>
-          <td><%= row[:scenario_name] %></td>
-          <td><%= row[:location_name] %></td>
-          <td><%= row[:unit_of_entry] %></td>
-          <% row[:values].each do |value| %>
-            <td><%= value %></td>
-          <% end %>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+  <%= render 'shared/components/c_table',
+             indicators: @time_series_values_pivot[:years],
+             rows: @time_series_values_pivot[:data],
+             type: 'time_series' %>
 </div>
