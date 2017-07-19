@@ -10,7 +10,7 @@ class ModelsHeaders
   def initialize(path, encoding)
     @encoding = encoding
     initialize_headers(path)
-    @errors = {}
+    init_errors
     parse_headers(url_helpers.upload_template_models_path)
   end
 end

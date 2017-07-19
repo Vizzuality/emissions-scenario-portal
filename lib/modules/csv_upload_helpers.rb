@@ -6,13 +6,14 @@ module CsvUploadHelpers
     end
   end
 
-  def unrecognised_header_error(errors, template_url, header, expected_header)
+  def unrecognised_header_error(template_url, header, expected_header)
     message = "Unrecognised header #{header}"
     message += ", expecting #{expected_header}" if expected_header.present?
     message += '.'
     suggestion = 'Please consult the [template] for correct structure.'
-    errors[header] = FileUploadError.new(
-      message, suggestion, url: template_url, placeholder: 'template'
+    link_options = {url: template_url, placeholder: 'template'}
+    add_header_error(
+      header, FileUploadError.new(message, suggestion, link_options)
     )
   end
 end

@@ -47,7 +47,7 @@ module CsvVerticalUploadData
           expected_index: expected_index
         }
       else
-        unrecognised_header_error(@errors, @template_url, header, nil)
+        unrecognised_header_error(@template_url, header, nil)
         {
           display_name: header
         }
@@ -65,7 +65,7 @@ module CsvVerticalUploadData
     end
     parse_vertical_headers(header_column)
 
-    if @errors.any?
+    if errors?
       @number_of_records_failed = @number_of_records
       return
     end

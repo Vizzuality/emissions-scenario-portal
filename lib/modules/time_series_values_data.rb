@@ -14,31 +14,31 @@ class TimeSeriesValuesData
   end
 
   def process_row(row, row_no)
-    @errors[row_no] = {}
+    init_errors_for_row_or_col(row_no)
 
     values_by_year(row, row_no).each do |tsv|
       next if tsv.save
-      process_other_errors(@errors[row_no], tsv.errors, tsv.year)
+      process_other_errors(row_no, tsv.errors, tsv.year)
     end
 
-    if @errors[row_no].any?
+    if errors_for_row_or_col?(row_no)
       @number_of_records_failed += 1
     else
-      @errors.delete(row_no)
+      clear_errors(row_no)
     end
   end
 
   def values_by_year(row, row_no)
     model = model(row, row_no)
-    return [] if @errors[row_no]['model'].present?
+    return [] if errors_for_key?(row_no, 'model')
     scenario = scenario(model, row, row_no)
-    return [] if @errors[row_no]['scenario'].present?
+    return [] if errors_for_key?(row_no, 'scenario')
     indicator = indicator(model, row, row_no)
-    return [] if @errors[row_no]['indicator'].present?
+    return [] if errors_for_key?(row_no, 'indicator')
     location = location(row, row_no)
-    return [] if @errors[row_no]['location'].present?
+    return [] if errors_for_key?(row_no, 'location')
     unit_of_entry = unit_of_entry(model, indicator, row, row_no)
-    return [] if @errors[row_no]['unit_of_entry'].present?
+    return [] if errors_for_key?(row_no, 'unit_of_entry')
 
     year_values = @headers.year_headers.map do |h|
       year = h[:display_name].to_i
@@ -79,7 +79,7 @@ class TimeSeriesValuesData
     if scenario_name.blank?
       message = 'Scenario must be present.'
       suggestion = 'Please fill in the scenario name.'
-      @errors[row_no]['scenario'] = format_error(message, suggestion)
+      add_error(row_no, 'scenario', format_error(message, suggestion))
       return nil
     end
     identification = "model: #{model.abbreviation}, scenario: \
@@ -101,7 +101,7 @@ class TimeSeriesValuesData
     if indicator_name.blank?
       message = 'Indicator must be present.'
       suggestion = 'Please fill in the ESP indicator name.'
-      @errors[row_no]['indicator'] = format_error(message, suggestion)
+      add_error(row_no, 'indicator', format_error(message, suggestion))
       return nil
     end
     identification = "indicator: #{indicator_name}"
@@ -155,22 +155,24 @@ class TimeSeriesValuesData
 #{unit_of_entry}."
       suggestion = 'Please ensure unit of entry is compatible with [indicator]\
  standardized unit'
-      @errors[row_no]['unit_of_entry'] = format_error(
-        message,
-        suggestion,
+      link_options = {
         url: url_helpers.model_indicator_path(model, indicator),
         placeholder: 'indicator'
+      }
+      add_error(
+        row_no, 'unit_of_entry',
+        format_error(message, suggestion, link_options)
       )
     end
     unit_of_entry
   end
 
-  def process_other_errors(row_errors, object_errors, year)
+  def process_other_errors(row_or_col_no, object_errors, year)
     object_errors.each do |key, value|
       next if row_errors.key?(key.to_s)
       message = "Year #{year}: #{key.capitalize} #{value}."
       suggestion = ''
-      row_errors[year] = format_error(message, suggestion)
+      add_error(row_or_col_no, year, format_error(message, suggestion))
     end
   end
 end

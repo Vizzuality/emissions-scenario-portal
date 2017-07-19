@@ -7,6 +7,7 @@ module CsvUploadHeaders
   def self.included(base)
     base.class_eval do
       include CsvUploadHelpers
+      include CsvUploadErrors
     end
   end
 

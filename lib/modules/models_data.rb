@@ -69,7 +69,7 @@ class ModelsData
   end
 
   def process_column(col, col_no)
-    @errors[col_no] = {}
+    init_errors_for_row_or_col(col_no)
 
     model_attributes =
       Hash[
@@ -80,7 +80,7 @@ class ModelsData
     if model_attributes[:abbreviation].blank?
       message = 'Model abbreviation must be present.'
       suggestion = 'Please fill in missing data.'
-      @errors[col_no]['name'] = format_error(message, suggestion)
+      add_error(col_no, 'name', format_error(message, suggestion))
     end
 
     model = Model.where(
@@ -90,22 +90,23 @@ class ModelsData
     if model && @user.cannot?(:manage, model)
       message = "Access denied to manage model (#{model.abbreviation})."
       suggestion = 'Please verify your team\'s permissions [here].'
-      @errors[col_no]['model'] = format_error(
-        message,
-        suggestion,
-        url: url_helpers.team_path(@user.team),
-        placeholder: 'here'
+      link_options = {
+        url: url_helpers.team_path(@user.team), placeholder: 'here'
+      }
+      add_error(
+        col_no, 'model',
+        format_error(message, suggestion, link_options)
       )
     end
 
     model ||= Model.new(team: @user.team)
     model.attributes = model_attributes
-    process_other_errors(@errors[col_no], model.errors) unless model.save
+    process_other_errors(col_no, model.errors) unless model.save
 
-    if @errors[col_no].any?
+    if errors_for_row_or_col?(col_no)
       @number_of_records_failed += 1
     else
-      @errors.delete(col_no)
+      clear_errors(col_no)
     end
   end
 

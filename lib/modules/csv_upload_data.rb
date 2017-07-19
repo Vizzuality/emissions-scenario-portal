@@ -5,6 +5,12 @@ module CsvUploadData
   attr_reader :number_of_records, :number_of_records_failed, :errors,
               :error_type
 
+  def self.included(base)
+    base.class_eval do
+      include CsvUploadErrors
+    end
+  end
+
   def initialize_stats
     @number_of_records = CSV.open(
       @path, 'r', headers: true, encoding: @encoding, &:count
@@ -14,11 +20,13 @@ module CsvUploadData
   end
 
   def initialize_errors
-    @number_of_records_failed, @errors =
+    @number_of_records_failed =
       if @headers.errors.any?
-        [@number_of_records, @headers.errors.merge(type: :headers)]
+        init_errors(@headers.errors)
+        @number_of_records
       else
-        [0, {}]
+        init_errors
+        0
       end
   end
 
@@ -42,16 +50,16 @@ module CsvUploadData
     if object_collection.count > 1
       message = "More than one #{object_type} found (#{identification})."
       suggestion = 'Please resolve duplicates in the database [here].'
-      @errors[row_no][object_type] = format_error(
-        message, suggestion, link_options
+      add_error(
+        row_no, object_type, format_error(message, suggestion, link_options)
       )
       nil
     elsif object_collection.count.zero?
       message = "#{object_type.capitalize} does not exist (#{identification})."
       suggestion = "Please ensure the correct reference is used or add \
 missing data into the system [here]."
-      @errors[row_no][object_type] = format_error(
-        message, suggestion, link_options
+      add_error(
+        row_no, object_type, format_error(message, suggestion, link_options)
       )
       nil
     else
@@ -64,7 +72,7 @@ missing data into the system [here]."
     if model_abbreviation.blank?
       message = 'Model must be present.'
       suggestion = 'Please fill in the model abbreviation.'
-      @errors[row_no]['model'] = format_error(message, suggestion)
+      add_error(row_no, 'model', format_error(message, suggestion))
       return nil
     end
     identification = "model: #{model_abbreviation}"
@@ -77,29 +85,23 @@ missing data into the system [here]."
     if @user.cannot?(:manage, model)
       message = "Access denied to manage model (#{identification})."
       suggestion = 'Please verify your team\'s permissions [here].'
-      @errors[row_no]['model'] = format_error(
-        message,
-        suggestion,
-        url: url_helpers.team_path(@user.team),
-        placeholder: 'here'
+      link_options = {
+        url: url_helpers.team_path(@user.team), placeholder: 'here'
+      }
+      add_error(
+        row_no, 'model', format_error(message, suggestion, link_options)
       )
       return nil
     end
     model
   end
 
-  def format_error(message, suggestion, link_options = nil)
-    FileUploadError.new(
-      message,
-      suggestion,
-      link_options
-    )
-  end
-
-  def process_other_errors(row_errors, object_errors)
+  def process_other_errors(row_or_col_no, object_errors)
     object_errors.each do |key, value|
-      next if row_errors.key?(key.to_s)
-      row_errors[key] = format_error("#{key.capitalize} #{value}.", nil)
+      next if errors_for_key?(row_or_col_no, key.to_s)
+      add_error(
+        row_or_col_no, key, format_error("#{key.capitalize} #{value}.", nil)
+      )
     end
   end
 end

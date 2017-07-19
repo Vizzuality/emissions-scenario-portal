@@ -19,9 +19,7 @@ module CsvVerticalUploadHeaders
     @static_headers.each_with_index do |ah, idx|
       stripped = ah.downcase.gsub(/[^a-z0-9]/i, '')
       next if stripped == expected_headers[idx]
-      unrecognised_header_error(
-        @errors, template_url, ah, EXPECTED_HEADERS[idx]
-      )
+      unrecognised_header_error(template_url, ah, EXPECTED_HEADERS[idx])
     end
     @data_headers = @headers[expected_headers.length..@headers.length - 1]
   end

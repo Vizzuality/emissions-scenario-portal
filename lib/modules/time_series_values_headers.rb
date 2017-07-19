@@ -38,7 +38,7 @@ class TimeSeriesValuesHeaders
     @encoding = encoding
     initialize_headers(path)
     @model = model
-    @errors = {}
+    init_errors
     parse_headers(
       url_helpers.upload_time_series_template_model_scenarios_path(@model)
     )
@@ -62,7 +62,7 @@ class TimeSeriesValuesHeaders
           year_header: true
         }
       else
-        unrecognised_header_error(@errors, template_url, header, nil)
+        unrecognised_header_error(template_url, header, nil)
         {
           display_name: header
         }

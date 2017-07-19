@@ -11,7 +11,7 @@ class ScenariosHeaders
     @encoding = encoding
     initialize_headers(path)
     @model = model
-    @errors = {}
+    init_errors
     parse_headers(url_helpers.upload_template_model_scenarios_path(@model))
   end
 end
