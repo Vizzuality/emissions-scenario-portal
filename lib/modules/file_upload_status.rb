@@ -1,12 +1,49 @@
 class FileUploadStatus
   attr_reader :number_of_records, :number_of_records_failed, :errors
+
   def initialize(
-    error_type, number_of_records, number_of_records_failed, errors
+    error_type, number_of_records, number_of_records_failed, errors = nil
   )
     @error_type = error_type
     @number_of_records = number_of_records
     @number_of_records_failed = number_of_records_failed
-    @errors = errors
+    @errors = errors || {}
+  end
+
+  def init_errors_for_row_or_col(row_or_col_no)
+    @errors[row_or_col_no] = {}
+  end
+
+  def increment_number_of_records_failed
+    @number_of_records_failed += 1
+  end
+
+  def mark_all_records_failed
+    @number_of_records_failed = @number_of_records
+  end
+
+  def errors?
+    @errors.any?
+  end
+
+  def errors_for_row_or_col?(row_or_col_no)
+    @errors[row_or_col_no].any?
+  end
+
+  def errors_for_key?(row_or_col_no, key)
+    @errors[row_or_col_no][key].present?
+  end
+
+  def add_header_error(key, error)
+    @errors[key] = error
+  end
+
+  def add_error(row_or_col_no, key, error)
+    @errors[row_or_col_no][key] = error
+  end
+
+  def clear_errors(row_or_col_no)
+    @errors.delete(row_or_col_no)
   end
 
   def number_of_records_saved

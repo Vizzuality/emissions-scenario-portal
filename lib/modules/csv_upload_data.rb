@@ -2,8 +2,7 @@ require 'file_upload_error'
 
 module CsvUploadData
   delegate :url_helpers, to: 'Rails.application.routes'
-  attr_reader :number_of_records, :number_of_records_failed, :errors,
-              :error_type
+  attr_reader :number_of_records, :error_type
 
   def self.included(base)
     base.class_eval do
@@ -15,28 +14,30 @@ module CsvUploadData
     @number_of_records = CSV.open(
       @path, 'r', headers: true, encoding: @encoding, &:count
     )
-    @error_type = @headers.errors.any? ? :headers : :rows
+    @error_type = @headers.errors? ? :headers : :rows
     initialize_errors
   end
 
   def initialize_errors
-    @number_of_records_failed =
-      if @headers.errors.any?
-        init_errors(@headers.errors)
-        @number_of_records
-      else
-        init_errors
-        0
-      end
+    if @headers.errors?
+      @fus = FileUploadStatus.new(
+        :headers, @number_of_records, @number_of_records, @headers.errors
+      )
+    else
+      @fus = FileUploadStatus.new(
+        @error_type, @number_of_records, 0
+      )
+    end
   end
 
   def process
-    return if @headers.errors.any?
+    return @fus if @headers.errors?
     CSV.open(
       @path, 'r', headers: true, encoding: @encoding
     ).each.with_index(2) do |row, row_no|
       process_row(row, row_no)
     end
+    @fus
   end
 
   def value_for(row, property_name)
@@ -50,7 +51,7 @@ module CsvUploadData
     if object_collection.count > 1
       message = "More than one #{object_type} found (#{identification})."
       suggestion = 'Please resolve duplicates in the database [here].'
-      add_error(
+      @fus.add_error(
         row_no, object_type, format_error(message, suggestion, link_options)
       )
       nil
@@ -58,7 +59,7 @@ module CsvUploadData
       message = "#{object_type.capitalize} does not exist (#{identification})."
       suggestion = "Please ensure the correct reference is used or add \
 missing data into the system [here]."
-      add_error(
+      @fus.add_error(
         row_no, object_type, format_error(message, suggestion, link_options)
       )
       nil
@@ -72,7 +73,7 @@ missing data into the system [here]."
     if model_abbreviation.blank?
       message = 'Model must be present.'
       suggestion = 'Please fill in the model abbreviation.'
-      add_error(row_no, 'model', format_error(message, suggestion))
+      @fus.add_error(row_no, 'model', format_error(message, suggestion))
       return nil
     end
     identification = "model: #{model_abbreviation}"
@@ -88,7 +89,7 @@ missing data into the system [here]."
       link_options = {
         url: url_helpers.team_path(@user.team), placeholder: 'here'
       }
-      add_error(
+      @fus.add_error(
         row_no, 'model', format_error(message, suggestion, link_options)
       )
       return nil
@@ -98,8 +99,8 @@ missing data into the system [here]."
 
   def process_other_errors(row_or_col_no, object_errors)
     object_errors.each do |key, value|
-      next if errors_for_key?(row_or_col_no, key.to_s)
-      add_error(
+      next if @fus.errors_for_key?(row_or_col_no, key.to_s)
+      @fus.add_error(
         row_or_col_no, key, format_error("#{key.capitalize} #{value}.", nil)
       )
     end

@@ -46,7 +46,7 @@ class IndicatorsHeaders
     @encoding = encoding
     initialize_headers(path)
     @model = model
-    init_errors
+    @fus = FileUploadStatus.new(:headers, @headers.length, 0)
     parse_headers(url_helpers.upload_template_model_indicators_path(@model))
   end
 

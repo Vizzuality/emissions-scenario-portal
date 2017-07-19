@@ -29,7 +29,7 @@ module CsvVerticalUploadData
   def initialize_stats
     @number_of_records = @headers.data_headers &&
       @headers.data_headers.length || 0
-    @error_type = @headers.errors.any? ? :headers : :columns
+    @error_type = @headers.errors? ? :headers : :columns
     initialize_errors
   end
 
@@ -56,7 +56,7 @@ module CsvVerticalUploadData
   end
 
   def process
-    return if @headers.errors.any?
+    return @fus if @headers.errors?
     data = CSV.read(
       @path, 'r', headers: true, encoding: @encoding
     )
@@ -66,8 +66,8 @@ module CsvVerticalUploadData
     parse_vertical_headers(header_column)
 
     if errors?
-      @number_of_records_failed = @number_of_records
-      return
+      @fus.mark_all_records_failed
+      return @fus
     end
     # for each data header
     (
@@ -76,6 +76,7 @@ module CsvVerticalUploadData
       col = data.map { |d| d[col_no] }
       process_column(col, col_no)
     end
+    @fus
   end
 
   def value_for(col, property_name)

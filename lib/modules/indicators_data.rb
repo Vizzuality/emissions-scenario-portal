@@ -14,7 +14,7 @@ class IndicatorsData
   end
 
   def process_row(row, row_no)
-    init_errors_for_row_or_col(row_no)
+    @fus.init_errors_for_row_or_col(row_no)
     slug = value_for(row, :slug)
 
     if slug.present?
@@ -22,13 +22,13 @@ class IndicatorsData
     else
       message = 'ESP Indicator Name must be present.'
       suggestion = 'Please fill in missing data.'
-      add_error(row_no, 'slug', format_error(message, suggestion))
+      @fus.add_error(row_no, 'slug', format_error(message, suggestion))
     end
 
-    if errors_for_row_or_col?(row_no)
-      @number_of_records_failed += 1
+    if @fus.errors_for_row_or_col?(row_no)
+      @fus.increment_number_of_records_failed
     else
-      clear_errors(row_no)
+      @fus.clear_errors(row_no)
     end
   end
 
@@ -38,7 +38,7 @@ class IndicatorsData
       message = 'Access denied to manage core indicators.'
       suggestion = 'ESP admins curate core indicators. Please add a team \
 indicator instead.'
-      add_error(row_no, 'model', format_error(message, suggestion))
+      @fus.add_error(row_no, 'model', format_error(message, suggestion))
       return nil
     end
 
@@ -87,7 +87,7 @@ indicator instead.'
       link_options = {
         url: url_helpers.team_path(@user.team), placeholder: 'here'
       }
-      add_error(
+      @fus.add_error(
         row_no, 'model', format_error(message, suggestion, link_options)
       )
       return nil

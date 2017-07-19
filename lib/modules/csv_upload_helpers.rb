@@ -12,7 +12,7 @@ module CsvUploadHelpers
     message += '.'
     suggestion = 'Please consult the [template] for correct structure.'
     link_options = {url: template_url, placeholder: 'template'}
-    add_header_error(
+    @fus.add_header_error(
       header, FileUploadError.new(message, suggestion, link_options)
     )
   end

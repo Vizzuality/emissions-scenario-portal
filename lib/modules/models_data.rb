@@ -69,7 +69,7 @@ class ModelsData
   end
 
   def process_column(col, col_no)
-    init_errors_for_row_or_col(col_no)
+    @fus.init_errors_for_row_or_col(col_no)
 
     model_attributes =
       Hash[
@@ -80,7 +80,7 @@ class ModelsData
     if model_attributes[:abbreviation].blank?
       message = 'Model abbreviation must be present.'
       suggestion = 'Please fill in missing data.'
-      add_error(col_no, 'name', format_error(message, suggestion))
+      @fus.add_error(col_no, 'name', format_error(message, suggestion))
     end
 
     model = Model.where(
@@ -93,7 +93,7 @@ class ModelsData
       link_options = {
         url: url_helpers.team_path(@user.team), placeholder: 'here'
       }
-      add_error(
+      @fus.add_error(
         col_no, 'model',
         format_error(message, suggestion, link_options)
       )
@@ -103,10 +103,10 @@ class ModelsData
     model.attributes = model_attributes
     process_other_errors(col_no, model.errors) unless model.save
 
-    if errors_for_row_or_col?(col_no)
-      @number_of_records_failed += 1
+    if @fus.errors_for_row_or_col?(col_no)
+      @fus.increment_number_of_records_failed
     else
-      clear_errors(col_no)
+      @fus.clear_errors(col_no)
     end
   end
 

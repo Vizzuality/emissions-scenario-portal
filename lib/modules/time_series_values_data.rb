@@ -14,31 +14,31 @@ class TimeSeriesValuesData
   end
 
   def process_row(row, row_no)
-    init_errors_for_row_or_col(row_no)
+    @fus.init_errors_for_row_or_col(row_no)
 
     values_by_year(row, row_no).each do |tsv|
       next if tsv.save
       process_other_errors(row_no, tsv.errors, tsv.year)
     end
 
-    if errors_for_row_or_col?(row_no)
-      @number_of_records_failed += 1
+    if @fus.errors_for_row_or_col?(row_no)
+      @fus.increment_number_of_records_failed
     else
-      clear_errors(row_no)
+      @fus.clear_errors(row_no)
     end
   end
 
   def values_by_year(row, row_no)
     model = model(row, row_no)
-    return [] if errors_for_key?(row_no, 'model')
+    return [] if @fus.errors_for_key?(row_no, 'model')
     scenario = scenario(model, row, row_no)
-    return [] if errors_for_key?(row_no, 'scenario')
+    return [] if @fus.errors_for_key?(row_no, 'scenario')
     indicator = indicator(model, row, row_no)
-    return [] if errors_for_key?(row_no, 'indicator')
+    return [] if @fus.errors_for_key?(row_no, 'indicator')
     location = location(row, row_no)
-    return [] if errors_for_key?(row_no, 'location')
+    return [] if @fus.errors_for_key?(row_no, 'location')
     unit_of_entry = unit_of_entry(model, indicator, row, row_no)
-    return [] if errors_for_key?(row_no, 'unit_of_entry')
+    return [] if @fus.errors_for_key?(row_no, 'unit_of_entry')
 
     year_values = @headers.year_headers.map do |h|
       year = h[:display_name].to_i
@@ -79,7 +79,7 @@ class TimeSeriesValuesData
     if scenario_name.blank?
       message = 'Scenario must be present.'
       suggestion = 'Please fill in the scenario name.'
-      add_error(row_no, 'scenario', format_error(message, suggestion))
+      @fus.add_error(row_no, 'scenario', format_error(message, suggestion))
       return nil
     end
     identification = "model: #{model.abbreviation}, scenario: \
@@ -101,7 +101,7 @@ class TimeSeriesValuesData
     if indicator_name.blank?
       message = 'Indicator must be present.'
       suggestion = 'Please fill in the ESP indicator name.'
-      add_error(row_no, 'indicator', format_error(message, suggestion))
+      @fus.add_error(row_no, 'indicator', format_error(message, suggestion))
       return nil
     end
     identification = "indicator: #{indicator_name}"
@@ -159,7 +159,7 @@ class TimeSeriesValuesData
         url: url_helpers.model_indicator_path(model, indicator),
         placeholder: 'indicator'
       }
-      add_error(
+      @fus.add_error(
         row_no, 'unit_of_entry',
         format_error(message, suggestion, link_options)
       )
@@ -172,7 +172,7 @@ class TimeSeriesValuesData
       next if row_errors.key?(key.to_s)
       message = "Year #{year}: #{key.capitalize} #{value}."
       suggestion = ''
-      add_error(row_or_col_no, year, format_error(message, suggestion))
+      @fus.add_error(row_or_col_no, year, format_error(message, suggestion))
     end
   end
 end
