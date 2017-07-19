@@ -55,11 +55,6 @@ class FileUploadStatus
     result
   end
 
-  def remaining_errors_message(error_count)
-    return '' unless error_count.positive?
-    ",\"#{error_count} erroneous #{error_type} suppressed\""
-  end
-
   def stats_message
     "#{number_of_records_saved} of #{@number_of_records} #{error_type} saved."
   end
