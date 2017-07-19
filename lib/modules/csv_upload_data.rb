@@ -97,7 +97,7 @@ missing data into the system [here]."
   def process_other_errors(row_errors, object_errors)
     object_errors.each do |key, value|
       next if row_errors.key?(key.to_s)
-      row_errors[key] = "#{key.capitalize} #{value}."
+      row_errors[key] = format_error("#{key.capitalize} #{value}.", nil)
     end
   end
 end
