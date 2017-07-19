@@ -3,7 +3,6 @@ require 'time_series_values_headers'
 
 class TimeSeriesValuesData
   include CsvUploadData
-  attr_reader :number_of_records, :number_of_records_failed, :errors
 
   def initialize(path, user, model, encoding)
     @path = path

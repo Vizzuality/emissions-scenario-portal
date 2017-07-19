@@ -1,7 +1,8 @@
 require 'csv_upload_helpers'
 
 module CsvVerticalUploadData
-  attr_reader :number_of_records, :number_of_records_failed, :errors
+  attr_reader :number_of_records, :number_of_records_failed, :errors,
+              :error_type
 
   def self.included(base)
     base.extend(ClassMethods)
@@ -28,6 +29,7 @@ module CsvVerticalUploadData
   def initialize_stats
     @number_of_records = @headers.data_headers &&
       @headers.data_headers.length || 0
+    @error_type = @headers.errors.any? ? :headers : :columns
     initialize_errors
   end
 
@@ -65,7 +67,6 @@ module CsvVerticalUploadData
 
     if @errors.any?
       @number_of_records_failed = @number_of_records
-      @errors[:type] = :columns
       return
     end
     # for each data header
@@ -75,7 +76,6 @@ module CsvVerticalUploadData
       col = data.map { |d| d[col_no] }
       process_column(col, col_no)
     end
-    @errors[:type] = :columns if @errors.any?
   end
 
   def value_for(col, property_name)

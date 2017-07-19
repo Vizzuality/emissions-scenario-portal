@@ -1,6 +1,9 @@
 class FileUploadStatus
   attr_reader :number_of_records, :number_of_records_failed, :errors
-  def initialize(number_of_records, number_of_records_failed, errors)
+  def initialize(
+    error_type, number_of_records, number_of_records_failed, errors
+  )
+    @error_type = error_type
     @number_of_records = number_of_records
     @number_of_records_failed = number_of_records_failed
     @errors = errors
@@ -14,20 +17,10 @@ class FileUploadStatus
     @number_of_records_failed.zero?
   end
 
-  def error_type
-    if errors[:type] == :headers
-      :headers
-    elsif errors[:type] == :columns
-      :columns
-    else
-      :rows
-    end
-  end
-
   def errors_to_hash
     error_count = errors.except(:type).keys.uniq.length
     result = {
-      title: "Errors found in #{error_count} #{error_type}"
+      title: "Errors found in #{error_count} #{@error_type}"
     }
     rows = []
     errors.except(:type).each do |key, message_hash_or_struct|
@@ -56,6 +49,6 @@ class FileUploadStatus
   end
 
   def stats_message
-    "#{number_of_records_saved} of #{@number_of_records} #{error_type} saved."
+    "#{number_of_records_saved} of #{@number_of_records} #{@error_type} saved."
   end
 end

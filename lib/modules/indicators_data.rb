@@ -3,7 +3,6 @@ require 'indicators_headers'
 
 class IndicatorsData
   include CsvUploadData
-  attr_reader :number_of_records, :number_of_records_failed, :errors
 
   def initialize(path, user, model, encoding)
     @path = path

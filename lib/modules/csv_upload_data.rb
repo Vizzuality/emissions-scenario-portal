@@ -2,11 +2,14 @@ require 'file_upload_error'
 
 module CsvUploadData
   delegate :url_helpers, to: 'Rails.application.routes'
+  attr_reader :number_of_records, :number_of_records_failed, :errors,
+              :error_type
 
   def initialize_stats
     @number_of_records = CSV.open(
       @path, 'r', headers: true, encoding: @encoding, &:count
     )
+    @error_type = @headers.errors.any? ? :headers : :rows
     initialize_errors
   end
 
@@ -26,7 +29,6 @@ module CsvUploadData
     ).each.with_index(2) do |row, row_no|
       process_row(row, row_no)
     end
-    @errors[:type] = :rows if @errors.any?
   end
 
   def value_for(row, property_name)
