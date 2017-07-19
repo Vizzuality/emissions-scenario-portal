@@ -40,7 +40,7 @@ class ScenariosController < ApplicationController
 
   def upload_meta_data
     handle_io_upload(:scenarios_file, model_scenarios_url(@model)) do
-      UploadIndicators.new(current_user, @model).call(@uploaded_io)
+      UploadScenarios.new(current_user, @model).call(@uploaded_io)
     end and return
     index
     render action: :index
