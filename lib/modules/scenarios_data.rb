@@ -63,7 +63,7 @@ class ScenariosData
   def process_column(col, col_no)
     @errors[col_no] = {}
 
-    model = model(col, @errors[col_no])
+    model = model(col, col_no)
     scenario_attributes = {
       model_id: model.try(:id)
     }.merge(

@@ -36,13 +36,13 @@ module CsvUploadData
   end
 
   def matching_object(
-    object_collection, object_type, identification, errors, link
+    object_collection, object_type, identification, row_no, link
   )
     link_options = {url: link, placeholder: 'here'}
     if object_collection.count > 1
       message = "More than one #{object_type} found (#{identification})."
       suggestion = 'Please resolve duplicates in the database [here].'
-      errors[object_type] = format_error(
+      @errors[row_no][object_type] = format_error(
         message, suggestion, link_options
       )
       nil
@@ -50,7 +50,7 @@ module CsvUploadData
       message = "#{object_type.capitalize} does not exist (#{identification})."
       suggestion = "Please ensure the correct reference is used or add \
 missing data into the system [here]."
-      errors[object_type] = format_error(
+      @errors[row_no][object_type] = format_error(
         message, suggestion, link_options
       )
       nil
@@ -59,25 +59,25 @@ missing data into the system [here]."
     end
   end
 
-  def model(row, errors)
+  def model(row, row_no)
     model_abbreviation = value_for(row, :model_abbreviation)
     if model_abbreviation.blank?
       message = 'Model must be present.'
       suggestion = 'Please fill in the model abbreviation.'
-      errors['model'] = format_error(message, suggestion)
+      @errors[row_no]['model'] = format_error(message, suggestion)
       return nil
     end
     identification = "model: #{model_abbreviation}"
 
     models = Model.where(abbreviation: model_abbreviation)
     model = matching_object(
-      models, 'model', identification, errors, url_helpers.models_path
+      models, 'model', identification, row_no, url_helpers.models_path
     )
     return nil if model.nil?
     if @user.cannot?(:manage, model)
       message = "Access denied to manage model (#{identification})."
       suggestion = 'Please verify your team\'s permissions [here].'
-      errors['model'] = format_error(
+      @errors[row_no]['model'] = format_error(
         message,
         suggestion,
         url: url_helpers.team_path(@user.team),

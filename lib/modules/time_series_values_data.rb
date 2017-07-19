@@ -16,7 +16,7 @@ class TimeSeriesValuesData
   def process_row(row, row_no)
     @errors[row_no] = {}
 
-    values_by_year(row, @errors[row_no]).each do |tsv|
+    values_by_year(row, row_no).each do |tsv|
       next if tsv.save
       process_other_errors(@errors[row_no], tsv.errors, tsv.year)
     end
@@ -28,17 +28,17 @@ class TimeSeriesValuesData
     end
   end
 
-  def values_by_year(row, errors)
-    model = model(row, errors)
-    return [] if errors['model'].present?
-    scenario = scenario(model, row, errors)
-    return [] if errors['scenario'].present?
-    indicator = indicator(model, row, errors)
-    return [] if errors['indicator'].present?
-    location = location(row, errors)
-    return [] if errors['location'].present?
-    unit_of_entry = unit_of_entry(model, indicator, row, errors)
-    return [] if errors['unit_of_entry'].present?
+  def values_by_year(row, row_no)
+    model = model(row, row_no)
+    return [] if @errors[row_no]['model'].present?
+    scenario = scenario(model, row, row_no)
+    return [] if @errors[row_no]['scenario'].present?
+    indicator = indicator(model, row, row_no)
+    return [] if @errors[row_no]['indicator'].present?
+    location = location(row, row_no)
+    return [] if @errors[row_no]['location'].present?
+    unit_of_entry = unit_of_entry(model, indicator, row, row_no)
+    return [] if @errors[row_no]['unit_of_entry'].present?
 
     year_values = @headers.year_headers.map do |h|
       year = h[:display_name].to_i
@@ -73,13 +73,13 @@ class TimeSeriesValuesData
     end
   end
 
-  def scenario(model, row, errors)
+  def scenario(model, row, row_no)
     return nil if model.nil?
     scenario_name = value_for(row, :scenario_name)
     if scenario_name.blank?
       message = 'Scenario must be present.'
       suggestion = 'Please fill in the scenario name.'
-      errors['scenario'] = format_error(message, suggestion)
+      @errors[row_no]['scenario'] = format_error(message, suggestion)
       return nil
     end
     identification = "model: #{model.abbreviation}, scenario: \
@@ -90,18 +90,18 @@ class TimeSeriesValuesData
       scenarios,
       'scenario',
       identification,
-      errors,
+      row_no,
       url_helpers.model_scenarios_path(model)
     )
   end
 
-  def indicator(model, row, errors)
+  def indicator(model, row, row_no)
     return nil if model.nil?
     indicator_name = value_for(row, :indicator_name)
     if indicator_name.blank?
       message = 'Indicator must be present.'
       suggestion = 'Please fill in the ESP indicator name.'
-      errors['indicator'] = format_error(message, suggestion)
+      @errors[row_no]['indicator'] = format_error(message, suggestion)
       return nil
     end
     identification = "indicator: #{indicator_name}"
@@ -110,7 +110,7 @@ class TimeSeriesValuesData
       Indicator.best_effort_matches(indicator_name, model),
       'indicator',
       identification,
-      errors,
+      row_no,
       url_helpers.model_indicators_path(model)
     )
     indicator_or_auto_generated_variation(indicator, model)
@@ -135,16 +135,17 @@ class TimeSeriesValuesData
     indicator
   end
 
-  def location(row, errors)
+
+  def location(row, row_no)
     location_name = value_for(row, :location_name)
     identification = "location: #{location_name}"
     locations = Location.where(name: location_name)
     matching_object(
-      locations, 'location', identification, errors, url_helpers.locations_path
+      locations, 'location', identification, row_no, url_helpers.locations_path
     )
   end
 
-  def unit_of_entry(model, indicator, row, errors)
+  def unit_of_entry(model, indicator, row, row_no)
     return nil if indicator.nil?
     unit_of_entry = value_for(row, :unit_of_entry)
     return nil if unit_of_entry.nil?
@@ -154,7 +155,7 @@ class TimeSeriesValuesData
 #{unit_of_entry}."
       suggestion = 'Please ensure unit of entry is compatible with [indicator]\
  standardized unit'
-      errors['unit_of_entry'] = format_error(
+      @errors[row_no]['unit_of_entry'] = format_error(
         message,
         suggestion,
         url: url_helpers.model_indicator_path(model, indicator),
