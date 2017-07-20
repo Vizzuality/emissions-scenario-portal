@@ -36,8 +36,8 @@ class IndicatorsData
     model_slug = value_for(row, :model_slug)
     if @user.cannot?(:create, Indicator.new(model_id: nil))
       message = 'Access denied to manage core indicators.'
-      suggestion = 'ESP admins curate core indicators. Please add a team \
-indicator instead.'
+      suggestion = "ESP admins curate core indicators. Please add a team \
+indicator instead."
       @fus.add_error(row_no, 'model', format_error(message, suggestion))
       return nil
     end

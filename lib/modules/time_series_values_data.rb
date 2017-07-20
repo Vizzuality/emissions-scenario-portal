@@ -153,8 +153,8 @@ class TimeSeriesValuesData
         unit_of_entry != indicator.unit_of_entry
       message = "Conversion factor unavailable for unit of entry \
 #{unit_of_entry}."
-      suggestion = 'Please ensure unit of entry is compatible with [indicator]\
- standardized unit'
+      suggestion = "Please ensure unit of entry is compatible with [indicator]\
+ standardized unit"
       link_options = {
         url: url_helpers.model_indicator_path(model, indicator),
         placeholder: 'indicator'
