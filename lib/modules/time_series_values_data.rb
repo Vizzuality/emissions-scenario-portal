@@ -169,7 +169,7 @@ class TimeSeriesValuesData
 
   def process_other_errors(row_or_col_no, object_errors, year)
     object_errors.each do |key, value|
-      next if row_errors.key?(key.to_s)
+      next if @fus.errors_for_key?(row_or_col_no, key.to_s)
       message = "Year #{year}: #{key.capitalize} #{value}."
       suggestion = ''
       @fus.add_error(row_or_col_no, year, format_error(message, suggestion))
