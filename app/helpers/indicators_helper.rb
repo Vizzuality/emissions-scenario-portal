@@ -25,7 +25,9 @@ module IndicatorsHelper
 
   def values_for_indicator_parent_dropdown(indicator)
     selection = indicator.parent
-    select_values = Indicator.where('parent_id IS NULL').select(:id, :alias).
+    select_values = Indicator.where('parent_id IS NULL').
+      where('model_id IS NULL OR model_id != ?', @model.id).
+      select(:id, :alias).
       map do |i|
         [i.alias, i.id]
       end
