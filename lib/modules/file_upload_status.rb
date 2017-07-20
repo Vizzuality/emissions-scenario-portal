@@ -54,6 +54,7 @@ class FileUploadStatus
 
   def clear_errors(row_or_col_no)
     @errors.delete(row_or_col_no)
+    @warnings.delete(row_or_col_no) unless @warnings[row_or_col_no].any?
   end
 
   def number_of_records_saved
@@ -71,7 +72,7 @@ class FileUploadStatus
       if error_count.positive?
         "Errors found in #{error_count} #{@error_type}"
       elsif warning_count.positive?
-        "Warning in #{warning_count} #{@error_type}"
+        "Warnings in #{warning_count} #{@error_type}"
       end
     result = {title: title}
     result[:errors] = errors_to_hash(@errors)
