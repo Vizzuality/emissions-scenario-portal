@@ -132,7 +132,7 @@ automatically created."
       suggestion = 'Please review the [list of indicators] added by your team'
       link_options = {
         url: url_helpers.model_indicators_path(
-          model, {type: "team-#{@user.team_id}"}
+          model, type: "team-#{@user.team_id}"
         ), placeholder: 'list of indicators'
       }
       @fus.add_warning(
