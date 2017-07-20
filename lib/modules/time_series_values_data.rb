@@ -113,10 +113,10 @@ class TimeSeriesValuesData
       row_no,
       url_helpers.model_indicators_path(model)
     )
-    indicator_or_auto_generated_variation(indicator, model)
+    indicator_or_auto_generated_variation(indicator, model, row_no)
   end
 
-  def indicator_or_auto_generated_variation(indicator, model)
+  def indicator_or_auto_generated_variation(indicator, model, row_no)
     if indicator && (
       indicator.system? || indicator.team? && indicator.model_id != model.id
     )
@@ -127,14 +127,22 @@ class TimeSeriesValuesData
         alias: "#{model.abbreviation} #{indicator.alias}", model_id: model.id
       )
       variation.save!
-      # TODO: add warnings
-      # warnings['indicator'] = "A model variation of system indicator \
-      # #{indicator.alias} was automatically created"
+      message = "A model variation of system indicator #{indicator.alias} was \
+automatically created."
+      suggestion = 'Please review the [list of indicators] added by your team'
+      link_options = {
+        url: url_helpers.model_indicators_path(
+          model, {type: "team-#{@user.team_id}"}
+        ), placeholder: 'list of indicators'
+      }
+      @fus.add_warning(
+        row_no, 'indicator',
+        format_error(message, suggestion, link_options)
+      )
       indicator = variation
     end
     indicator
   end
-
 
   def location(row, row_no)
     location_name = value_for(row, :location_name)
