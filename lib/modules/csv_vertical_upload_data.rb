@@ -1,8 +1,7 @@
 require 'csv_upload_helpers'
 
 module CsvVerticalUploadData
-  attr_reader :number_of_records, :number_of_records_failed, :errors,
-              :error_type
+  attr_reader :number_of_records, :error_type
 
   def self.included(base)
     base.extend(ClassMethods)
