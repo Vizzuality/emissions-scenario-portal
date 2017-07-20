@@ -8,10 +8,12 @@ class FileUploadStatus
     @number_of_records = number_of_records
     @number_of_records_failed = number_of_records_failed
     @errors = errors || {}
+    @warnings = {}
   end
 
   def init_errors_for_row_or_col(row_or_col_no)
     @errors[row_or_col_no] = {}
+    @warnings[row_or_col_no] = {}
   end
 
   def increment_number_of_records_failed
@@ -24,6 +26,10 @@ class FileUploadStatus
 
   def errors?
     @errors.any?
+  end
+
+  def warnings?
+    @warnings.any?
   end
 
   def errors_for_row_or_col?(row_or_col_no)
@@ -42,6 +48,10 @@ class FileUploadStatus
     @errors[row_or_col_no][key] = error
   end
 
+  def add_warning(row_or_col_no, key, warning)
+    @warnings[row_or_col_no][key] = warning
+  end
+
   def clear_errors(row_or_col_no)
     @errors.delete(row_or_col_no)
   end
@@ -50,15 +60,26 @@ class FileUploadStatus
     number_of_records - number_of_records_failed
   end
 
-  def no_errors?
-    @number_of_records_failed.zero?
+  def no_errors_or_warnings?
+    !errors? && !warnings?
   end
 
-  def errors_to_hash
-    error_count = errors.except(:type).keys.uniq.length
-    result = {
-      title: "Errors found in #{error_count} #{@error_type}"
-    }
+  def to_hash
+    error_count = @errors.keys.uniq.length
+    warning_count = @warnings.keys.uniq.length
+    title =
+      if error_count.positive?
+        "Errors found in #{error_count} #{@error_type}"
+      elsif warning_count.positive?
+        "Warning in #{warning_count} #{@error_type}"
+      end
+    result = {title: title}
+    result[:errors] = errors_to_hash(@errors)
+    result[:warnings] = errors_to_hash(@warnings)
+    result
+  end
+
+  def errors_to_hash(errors)
     rows = []
     errors.except(:type).each do |key, message_hash_or_struct|
       rows_to_append =
@@ -81,8 +102,7 @@ class FileUploadStatus
         end
       rows += rows_to_append
     end
-    result[:errors] = rows
-    result
+    rows
   end
 
   def stats_message

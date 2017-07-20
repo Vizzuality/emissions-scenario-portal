@@ -5,8 +5,6 @@ class ScenariosHeaders
   include CsvUploadHeaders
   include CsvVerticalUploadHeaders
 
-  attr_reader :errors
-
   def initialize(path, model, encoding)
     @encoding = encoding
     initialize_headers(path)

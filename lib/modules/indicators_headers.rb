@@ -40,8 +40,6 @@ class IndicatorsHeaders
     end
   ].freeze
 
-  attr_reader :errors
-
   def initialize(path, model, encoding)
     @encoding = encoding
     initialize_headers(path)

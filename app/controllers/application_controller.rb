@@ -44,8 +44,8 @@ class ApplicationController < ActionController::Base
       ) and return true
     end
     @upload_result = yield
-    unless @upload_result.no_errors?
-      @upload_errors = @upload_result.errors_to_hash
+    unless @upload_result.no_errors_or_warnings?
+      @upload_errors = @upload_result.to_hash
       set_filter_params
       return false
     end

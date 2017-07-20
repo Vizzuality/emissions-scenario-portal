@@ -29,7 +29,7 @@ module CsvVerticalUploadData
   def initialize_stats
     @number_of_records = @headers.data_headers &&
       @headers.data_headers.length || 0
-    @error_type = @headers.errors? ? :headers : :columns
+    @error_type = :columns
     initialize_errors
   end
 

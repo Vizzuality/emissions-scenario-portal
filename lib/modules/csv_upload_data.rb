@@ -14,12 +14,13 @@ module CsvUploadData
     @number_of_records = CSV.open(
       @path, 'r', headers: true, encoding: @encoding, &:count
     )
-    @error_type = @headers.errors? ? :headers : :rows
+    @error_type = :rows
     initialize_errors
   end
 
   def initialize_errors
     if @headers.errors?
+      @error_type = :headers
       @fus = FileUploadStatus.new(
         :headers, @number_of_records, @number_of_records, @headers.errors
       )
