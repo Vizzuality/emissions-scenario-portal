@@ -88,7 +88,7 @@ class FileUploadStatus
             {
               loc: key,
               message: struct.message,
-              suggestion: struct.suggestion
+              suggestion: struct.suggestion_with_link
             }
           end
         else
@@ -96,7 +96,7 @@ class FileUploadStatus
             {
               loc: key,
               message: message_hash_or_struct.message,
-              suggestion: message_hash_or_struct.suggestion
+              suggestion: message_hash_or_struct.suggestion_with_link
             }
           ]
         end
