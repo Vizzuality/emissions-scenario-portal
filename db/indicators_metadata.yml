@@ -7,7 +7,12 @@
   size: 'small'
 - name: :category
   picklist: true
-  size: 'small'
+  size: 'large'
+  options: [
+    'Emissions', 'Climate and Health Impacts', 'Population and Economy',
+    'Energy', 'Electricity', 'Industry', 'Buildings', 'Transportation',
+    'Agriculture, Land Use and Forestry', 'Policy', 'Technology''Financial'
+  ]
 - name: :subcategory
   picklist: true
   size: 'small'

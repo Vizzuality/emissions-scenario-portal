@@ -54,12 +54,14 @@ RSpec.describe Indicator, type: :model do
   context 'variations' do
     let(:model) { FactoryGirl.create(:model) }
     let(:system_indicator) {
-      FactoryGirl.create(:indicator, parent: nil, model: nil, category: 'A')
+      FactoryGirl.create(
+        :indicator, parent: nil, model: nil, category: 'Buildings'
+      )
     }
     let(:team_variation) {
       FactoryGirl.create(
         :indicator,
-        parent: system_indicator, model: model, category: 'B',
+        parent: system_indicator, model: model, category: 'Transportation',
         unit: system_indicator.unit
       )
     }
@@ -80,7 +82,7 @@ RSpec.describe Indicator, type: :model do
     end
     describe :update_category do
       it 'updates category to match parent' do
-        expect(team_variation.category).to eq('A')
+        expect(team_variation.category).to eq('Buildings')
       end
     end
   end
@@ -146,16 +148,6 @@ RSpec.describe Indicator, type: :model do
   end
 
   describe :slug_to_hash do
-    let!(:indicator1) {
-      FactoryGirl.create(
-        :indicator, category: 'A', subcategory: 'B', name: 'C'
-      )
-    }
-    let!(:indicator2) {
-      FactoryGirl.create(
-        :indicator, category: 'A', subcategory: nil, name: 'B'
-      )
-    }
     it 'parses a 3-part slug' do
       expect(
         Indicator.slug_to_hash('A|B|C')

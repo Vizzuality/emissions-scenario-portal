@@ -4,17 +4,21 @@ RSpec.describe IndicatorsHelper, type: :helper do
   let(:team) { FactoryGirl.create(:team) }
   let(:model) { FactoryGirl.create(:model, team: team) }
   let(:other_model) { FactoryGirl.create(:model) }
-  let(:system_indicator) { FactoryGirl.create(:indicator, category: 'A') }
+  let(:system_indicator) {
+    FactoryGirl.create(:indicator, category: 'Buildings')
+  }
   let!(:team_variation) {
     FactoryGirl.create(
       :indicator, alias: '1|2|3', parent: system_indicator, model: model
     )
   }
   let!(:team_indicator) {
-    FactoryGirl.create(:indicator, category: 'B', model: model)
+    FactoryGirl.create(:indicator, category: 'Transportation', model: model)
   }
   let!(:other_team_indicator) {
-    FactoryGirl.create(:indicator, category: 'B', model: other_model)
+    FactoryGirl.create(
+      :indicator, category: 'Transportation', model: other_model
+    )
   }
 
   describe :types_for_select do
@@ -46,7 +50,7 @@ RSpec.describe IndicatorsHelper, type: :helper do
     it 'returns categories without duplicates' do
       expect(
         helper.categories_for_select
-      ).to eq(options_for_select(%w(A B)))
+      ).to eq(options_for_select(%w(Buildings Transportation)))
     end
   end
 end

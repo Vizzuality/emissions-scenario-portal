@@ -20,7 +20,12 @@ class Indicator < ApplicationRecord
   has_many :time_series_values, dependent: :destroy
   belongs_to :model, optional: true
 
-  validates :category, presence: true
+  validates :category, presence: true, inclusion: {
+    in: Indicator.attribute_info(:category).options,
+    message: 'must be one of ' +
+      Indicator.attribute_info(:category).options.join(', '),
+    if: proc { |i| i.category.present? }
+  }
   validates :model, presence: true, if: proc { |i| i.parent.present? }
   validates :conversion_factor, presence: {
     message: "can't be blank if unit of entry differs from standard unit"
