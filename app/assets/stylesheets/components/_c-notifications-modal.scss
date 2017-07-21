@@ -6,8 +6,15 @@
   width: 100%;
   height: 100%;
   padding: rem(10px);
-  background-color: rgba($color-app-2, 0.5);
   z-index: 200;
+
+  .c-notifications-modal__background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba($color-app-2, 0.5);
+    z-index: -1;
+  }
 
   .c-notifications-modal__container {
     width: 100%;

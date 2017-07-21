@@ -26,7 +26,11 @@
     initialize: function() {
       new App.View.FormItem();
       new App.View.Tooltips();
-      new App.View.Notifications();
+
+      this.notifications = new App.View.Notifications();
+      new App.View.NotificationsModal({
+        notifications: this.notifications
+      });
     },
 
     /**

@@ -36,6 +36,11 @@ $notifications-margin: rem(10px);
         'hide-notification 0.5s ease-in 1 forwards'
       );
     }
+
+    .c-notification__button {
+      color: $color-app-1;
+      margin-left: rem(25px);
+    }
   }
 }
 
