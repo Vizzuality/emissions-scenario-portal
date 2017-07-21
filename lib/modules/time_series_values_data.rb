@@ -139,7 +139,15 @@ class TimeSeriesValuesData
   def location(row, errors)
     location_name = value_for(row, :location_name)
     identification = "location: #{location_name}"
-    locations = Location.where(name: location_name)
+    locations = Location.where(
+      'iso_code = :location_name OR name = :location_name',
+      location_name: location_name
+    )
+    order_clause = ActiveRecord::Base.send(
+      :sanitize_sql_array,
+      ['CASE WHEN iso_code = ? THEN 0 ELSE 1 END', location_name]
+    )
+    locations = locations.order(order_clause)
     matching_object(
       locations, 'location', identification, errors, url_helpers.locations_path
     )
