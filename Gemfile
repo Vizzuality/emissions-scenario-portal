@@ -33,6 +33,8 @@ gem 'jbuilder', '~> 2.5'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
+gem 'dotenv-rails', groups: [:development, :test] # required by Devise
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 gem 'cancancan', '~> 1.10'
@@ -50,7 +52,6 @@ group :development, :test do
   gem 'rspec-collection_matchers'
   gem 'rails-controller-testing'
   gem 'factory_girl_rails'
-  gem 'dotenv-rails'
 end
 
 group :development do
