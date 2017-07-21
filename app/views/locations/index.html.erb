@@ -32,7 +32,12 @@
                    text: 'Name',
                    column_key: 'name' %>
       </div>
-      <div class="small-6 columns">
+      <div class="small-3 columns">
+        <%= render 'shared/components/c_order_filter_button',
+                   text: 'ISO code',
+                   column_key: 'iso_code' %>
+      </div>
+      <div class="small-3 columns">
         <%= render 'shared/components/c_order_filter_button',
                    text: 'Region',
                    column_key: 'region' %>
@@ -45,7 +50,10 @@
         <div class="small-5 columns">
           <div class="c-table-list-item__text f-ff1-m-bold"><%= location.name %></div>
         </div>
-        <div class="small-6 columns">
+        <div class="small-3 columns">
+          <div class="c-table-list-item__text f-ff1-m-bold"><%= location.iso_code %></div>
+        </div>
+        <div class="small-3 columns">
           <div class="c-table-list-item__text f-ff1-m">
             <% if location.region? %>
               <svg class="icon icon-check"><use xlink:href="#icon-check"></use></svg>
