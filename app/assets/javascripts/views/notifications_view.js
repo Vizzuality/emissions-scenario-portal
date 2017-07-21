@@ -13,6 +13,16 @@
       'click .js-upload-errors' : '_onClickUploadErrors'
     },
 
+    buildNotification: function (data) {
+      $('<li/>', {
+        html: '<div class="c-notification -red -show-animation js-notification"><svg class="icon"><use xlink:href="#icon-alert"></use></svg><div class="f-ff1-s">' + data.msg + '<span class="c-notification__button f-ff1-m-bold">' + data.buttonText + '</span></div></div>'
+      }).on('click', function (e) {
+        if ($(e.target).hasClass('c-notification__button')) {
+          data.buttonAction();
+        }
+      }).appendTo(this.$el);
+    },
+
     _onClickHideNotification: function (e) {
       var target = $(e.currentTarget);
       var hideNotification = target.clone()
