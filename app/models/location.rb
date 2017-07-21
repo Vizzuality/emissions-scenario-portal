@@ -1,7 +1,8 @@
 class Location < ApplicationRecord
   validates :name, presence: true
+  validates :iso_code, presence: true, length: {maximum: 2}, unless: :region?
 
-  ORDERS = %w[name region].freeze
+  ORDERS = %w[name iso_code region].freeze
 
   class << self
     def fetch_all(options)
@@ -18,7 +19,10 @@ class Location < ApplicationRecord
     def apply_filter(locations, options, filter, value)
       case filter
       when 'search'
-        locations.where('lower(name) LIKE ?', "%#{value.downcase}%")
+        locations.where(
+          'lower(name) LIKE :name OR lower(iso_code) LIKE :name',
+          name: "%#{value.downcase}%"
+        )
       when 'order_type'
         fetch_with_order(
           locations,
