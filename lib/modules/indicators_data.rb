@@ -35,8 +35,12 @@ class IndicatorsData
   def process_indicator(slug, row, row_no)
     model_slug = value_for(row, :model_slug)
     id_attributes = Indicator.slug_to_hash(slug)
+    stackable_subcategory_raw = value_for(row, :stackable_subcategory)
+    stackable_subcategory = stackable_subcategory_raw &&
+      stackable_subcategory_raw.downcase == 'yes'
+
     common_attributes = {
-      stackable_subcategory: value_for(row, :stackable_subcategory),
+      stackable_subcategory: stackable_subcategory,
       unit: value_for(row, :unit),
       unit_of_entry: value_for(row, :unit_of_entry),
       conversion_factor: value_for(row, :conversion_factor),
