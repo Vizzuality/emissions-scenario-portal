@@ -50,6 +50,7 @@ group :development, :test do
   gem 'rspec-collection_matchers'
   gem 'rails-controller-testing'
   gem 'factory_girl_rails'
+  gem 'dotenv-rails'
 end
 
 group :development do
