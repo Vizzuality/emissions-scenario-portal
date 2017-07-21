@@ -1,3 +1,5 @@
+require 'time_series_values_upload_template'
+
 class TimeSeriesValuesController < ApplicationController
   load_and_authorize_resource :model
 

@@ -1,3 +1,5 @@
+require 'models_upload_template'
+
 class ModelsController < ApplicationController
   load_and_authorize_resource
 

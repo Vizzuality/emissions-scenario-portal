@@ -1,3 +1,5 @@
+require 'indicators_upload_template'
+
 class IndicatorsController < ApplicationController
   load_and_authorize_resource :model
   load_resource except: [:new, :create, :index]
