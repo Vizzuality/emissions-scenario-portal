@@ -1,8 +1,4 @@
 <ul class="c-notifications-list">
-  <%
-    #upload_errors = flash[:upload_errors]
-    #flash.delete(:upload_errors)
-  %>
   <% flash.each do |name, msg| %>
     <%
       if name == 'alert'
@@ -35,14 +31,14 @@
         <% @upload_errors[:errors].each do |error| %>
           <li class="c-notifications-modal__error">
             <div class="f-ff1-s"><span class="f-ff1-s-bold"><%= error[:loc] %></span> <%= error[:message] %></div>
-            <div class="f-ff1-s c-notifications-modal__error-suggestion"><%= error[:suggestion].html_safe %></div>
+            <div class="f-ff1-s c-notifications-modal__error-suggestion"><%= error[:suggestion].try(:html_safe) %></div>
           </li>
         <% end %>
         <% if @upload_errors[:warnings].present? %>
           <% @upload_errors[:warnings].each do |error| %>
             <li class="c-notifications-modal__error">
               <div class="f-ff1-s"><span class="f-ff1-s-bold"><%= error[:loc] %></span> <%= error[:message] %></div>
-              <div class="f-ff1-s c-notifications-modal__error-suggestion"><%= error[:suggestion].html_safe %></div>
+              <div class="f-ff1-s c-notifications-modal__error-suggestion"><%= error[:suggestion].try(:html_safe) %></div>
             </li>
           <% end %>
         <% end %>
