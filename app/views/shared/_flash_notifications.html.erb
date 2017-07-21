@@ -34,7 +34,7 @@
         <td>
           <%= error[:message] %>
           <span>
-            <%= error[:suggestion].html_safe %>
+            <%= error[:suggestion].try(:html_safe) %>
           </span>
         </td>
       </tr>
@@ -51,7 +51,7 @@
           <td>
             <%= error[:message] %>
             <span>
-              <%= error[:suggestion].html_safe %>
+              <%= error[:suggestion].try(:html_safe) %>
             </span>
           </td>
         </tr>
