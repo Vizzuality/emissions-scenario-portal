@@ -61,9 +61,9 @@ class ScenariosData
   end
 
   def process_column(col, col_no)
-    @errors[col_no] = {}
+    @fus.init_errors_for_row_or_col(col_no)
 
-    model = model(col, @errors[col_no])
+    model = model(col, col_no)
     scenario_attributes = {
       model_id: model.try(:id)
     }.merge(
@@ -76,7 +76,7 @@ class ScenariosData
     if scenario_attributes[:name].blank?
       message = 'Scenario name must be present.'
       suggestion = 'Please fill in missing data.'
-      @errors[col_no]['name'] = format_error(message, suggestion)
+      @fus.add_error(col_no, 'name', format_error(message, suggestion))
     end
 
     scenario = model && Scenario.where(
@@ -85,12 +85,12 @@ class ScenariosData
 
     scenario ||= Scenario.new
     scenario.attributes = scenario_attributes
-    process_other_errors(@errors[col_no], scenario.errors) unless scenario.save
+    process_other_errors(col_no, scenario.errors) unless scenario.save
 
-    if @errors[col_no].any?
-      @number_of_records_failed += 1
+    if @fus.errors_for_row_or_col?(col_no)
+      @fus.increment_number_of_records_failed
     else
-      @errors.delete(col_no)
+      @fus.clear_errors(col_no)
     end
   end
 

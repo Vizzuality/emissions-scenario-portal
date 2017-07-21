@@ -370,15 +370,14 @@ RSpec.describe IndicatorsController, type: :controller do
         expect(flash[:alert]).to match(/upload file/)
       end
 
-      it 'renders json' do
+      it 'renders index when errors' do
         post :upload_meta_data, params: {
           model_id: team_model.id,
           indicators_file: fixture_file_upload(
             'indicators-correct.csv', 'text/csv'
           )
         }
-        expect(response).to redirect_to(model_indicators_url(team_model))
-        expect(flash[:alert]).to match(/upload again/)
+        expect(response).to render_template(:index)
       end
 
       it 'prevents unauthorized access' do

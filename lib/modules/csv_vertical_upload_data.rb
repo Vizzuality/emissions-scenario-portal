@@ -1,7 +1,7 @@
 require 'csv_upload_helpers'
 
 module CsvVerticalUploadData
-  attr_reader :number_of_records, :number_of_records_failed, :errors
+  attr_reader :number_of_records, :error_type
 
   def self.included(base)
     base.extend(ClassMethods)
@@ -28,6 +28,7 @@ module CsvVerticalUploadData
   def initialize_stats
     @number_of_records = @headers.data_headers &&
       @headers.data_headers.length || 0
+    @error_type = :columns
     initialize_errors
   end
 
@@ -45,7 +46,7 @@ module CsvVerticalUploadData
           expected_index: expected_index
         }
       else
-        unrecognised_header_error(@errors, @template_url, header, nil)
+        unrecognised_header_error(@template_url, header, nil)
         {
           display_name: header
         }
@@ -54,7 +55,7 @@ module CsvVerticalUploadData
   end
 
   def process
-    return if @headers.errors.any?
+    return @fus if @headers.errors?
     data = CSV.read(
       @path, 'r', headers: true, encoding: @encoding
     )
@@ -63,10 +64,9 @@ module CsvVerticalUploadData
     end
     parse_vertical_headers(header_column)
 
-    if @errors.any?
-      @number_of_records_failed = @number_of_records
-      @errors[:type] = :columns
-      return
+    if errors?
+      @fus.mark_all_records_failed
+      return @fus
     end
     # for each data header
     (
@@ -75,7 +75,7 @@ module CsvVerticalUploadData
       col = data.map { |d| d[col_no] }
       process_column(col, col_no)
     end
-    @errors[:type] = :columns if @errors.any?
+    @fus
   end
 
   def value_for(col, property_name)

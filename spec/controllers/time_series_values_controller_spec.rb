@@ -15,15 +15,14 @@ RSpec.describe TimeSeriesValuesController, type: :controller do
         expect(flash[:alert]).to match(/upload file/)
       end
 
-      it 'renders json' do
+      it 'renders index when errors' do
         post :upload, params: {
           model_id: team_model.id,
           time_series_values_file: fixture_file_upload(
             'time_series_values-correct.csv', 'text/csv'
           )
         }
-        expect(response).to redirect_to(model_scenarios_url(team_model))
-        expect(flash[:alert]).to match(/upload again/)
+        expect(response).to render_template('scenarios/index')
       end
 
       it 'prevents unauthorized access' do

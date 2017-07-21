@@ -1,74 +1,112 @@
 class FileUploadStatus
   attr_reader :number_of_records, :number_of_records_failed, :errors
-  def initialize(number_of_records, number_of_records_failed, errors)
+
+  def initialize(
+    error_type, number_of_records, number_of_records_failed, errors = nil
+  )
+    @error_type = error_type
     @number_of_records = number_of_records
     @number_of_records_failed = number_of_records_failed
-    @errors = errors
+    @errors = errors || {}
+    @warnings = {}
+  end
+
+  def init_errors_for_row_or_col(row_or_col_no)
+    @errors[row_or_col_no] = {}
+    @warnings[row_or_col_no] = {}
+  end
+
+  def increment_number_of_records_failed
+    @number_of_records_failed += 1
+  end
+
+  def mark_all_records_failed
+    @number_of_records_failed = @number_of_records
+  end
+
+  def errors?
+    @errors.any?
+  end
+
+  def warnings?
+    @warnings.any?
+  end
+
+  def errors_for_row_or_col?(row_or_col_no)
+    @errors[row_or_col_no].any?
+  end
+
+  def errors_for_key?(row_or_col_no, key)
+    @errors[row_or_col_no][key].present?
+  end
+
+  def add_header_error(key, error)
+    @errors[key] = error
+  end
+
+  def add_error(row_or_col_no, key, error)
+    @errors[row_or_col_no][key] = error
+  end
+
+  def add_warning(row_or_col_no, key, warning)
+    @warnings[row_or_col_no][key] = warning
+  end
+
+  def clear_errors(row_or_col_no)
+    @errors.delete(row_or_col_no)
+    @warnings.delete(row_or_col_no) unless @warnings[row_or_col_no].any?
   end
 
   def number_of_records_saved
     number_of_records - number_of_records_failed
   end
 
-  def no_errors?
-    @number_of_records_failed.zero?
+  def no_errors_or_warnings?
+    !errors? && !warnings?
   end
 
-  def error_type
-    if errors[:type] == :headers
-      :headers
-    elsif errors[:type] == :columns
-      :columns
-    else
-      :rows
-    end
+  def to_hash
+    error_count = @errors.keys.uniq.length
+    warning_count = @warnings.keys.uniq.length
+    title =
+      if error_count.positive?
+        "Errors found in #{error_count} #{@error_type}"
+      elsif warning_count.positive?
+        "Warnings in #{warning_count} #{@error_type}"
+      end
+    result = {title: title}
+    result[:errors] = errors_to_hash(@errors)
+    result[:warnings] = errors_to_hash(@warnings)
+    result
   end
 
-  def errors_to_array
+  def errors_to_hash(errors)
     rows = []
     errors.except(:type).each do |key, message_hash_or_struct|
       rows_to_append =
         if message_hash_or_struct.is_a?(Hash)
-          message_hash_or_struct.values.map do |message|
-            "#{key},\"#{message}\""
+          message_hash_or_struct.values.map do |struct|
+            {
+              loc: key,
+              message: struct.message,
+              suggestion: struct.suggestion_with_link
+            }
           end
         else
-          ["#{key},\"#{message_hash_or_struct}\""]
+          [
+            {
+              loc: key,
+              message: message_hash_or_struct.message,
+              suggestion: message_hash_or_struct.suggestion_with_link
+            }
+          ]
         end
       rows += rows_to_append
     end
     rows
   end
 
-  def errors_to_csv
-    header_row = "#{error_type.to_s.singularize.capitalize}, Error"
-    csv = [header_row]
-    size_in_bytes = header_row.bytesize + 1
-    remaining_errors = errors_to_array
-    remaining_errors_cnt = remaining_errors.size
-    errors_to_array.each do |row|
-      if size_in_bytes + (row.bytesize + 1) +
-          (remaining_errors_message(remaining_errors_cnt).bytesize + 1) < 1700
-        csv << row
-        size_in_bytes += (row.bytesize + 1)
-        remaining_errors_cnt -= 1
-      else
-        csv << remaining_errors_message(remaining_errors_cnt)
-        size_in_bytes += (
-          remaining_errors_message(remaining_errors_cnt).bytesize + 1
-        )
-        break
-      end
-    end
-    csv.join("\n")
-  end
-
-  def remaining_errors_message(error_count)
-    return '' unless error_count.positive?
-    ",\"#{error_count} erroneous #{error_type} suppressed\""
-  end
-
   def stats_message
-    "#{number_of_records_saved} of #{@number_of_records} #{error_type} saved."
+    "#{number_of_records_saved} of #{@number_of_records} #{@error_type} saved."
   end
 end

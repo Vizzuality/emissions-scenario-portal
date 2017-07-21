@@ -39,11 +39,11 @@ class ScenariosController < ApplicationController
   end
 
   def upload_meta_data
-    handle_io_upload(
-      :scenarios_file,
-      UploadScenarios,
-      model_scenarios_url(@model)
-    )
+    handle_io_upload(:scenarios_file, model_scenarios_url(@model)) do
+      UploadScenarios.new(current_user, @model).call(@uploaded_io)
+    end and return
+    index
+    render action: :index
   end
 
   def upload_template

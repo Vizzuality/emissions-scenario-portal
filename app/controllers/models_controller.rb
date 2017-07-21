@@ -52,11 +52,11 @@ class ModelsController < ApplicationController
   end
 
   def upload_meta_data
-    handle_io_upload(
-      :models_file,
-      UploadModels,
-      models_url
-    )
+    handle_io_upload(:models_file, models_url) do
+      UploadModels.new(current_user).call(@uploaded_io)
+    end and return
+    index
+    render action: :index
   end
 
   def upload_template

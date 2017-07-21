@@ -40,13 +40,11 @@ class IndicatorsHeaders
     end
   ].freeze
 
-  attr_reader :errors
-
   def initialize(path, model, encoding)
     @encoding = encoding
     initialize_headers(path)
     @model = model
-    @errors = {}
+    @fus = FileUploadStatus.new(:headers, @headers.length, 0)
     parse_headers(url_helpers.upload_template_model_indicators_path(@model))
   end
 
@@ -68,7 +66,7 @@ class IndicatorsHeaders
           expected_index: expected_index
         }
       else
-        unrecognised_header_error(@errors, template_url, header, nil)
+        unrecognised_header_error(template_url, header, nil)
         {
           display_name: header
         }

@@ -36,20 +36,19 @@ class ApplicationController < ActionController::Base
     )
   end
 
-  def handle_io_upload(file_name, service_class_name, redirect_url)
+  def handle_io_upload(file_name, redirect_url)
     @uploaded_io = params[file_name]
     unless @uploaded_io.present?
       redirect_to(
-        redirect_url,
-        alert: 'Please provide an upload file'
-      ) and return
+        redirect_url, alert: 'Please provide an upload file'
+      ) and return true
     end
-    result = service_class_name.new(current_user, @model).call(@uploaded_io)
-    msg = result.stats_message
-    redirect_to redirect_url, notice: msg and return if result.no_errors?
-    msg += ' Please review the list of errors before trying to upload again.'
-    redirect_to redirect_url, alert: msg, flash: {
-      upload_errors: result.errors_to_csv
-    }
+    @upload_result = yield
+    unless @upload_result.no_errors_or_warnings?
+      @upload_errors = @upload_result.to_hash
+      set_filter_params
+      return false
+    end
+    redirect_to redirect_url, notice: @upload_result.stats_message
   end
 end

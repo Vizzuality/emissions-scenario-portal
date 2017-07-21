@@ -13,10 +13,5 @@ class UploadCsvFile
   def call(uploaded_io)
     initialize_data(uploaded_io)
     @data.process
-    FileUploadStatus.new(
-      @data.number_of_records,
-      @data.number_of_records_failed,
-      @data.errors
-    )
   end
 end
