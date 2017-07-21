@@ -162,6 +162,33 @@ RSpec.describe UploadIndicators do
     end
   end
 
+  context 'when not stackable subcategory' do
+    let(:file) {
+      Rack::Test::UploadedFile.new(
+        File.join(
+          Rails.root,
+          'spec',
+          'fixtures',
+          'indicators-not_stackable_subcategory.csv'
+        )
+      )
+    }
+
+    it 'should have saved new rows' do
+      expect { subject }.to change { Indicator.count }.by(4)
+    end
+    it 'should have created one indicator with not stackable subcategory' do
+      expect { subject }.to change {
+        Indicator.where(stackable_subcategory: false).count
+      }.by(2)
+    end
+    it 'should have created one indicator with stackable subcategory' do
+      expect { subject }.to change {
+        Indicator.where(stackable_subcategory: true).count
+      }.by(2)
+    end
+  end
+
   context 'when file with invalid column name' do
     let(:file) {
       Rack::Test::UploadedFile.new(
