@@ -79,7 +79,9 @@ module CsvVerticalUploadData
   end
 
   def value_for(col, property_name)
-    value = col[actual_index_for_property(property_name)]
+    index = actual_index_for_property(property_name)
+    return nil unless index
+    value = col[index]
     if multiple_selection?(property_name)
       value = value.split(';').map(&:strip) unless value.blank?
     end

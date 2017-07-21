@@ -42,7 +42,9 @@ module CsvUploadData
   end
 
   def value_for(row, property_name)
-    row[@headers.actual_index_for_property(property_name)]
+    index = @headers.actual_index_for_property(property_name)
+    return nil unless index
+    row[index]
   end
 
   def matching_object(
