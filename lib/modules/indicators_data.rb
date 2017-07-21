@@ -34,14 +34,6 @@ class IndicatorsData
 
   def process_indicator(slug, row, row_no)
     model_slug = value_for(row, :model_slug)
-    if @user.cannot?(:create, Indicator.new(model_id: nil))
-      message = 'Access denied to manage core indicators.'
-      suggestion = "ESP admins curate core indicators. Please add a team \
-indicator instead."
-      @fus.add_error(row_no, 'model', format_error(message, suggestion))
-      return nil
-    end
-
     id_attributes = Indicator.slug_to_hash(slug)
     common_attributes = {
       stackable_subcategory: value_for(row, :stackable_subcategory),
@@ -64,7 +56,9 @@ indicator instead."
       message = 'Access denied to manage core indicators.'
       suggestion = 'ESP admins curate core indicators. Please add a team \
 indicator instead.'
-      @errors[row_no]['model'] = format_error(message, suggestion)
+      @fus.add_error(
+        row_no, 'model', format_error(message, suggestion)
+      )
       return nil
     end
     indicator = Indicator.where(id_attributes).first
