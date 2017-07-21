@@ -23,23 +23,23 @@
   <% flash.clear %>
 </ul>
 <% if @upload_errors.present? %>
-  <div>
-    <h1><%= @upload_errors[:title] %></h1>
-    <table>
-    <% @upload_errors[:errors].each do |error| %>
-      <tr>
-        <th>
-          <%= error[:loc] %>
-        </th>
-        <td>
-          <%= error[:message] %>
-          <span>
-            <%= error[:suggestion].html_safe %>
-          </span>
-        </td>
-      </tr>
-    <% end %>
-    </table>
+  <div class="c-notifications-modal">
+    <div class="c-notifications-modal__container">
+      <div class="c-notifications-modal__title">
+        <svg class="icon icon-alert"><use xlink:href="#icon-alert"></use></svg>
+        <div class="f-ff3-m-bold"><%= @upload_errors[:title] %></div>
+        <svg class="icon icon-close"><use xlink:href="#icon-close"></use></svg>
+      </div>
+      <ul class="c-notifications-modal__errors">
+        <% @upload_errors[:errors].each do |error| %>
+          <li class="c-notifications-modal__error">
+            <div class="f-ff1-s"><span class="f-ff1-s-bold"><%= error[:loc] %></span> <%= error[:message] %></div>
+            <div class="f-ff1-s c-notifications-modal__error-suggestion"><%= error[:suggestion].html_safe %></div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
     <% if @upload_errors[:warnings].present? %>
       <h2>Warnings</h2>
       <table>

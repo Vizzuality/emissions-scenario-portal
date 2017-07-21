@@ -46,6 +46,25 @@
 }
 
 /**
+ * @atom AcuminPro S Bold
+ * @section Typography
+ * @markup
+ *  <div class="f-ff1-s-bold">Row 2</div>
+ */
+.f-ff1-s-bold {
+  font-family: $font-family-1;
+  font-size: $ff1-size-s;
+  font-weight: $font-weight-bold;
+  line-height: 1;
+  letter-spacing: 0.5px;
+  color: $color-app-2;
+
+  a {
+    color: inherit;
+  }
+}
+
+/**
  * @atom AcuminPro XS
  * @section Typography
  * @markup
