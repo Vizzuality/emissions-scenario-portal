@@ -47,15 +47,15 @@
   <div class="row">
     <div class="small-3 columns">
       <%= render 'shared/components/c_order_filter_button',
-                 text: 'Name',
+                 text: 'ESP Indicator Name',
                  other_class: '-no-wrap',
                  column_key: 'name' %>
     </div>
     <div class="small-2 columns">
       <%= render 'shared/components/c_order_filter_button',
-                 text: 'Based on',
+                 text: "#{@model.abbreviation} Indicator Name",
                  other_class: '-no-wrap',
-                 column_key: 'parent_name' %>
+                 column_key: 'variation_name' %>
     </div>
     <div class="small-2 columns">
       <%= render 'shared/components/c_order_filter_button',
@@ -72,59 +72,11 @@
   </div>
 </div>
 <% @indicators.each do |indicator| %>
-  <div class="c-table-list-item">
-    <div class="row">
-      <div class="small-3 columns">
-        <div class="c-table-list-item__text f-ff1-m-bold">
-          <%= link_to indicator.alias, model_indicator_url(@model, indicator) %>
-        </div>
-      </div>
-      <div class="small-2 columns">
-        <div class="c-table-list-item__text f-ff1-m-bold">
-          <% if indicator.variation? %>
-            <%= link_to indicator.parent.alias, model_indicator_url(@model, indicator.parent) %>
-          <% end %>
-        </div>
-      </div>
-      <div class="small-2 columns">
-        <div class="c-table-list-item__text f-ff1-m"><%= indicator.unit %></div>
-      </div>
-      <div class="small-3 columns">
-        <div class="c-table-list-item__text f-ff1-m">
-          <%= indicator.definition && truncate(indicator.definition, length: 120) %>
-        </div>
-      </div>
-      <div class="small-2 columns">
-        <div class="c-table-list-item__actions">
-          <% if current_user.can?(:destroy, indicator) %>
-            <%= link_to model_indicator_url(@model, indicator), method: :delete, data: {confirm: destroy_confirmation_message(indicator)} do %>
-              <div class="c-remove-button">
-                <svg class="icon"><use xlink:href="#icon-delete"></use></svg>
-                <div class="f-ff1-s">Delete</div>
-              </div>
-            <% end %>
-          <% end %>
-          <% if current_user.can?(:manage, indicator) %>
-            <%= link_to edit_model_indicator_url(@model, indicator) do %>
-              <div class="c-edit-button">
-                <div class="c-edit-button__bubble">
-                  <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
-                </div>
-                <div class="f-ff1-s">Edit</div>
-              </div>
-            <% end %>
-          <% else %>
-            <%= link_to fork_model_indicator_url(@model, indicator) do %>
-              <div class="c-edit-button">
-                <div class="c-edit-button__bubble">
-                  <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
-                </div>
-                <div class="f-ff1-s">Fork</div>
-              </div>
-            <% end %>
-          <% end %>
-        </div>
-      </div>
-    </div>
-  </div>
+  <% if indicator.variations.any? %>
+    <% indicator.variations.where(model_id: @model.id).each do |variation| %>
+      <%= render partial: 'row', locals: {indicator: indicator, variation: variation} %>
+    <% end %>
+  <% else %>
+    <%= render partial: 'row', locals: {indicator: indicator, variation: nil} %>
+  <% end %>
 <% end %>

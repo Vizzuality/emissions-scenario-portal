@@ -5,20 +5,20 @@ RSpec.describe IndicatorsController, type: :controller do
     login_admin
     let(:team_model) { FactoryGirl.create(:model) }
     let(:some_model) { FactoryGirl.create(:model) }
-    let(:team_indicator) { FactoryGirl.create(:indicator, model: team_model) }
-    let(:some_indicator) { FactoryGirl.create(:indicator, model: some_model) }
-    let(:master_indicator) { FactoryGirl.create(:indicator, model: nil) }
+    let!(:team_indicator) { FactoryGirl.create(:indicator, model: team_model) }
+    let!(:some_indicator) { FactoryGirl.create(:indicator, model: some_model) }
+    let!(:master_indicator) { FactoryGirl.create(:indicator, model: nil) }
 
     describe 'GET index' do
       it 'assigns all indicators for own team\'s model' do
         get :index, params: {model_id: team_model.id}
-        expect(assigns(:indicators)).to eq(
+        expect(assigns(:indicators)).to match_array(
           [team_indicator, some_indicator, master_indicator]
         )
       end
       it 'assigns all indicators for other team\'s model' do
         get :index, params: {model_id: some_model.id}
-        expect(assigns(:indicators)).to eq(
+        expect(assigns(:indicators)).to match_array(
           [team_indicator, some_indicator, master_indicator]
         )
       end
@@ -166,7 +166,9 @@ RSpec.describe IndicatorsController, type: :controller do
       end
       it 'assigns team and master indicators' do
         get :index, params: {model_id: team_model.id}
-        expect(assigns(:indicators)).to eq([team_indicator, master_indicator])
+        expect(
+          assigns(:indicators)
+        ).to match_array([team_indicator, master_indicator])
       end
       it 'prevents unauthorized access' do
         get :index, params: {model_id: some_model.id}

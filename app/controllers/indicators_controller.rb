@@ -11,7 +11,7 @@ class IndicatorsController < ApplicationController
   def index
     @indicators =
       if current_user.admin?
-        Indicator.fetch_all(@filter_params)
+        Indicator.for_admin.fetch_all(@filter_params)
       else
         Indicator.for_model(@model).fetch_all(@filter_params)
       end
