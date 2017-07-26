@@ -35,6 +35,9 @@ class Indicator < ApplicationRecord
   before_validation :ignore_blank_array_values
   before_save :update_category, if: proc { |i| i.parent.present? }
 
+  scope :system_indicators_with_variations, lambda {
+    where(parent_id: nil).eager_load(:variations)
+  }
   pg_search_scope :search_for, against: [
     :category, :subcategory, :name, :alias
   ]
@@ -69,21 +72,6 @@ class Indicator < ApplicationRecord
   end
 
   class << self
-    def for_admin
-      Indicator.where(parent_id: nil).
-        eager_load(:variations)
-      # TODO: group variations
-    end
-
-    def for_model(model)
-      Indicator.
-        where(parent_id: nil).
-        where(
-          'indicators.model_id IS NULL OR indicators.model_id = ?', model.id
-        ).
-        eager_load(:variations)
-    end
-
     def fetch_all(options)
       indicators = Indicator.all
       options.each do |filter, value|

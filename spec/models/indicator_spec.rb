@@ -181,51 +181,6 @@ RSpec.describe Indicator, type: :model do
     end
   end
 
-  describe :for_model do
-    let(:model1) { FactoryGirl.create(:model) }
-    let(:model2) { FactoryGirl.create(:model) }
-    let!(:core_indicator1) {
-      FactoryGirl.create(
-        :indicator,
-        category: 'Emissions', subcategory: 'CO2 by sector', name: 'buildings'
-      )
-    }
-    let!(:core_indicator2) {
-      FactoryGirl.create(
-        :indicator,
-        category: 'Emissions', subcategory: 'CO2 by sector', name: 'transport'
-      )
-    }
-    let!(:team_indicator1) {
-      FactoryGirl.create(
-        :indicator,
-        parent: nil,
-        model: model1,
-        category: 'Emissions', subcategory: 'CO2 by sector',
-        name: 'residential',
-        alias: 'Emissions|My custom|residential CO2'
-      )
-    }
-    let!(:team_variation1) {
-      FactoryGirl.create(
-        :indicator,
-        parent: core_indicator1,
-        model: model1,
-        alias: "#{model1.abbreviation} #{core_indicator1.alias}"
-      )
-    }
-    it 'returns core and team indicators' do
-      expect(Indicator.for_model(model2)).to match_array(
-        [core_indicator1, core_indicator2]
-      )
-    end
-    it 'returns core and team indicators' do
-      expect(Indicator.for_model(model1)).to match_array(
-        [core_indicator1, core_indicator2, team_indicator1]
-      )
-    end
-  end
-
   describe :scenarios do
     let(:indicator) { FactoryGirl.create(:indicator) }
     let(:scenario) { FactoryGirl.create(:scenario) }

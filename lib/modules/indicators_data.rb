@@ -37,7 +37,7 @@ class IndicatorsData
     id_attributes = Indicator.slug_to_hash(slug)
     stackable_subcategory_raw = value_for(row, :stackable_subcategory)
     stackable_subcategory = stackable_subcategory_raw &&
-      stackable_subcategory_raw.downcase == 'yes'
+      stackable_subcategory_raw.casecmp?('yes')
 
     common_attributes = {
       stackable_subcategory: stackable_subcategory,
@@ -46,13 +46,13 @@ class IndicatorsData
       conversion_factor: value_for(row, :conversion_factor),
       definition: value_for(row, :definition)
     }
-    if !model_slug.present?
+    if !model_slug.present? || @user.admin?
       process_system_indicator(id_attributes, common_attributes, row_no)
-    else
-      process_team_variation(
-        id_attributes, common_attributes, slug, model_slug, row_no
-      )
     end
+    return unless model_slug.present?
+    process_team_variation(
+      id_attributes, common_attributes, slug, model_slug, row_no
+    )
   end
 
   def process_system_indicator(id_attributes, common_attributes, row_no)
