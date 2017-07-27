@@ -206,8 +206,10 @@ RSpec.describe Indicator, type: :model do
         category: 'Energy', subcategory: 'Energy use by fuel', name: 'Biomass'
       )
     }
-    let(:team) { FactoryGirl.create(:team) }
+    let(:team) { FactoryGirl.create(:team, name: 'AAA') }
+    let(:other_team) { FactoryGirl.create(:team, name: 'BBB') }
     let(:model) { FactoryGirl.create(:model, team: team) }
+    let(:other_model) { FactoryGirl.create(:model, team: other_team) }
     let!(:team_indicator) {
       FactoryGirl.create(
         :indicator,
@@ -220,7 +222,7 @@ RSpec.describe Indicator, type: :model do
       FactoryGirl.create(
         :indicator,
         category: 'Emissions', subcategory: 'CO2 by sector', name: 'Transport',
-        model: FactoryGirl.create(:model),
+        model: other_model,
         alias: 'Hello|My|Custom1'
       )
     }
@@ -270,14 +272,20 @@ RSpec.describe Indicator, type: :model do
       it 'orders by ESP name' do
         expect(
           Indicator.system_indicators_with_variations.
-            fetch_all('order_type' => 'esp_name')
+            fetch_all('order_type' => 'esp_name', 'order_direction' => 'ASC')
         ).to eq([team_indicator, other_indicator, system_indicator])
       end
       it 'orders by model name' do
         expect(
           Indicator.system_indicators_with_variations.
-            fetch_all('order_type' => 'model_name')
+            fetch_all('order_type' => 'model_name', 'order_direction' => 'ASC')
         ).to eq([system_indicator, other_indicator, team_indicator])
+      end
+      it 'orders by team who added it' do
+        expect(
+          Indicator.system_indicators_with_variations.
+            fetch_all('order_type' => 'added_by', 'order_direction' => 'ASC')
+        ).to eq([team_indicator, system_indicator, other_indicator])
       end
     end
   end
