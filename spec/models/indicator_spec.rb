@@ -234,18 +234,15 @@ RSpec.describe Indicator, type: :model do
       end
       it 'filters by type: system' do
         expect(
-          Indicator.fetch_all('type' => 'system')
+          Indicator.system_indicators_with_variations.
+            fetch_all('type' => 'system')
         ).to match_array([system_indicator])
       end
       it 'filters by type: team' do
         expect(
-          Indicator.fetch_all('type' => "team-#{team.id}")
+          Indicator.system_indicators_with_variations.
+            fetch_all('type' => "team-#{team.id}")
         ).to match_array([team_indicator])
-      end
-      it 'filters by type: other' do
-        expect(
-          Indicator.fetch_all('type' => "other-#{team.id}")
-        ).to match_array([other_indicator])
       end
     end
     context 'when using text search' do

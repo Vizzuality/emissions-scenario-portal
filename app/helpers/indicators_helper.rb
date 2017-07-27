@@ -4,15 +4,8 @@ module IndicatorsHelper
       ['System indicators', 'system']
     ]
     options +=
-      if current_user.admin?
-        Team.all.map do |t|
-          ["Indicators added by team: #{t.name}", "team-#{t.id}"]
-        end
-      else
-        [
-          ['Indicators added by your team', "team-#{current_user.team_id}"],
-          ['Indicators added by other teams', "other-#{current_user.team_id}"]
-        ]
+      Team.all.map do |t|
+        ["Indicators added by team: #{t.name}", "team-#{t.id}"]
       end
     options_for_select(options)
   end

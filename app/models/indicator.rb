@@ -4,7 +4,6 @@ class Indicator < ApplicationRecord
   ).freeze
   include MetadataAttributes
   include PgSearch
-  include Sanitizer
   include AliasTransformations
   include ScopeManagement
   include BestEffortMatching
@@ -37,11 +36,13 @@ class Indicator < ApplicationRecord
 
   scope :system_indicators_with_variations, lambda {
     where(parent_id: nil).
-    joins('LEFT JOIN models ON models.id = indicators.model_id').
-    joins('LEFT JOIN teams ON teams.id = models.team_id').
-    eager_load(:variations).
-    joins('LEFT JOIN models variations_models ON variations_models.id = variations_indicators.model_id').
-    joins('LEFT JOIN teams variations_teams ON variations_teams.id = variations_models.team_id')
+      joins('LEFT JOIN models ON models.id = indicators.model_id').
+      joins('LEFT JOIN teams ON teams.id = models.team_id').
+      eager_load(:variations).
+      joins("LEFT JOIN models variations_models ON variations_models.id = \
+variations_indicators.model_id").
+      joins("LEFT JOIN teams variations_teams ON variations_teams.id = \
+variations_models.team_id")
   }
   pg_search_scope :search_for, against: [
     :category, :subcategory, :name, :alias
@@ -155,17 +156,17 @@ class Indicator < ApplicationRecord
 
     def fetch_by_type(indicators, value)
       return indicators if value.blank?
-      return indicators.where(model_id: nil) if value == 'system'
-      scope, team_id_str = value.split('-')
-      team_id = sanitise_positive_integer(team_id_str)
-      return indicators unless team_id.present?
-      if scope == 'team'
-        indicators.joins(:model).where('models.team_id' => team_id)
-      else
-        indicators.joins(:model).
-          where('models.team_id IS NOT NULL AND models.team_id != ?', team_id).
-          where('indicators.parent_id IS NULL')
+      if value == 'system'
+        return indicators.where(model_id: nil).
+            where('variations_models.id' => nil)
       end
+      value =~ /team-(\d+)/
+      team_id = Regexp.last_match[1] && Regexp.last_match[1].to_i
+      return indicators unless team_id.present?
+      indicators.where(
+        'models.team_id = :team_id OR variations_models.team_id = :team_id',
+        team_id: team_id
+      )
     end
   end
 

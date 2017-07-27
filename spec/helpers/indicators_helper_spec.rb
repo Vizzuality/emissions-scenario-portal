@@ -27,12 +27,11 @@ RSpec.describe IndicatorsHelper, type: :helper do
     end
     let(:system_match) { '<option value="system">.+' }
     let(:team_match) { '<option value="team-.+">.+' }
-    let(:other_match) { '<option value="other-.+">.+' }
     context 'when admin' do
-      let(:user) { FactoryGirl.create(:user, admin: true) }
+      let(:user) { FactoryGirl.create(:user, admin: true, team: team) }
       it 'returns system indicators in first position' do
         expect(helper.types_for_select).to match(
-          /#{system_match}\n(#{team_match}\n?){3}/
+          /#{system_match}\n(#{team_match}\n?){2}/
         )
       end
     end
@@ -40,7 +39,7 @@ RSpec.describe IndicatorsHelper, type: :helper do
       let(:user) { FactoryGirl.create(:user, team: team) }
       it 'returns system indicators in first position' do
         expect(helper.types_for_select).to match(
-          /#{system_match}\n#{team_match}\n#{other_match}/
+          /#{system_match}\n(#{team_match}\n?){2}/
         )
       end
     end
