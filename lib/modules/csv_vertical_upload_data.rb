@@ -83,7 +83,7 @@ module CsvVerticalUploadData
     return nil unless index
     value = col[index]
     if multiple_selection?(property_name)
-      value = value.split(';').map(&:strip) unless value.blank?
+      value = value.present? && value.split(';').map(&:strip) || []
     end
     value
   end

@@ -35,7 +35,7 @@
                    },
                    {
                      title: 'Sector focus',
-                     data: @model.sectoral_coverage.join(', ')
+                     data: @model.sectoral_coverage.try(:join, ', ')
                    },
                    {
                      title: 'Time horizon',
