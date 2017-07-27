@@ -30,7 +30,7 @@ RSpec.describe ApplicationHelper, type: :helper do
       }
       it 'returns a text input field for release_date' do
         expect(
-          helper.attribute_input(scenario, form, :release_date)
+          helper.attribute_input(scenario, form, :description)
         ).to match('js-form-input')
       end
       it 'returns a select input for model_abbreviation' do
