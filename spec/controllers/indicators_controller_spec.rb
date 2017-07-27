@@ -53,6 +53,19 @@ RSpec.describe IndicatorsController, type: :controller do
           model_indicator_url(some_model, assigns(:indicator))
         )
       end
+
+      it 'redirects to own team\'s variation when successful' do
+        post :create, params: {
+          model_id: team_model.id, indicator: {
+            parent_id: master_indicator.id,
+            alias: 'Hello|variation',
+            unit_of_entry: master_indicator.unit
+          }
+        }
+        expect(response).to redirect_to(
+          model_indicator_url(team_model, assigns(:indicator))
+        )
+      end
     end
 
     describe 'GET edit' do
@@ -206,6 +219,19 @@ RSpec.describe IndicatorsController, type: :controller do
         )
       end
 
+      it 'redirects to own team\'s variation when successful' do
+        post :create, params: {
+          model_id: team_model.id, indicator: {
+            parent_id: master_indicator.id,
+            alias: 'Hello|variation',
+            unit_of_entry: master_indicator.unit
+          }
+        }
+        expect(response).to redirect_to(
+          model_indicator_url(team_model, assigns(:indicator))
+        )
+      end
+
       it 'prevents unauthorized access' do
         post :create, params: {
           model_id: some_model.id, indicator: {category: ['Buildings']}
@@ -232,7 +258,7 @@ RSpec.describe IndicatorsController, type: :controller do
             post :create, params: {
               model_id: team_model.id, indicator: {
                 parent_id: some_indicator.id, category: ['Transportation'],
-                unit: ['m']
+                unit_of_entry: ['m']
               }
             }
           }.not_to(change { Indicator.count })

@@ -9,10 +9,22 @@ module AliasTransformations
     before_save :update_alias, if: proc { |i|
       i.parent_id.blank? && (i.model_id.blank? || i.alias.blank?)
     }
+    # copy shared attributes from parent if variation
+    before_validation :copy_from_parent, if: proc { |i|
+      i.parent_id.present?
+    }
   end
 
   def build_alias
     [category, subcategory, name].join('|').chomp('|')
+  end
+
+  def copy_from_parent
+    self.category = parent.category
+    self.subcategory = parent.subcategory
+    self.name = parent.name
+    self.stackable_subcategory = parent.stackable_subcategory
+    self.unit = parent.unit
   end
 
   def update_alias
