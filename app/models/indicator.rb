@@ -94,7 +94,7 @@ class Indicator < ApplicationRecord
       when 'type'
         fetch_by_type(indicators, value)
       when 'category'
-        fetch_equal_value(indicators, filter, value)
+        fetch_equal_value(indicators, 'indicators.category', value)
       else
         indicators
       end
