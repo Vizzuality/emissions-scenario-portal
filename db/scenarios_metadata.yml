@@ -2,15 +2,6 @@
   reference: 'model.abbreviation'
   size: 'small'
   category: 'Model and provider'
-# - name: :model_version
-#   size: 'small'
-#   category: 'Model and provider'
-# - name: :provider_name
-#   size: 'large'
-#   category: 'Model and provider'
-# - name: :release_date
-#   size: 'small'
-#   category: 'Model and provider'
 - name: :name
   size: 'large'
   category: 'Scenario context'

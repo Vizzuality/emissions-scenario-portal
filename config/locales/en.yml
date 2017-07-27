@@ -194,18 +194,9 @@ en:
     model_abbreviation:
       name: "Model Abbreviation"
       definition: "What is the model abbreviation?"
-    model_version:
-      name: "Model Version"
-      definition: "What model version was used to run the scenario?"
     name:
       name: "Scenario name"
       definition: "What is the full scenario name?"
-    provider_name:
-      name: "Provider Name"
-      definition: "What is the name of the scenario provider?"
-    release_date:
-      name: "Release Date"
-      definition: "When was the scenario released by the provider?"
     category:
       name: "Category"
       definition: "What category does this scenario fit under?"
