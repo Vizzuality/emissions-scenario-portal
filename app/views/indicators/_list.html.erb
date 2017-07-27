@@ -4,7 +4,7 @@
   </div>
   <div class="small-2 columns">
     <div class="c-form-item js-table-filter" data-filter-type="select" data-filter-key="type">
-      <label class="f-ff1-m">Filter by type</label>
+      <label class="f-ff1-m">Filter by "Added by"</label>
       <div class="c-select">
         <%= select_tag 'filters[type]',
                       types_for_select,
@@ -45,7 +45,7 @@
 </div>
 <div class="l-indicators__table-shorts js-table-filter" data-filter-type="order">
   <div class="row">
-    <div class="small-3 columns">
+    <div class="small-2 columns">
       <%= render 'shared/components/c_order_filter_button',
                  text: 'ESP Indicator Name',
                  other_class: '-no-wrap',
@@ -57,7 +57,7 @@
                  other_class: '-no-wrap',
                  column_key: 'model_name' %>
     </div>
-    <div class="small-2 columns">
+    <div class="small-1 columns">
       <%= render 'shared/components/c_order_filter_button',
                  text: 'Unit',
                  other_class: '-no-wrap',
@@ -69,11 +69,17 @@
                  other_class: '-no-wrap',
                  column_key: 'definition' %>
     </div>
+    <div class="small-2 columns">
+      <%= render 'shared/components/c_order_filter_button',
+                 text: 'Added by',
+                 other_class: '-no-wrap',
+                 column_key: 'added_by' %>
+    </div>
   </div>
 </div>
 <% @indicators.each do |indicator| %>
   <% if indicator.variations.any? %>
-    <% indicator.variations.where(model_id: @model.id).each do |variation| %>
+    <% indicator.variations.eager_load(model: :team).where(model_id: @model.id).each do |variation| %>
       <%= render partial: 'row', locals: {indicator: indicator, variation: variation} %>
     <% end %>
   <% else %>

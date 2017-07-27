@@ -4,13 +4,12 @@ class Indicator < ApplicationRecord
   ).freeze
   include MetadataAttributes
   include PgSearch
-  include Sanitizer
   include AliasTransformations
   include ScopeManagement
   include BestEffortMatching
 
   ORDERS = %w[
-    esp_name definition unit model_name
+    esp_name definition unit model_name added_by
   ].freeze
 
   belongs_to :parent, class_name: 'Indicator', optional: true
@@ -36,7 +35,14 @@ class Indicator < ApplicationRecord
   before_save :update_category, if: proc { |i| i.parent.present? }
 
   scope :system_indicators_with_variations, lambda {
-    where(parent_id: nil).eager_load(:variations)
+    where(parent_id: nil).
+      joins('LEFT JOIN models ON models.id = indicators.model_id').
+      joins('LEFT JOIN teams ON teams.id = models.team_id').
+      eager_load(:variations).
+      joins("LEFT JOIN models variations_models ON variations_models.id = \
+variations_indicators.model_id").
+      joins("LEFT JOIN teams variations_teams ON variations_teams.id = \
+variations_models.team_id")
   }
   pg_search_scope :search_for, against: [
     :category, :subcategory, :name, :alias
@@ -108,6 +114,8 @@ class Indicator < ApplicationRecord
           model_name_order_clause(order_direction)
         elsif order_type == 'esp_name'
           esp_name_order_clause(order_direction)
+        elsif order_type == 'added_by'
+          added_by_order_clause(order_direction)
         else
           ['indicators.' + order_type, order_direction].join(' ')
         end
@@ -131,23 +139,34 @@ class Indicator < ApplicationRecord
       ].map { |col| [col, order_direction].join(' ') }.join(', ')
     end
 
+    def added_by_order_clause(order_direction)
+      sql = <<~SQL
+        CASE
+          WHEN variations_indicators.id IS NOT NULL THEN variations_teams.name
+          WHEN indicators.model_id IS NOT NULL THEN teams.name
+          ELSE NULL
+        END
+        SQL
+      [sql, order_direction].join(' ')
+    end
+
     def fetch_equal_value(indicators, filter, value)
       indicators.where("#{filter} IN (?)", value.split(','))
     end
 
     def fetch_by_type(indicators, value)
       return indicators if value.blank?
-      return indicators.where(model_id: nil) if value == 'system'
-      scope, team_id_str = value.split('-')
-      team_id = sanitise_positive_integer(team_id_str)
-      return indicators unless team_id.present?
-      if scope == 'team'
-        indicators.joins(:model).where('models.team_id' => team_id)
-      else
-        indicators.joins(:model).
-          where('models.team_id IS NOT NULL AND models.team_id != ?', team_id).
-          where('indicators.parent_id IS NULL')
+      if value == 'system'
+        return indicators.where(model_id: nil).
+            where('variations_models.id' => nil)
       end
+      value =~ /team-(\d+)/
+      team_id = Regexp.last_match[1] && Regexp.last_match[1].to_i
+      return indicators unless team_id.present?
+      indicators.where(
+        'models.team_id = :team_id OR variations_models.team_id = :team_id',
+        team_id: team_id
+      )
     end
   end
 
