@@ -181,32 +181,6 @@ RSpec.describe Indicator, type: :model do
     end
   end
 
-  describe :for_model do
-    let(:model1) { FactoryGirl.create(:model) }
-    let(:model2) { FactoryGirl.create(:model) }
-    let!(:core_indicator1) { FactoryGirl.create(:indicator) }
-    let!(:core_indicator2) { FactoryGirl.create(:indicator) }
-    let!(:team_indicator1) {
-      FactoryGirl.create(:indicator, parent: nil, model: model1)
-    }
-    let!(:team_variation1) {
-      FactoryGirl.create(:indicator, parent: core_indicator1, model: model1)
-    }
-    let!(:team_variation2) {
-      FactoryGirl.create(:indicator, parent: team_indicator1, model: model1)
-    }
-    it 'returns core and team indicators' do
-      expect(Indicator.for_model(model2)).to match_array(
-        [core_indicator1, core_indicator2, team_indicator1]
-      )
-    end
-    it 'returns core, team and variation indicators' do
-      expect(Indicator.for_model(model1)).to match_array(
-        [team_variation1, core_indicator2, team_variation2]
-      )
-    end
-  end
-
   describe :scenarios do
     let(:indicator) { FactoryGirl.create(:indicator) }
     let(:scenario) { FactoryGirl.create(:scenario) }
@@ -238,14 +212,16 @@ RSpec.describe Indicator, type: :model do
       FactoryGirl.create(
         :indicator,
         category: 'Emissions', subcategory: 'CO2 by sector', name: 'Industry',
-        model: model
+        model: model,
+        alias: 'Hello|My|Custom2'
       )
     }
     let!(:other_indicator) {
       FactoryGirl.create(
         :indicator,
         category: 'Emissions', subcategory: 'CO2 by sector', name: 'Transport',
-        model: FactoryGirl.create(:model)
+        model: FactoryGirl.create(:model),
+        alias: 'Hello|My|Custom1'
       )
     }
     context 'when using filters' do
@@ -283,15 +259,25 @@ RSpec.describe Indicator, type: :model do
       end
     end
     context 'when sorting' do
-      it 'orders by name' do
+      let!(:variation) {
+        FactoryGirl.create(
+          :indicator,
+          parent: system_indicator,
+          model: model,
+          alias: 'Goodbye|My|Custom'
+        )
+      }
+      it 'orders by ESP name' do
         expect(
-          Indicator.fetch_all('order_type' => 'name')
-        ).to eq([system_indicator, team_indicator, other_indicator])
-      end
-      it 'orders by slug' do
-        expect(
-          Indicator.fetch_all('order_type' => 'alias')
+          Indicator.system_indicators_with_variations.
+            fetch_all('order_type' => 'esp_name')
         ).to eq([team_indicator, other_indicator, system_indicator])
+      end
+      it 'orders by model name' do
+        expect(
+          Indicator.system_indicators_with_variations.
+            fetch_all('order_type' => 'model_name')
+        ).to eq([system_indicator, other_indicator, team_indicator])
       end
     end
   end

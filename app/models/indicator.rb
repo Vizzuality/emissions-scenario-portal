@@ -10,7 +10,7 @@ class Indicator < ApplicationRecord
   include BestEffortMatching
 
   ORDERS = %w[
-    alias name category subcategory definition unit parent_name
+    esp_name definition unit model_name
   ].freeze
 
   belongs_to :parent, class_name: 'Indicator', optional: true
@@ -35,6 +35,9 @@ class Indicator < ApplicationRecord
   before_validation :ignore_blank_array_values
   before_save :update_category, if: proc { |i| i.parent.present? }
 
+  scope :system_indicators_with_variations, lambda {
+    where(parent_id: nil).eager_load(:variations)
+  }
   pg_search_scope :search_for, against: [
     :category, :subcategory, :name, :alias
   ]
@@ -69,25 +72,8 @@ class Indicator < ApplicationRecord
   end
 
   class << self
-    def for_model(model)
-      team_indicators = Indicator.select(:id, :parent_id).
-        where(model_id: model.id)
-      Indicator.
-        joins("LEFT JOIN (#{team_indicators.to_sql}) team_indicators \
-ON indicators.id = team_indicators.parent_id").
-        where(
-          "indicators.model_id = :model_id AND \
-indicators.parent_id IS NOT NULL OR \
-indicators.model_id = :model_id AND indicators.parent_id IS NULL AND \
-team_indicators.id IS NULL OR \
-indicators.model_id IS NULL AND team_indicators.id IS NULL OR \
-indicators.model_id != :model_id AND indicators.parent_id IS NULL",
-          model_id: model.id
-        )
-    end
-
     def fetch_all(options)
-      indicators = Indicator.includes(:parent)
+      indicators = Indicator.all
       options.each do |filter, value|
         indicators = apply_filter(indicators, options, filter, value)
       end
@@ -108,7 +94,7 @@ indicators.model_id != :model_id AND indicators.parent_id IS NULL",
       when 'type'
         fetch_by_type(indicators, value)
       when 'category'
-        fetch_equal_value(indicators, filter, value)
+        fetch_equal_value(indicators, 'indicators.category', value)
       else
         indicators
       end
@@ -117,9 +103,32 @@ indicators.model_id != :model_id AND indicators.parent_id IS NULL",
     def fetch_with_order(indicators, order_type, order_direction)
       order_direction = get_order_direction(order_direction)
       order_type = get_order_type(ORDERS, order_type)
+      order_clause =
+        if order_type == 'model_name'
+          model_name_order_clause(order_direction)
+        elsif order_type == 'esp_name'
+          esp_name_order_clause(order_direction)
+        else
+          ['indicators.' + order_type, order_direction].join(' ')
+        end
+      indicators.order(order_clause)
+    end
 
-      order_type = 'parents_indicators.alias' if order_type == 'parent_name'
-      indicators.order("#{order_type} #{order_direction}", name: :asc)
+    def model_name_order_clause(order_direction)
+      sql = <<~SQL
+        CASE
+          WHEN variations_indicators.alias IS NOT NULL THEN variations_indicators.alias
+          WHEN indicators.model_id IS NOT NULL THEN indicators.alias
+          ELSE NULL
+        END
+        SQL
+      [sql, order_direction].join(' ')
+    end
+
+    def esp_name_order_clause(order_direction)
+      [
+        'indicators.category', 'indicators.subcategory', 'indicators.name'
+      ].map { |col| [col, order_direction].join(' ') }.join(', ')
     end
 
     def fetch_equal_value(indicators, filter, value)
@@ -128,9 +137,7 @@ indicators.model_id != :model_id AND indicators.parent_id IS NULL",
 
     def fetch_by_type(indicators, value)
       return indicators if value.blank?
-      if value == 'system'
-        return indicators.where('indicators.model_id IS NULL')
-      end
+      return indicators.where(model_id: nil) if value == 'system'
       scope, team_id_str = value.split('-')
       team_id = sanitise_positive_integer(team_id_str)
       return indicators unless team_id.present?
