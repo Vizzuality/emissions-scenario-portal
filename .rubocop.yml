@@ -9,16 +9,16 @@ AllCops:
     - 'config/*'
     - 'app/models/ability.rb'
 
-Style/SpaceInsideHashLiteralBraces:
+Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space
 
-Style/MultilineMethodCallIndentation:
+Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
 
-Style/MultilineOperationIndentation:
+Layout/MultilineOperationIndentation:
   EnforcedStyle: indented
 
-Style/DotPosition:
+Layout/DotPosition:
   EnforcedStyle: trailing
 
 Metrics/LineLength:
