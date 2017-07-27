@@ -16,12 +16,12 @@ class ApplicationController < ActionController::Base
     @nav_links = [
       {name: 'Overview', path: model_url(@model), key: 'models'},
       {
-        name: 'Scenarios',
-        path: model_scenarios_url(@model), key: 'scenarios'
-      },
-      {
         name: 'Indicators',
         path: model_indicators_url(@model), key: 'indicators'
+      },
+      {
+        name: 'Scenarios',
+        path: model_scenarios_url(@model), key: 'scenarios'
       }
     ]
   end
