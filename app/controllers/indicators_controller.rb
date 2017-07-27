@@ -20,7 +20,9 @@ class IndicatorsController < ApplicationController
 
   def create
     @indicator = Indicator.new(indicator_params)
-    @indicator.model = @model unless current_user.admin?
+    unless current_user.admin? && @indicator.parent_id.nil?
+      @indicator.model = @model
+    end
     if @indicator.save
       redirect_to model_indicator_url(@model, @indicator),
                   notice: 'Indicator was successfully created.'
