@@ -11,8 +11,12 @@ module AliasTransformations
     }
   end
 
+  def build_alias
+    [category, subcategory, name].join('|').chomp('|')
+  end
+
   def update_alias
-    self.alias = [category, subcategory, name].join('|').chomp('|')
+    self.alias = build_alias
   end
 
   class_methods do
