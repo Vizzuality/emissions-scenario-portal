@@ -1,8 +1,5 @@
 Category,Indicator,Definition/ Input Explanation,Data Type,Picklist options (Data Entry),Scenario 1
 Model and provider,Model Abbreviation,What is the model name?,Text (Alphanumeric),,Model A
-Model and provider,Model Version,What model version was used to run the scenario?,Text (Alphanumeric),,
-Model and provider,Provider Name,What is the name of the scenario provider?,Text (Alphanumeric),,
-Model and provider,Release Date,When was the scenario released by the provider?,Text (Alphanumeric),,
 Scenario context, Scenario name, What is the name of the scenario?,Text (Alphanumeric),,Scenario 1
 Scenario context,Category,What category does this scenario fit under?,Picklist,BAU/reference; NDCs; NDCs-Conditional; NDCs-Unconditional; Decarbonization; not specified,
 Scenario context,Purpose/Objective,What was the original purpose or objective of the scenario? Why was it created?,Text (Alphanumeric),,

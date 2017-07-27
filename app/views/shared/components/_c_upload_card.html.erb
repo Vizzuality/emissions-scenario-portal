@@ -1,4 +1,5 @@
 <% locations_reference ||= nil %>
+<% xls_structure_url ||= nil %>
 <div class="c-upload-card">
   <%= form_tag(form_url, method: :post, multipart: true) do %>
     <%= file_field_tag input_id, class: 'js-upload-card' %>
@@ -6,6 +7,9 @@
   <div class="c-button"><span><%= button_text %></span></div>
   <div class="f-ff1-s">
     Please follow <%= link_to 'this structure', structure_url %>
+      <% if xls_structure_url %>
+        or use this <%= link_to 'macro-enabled worksheet', xls_structure_url %> (save as .csv)
+      <% end %>
       <% if locations_reference %>
         and the <%= link_to 'list of countries and regions', locations_url %>
       <% end %>
