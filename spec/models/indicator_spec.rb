@@ -212,14 +212,16 @@ RSpec.describe Indicator, type: :model do
       FactoryGirl.create(
         :indicator,
         category: 'Emissions', subcategory: 'CO2 by sector', name: 'Industry',
-        model: model
+        model: model,
+        alias: 'Hello|My|Custom2'
       )
     }
     let!(:other_indicator) {
       FactoryGirl.create(
         :indicator,
         category: 'Emissions', subcategory: 'CO2 by sector', name: 'Transport',
-        model: FactoryGirl.create(:model)
+        model: FactoryGirl.create(:model),
+        alias: 'Hello|My|Custom1'
       )
     }
     context 'when using filters' do
@@ -257,15 +259,25 @@ RSpec.describe Indicator, type: :model do
       end
     end
     context 'when sorting' do
-      it 'orders by name' do
+      let!(:variation) {
+        FactoryGirl.create(
+          :indicator,
+          parent: system_indicator,
+          model: model,
+          alias: 'Goodbye|My|Custom'
+        )
+      }
+      it 'orders by ESP name' do
         expect(
-          Indicator.fetch_all('order_type' => 'name')
-        ).to eq([system_indicator, team_indicator, other_indicator])
-      end
-      it 'orders by slug' do
-        expect(
-          Indicator.fetch_all('order_type' => 'alias')
+          Indicator.system_indicators_with_variations.
+            fetch_all('order_type' => 'esp_name')
         ).to eq([team_indicator, other_indicator, system_indicator])
+      end
+      it 'orders by model name' do
+        expect(
+          Indicator.system_indicators_with_variations.
+            fetch_all('order_type' => 'model_name')
+        ).to eq([system_indicator, other_indicator, team_indicator])
       end
     end
   end

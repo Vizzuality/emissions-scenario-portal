@@ -10,7 +10,7 @@ class Indicator < ApplicationRecord
   include BestEffortMatching
 
   ORDERS = %w[
-    alias definition unit variation_name
+    esp_name definition unit model_name
   ].freeze
 
   belongs_to :parent, class_name: 'Indicator', optional: true
@@ -103,10 +103,32 @@ class Indicator < ApplicationRecord
     def fetch_with_order(indicators, order_type, order_direction)
       order_direction = get_order_direction(order_direction)
       order_type = get_order_type(ORDERS, order_type)
-      if order_type == 'variation_name'
-        order_type = 'variations_indicators.alias'
-      end
-      indicators.order("#{order_type} #{order_direction}", name: :asc)
+      order_clause =
+        if order_type == 'model_name'
+          model_name_order_clause(order_direction)
+        elsif order_type == 'esp_name'
+          esp_name_order_clause(order_direction)
+        else
+          ['indicators.' + order_type, order_direction].join(' ')
+        end
+      indicators.order(order_clause)
+    end
+
+    def model_name_order_clause(order_direction)
+      sql = <<~SQL
+        CASE
+          WHEN variations_indicators.alias IS NOT NULL THEN variations_indicators.alias
+          WHEN indicators.model_id IS NOT NULL THEN indicators.alias
+          ELSE NULL
+        END
+        SQL
+      [sql, order_direction].join(' ')
+    end
+
+    def esp_name_order_clause(order_direction)
+      [
+        'indicators.category', 'indicators.subcategory', 'indicators.name'
+      ].map { |col| [col, order_direction].join(' ') }.join(', ')
     end
 
     def fetch_equal_value(indicators, filter, value)
