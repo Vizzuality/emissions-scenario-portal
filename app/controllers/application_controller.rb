@@ -43,12 +43,14 @@ class ApplicationController < ActionController::Base
         redirect_url, alert: 'Please provide an upload file'
       ) and return true
     end
-    @upload_result = yield
-    unless @upload_result.no_errors_or_warnings?
-      @upload_errors = @upload_result.to_hash
-      set_filter_params
-      return false
+    csv_upload = yield
+    unless csv_upload.save
+      redirect_to(
+        redirect_url, alert: 'Please provide a .csv file'
+      ) and return true
     end
-    redirect_to redirect_url, notice: @upload_result.stats_message
+    sidekiq_id = CsvUploadWorker.perform_async(csv_upload.id)
+    csv_upload.update_attribute(:job_id, sidekiq_id)
+    redirect_to redirect_url, notice: 'File has been queued for processing'
   end
 end

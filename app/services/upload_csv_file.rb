@@ -10,8 +10,8 @@ class UploadCsvFile
     @errors = {}
   end
 
-  def call(uploaded_io)
-    initialize_data(uploaded_io)
+  def call(path)
+    initialize_data(path)
     @data.process
   end
 end

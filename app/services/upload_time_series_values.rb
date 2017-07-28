@@ -1,9 +1,9 @@
 require 'time_series_values_data'
 
 class UploadTimeSeriesValues < UploadCsvFile
-  def initialize_data(uploaded_io)
+  def initialize_data(path)
     @data = TimeSeriesValuesData.new(
-      uploaded_io.tempfile, @user, @model, encoding(uploaded_io.tempfile)
+      path, @user, @model, encoding(path)
     )
   end
 end

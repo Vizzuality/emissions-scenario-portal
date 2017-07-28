@@ -72,11 +72,13 @@ class IndicatorsController < ApplicationController
 
   def upload_meta_data
     handle_io_upload(:indicators_file, model_indicators_url(@model)) do
-      UploadIndicators.new(current_user, @model).
-        call(@uploaded_io)
-    end and return
-    index
-    render action: :index
+      CsvUpload.create(
+        user: current_user,
+        model: @model,
+        service_type: 'UploadIndicators',
+        data: @uploaded_io
+      )
+    end
   end
 
   def upload_template

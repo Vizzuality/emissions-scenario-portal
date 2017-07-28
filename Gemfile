@@ -44,6 +44,8 @@ gem 'sendgrid-ruby'
 gem 'pg_csv'
 gem 'pg_search'
 gem 'charlock_holmes'
+gem 'paperclip'
+gem 'sidekiq'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

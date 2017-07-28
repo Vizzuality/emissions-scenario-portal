@@ -159,14 +159,15 @@ RSpec.describe ScenariosController, type: :controller do
         expect(flash[:alert]).to match(/upload file/)
       end
 
-      it 'renders index when errors' do
+      it 'redirects with error when file queued' do
         post :upload_meta_data, params: {
           model_id: team_model.id,
           scenarios_file: fixture_file_upload(
             'scenarios-correct.csv', 'text/csv'
           )
         }
-        expect(response).to render_template(:index)
+        expect(response).to redirect_to(model_scenarios_url(team_model))
+        expect(flash[:notice]).to match(/queued/)
       end
 
       it 'prevents unauthorized access' do

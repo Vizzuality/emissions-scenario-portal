@@ -55,10 +55,13 @@ class ModelsController < ApplicationController
 
   def upload_meta_data
     handle_io_upload(:models_file, models_url) do
-      UploadModels.new(current_user).call(@uploaded_io)
-    end and return
-    index
-    render action: :index
+      CsvUpload.create(
+        user: current_user,
+        model: nil,
+        service_type: 'UploadModels',
+        data: @uploaded_io
+      )
+    end
   end
 
   def upload_template

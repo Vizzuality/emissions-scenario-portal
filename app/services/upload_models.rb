@@ -6,9 +6,9 @@ class UploadModels < UploadCsvFile
     @errors = {}
   end
 
-  def initialize_data(uploaded_io)
+  def initialize_data(path)
     @data = ModelsData.new(
-      uploaded_io.tempfile, @user, encoding(uploaded_io.tempfile)
+      path, @user, encoding(path)
     )
   end
 end

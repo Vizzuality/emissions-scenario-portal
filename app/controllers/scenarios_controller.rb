@@ -42,10 +42,13 @@ class ScenariosController < ApplicationController
 
   def upload_meta_data
     handle_io_upload(:scenarios_file, model_scenarios_url(@model)) do
-      UploadScenarios.new(current_user, @model).call(@uploaded_io)
-    end and return
-    index
-    render action: :index
+      CsvUpload.create(
+        user: current_user,
+        model: @model,
+        service_type: 'UploadScenarios',
+        data: @uploaded_io
+      )
+    end
   end
 
   def upload_template
