@@ -44,7 +44,7 @@ module CsvUploadData
   def value_for(row, property_name)
     index = @headers.actual_index_for_property(property_name)
     return nil unless index
-    row[index]
+    row[index] && row[index].strip || nil
   end
 
   def matching_object(

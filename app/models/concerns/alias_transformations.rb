@@ -9,10 +9,22 @@ module AliasTransformations
     before_save :update_alias, if: proc { |i|
       i.parent_id.blank? && (i.model_id.blank? || i.alias.blank?)
     }
+
     # copy shared attributes from parent if variation
     before_validation :copy_from_parent, if: proc { |i|
       i.parent_id.present?
     }
+
+    # ensure no trailing whitespace in attributes used for matching
+    before_validation :strip_whitespace
+  end
+
+  def strip_whitespace
+    self.category = category.try(:strip)
+    self.subcategory = subcategory.try(:strip)
+    self.name = name.try(:strip)
+    self.unit = unit.try(:strip)
+    self.unit_of_entry = unit_of_entry.try(:strip)
   end
 
   def build_alias
