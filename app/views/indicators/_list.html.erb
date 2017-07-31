@@ -80,9 +80,9 @@
 <% @indicators.each do |indicator| %>
   <% if indicator.variations.any? %>
     <% indicator.variations.eager_load(model: :team).where(model_id: @model.id).each do |variation| %>
-      <%= render partial: 'row', locals: {indicator: indicator, variation: variation} %>
+      <%= render partial: 'indicators/row', locals: {indicator: indicator, variation: variation} %>
     <% end %>
   <% else %>
-    <%= render partial: 'row', locals: {indicator: indicator, variation: nil} %>
+    <%= render partial: 'indicators/row', locals: {indicator: indicator, variation: nil} %>
   <% end %>
 <% end %>
