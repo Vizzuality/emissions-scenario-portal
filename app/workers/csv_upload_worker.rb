@@ -23,7 +23,9 @@ processing."
     csv_upload.finished_at = Time.now
     csv_upload.success = !fus.errors?
     csv_upload.message = fus.stats_message
-    unless fus.no_errors_or_warnings?
+    if fus.no_errors_or_warnings?
+      csv_upload.errors_and_warnings = nil
+    else
       csv_upload.errors_and_warnings = fus.to_hash
     end
     csv_upload.save

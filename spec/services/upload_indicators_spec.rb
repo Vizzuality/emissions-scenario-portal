@@ -6,13 +6,13 @@ RSpec.describe UploadIndicators, upload: :s3 do
     FactoryGirl.create(:model, abbreviation: 'Model A', team: user.team)
   }
   let(:csv_upload) {
-      FactoryGirl.create(
-        :csv_upload,
-        user: user,
-        model: model,
-        service_type: 'UploadIndicators',
-        data: file
-      )
+    FactoryGirl.create(
+      :csv_upload,
+      user: user,
+      model: model,
+      service_type: 'UploadIndicators',
+      data: file
+    )
   }
 
   subject { UploadIndicators.new(csv_upload).call }

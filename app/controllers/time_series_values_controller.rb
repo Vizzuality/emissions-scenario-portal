@@ -22,4 +22,10 @@ class TimeSeriesValuesController < ApplicationController
       disposition: 'attachment; filename=time_series_values_upload_template.csv'
     )
   end
+
+  private
+
+  def redirect_after_upload_url(csv_upload = nil)
+    model_scenarios_url(@model, csv_upload_id: csv_upload.try(:id))
+  end
 end

@@ -3,12 +3,12 @@ require 'rails_helper'
 RSpec.describe UploadModels, upload: :s3 do
   let(:user) { FactoryGirl.create(:user) }
   let(:csv_upload) {
-      FactoryGirl.create(
-        :csv_upload,
-        user: user,
-        service_type: 'UploadModels',
-        data: file
-      )
+    FactoryGirl.create(
+      :csv_upload,
+      user: user,
+      service_type: 'UploadModels',
+      data: file
+    )
   }
 
   subject { UploadModels.new(csv_upload).call }
@@ -143,12 +143,12 @@ RSpec.describe UploadModels, upload: :s3 do
       )
     }
     let(:csv_upload) {
-        FactoryGirl.create(
-          :csv_upload,
-          user: user,
-          service_type: 'UploadModels',
-          data: file
-        )
+      FactoryGirl.create(
+        :csv_upload,
+        user: user,
+        service_type: 'UploadModels',
+        data: file
+      )
     }
     before(:each) do
       FactoryGirl.create(

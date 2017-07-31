@@ -24,21 +24,21 @@
     <div class="c-notifications-modal__container">
       <div class="c-notifications-modal__title">
         <svg class="icon icon-alert"><use xlink:href="#icon-alert"></use></svg>
-        <div class="f-ff3-m-bold"><%= @upload_errors[:title] %></div>
+        <div class="f-ff3-m-bold"><%= @upload_errors['title'] %></div>
         <svg class="icon icon-close js-notification-modal-close"><use xlink:href="#icon-close"></use></svg>
       </div>
       <ul class="c-notifications-modal__errors">
-        <% @upload_errors[:errors].each do |error| %>
+        <% @upload_errors['errors'].each do |error| %>
           <li class="c-notifications-modal__error">
-            <div class="f-ff1-s"><span class="f-ff1-s-bold"><%= error[:loc] %></span> <%= error[:message] %></div>
-            <div class="f-ff1-s c-notifications-modal__error-suggestion"><%= error[:suggestion].try(:html_safe) %></div>
+            <div class="f-ff1-s"><span class="f-ff1-s-bold"><%= error['loc'] %></span> <%= error['message'] %></div>
+            <div class="f-ff1-s c-notifications-modal__error-suggestion"><%= error['suggestion'].try(:html_safe) %></div>
           </li>
         <% end %>
-        <% if @upload_errors[:warnings].present? %>
-          <% @upload_errors[:warnings].each do |error| %>
+        <% if @upload_errors['warnings'].present? %>
+          <% @upload_errors['warnings'].each do |error| %>
             <li class="c-notifications-modal__error">
-              <div class="f-ff1-s"><span class="f-ff1-s-bold"><%= error[:loc] %></span> <%= error[:message] %></div>
-              <div class="f-ff1-s c-notifications-modal__error-suggestion"><%= error[:suggestion].try(:html_safe) %></div>
+              <div class="f-ff1-s"><span class="f-ff1-s-bold"><%= error['loc'] %></span> <%= error['message'] %></div>
+              <div class="f-ff1-s c-notifications-modal__error-suggestion"><%= error['suggestion'].try(:html_safe) %></div>
             </li>
           <% end %>
         <% end %>

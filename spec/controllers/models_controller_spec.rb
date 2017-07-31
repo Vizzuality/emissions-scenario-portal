@@ -170,13 +170,15 @@ RSpec.describe ModelsController, type: :controller do
           content_type: 'text/csv',
           size: File.size?(file_path)
         )
-        allow_any_instance_of(Paperclip::AdapterRegistry).to receive(:for).and_return(attachment_adapter)
+        allow_any_instance_of(
+          Paperclip::AdapterRegistry
+        ).to receive(:for).and_return(attachment_adapter)
         post :upload_meta_data, params: {
           models_file: fixture_file_upload(
             file_name, 'text/csv'
           )
         }
-        expect(response).to redirect_to(models_url)
+        expect(response).to redirect_to(/#{models_url}\?csv_upload_id/)
         expect(flash[:notice]).to match(/queued/)
       end
     end

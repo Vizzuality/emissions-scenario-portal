@@ -6,13 +6,13 @@ RSpec.describe UploadScenarios, upload: :s3 do
     FactoryGirl.create(:model, abbreviation: 'Model A', team: user.team)
   }
   let(:csv_upload) {
-      FactoryGirl.create(
-        :csv_upload,
-        user: user,
-        model: model,
-        service_type: 'UploadScenarios',
-        data: file
-      )
+    FactoryGirl.create(
+      :csv_upload,
+      user: user,
+      model: model,
+      service_type: 'UploadScenarios',
+      data: file
+    )
   }
 
   subject { UploadScenarios.new(csv_upload).call }
@@ -171,7 +171,7 @@ RSpec.describe UploadScenarios, upload: :s3 do
         )
       )
     }
-  let(:csv_upload) {
+    let(:csv_upload) {
       FactoryGirl.create(
         :csv_upload,
         user: FactoryGirl.create(:user),
@@ -179,7 +179,7 @@ RSpec.describe UploadScenarios, upload: :s3 do
         service_type: 'UploadScenarios',
         data: file
       )
-  }
+    }
 
     subject {
       UploadScenarios.new(csv_upload).call

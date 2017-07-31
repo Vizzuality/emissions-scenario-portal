@@ -38,13 +38,13 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
     FactoryGirl.create(:location, name: 'Portugal', iso_code: 'PT')
   }
   let(:csv_upload) {
-      FactoryGirl.create(
-        :csv_upload,
-        user: user,
-        model: model,
-        service_type: 'UploadTimeSeriesValues',
-        data: file
-      )
+    FactoryGirl.create(
+      :csv_upload,
+      user: user,
+      model: model,
+      service_type: 'UploadTimeSeriesValues',
+      data: file
+    )
   }
 
   subject { UploadTimeSeriesValues.new(csv_upload).call }
@@ -261,13 +261,13 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
       )
     }
     let(:csv_upload) {
-        FactoryGirl.create(
-          :csv_upload,
-          user: FactoryGirl.create(:user),
-          model: model,
-          service_type: 'UploadTimeSeriesValues',
-          data: file
-        )
+      FactoryGirl.create(
+        :csv_upload,
+        user: FactoryGirl.create(:user),
+        model: model,
+        service_type: 'UploadTimeSeriesValues',
+        data: file
+      )
     }
     subject {
       UploadTimeSeriesValues.new(csv_upload).call
