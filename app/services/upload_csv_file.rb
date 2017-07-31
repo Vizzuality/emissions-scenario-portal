@@ -4,13 +4,13 @@ require 'encoding_detection'
 class UploadCsvFile
   include EncodingDetection
 
-  def initialize(user, model)
-    @user = user
-    @model = model
+  def initialize(csv_upload)
+    @csv_upload = csv_upload
     @errors = {}
   end
 
-  def call(path)
+  def call
+    path = Paperclip.io_adapters.for(@csv_upload.data).path
     initialize_data(path)
     @data.process
   end

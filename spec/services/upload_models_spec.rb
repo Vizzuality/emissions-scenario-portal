@@ -1,9 +1,17 @@
 require 'rails_helper'
 
-RSpec.describe UploadModels do
+RSpec.describe UploadModels, upload: :s3 do
   let(:user) { FactoryGirl.create(:user) }
+  let(:csv_upload) {
+      FactoryGirl.create(
+        :csv_upload,
+        user: user,
+        service_type: 'UploadModels',
+        data: file
+      )
+  }
 
-  subject { UploadModels.new(user).call(file) }
+  subject { UploadModels.new(csv_upload).call }
 
   context 'when file correct' do
     let(:file) {
@@ -134,6 +142,14 @@ RSpec.describe UploadModels do
         )
       )
     }
+    let(:csv_upload) {
+        FactoryGirl.create(
+          :csv_upload,
+          user: user,
+          service_type: 'UploadModels',
+          data: file
+        )
+    }
     before(:each) do
       FactoryGirl.create(
         :model, abbreviation: 'Model A'
@@ -143,7 +159,7 @@ RSpec.describe UploadModels do
       )
     end
     subject {
-      UploadModels.new(user).call(file)
+      UploadModels.new(csv_upload).call
     }
     it 'should not have saved any rows' do
       expect { subject }.not_to(change { Model.count })

@@ -15,18 +15,8 @@ class CsvUploadWorker
 processing."
       return
     end
-    fus = service_object(service_class, csv_upload).call(csv_upload.data.path)
+    fus = service_class.new(csv_upload).call
     store_results(csv_upload, fus)
-  end
-
-  def service_object(service_class, csv_upload)
-    if service_class == UploadModels
-      UploadModels.new(csv_upload.user)
-    else
-      service_class.new(
-        csv_upload.user, csv_upload.model
-      )
-    end
   end
 
   def store_results(csv_upload, fus)

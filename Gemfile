@@ -45,6 +45,7 @@ gem 'pg_csv'
 gem 'pg_search'
 gem 'charlock_holmes'
 gem 'paperclip'
+gem 'aws-sdk', '~> 2'
 gem 'sidekiq'
 
 group :development, :test do

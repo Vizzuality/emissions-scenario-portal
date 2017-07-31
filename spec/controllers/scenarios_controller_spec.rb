@@ -150,7 +150,9 @@ RSpec.describe ScenariosController, type: :controller do
       end
     end
 
-    describe 'POST upload_meta_data' do
+    describe 'POST upload_meta_data', upload: :s3 do
+      let(:file_name) { 'scenarios-correct.csv' }
+      let(:file_path) { Rails.root.join('spec', 'fixtures', file_name) }
       it 'redirects with error when file not given' do
         post :upload_meta_data, params: {
           model_id: team_model.id
@@ -159,11 +161,20 @@ RSpec.describe ScenariosController, type: :controller do
         expect(flash[:alert]).to match(/upload file/)
       end
 
-      it 'redirects with error when file queued' do
+      it 'redirects with notice when file queued' do
+        attachment_adapter = instance_double(
+          'Paperclip::AttachmentAdapter',
+          path: file_path,
+          assignment?: true,
+          original_filename: file_name,
+          content_type: 'text/csv',
+          size: File.size?(file_path)
+        )
+        allow_any_instance_of(Paperclip::AdapterRegistry).to receive(:for).and_return(attachment_adapter)
         post :upload_meta_data, params: {
           model_id: team_model.id,
           scenarios_file: fixture_file_upload(
-            'scenarios-correct.csv', 'text/csv'
+            file_name, 'text/csv'
           )
         }
         expect(response).to redirect_to(model_scenarios_url(team_model))
@@ -174,7 +185,7 @@ RSpec.describe ScenariosController, type: :controller do
         post :upload_meta_data, params: {
           model_id: some_model.id,
           scenarios_file: fixture_file_upload(
-            'scenarios-correct.csv', 'text/csv'
+            file_name, 'text/csv'
           )
         }
         expect(response).to redirect_to(root_url)
