@@ -28,7 +28,7 @@ RSpec.describe UploadIndicators do
         expect(subject.number_of_records_saved).to eq(2)
       end
       it 'should report no rows failed' do
-        expect(subject.number_of_records_failed).to eq(0)
+        expect(subject.number_of_records_failed).to eq(1)
       end
     end
     context 'when researcher' do
@@ -39,7 +39,7 @@ RSpec.describe UploadIndicators do
         expect(subject.number_of_records_saved).to eq(1)
       end
       it 'should report system indicator rows failed' do
-        expect(subject.number_of_records_failed).to eq(1)
+        expect(subject.number_of_records_failed).to eq(2)
       end
     end
     context 'when researcher from another team' do
@@ -54,7 +54,7 @@ RSpec.describe UploadIndicators do
         expect(subject.number_of_records_saved).to eq(0)
       end
       it 'should report all rows failed' do
-        expect(subject.number_of_records_failed).to eq(2)
+        expect(subject.number_of_records_failed).to eq(3)
       end
     end
   end
@@ -90,7 +90,7 @@ RSpec.describe UploadIndicators do
         expect(subject.number_of_records_saved).to eq(2)
       end
       it 'should report no rows failed' do
-        expect(subject.number_of_records_failed).to eq(0)
+        expect(subject.number_of_records_failed).to eq(1)
       end
     end
     context 'when researcher' do
@@ -101,7 +101,7 @@ RSpec.describe UploadIndicators do
         expect(subject.number_of_records_saved).to eq(1)
       end
       it 'should report no rows failed' do
-        expect(subject.number_of_records_failed).to eq(1)
+        expect(subject.number_of_records_failed).to eq(2)
       end
     end
   end
