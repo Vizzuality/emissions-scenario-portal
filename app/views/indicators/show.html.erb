@@ -23,7 +23,7 @@
         <div class="f-ff1-m-bold">Subcategory</div>
         <div class="f-ff1-m l-indicators-overview__data"><%= @indicator.subcategory %></div>
       </div>
-      <div class="small-2 columns">
+      <div class="small-1 columns">
         <div class="f-ff1-m-bold">Unit</div>
         <div class="f-ff1-m l-indicators-overview__data"><%= @indicator.unit %></div>
       </div>
@@ -32,14 +32,27 @@
         <div class="f-ff1-m l-indicators-overview__data"><%= @indicator.definition %></div>
       </div>
       <div class="small-2 columns">
-        <%= link_to edit_model_indicator_url(@model, @indicator) do %>
-          <div class="c-edit-button">
-            <div class="c-edit-button__bubble">
-              <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+        <% if current_user.can?(:manage, @indicator) %>
+          <%= link_to edit_model_indicator_url(@model, @indicator) do %>
+            <div class="c-edit-button">
+              <div class="c-edit-button__bubble">
+                <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+              </div>
+              <div class="f-ff1-s">Edit metadata</div>
             </div>
-            <div class="f-ff1-s">Edit</div>
-          </div>
-          Edit metadata
+          <% end %>
+        <% end %>
+      </div>
+      <div class="small-1 columns">
+        <% if @indicator.system? && current_user.can?(:create, Indicator.new(model_id: @model.id)) %>
+          <%= link_to fork_model_indicator_url(@model, @indicator) do %>
+            <div class="c-edit-button">
+              <div class="c-edit-button__bubble">
+                <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+              </div>
+              <div class="f-ff1-s">Fork</div>
+            </div>
+          <% end %>
         <% end %>
       </div>
     </div>

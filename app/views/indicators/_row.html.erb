@@ -55,7 +55,8 @@
               <div class="f-ff1-s">Edit</div>
             </div>
           <% end %>
-        <% else %>
+        <% end %>
+        <% if action_indicator.system? && current_user.can?(:create, Indicator.new(model_id: @model.id)) %>
           <%= link_to fork_model_indicator_url(@model, action_indicator) do %>
             <div class="c-edit-button">
               <div class="c-edit-button__bubble">
