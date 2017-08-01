@@ -5,11 +5,13 @@ class AdminController < ApplicationController
     @teams = Team.order(:name)
     @models = Model.order(:abbreviation)
     @locations = Location.order(:name)
+    @indicators = Indicator.where(parent_id: nil)
   end
 
   private
 
   def ensure_admin
-    render status: :forbidden and return false unless current_user.admin?
+    return true if current_user.admin?
+    redirect_to '/', alert: 'You are not authorized to access this page.'
   end
 end
