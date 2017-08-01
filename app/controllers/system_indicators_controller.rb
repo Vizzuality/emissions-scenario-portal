@@ -2,6 +2,7 @@ class SystemIndicatorsController < AdminController
   load_resource :indicator, parent: false, except: [:new, :create, :index]
   authorize_resource :indicator
   before_action :set_filter_params, only: [:index, :show]
+  before_action :set_upload_errors, only: [:index]
 
   def index
     @indicators = Indicator.system_indicators_with_variations.
@@ -58,10 +59,13 @@ class SystemIndicatorsController < AdminController
 
   def upload_meta_data
     handle_io_upload(:indicators_file, indicators_url) do
-      UploadIndicators.new(current_user, nil).
-        call(@uploaded_io)
-    end and return
-    index
+      CsvUpload.create(
+        user: current_user,
+        model: nil,
+        service_type: 'UploadIndicators',
+        data: @uploaded_io
+      )
+    end
   end
 
   def upload_template
@@ -98,5 +102,9 @@ class SystemIndicatorsController < AdminController
     params.require(:indicator).permit(
       *Indicator.attribute_symbols_for_strong_params
     )
+  end
+
+  def redirect_after_upload_url(csv_upload = nil)
+    indicators_url(csv_upload_id: csv_upload.try(:id))
   end
 end
