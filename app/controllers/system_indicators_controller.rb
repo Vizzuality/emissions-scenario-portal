@@ -84,6 +84,14 @@ class SystemIndicatorsController < AdminController
     )
   end
 
+  def promote
+    @indicator.promote_to_system_indicator
+    redirect_to(
+      indicators_url,
+      notice: 'Indicator successfully promoted'
+    )
+  end
+
   private
 
   def indicator_params

@@ -46,6 +46,16 @@
               <div class="f-ff1-s">Edit</div>
             </div>
           <% end %>
+          <% if indicator.team? %>
+            <%= link_to promote_indicator_url(indicator), method: :put do %>
+              <div class="c-edit-button">
+                <div class="c-edit-button__bubble">
+                  <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+                </div>
+                <div class="f-ff1-s">Promote</div>
+              </div>
+            <% end %>
+          <% end %>
         <% end %>
       </div>
     </div>

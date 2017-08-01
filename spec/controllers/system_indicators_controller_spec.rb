@@ -90,6 +90,13 @@ RSpec.describe SystemIndicatorsController, type: :controller do
         )
       end
     end
+
+    describe 'PUT promote' do
+      it 'redirects to index' do
+        put :promote, params: {id: team_indicator.id}
+        expect(response).to redirect_to(indicators_url)
+      end
+    end
   end
 
   context 'when user' do

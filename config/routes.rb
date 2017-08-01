@@ -24,6 +24,7 @@ Rails.application.routes.draw do
     post :upload_meta_data, on: :collection
     get :download_time_series, on: :member
     get :upload_template, on: :collection
+    put :promote, on: :member
   end
 
   resources :teams, except: [:show] do
