@@ -7,6 +7,7 @@ class ScenariosController < ApplicationController
 
   before_action :set_nav_links, only: [:index, :show, :edit]
   before_action :set_filter_params, only: [:index, :show]
+  before_action :set_upload_errors, only: [:index]
 
   def index
     @scenarios = @model.scenarios.fetch_all(@filter_params)
@@ -42,10 +43,13 @@ class ScenariosController < ApplicationController
 
   def upload_meta_data
     handle_io_upload(:scenarios_file, model_scenarios_url(@model)) do
-      UploadScenarios.new(current_user, @model).call(@uploaded_io)
-    end and return
-    index
-    render action: :index
+      CsvUpload.create(
+        user: current_user,
+        model: @model,
+        service_type: 'UploadScenarios',
+        data: @uploaded_io
+      )
+    end
   end
 
   def upload_template
@@ -74,5 +78,9 @@ class ScenariosController < ApplicationController
     params.require(:scenario).permit(
       *Scenario.attribute_symbols_for_strong_params
     )
+  end
+
+  def redirect_after_upload_url(csv_upload = nil)
+    model_scenarios_url(@model, csv_upload_id: csv_upload.try(:id))
   end
 end

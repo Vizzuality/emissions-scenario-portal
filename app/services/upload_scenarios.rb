@@ -1,9 +1,9 @@
 require 'scenarios_data'
 
 class UploadScenarios < UploadCsvFile
-  def initialize_data(uploaded_io)
+  def initialize_data(path)
     @data = ScenariosData.new(
-      uploaded_io.tempfile, @user, @model, encoding(uploaded_io.tempfile)
+      path, @csv_upload.user, @csv_upload.model, encoding(path)
     )
   end
 end

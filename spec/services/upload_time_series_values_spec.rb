@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe UploadTimeSeriesValues do
+RSpec.describe UploadTimeSeriesValues, upload: :s3 do
   let(:user) { FactoryGirl.create(:user) }
   let(:model) {
     FactoryGirl.create(:model, abbreviation: 'Model A', team: user.team)
@@ -37,7 +37,17 @@ RSpec.describe UploadTimeSeriesValues do
   let!(:location2) {
     FactoryGirl.create(:location, name: 'Portugal', iso_code: 'PT')
   }
-  subject { UploadTimeSeriesValues.new(user, model).call(file) }
+  let(:csv_upload) {
+    FactoryGirl.create(
+      :csv_upload,
+      user: user,
+      model: model,
+      service_type: 'UploadTimeSeriesValues',
+      data: file
+    )
+  }
+
+  subject { UploadTimeSeriesValues.new(csv_upload).call }
 
   context 'when file correct' do
     let(:file) {
@@ -250,8 +260,17 @@ RSpec.describe UploadTimeSeriesValues do
         )
       )
     }
+    let(:csv_upload) {
+      FactoryGirl.create(
+        :csv_upload,
+        user: FactoryGirl.create(:user),
+        model: model,
+        service_type: 'UploadTimeSeriesValues',
+        data: file
+      )
+    }
     subject {
-      UploadTimeSeriesValues.new(FactoryGirl.create(:user), model).call(file)
+      UploadTimeSeriesValues.new(csv_upload).call
     }
     it 'should not have saved any rows' do
       expect { subject }.not_to(change { TimeSeriesValue.count })

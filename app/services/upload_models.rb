@@ -1,14 +1,9 @@
 require 'models_data'
 
 class UploadModels < UploadCsvFile
-  def initialize(user)
-    @user = user
-    @errors = {}
-  end
-
-  def initialize_data(uploaded_io)
+  def initialize_data(path)
     @data = ModelsData.new(
-      uploaded_io.tempfile, @user, encoding(uploaded_io.tempfile)
+      path, @csv_upload.user, encoding(path)
     )
   end
 end

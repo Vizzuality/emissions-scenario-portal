@@ -1,12 +1,21 @@
 require 'rails_helper'
 
-RSpec.describe UploadScenarios do
+RSpec.describe UploadScenarios, upload: :s3 do
   let(:user) { FactoryGirl.create(:user) }
   let(:model) {
     FactoryGirl.create(:model, abbreviation: 'Model A', team: user.team)
   }
+  let(:csv_upload) {
+    FactoryGirl.create(
+      :csv_upload,
+      user: user,
+      model: model,
+      service_type: 'UploadScenarios',
+      data: file
+    )
+  }
 
-  subject { UploadScenarios.new(user, model).call(file) }
+  subject { UploadScenarios.new(csv_upload).call }
 
   context 'when file correct' do
     let(:file) {
@@ -162,8 +171,18 @@ RSpec.describe UploadScenarios do
         )
       )
     }
+    let(:csv_upload) {
+      FactoryGirl.create(
+        :csv_upload,
+        user: FactoryGirl.create(:user),
+        model: model,
+        service_type: 'UploadScenarios',
+        data: file
+      )
+    }
+
     subject {
-      UploadScenarios.new(FactoryGirl.create(:user), model).call(file)
+      UploadScenarios.new(csv_upload).call
     }
     it 'should not have saved any rows' do
       expect { subject }.not_to(change { Scenario.count })

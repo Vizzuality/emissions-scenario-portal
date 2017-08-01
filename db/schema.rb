@@ -10,11 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170727140241) do
+ActiveRecord::Schema.define(version: 20170728144124) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "tablefunc"
+
+  create_table "csv_uploads", force: :cascade do |t|
+    t.text     "job_id"
+    t.integer  "user_id",             null: false
+    t.integer  "model_id"
+    t.text     "service_type",        null: false
+    t.datetime "finished_at"
+    t.boolean  "success"
+    t.text     "message"
+    t.jsonb    "errors_and_warnings"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+    t.string   "data_file_name"
+    t.string   "data_content_type"
+    t.integer  "data_file_size"
+    t.datetime "data_updated_at"
+    t.index ["model_id"], name: "index_csv_uploads_on_model_id", using: :btree
+    t.index ["user_id"], name: "index_csv_uploads_on_user_id", using: :btree
+  end
 
   create_table "indicators", force: :cascade do |t|
     t.text     "category",                              null: false
@@ -191,6 +210,8 @@ ActiveRecord::Schema.define(version: 20170727140241) do
     t.index ["team_id"], name: "index_users_on_team_id", using: :btree
   end
 
+  add_foreign_key "csv_uploads", "models", on_delete: :cascade
+  add_foreign_key "csv_uploads", "users", on_delete: :cascade
   add_foreign_key "indicators", "indicators", column: "parent_id"
   add_foreign_key "indicators", "models"
   add_foreign_key "models", "teams"

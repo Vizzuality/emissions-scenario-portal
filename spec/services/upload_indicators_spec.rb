@@ -1,12 +1,21 @@
 require 'rails_helper'
 
-RSpec.describe UploadIndicators do
+RSpec.describe UploadIndicators, upload: :s3 do
   let(:user) { FactoryGirl.create(:user) }
   let(:model) {
     FactoryGirl.create(:model, abbreviation: 'Model A', team: user.team)
   }
+  let(:csv_upload) {
+    FactoryGirl.create(
+      :csv_upload,
+      user: user,
+      model: model,
+      service_type: 'UploadIndicators',
+      data: file
+    )
+  }
 
-  subject { UploadIndicators.new(user, model).call(file) }
+  subject { UploadIndicators.new(csv_upload).call }
 
   context 'when file correct' do
     let(:file) {

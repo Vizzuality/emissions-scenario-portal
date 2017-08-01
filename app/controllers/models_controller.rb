@@ -4,6 +4,7 @@ class ModelsController < ApplicationController
   load_and_authorize_resource
 
   before_action :set_nav_links, only: [:index, :show, :edit]
+  before_action :set_upload_errors, only: [:index]
 
   def index
     @team = current_user.team
@@ -55,10 +56,13 @@ class ModelsController < ApplicationController
 
   def upload_meta_data
     handle_io_upload(:models_file, models_url) do
-      UploadModels.new(current_user).call(@uploaded_io)
-    end and return
-    index
-    render action: :index
+      CsvUpload.create(
+        user: current_user,
+        model: nil,
+        service_type: 'UploadModels',
+        data: @uploaded_io
+      )
+    end
   end
 
   def upload_template
@@ -74,5 +78,9 @@ class ModelsController < ApplicationController
 
   def model_params
     params.require(:model).permit(*Model.attribute_symbols_for_strong_params)
+  end
+
+  def redirect_after_upload_url(csv_upload = nil)
+    models_url(csv_upload_id: csv_upload.try(:id))
   end
 end

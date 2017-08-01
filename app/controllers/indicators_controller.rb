@@ -7,6 +7,7 @@ class IndicatorsController < ApplicationController
 
   before_action :set_nav_links, only: [:index, :show, :edit, :fork]
   before_action :set_filter_params, only: [:index, :show]
+  before_action :set_upload_errors, only: [:index]
 
   def index
     @indicators = Indicator.system_indicators_with_variations.
@@ -72,11 +73,13 @@ class IndicatorsController < ApplicationController
 
   def upload_meta_data
     handle_io_upload(:indicators_file, model_indicators_url(@model)) do
-      UploadIndicators.new(current_user, @model).
-        call(@uploaded_io)
-    end and return
-    index
-    render action: :index
+      CsvUpload.create(
+        user: current_user,
+        model: @model,
+        service_type: 'UploadIndicators',
+        data: @uploaded_io
+      )
+    end
   end
 
   def upload_template
@@ -105,5 +108,9 @@ class IndicatorsController < ApplicationController
     params.require(:indicator).permit(
       *Indicator.attribute_symbols_for_strong_params
     )
+  end
+
+  def redirect_after_upload_url(csv_upload = nil)
+    model_indicators_url(@model, csv_upload_id: csv_upload.try(:id))
   end
 end
