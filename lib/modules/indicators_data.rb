@@ -51,7 +51,7 @@ class IndicatorsData
     end
     return unless model_slug.present?
     process_team_variation(
-      id_attributes, common_attributes, slug, model_slug, row_no
+      id_attributes, common_attributes, model_slug, row_no
     )
   end
 
@@ -76,7 +76,7 @@ indicator instead.'
   end
 
   def process_team_variation(
-    id_attributes, common_attributes, slug, model_slug, row_no
+    id_attributes, common_attributes, model_slug, row_no
   )
     if @user.cannot?(:create, Indicator.new(model_id: @model.id))
       message = "Access denied to manage team indicators \
@@ -90,6 +90,7 @@ indicator instead.'
       )
       return nil
     end
+    slug = Indicator.hash_to_slug(id_attributes)
     indicator = Indicator.where(
       parent_id: nil, model_id: nil, alias: slug
     ).first
