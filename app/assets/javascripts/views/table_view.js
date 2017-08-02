@@ -71,6 +71,7 @@
       var rows = this.$el.data('rows');
 
       this.columns.push({headerName: "Country", field: "country", cellClass: 'f-ff1-m-bold', pinned: true});
+      this.columns.push({headerName: "Scenario", field: "scenario", cellClass: 'f-ff1-m-bold', pinned: true});
       _.each(years, function(year) {
         this.columns.push({headerName: year.toString(), field: year.toString()});
       }.bind(this));
@@ -81,7 +82,7 @@
           yearValues[years[i].toString()] = yearValue;
         });
 
-        this.rows.push(_.extend({country: row.location_name}, yearValues));
+        this.rows.push(_.extend({country: row.location_name, scenario: row.scenario_name}, yearValues));
       }.bind(this));
     }
     
