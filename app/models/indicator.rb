@@ -19,12 +19,6 @@ class Indicator < ApplicationRecord
   has_many :time_series_values, dependent: :destroy
   belongs_to :model, optional: true
 
-  validates :category, presence: true, inclusion: {
-    in: Indicator.attribute_info(:category).options,
-    message: 'must be one of ' +
-      Indicator.attribute_info(:category).options.join(', '),
-    if: proc { |i| i.category.present? }
-  }
   validates :model, presence: true, if: proc { |i| i.parent.present? }
   validates :conversion_factor, presence: {
     message: "can't be blank if unit of entry differs from standard unit"
@@ -32,7 +26,6 @@ class Indicator < ApplicationRecord
   validate :unit_compatible_with_parent, if: proc { |i| i.parent.present? }
   validate :parent_is_not_variation, if: proc { |i| i.parent.present? }
   before_validation :ignore_blank_array_values
-  before_save :update_category, if: proc { |i| i.parent.present? }
 
   scope :system_indicators_with_variations, lambda {
     where(parent_id: nil).
@@ -58,13 +51,6 @@ variations_models.team_id")
   def parent_is_not_variation
     return true unless parent.variation?
     errors[:parent] << 'cannot be a variation'
-  end
-
-  def update_category
-    self.category = parent.category
-    self.subcategory = parent.subcategory
-    self.name = parent.name
-    self.stackable_subcategory = parent.stackable_subcategory
   end
 
   def scenarios

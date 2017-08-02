@@ -67,7 +67,13 @@ class IndicatorsHeaders
     @actual_headers = @headers.
       map { |ah| ah.downcase.gsub(/[^a-z0-9]/i, '') }.
       map do |header|
-      expected_index = expected_headers.index(header)
+      expected_index =
+        if header == 'modelabbreviationindicatorname'
+          # this is in case somebody has not amended the model name header
+          expected_headers.index("#{@model.abbreviation.downcase}indicatorname")
+        else
+          expected_headers.index(header)
+        end
       if expected_index.present?
         {
           display_name: header,

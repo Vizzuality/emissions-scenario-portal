@@ -36,6 +36,10 @@ module CsvUploadData
     CSV.open(
       @path, 'r', headers: true, encoding: @encoding
     ).each.with_index(2) do |row, row_no|
+      if empty_row?(row)
+        @fus.increment_number_of_records_failed
+        next
+      end
       process_row(row, row_no)
     end
     @fus
@@ -107,5 +111,9 @@ missing data into the system [here]."
         row_or_col_no, key, format_error("#{key.capitalize} #{value}.", nil)
       )
     end
+  end
+
+  def empty_row?(row)
+    row.to_hash.values.reject(&:blank?).none?
   end
 end
