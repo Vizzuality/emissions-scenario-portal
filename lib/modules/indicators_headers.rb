@@ -60,7 +60,7 @@ class IndicatorsHeaders
       map { |ah| ah.downcase.gsub(/[^a-z0-9]/i, '') }.
       map do |header|
       expected_index =
-        if header == 'modelindicatorname'
+        if header == 'modelabbreviationindicatorname'
           # this is in case somebody has not amended the model name header
           expected_headers.index("#{@model.abbreviation.downcase}indicatorname")
         else
