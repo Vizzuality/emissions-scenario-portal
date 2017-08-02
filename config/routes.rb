@@ -14,11 +14,17 @@ Rails.application.routes.draw do
       get :upload_template, on: :collection
     end
     resources :indicators, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
-      post :upload_meta_data, on: :collection#, as: :upload_indicators_meta_data
+      post :upload_meta_data, on: :collection
       get :download_time_series, on: :member
       get :fork, on: :member
       get :upload_template, on: :collection
     end
+  end
+  resources :indicators, only: [:index, :show, :new, :create, :edit, :update, :destroy], controller: :system_indicators do
+    post :upload_meta_data, on: :collection
+    get :download_time_series, on: :member
+    get :upload_template, on: :collection
+    put :promote, on: :member
   end
 
   resources :teams, except: [:show] do

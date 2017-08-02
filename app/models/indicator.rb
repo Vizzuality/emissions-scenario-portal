@@ -9,7 +9,7 @@ class Indicator < ApplicationRecord
   include BestEffortMatching
 
   ORDERS = %w[
-    esp_name definition unit model_name added_by
+    esp_name definition unit model_name added_by type
   ].freeze
 
   belongs_to :parent, class_name: 'Indicator', optional: true
@@ -32,8 +32,10 @@ class Indicator < ApplicationRecord
       joins('LEFT JOIN models ON models.id = indicators.model_id').
       joins('LEFT JOIN teams ON teams.id = models.team_id').
       eager_load(:variations).
+      joins("LEFT JOIN indicators variations ON variations.parent_id = \
+indicators.id").
       joins("LEFT JOIN models variations_models ON variations_models.id = \
-variations_indicators.model_id").
+variations.model_id").
       joins("LEFT JOIN teams variations_teams ON variations_teams.id = \
 variations_models.team_id")
   }
@@ -102,6 +104,8 @@ variations_models.team_id")
           esp_name_order_clause(order_direction)
         elsif order_type == 'added_by'
           added_by_order_clause(order_direction)
+        elsif order_type == 'type'
+          type_order_clause(order_direction)
         else
           ['indicators.' + order_type, order_direction].join(' ')
         end
@@ -111,7 +115,7 @@ variations_models.team_id")
     def model_name_order_clause(order_direction)
       sql = <<~SQL
         CASE
-          WHEN variations_indicators.alias IS NOT NULL THEN variations_indicators.alias
+          WHEN variations.alias IS NOT NULL THEN variations.alias
           WHEN indicators.model_id IS NOT NULL THEN indicators.alias
           ELSE NULL
         END
@@ -128,11 +132,16 @@ variations_models.team_id")
     def added_by_order_clause(order_direction)
       sql = <<~SQL
         CASE
-          WHEN variations_indicators.id IS NOT NULL THEN variations_teams.name
+          WHEN variations.id IS NOT NULL THEN variations_teams.name
           WHEN indicators.model_id IS NOT NULL THEN teams.name
           ELSE NULL
         END
         SQL
+      [sql, order_direction].join(' ')
+    end
+
+    def type_order_clause(order_direction)
+      sql = 'indicators.parent_id IS NULL, indicators.model_id'
       [sql, order_direction].join(' ')
     end
 

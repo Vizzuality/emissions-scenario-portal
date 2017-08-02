@@ -45,17 +45,25 @@ class IndicatorsHeaders
     initialize_headers(path)
     @model = model
     @fus = FileUploadStatus.new(:headers, @headers.length, 0)
-    parse_headers(url_helpers.upload_template_model_indicators_path(@model))
+    upload_template_path =
+      if @model
+        url_helpers.upload_template_model_indicators_path(@model)
+      else
+        url_helpers.upload_template_indicators_path
+      end
+    parse_headers(upload_template_path)
   end
 
   def parse_headers(template_url)
-    expected_headers = EXPECTED_HEADERS.
-      map do |eh|
-        eh[:display_name].
-          sub(/Model/, @model.abbreviation).
-          downcase.
-          gsub(/[^a-z0-9]/i, '')
+    expected_headers = EXPECTED_HEADERS.map { |eh| eh[:display_name] }
+    if @model
+      expected_headers = expected_headers.map do |eh|
+        eh.sub(/Model/, @model.abbreviation)
       end
+    end
+    expected_headers = expected_headers.map do |eh|
+      eh.downcase.gsub(/[^a-z0-9]/i, '')
+    end
     @actual_headers = @headers.
       map { |ah| ah.downcase.gsub(/[^a-z0-9]/i, '') }.
       map do |header|

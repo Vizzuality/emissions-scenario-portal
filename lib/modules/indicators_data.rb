@@ -49,7 +49,7 @@ class IndicatorsData
     if !model_slug.present? || @user.admin?
       process_system_indicator(id_attributes, common_attributes, row_no)
     end
-    return unless model_slug.present?
+    return unless model_slug.present? && @model
     process_team_variation(
       id_attributes, common_attributes, model_slug, row_no
     )

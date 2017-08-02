@@ -18,8 +18,14 @@ module IndicatorsHelper
 
   def values_for_indicator_parent_dropdown(indicator)
     selection = indicator.parent
-    select_values = Indicator.where('parent_id IS NULL').
-      where('model_id IS NULL OR model_id != ?', @model.id).
+    select_values = Indicator.where('parent_id IS NULL')
+    select_values =
+      if defined? @model
+        select_values.where('model_id IS NULL OR model_id != ?', @model.id)
+      else
+        select_values.where('model_id IS NULL')
+      end
+    select_values = select_values.
       order(alias: :asc).
       select(:id, :alias).
       map do |i|

@@ -13,9 +13,9 @@ RSpec.describe AdminController, type: :controller do
   context 'when unauthorised user' do
     login_user
 
-    it 'should be forbidden' do
+    it 'should be redirect' do
       get :home
-      expect(response).to be_forbidden
+      expect(response).to redirect_to('/')
     end
   end
 end

@@ -28,5 +28,13 @@
                  button_url: locations_url
       %>
     </div>
+    <div class="small-6 columns">
+      <%= render 'shared/components/c_model_overview_card',
+                 title: 'Indicators',
+                 values: @indicators,
+                 button_text: 'Manage indicators',
+                 button_url: indicators_url
+      %>
+    </div>
   </div>
 </div>
