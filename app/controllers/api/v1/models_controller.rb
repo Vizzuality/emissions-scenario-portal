@@ -1,11 +1,13 @@
 class Api::V1::ModelsController < ApplicationController
-  load_resource
+  skip_before_action :authenticate_user!
 
   def index
-    render json: @models
+    models = Model.all
+    render json: models
   end
 
   def show
-    render json: @model
+    model = Model.find_by_id!(params[:id])
+    render json: model
   end
 end

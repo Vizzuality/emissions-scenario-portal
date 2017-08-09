@@ -1,8 +1,8 @@
 class Api::V1::ScenariosController < ApplicationController
-  load_resource :model
-  load_resource through: :model
+  skip_before_action :authenticate_user!
 
   def index
-    render json: @model.scenarios
+    model = Model.find_by_id!(params[:model_id])
+    render json: model.scenarios
   end
 end
