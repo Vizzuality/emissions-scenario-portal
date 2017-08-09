@@ -3,7 +3,7 @@ class Api::V1::ModelsController < ApplicationController
 
   def index
     models = Model.all
-    render json: models
+    render json: models.order(:updated_at)
   end
 
   def show
