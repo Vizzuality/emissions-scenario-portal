@@ -7,7 +7,7 @@ RSpec.describe Api::V1::ModelsController, type: :controller do
     describe 'GET index' do
       it 'lists all models' do
         get :index
-        expect(response.body).to eq(some_models.sort_by(&:updated_at).to_json)
+        expect(response.body).to eq(some_models.sort_by(&:full_name).to_json)
       end
     end
 
