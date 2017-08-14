@@ -30,10 +30,7 @@ ENV RACK_ENV production
 # Bundle app source
 COPY . ./
 
-# Precompile
-RUN bundle exec rake assets:precompile
-
 EXPOSE 3000
 
 # Start puma
-CMD bundle exec rake tmp:clear db:migrate && bundle exec puma -C config/puma.rb
+CMD bundle exec rake assets:precompile && bundle exec rake tmp:clear db:migrate && bundle exec puma -C config/puma.rb
