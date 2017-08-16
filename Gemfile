@@ -40,7 +40,6 @@ gem 'dotenv-rails' # required by Devise
 gem 'cancancan', '~> 1.10'
 gem 'devise'
 gem 'devise_invitable'
-gem 'sendgrid-ruby'
 gem 'pg_csv'
 gem 'pg_search'
 gem 'charlock_holmes'
