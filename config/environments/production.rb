@@ -66,13 +66,13 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
 
   config.action_mailer.smtp_settings = {
-    user_name: ENV['SENDGRID_USERNAME'],
-    password: ENV['SENDGRID_PASSWORD'],
-    domain: 'yourdomain.com',
-    address: 'smtp.sendgrid.net',
+    user_name: 'SMTP_Injection',
+    password: ENV['SPARKPOST_PASSWORD'],
+    domain: ENV['MAILER_DEFAULT_URL'],
+    address: 'smtp.sparkpostmail.com',
     port: 587,
-    authentication: :plain,
-    enable_starttls_auto: true
+    enable_starttls_auto: true,
+    format: :html,
   }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
