@@ -24,9 +24,9 @@ spec:
             memory: "512Mi"
         env:
           - name: MAILER_DEFAULT_FROM
-            value: no-reply@localhost
+            value: no-reply@www.emissionspathways.org
           - name: MAILER_DEFAULT_URL
-            value: localhost
+            value: www.emissionspathways.org
           - name: AWS_REGION
             value: eu-west-1
           - name: RACK_ENV
@@ -54,6 +54,11 @@ spec:
                 secretKeyRef:
                   name: mssecrets
                   key: EMISSIONS_SECRET_KEY_BASE
+          - name: SPARKPOST_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mssecrets
+                key: EMISSIONS_SPARKPOST_PASSWORD
           - name: REDIS_URL
             value: redis://localhost:6379
           - name: POSTGRES_URL
