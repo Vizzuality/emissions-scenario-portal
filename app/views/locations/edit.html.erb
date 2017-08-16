@@ -1,0 +1,48 @@
+<%= render 'shared/components/c_landing_header', no_nav: true %>
+
+<div class="l-locations-edit">
+  <div class="row l-locations-edit__fields">
+    <div class="small-12 columns">
+      <%= form_for @location do |f| %>
+        <div class="row">
+          <div class="small-12 columns">
+            <div class="row align-right">
+              <div class="small-2 columns">
+                <%= link_to locations_url, class: 'l-locations-edit__form-action' do %>
+                  <%= render 'shared/components/c_flying_button' %>
+                <% end %>
+              </div>
+              <div class="small-2 columns">
+                <%= f.submit 'Save', class: 'c-button' %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="c-form">
+          <div class="c-form-items">
+            <div class="c-form-item <% if @location.errors.messages[:name].present? %>-error<% end %>">
+              <%= f.label :name, 'Country name', class: 'f-ff1-m' %>
+              <%= f.text_field :name, class: 'c-input-text -large js-form-input' %>
+            </div>
+            <div class="c-form-item <% if @location.errors.messages[:iso_code].present? %>-error<% end %>">
+              <%= f.label :iso_code, 'ISO code', class: 'f-ff1-m' %>
+              <%= f.text_field :iso_code, class: 'c-input-text -large js-form-input' %>
+            </div>
+            <div class="c-form-item <% if @location.errors.messages[:region].present? %>-error<% end %>">
+              <div class="c-checkbox">
+                <%= f.check_box :region %>
+                <%= f.label :region do %>
+                  <div class="c-checkbox__box">
+                    <svg class="icon icon-checkbox-off"><use xlink:href="#icon-checkbox-off"></use></svg>
+                    <svg class="icon icon-checkbox-on"><use xlink:href="#icon-checkbox-on"></use></svg>
+                  </div>
+                  <div class="f-ff1-s">Is it a region?</div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+<%
+  title ||= ''
+  edit_url ||= nil
+  destroy_url ||= nil
+  grid_class = "small-#{(12 / columns.count).floor}"
+%>
+<div class="c-columns-table">
+  <div class="c-item-header -color-2">
+    <div class="f-ff1-xs"><%= title %></div>
+    <div class="c-item-header__actions">
+      <% if edit_url.present? %>
+        <%= link_to edit_url do %>
+          <svg class="icon icon-edit"><use xlink:href="#icon-edit"></use></svg>
+        <% end %>
+      <% end %>
+      <% if destroy_url.present? %>
+        <%= link_to destroy_url, method: :delete, data: {confirm: destroy_message} do %>
+          <div class="c-remove-button">
+            <svg class="icon"><use xlink:href="#icon-delete"></use></svg>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  <div class="row">
+    <% columns.each do |item| %>
+      <div class="<%= grid_class %> columns">
+        <ul class="c-columns-table__list f-ff1-m">
+          <li class="f-ff1-m-bold"><%= item[:title] %></li>
+          <%= item[:data] %>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+</div>

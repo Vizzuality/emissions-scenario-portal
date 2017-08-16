@@ -1,0 +1,40 @@
+<%= render 'shared/components/c_landing_header', no_nav: true %>
+<div class="l-admin">
+  <div class="row">
+    <div class="small-12 columns">
+      <div class="l-admin__title f-ff3-m-bold">Select what you want to manage</div>
+    </div>
+    <div class="small-6 columns">
+      <%= render 'shared/components/c_model_overview_card',
+                 title: 'Teams',
+                 values: @teams,
+                 button_text: 'Manage teams and users',
+                 button_url: teams_url
+      %>
+    </div>
+    <div class="small-6 columns">
+      <%= render 'shared/components/c_model_overview_card',
+                 title: 'Models',
+                 values: @models,
+                 button_text: 'Manage models',
+                 button_url: models_url
+      %>
+    </div>
+    <div class="small-6 columns">
+      <%= render 'shared/components/c_model_overview_card',
+                 title: 'Countries',
+                 values: @locations,
+                 button_text: 'Manage countries',
+                 button_url: locations_url
+      %>
+    </div>
+    <div class="small-6 columns">
+      <%= render 'shared/components/c_model_overview_card',
+                 title: 'Indicators',
+                 values: @indicators,
+                 button_text: 'Manage indicators',
+                 button_url: indicators_url
+      %>
+    </div>
+  </div>
+</div>

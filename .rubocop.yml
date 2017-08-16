@@ -7,14 +7,18 @@ AllCops:
     - 'config/environments/*'
     - 'config/initializers/*'
     - 'config/*'
+    - 'app/models/ability.rb'
 
-Style/SpaceInsideHashLiteralBraces:
+Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space
 
-Style/MultilineMethodCallIndentation:
+Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
 
-Style/DotPosition:
+Layout/MultilineOperationIndentation:
+  EnforcedStyle: indented
+
+Layout/DotPosition:
   EnforcedStyle: trailing
 
 Metrics/LineLength:
@@ -50,3 +54,22 @@ Bundler/OrderedGems:
 
 Style/Documentation:
   Enabled: false
+
+Style/AndOr:
+  Enabled: false
+
+Metrics/AbcSize:
+  Exclude:
+    - 'lib/modules/*'
+
+Metrics/MethodLength:
+  Max: 15
+  Exclude:
+    - 'lib/modules/*'
+
+Metrics/ClassLength:
+  Max: 150
+
+Style/BlockDelimiters:
+  Exclude:
+    - 'spec/**/*'

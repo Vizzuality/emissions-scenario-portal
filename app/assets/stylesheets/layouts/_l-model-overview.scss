@@ -1,0 +1,24 @@
+.l-model-overview {
+  padding: rem(40px) 0 rem(20px) 0;
+
+  .c-model-overview-card,
+  .c-model-news-card {
+    margin-bottom: rem(20px);
+  }
+
+  .c-columns-table .c-item-header__actions {
+
+    .icon-edit {
+      position: relative;
+      top: rem(2px);
+      fill: $color-app-2;
+      width: rem(15px);
+      height: rem(15px);
+    }
+
+    .c-remove-button {
+      margin-left: 15px;
+      float: right;
+    }
+  }
+}

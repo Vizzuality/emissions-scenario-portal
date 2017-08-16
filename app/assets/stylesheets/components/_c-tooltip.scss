@@ -1,0 +1,156 @@
+$tooltip-margin: rem(5px);
+$tooltip-position: rem(3px);
+
+.c-tooltip {
+  display: none;
+  max-width: rem(400px);
+  z-index: 2;
+
+  &.tooltip-enabled {
+    display: inline-block;
+  }
+
+  .tooltip-content {
+    position: relative;
+    background: $color-app-2;
+    font-family: $font-family-1;
+    font-size: $ff1-size-s;
+    line-height: 1.56;
+    letter-spacing: 0.5px;
+    color: $color-app-1;
+    padding: rem(10px) rem(10px) rem(7px) rem(10px);
+    box-shadow: 0 10px 20px 0 rgba($color-app-2, .2);
+
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-color: transparent;
+      border-width: 5px;
+      border-style: solid;
+    }
+  }
+
+  &.tooltip-element-attached-bottom.tooltip-element-attached-center .tooltip-content {
+    margin-bottom: $tooltip-margin;
+  }
+
+  &.tooltip-element-attached-bottom.tooltip-element-attached-center .tooltip-content:before {
+    top: 100%;
+    left: 50%;
+    margin-left: -$tooltip-margin;
+    border-top-color: $color-app-2;
+  }
+
+  &.tooltip-element-attached-top.tooltip-element-attached-center .tooltip-content {
+    margin-top: $tooltip-margin;
+  }
+  &.tooltip-element-attached-top.tooltip-element-attached-center .tooltip-content:before {
+    bottom: 100%;
+    left: 50%;
+    margin-left: -$tooltip-margin;
+    border-bottom-color: $color-app-2;
+  }
+
+  &.tooltip-element-attached-right.tooltip-element-attached-middle .tooltip-content {
+    margin-right: $tooltip-margin;
+  }
+
+  &.tooltip-element-attached-right.tooltip-element-attached-middle .tooltip-content:before {
+    left: 100%;
+    top: 50%;
+    margin-top: -$tooltip-margin;
+    border-left-color: $color-app-2;
+  }
+  &.tooltip-element-attached-left.tooltip-element-attached-middle .tooltip-content {
+    margin-left: $tooltip-margin;
+  }
+
+  &.tooltip-element-attached-left.tooltip-element-attached-middle .tooltip-content:before {
+    right: 100%;
+    top: 50%;
+    margin-top: -$tooltip-margin;
+    border-right-color: $color-app-2;
+  }
+
+  &.tooltip-element-attached-top.tooltip-element-attached-left.tooltip-target-attached-bottom .tooltip-content {
+    margin-top: $tooltip-margin;
+  }
+
+  &.tooltip-element-attached-top.tooltip-element-attached-left.tooltip-target-attached-bottom .tooltip-content:before {
+    bottom: 100%;
+    left: $tooltip-position;
+    border-bottom-color: $color-app-2;
+  }
+
+  &.tooltip-element-attached-top.tooltip-element-attached-right.tooltip-target-attached-bottom .tooltip-content {
+    margin-top: $tooltip-margin;}
+
+  &.tooltip-element-attached-top.tooltip-element-attached-right.tooltip-target-attached-bottom .tooltip-content:before {
+    bottom: 100%;
+    right: $tooltip-position;
+    border-bottom-color: $color-app-2;
+  }
+
+  &.tooltip-element-attached-bottom.tooltip-element-attached-left.tooltip-target-attached-top .tooltip-content {
+    margin-bottom: $tooltip-margin;
+  }
+
+  &.tooltip-element-attached-bottom.tooltip-element-attached-left.tooltip-target-attached-top .tooltip-content:before {
+    top: 100%;
+    left: $tooltip-position;
+    border-top-color: $color-app-2;
+  }
+
+  &.tooltip-element-attached-bottom.tooltip-element-attached-right.tooltip-target-attached-top .tooltip-content {
+    margin-bottom: $tooltip-margin;
+  }
+
+  &.tooltip-element-attached-bottom.tooltip-element-attached-right.tooltip-target-attached-top .tooltip-content:before {
+    top: 100%;
+    right: $tooltip-position;
+    border-top-color: $color-app-2;
+  }
+
+  &.tooltip-element-attached-top.tooltip-element-attached-right.tooltip-target-attached-left .tooltip-content {
+    margin-right: $tooltip-margin;
+  }
+
+  &.tooltip-element-attached-top.tooltip-element-attached-right.tooltip-target-attached-left .tooltip-content:before {
+    top: $tooltip-position;
+    left: 100%;
+    border-left-color: $color-app-2;
+  }
+
+  &.tooltip-element-attached-top.tooltip-element-attached-left.tooltip-target-attached-right .tooltip-content {
+    margin-left: $tooltip-margin;
+  }
+
+  &.tooltip-element-attached-top.tooltip-element-attached-left.tooltip-target-attached-right .tooltip-content:before {
+    top: $tooltip-position;
+    right: 100%;
+    border-right-color: $color-app-2;
+  }
+
+  &.tooltip-element-attached-bottom.tooltip-element-attached-right.tooltip-target-attached-left .tooltip-content {
+    margin-right: $tooltip-margin;
+  }
+
+  &.tooltip-element-attached-bottom.tooltip-element-attached-right.tooltip-target-attached-left .tooltip-content:before {
+    bottom: $tooltip-position;
+    left: 100%;
+    border-left-color: $color-app-2;
+  }
+
+  &.tooltip-element-attached-bottom.tooltip-element-attached-left.tooltip-target-attached-right .tooltip-content {
+    margin-left: $tooltip-margin;
+  }
+
+  &.tooltip-element-attached-bottom.tooltip-element-attached-left.tooltip-target-attached-right .tooltip-content:before {
+    bottom: $tooltip-position;
+    right: 100%;
+    border-right-color: $color-app-2;
+  }
+}

@@ -1,5 +1,105 @@
-<ul>
+<%= render 'shared/components/c_landing_header',
+  title: @model.full_name %>
+<div class="l-scenarios">
+  <div class="l-scenarios__upload-block">
+    <div class="row">
+      <div class="small-6 columns">
+        <%= render 'shared/components/c_upload_card',
+          form_url: upload_meta_data_model_scenarios_url(@model),
+          input_id: 'scenarios_file',
+          structure_url: upload_template_model_scenarios_url(@model),
+          xls_structure_url: '/Meta_Scenario.xlsm',
+          button_text: 'Upload or update scenario meta information' %>
+      </div>
+      <div class="small-6 columns">
+        <%= render 'shared/components/c_upload_card',
+          form_url: upload_time_series_model_scenarios_url(@model),
+          input_id: 'time_series_values_file',
+          structure_url: upload_time_series_template_model_scenarios_url(@model),
+          locations_reference: true,
+          button_text: 'Upload or update scenario time series' %>
+      </div>
+    </div>
+  </div>
+  <div class="row align-justify">
+    <div class="small-5 columns">
+      <div class="l-scenarios__title f-ff3-m-bold">Scenarios <span>(<%= @scenarios.length %>)</span></div>
+    </div>
+    <div class="small-3 columns">
+      <div class="c-form-item">
+        <%= render 'shared/components/form/c_input_search.html',
+                   placeholder: 'Filter by name',
+                   js_class: 'js-table-filter',
+                   data: {
+                     'filter-type' => 'search',
+                     'filter-key' => 'search'
+                   } %>
+      </div>
+    </div>
+  </div>
+  <div class="l-scenarios__table-shorts js-table-filter" data-filter-type="order">
+    <div class="row">
+      <div class="small-4 columns">
+        <%= render 'shared/components/c_order_filter_button',
+          text: 'Scenario',
+          other_class: '-no-wrap',
+          column_key: 'name' %>
+      </div>
+      <div class="small-3 columns">
+        <%= render 'shared/components/c_order_filter_button',
+          text: 'Last edit',
+          column_key: 'updated_at' %>
+      </div>
+      <div class="small-2 columns">
+        <%= render 'shared/components/c_order_filter_button',
+          text: 'Time series',
+          column_key: 'time_series' %>
+      </div>
+      <div class="small-2 columns">
+        <%= render 'shared/components/c_order_filter_button',
+          text: 'Indicators',
+          other_class: '-no-wrap',
+          column_key: 'indicators' %>
+      </div>
+    </div>
+  </div>
   <% @scenarios.each do |scenario| %>
-    <li><%= scenario.name %>
+    <div class="c-table-list-item -center">
+      <div class="row">
+        <div class="small-4 columns">
+          <div class="c-table-list-item__text f-ff1-m-bold"><%= link_to scenario.name, model_scenario_url(@model, scenario) %></div>
+        </div>
+        <div class="small-3 columns">
+          <div class="c-table-list-item__text f-ff1-m"><%= scenario.updated_at.strftime("%b %d %Y") %></div>
+        </div>
+        <div class="small-2 columns">
+          <% if scenario.time_series_data? %>
+            <svg class="icon icon-check"><use xlink:href="#icon-check"></use></svg>
+          <% else %>
+            <div class="icon icon-cancel"></div>
+          <% end %>
+        </div>
+        <div class="small-2 columns">
+          <div class="c-table-list-item__text f-ff1-m"><%= scenario.indicators.count %></div>
+        </div>
+        <div class="small-1 columns">
+          <div class="c-table-list-item__actions">
+            <%= link_to model_scenario_url(@model, scenario), method: :delete, data: {confirm: destroy_confirmation_message(scenario)} do %>
+              <div class="c-delete-button">
+                <svg class="icon"><use xlink:href="#icon-delete"></use></svg>
+              </div>
+            <% end %>
+            <%= link_to edit_model_scenario_url(@model, scenario) do %>
+              <div class="c-edit-button">
+                <div class="c-edit-button__bubble">
+                  <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+                </div>
+                <div class="f-ff1-s">Edit</div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
   <% end %>
-</ul>
+</div>

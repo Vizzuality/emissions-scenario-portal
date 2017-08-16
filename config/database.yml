@@ -80,6 +80,4 @@ test:
 #
 production:
   <<: *default
-  database: emissions-scenario-portal_production
-  username: emissions-scenario-portal
-  password: <%= ENV['EMISSIONS-SCENARIO-PORTAL_DATABASE_PASSWORD'] %>
+  url: <%= ENV['POSTGRES_URL'] %>

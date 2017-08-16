@@ -1,0 +1,35 @@
+<div class="l-sessions">
+  <div class="row align-center">
+    <div class="small-4 columns">
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+        <div class="row">
+          <div class="small-12 columns">
+            <div class="f-ff3-m-bold l-sessions__title">Sign in to Emission Scenarios Portal</div>
+            <div class="c-form">
+              <div class="c-form-items">
+                <div class="c-form-item">
+                  <label class="f-ff1-m">Email</label>
+                  <%= f.email_field :email,
+                                    autofocus: true,
+                                    class: 'c-input-text js-form-input' %>
+                </div>
+                <div class="c-form-item">
+                  <label class="f-ff1-m">Password</label>
+                  <%= f.password_field :password,
+                                       autocomplete: 'off',
+                                       class: 'c-input-text js-form-input'%>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="small-6 columns">
+            <%= render 'devise/shared/links' %>
+          </div>
+          <div class="small-6 columns">
+            <%= f.submit 'Log in', class: 'c-button' %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

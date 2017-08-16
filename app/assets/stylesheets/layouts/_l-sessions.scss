@@ -1,0 +1,24 @@
+.l-sessions {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  width: 100%;
+  height: rem(276px);
+
+  .l-sessions__title {
+    text-align: center;
+  }
+
+  .c-form {
+    margin: rem(14px) 0 rem(20px) 0;
+
+    .c-form-items {
+      padding: rem(21px) rem(19px) rem(18px) rem(19px);
+    }
+  }
+
+  .c-flying-button {
+    padding: 0;
+  }
+}

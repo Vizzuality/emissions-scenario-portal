@@ -1,0 +1,40 @@
+<%= render 'shared/components/c_landing_header',
+  title: @model.full_name %>
+
+<div class="l-scenarios-overview">
+  <div class="l-scenarios-overview__data-block">
+    <div class="row align-right">
+      <div class="small-3 columns">
+        <%= link_to download_time_series_model_scenario_url(@model, @scenario), class: 'l-scenarios__download' do %>
+          <div class="c-hollow-button"><span>Download time series</span></div>
+        <% end %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="small-12 columns">
+        <div class="f-ff3-m-bold l-scenarios-overview__title"><%= @scenario.name %></div>
+      </div>
+      <div class="small-2 columns">
+        <div class="f-ff1-m-bold">Upload date</div>
+        <div class="f-ff1-m l-scenarios-overview__data"><%= @scenario.created_at.strftime("%b %d %Y") %></div>
+      </div>
+      <div class="small-2 columns">
+        <div class="f-ff1-m-bold">Last edit</div>
+        <div class="f-ff1-m l-scenarios-overview__data"><%= @scenario.updated_at.strftime("%b %d %Y") %></div>
+      </div>
+      <div class="small-1 columns">
+        <%= link_to edit_model_scenario_url(@model, @scenario) do %>
+          <div class="c-edit-button">
+            <div class="c-edit-button__bubble">
+              <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+            </div>
+            <div class="f-ff1-s">Edit</div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="l-scenarios-overview__filters">
+    <%= render 'indicators/list' %>
+  </div>
+</div>

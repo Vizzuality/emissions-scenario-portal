@@ -1,0 +1,29 @@
+<%= render 'shared/components/c_landing_header',
+  title: @scenario.name %>
+
+<%= form_for [@model, @scenario] do |f| %>
+  <div class="l-scenarios-edit">
+    <div class="row">
+      <div class="small-12 columns">
+        <div class="row align-right">
+          <div class="small-2 columns">
+            <%= link_to model_scenarios_url(@model), class: 'l-scenarios-edit__form-action' do %>
+                <div class="c-flying-button"><span>Cancel</span></div>
+            <% end %>
+          </div>
+          <div class="small-2 columns">
+            <%= f.submit 'Save', class: 'c-button' %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="l-scenarios-edit__fields row">
+      <div class="small-12 columns">
+        <%= render 'shared/components/form/c_form',
+          object: @scenario,
+          f: f,
+          attributes: Scenario.attribute_infos %>
+      </div>
+    </div>
+  </div>
+<% end %>

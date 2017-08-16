@@ -1,0 +1,65 @@
+<div class="row">
+  <div class="small-6 columns">
+    <div class="l-indicators__title f-ff3-m-bold">Indicators <span>(<%= @indicators.count %>)</span></div>
+  </div>
+  <div class="small-2 columns">
+    <div class="c-form-item js-table-filter" data-filter-type="multiselect" data-filter-key="category">
+      <label class="f-ff1-m">Filter by Category</label>
+      <div class="c-select">
+        <%= select_tag 'filters[category]',
+                      categories_for_select,
+                      class: 'js-form-input js-multiple-select',
+                      'data-placeholder' => 'Select any category',
+                      multiple: true %>
+      </div>
+    </div>
+  </div>
+  <div class="small-2 columns">
+    <div class="c-form-item">
+      <label class="f-ff1-m-bold"></label>
+      <%= render 'shared/components/form/c_input_search.html',
+                 placeholder: 'Search',
+                 js_class: 'js-table-filter',
+                 data: {
+                   'filter-type' => 'search',
+                   'filter-key' => 'search'
+                 } %>
+    </div>
+  </div>
+  <div class="small-2 columns">
+    <%= link_to new_indicator_url do %>
+      <div class="c-button l-indicators__add-new"><span>Add new indicator</span></div>
+    <% end %>
+  </div>
+</div>
+<div class="l-indicators__table-shorts js-table-filter" data-filter-type="order">
+  <div class="row">
+    <div class="small-4 columns">
+      <%= render 'shared/components/c_order_filter_button',
+                 text: 'ESP Indicator Name',
+                 other_class: '-no-wrap',
+                 column_key: 'esp_name' %>
+    </div>
+    <div class="small-1 columns">
+      <%= render 'shared/components/c_order_filter_button',
+                 text: 'Unit',
+                 other_class: '-no-wrap',
+                 column_key: 'unit' %>
+    </div>
+    <div class="small-3 columns">
+      <%= render 'shared/components/c_order_filter_button',
+                 text: 'Description',
+                 other_class: '-no-wrap',
+                 column_key: 'definition' %>
+    </div>
+    <div class="small-2 columns">
+      <%= render 'shared/components/c_order_filter_button',
+                 text: 'Type',
+                 other_class: '-no-wrap',
+                 column_key: 'type' %>
+    </div>
+  </div>
+</div>
+<% @indicators.each do |indicator| %>
+  <%= render partial: 'row', locals: {indicator: indicator, variation: nil} %>
+<% end %>

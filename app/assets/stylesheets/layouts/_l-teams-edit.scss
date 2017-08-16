@@ -1,0 +1,78 @@
+.l-teams-edit {
+  padding: rem(20px) 0;
+
+  .l-teams-edit__form-action {
+    text-decoration: none;
+  }
+
+  .c-vertical-nav {
+    padding-top: rem(64px);
+
+    &.-fixed {
+      position: fixed;
+      top: 0;
+    }
+  }
+
+  .c-form {
+    margin-top: rem(20px);
+  }
+
+  .l-teams-edit__form-members {
+    border-bottom: 0;
+  }
+
+  .l-teams-edit__member {
+
+    li {
+
+      &:not(:last-of-type) {
+        margin-bottom: rem(20px);
+      }
+
+      > .f-ff1-m {
+        display: inline-block;
+
+        span {
+          margin-right: rem(16px);
+        }
+      }
+
+      .c-checkbox {
+        display: inline-block;
+        top: rem(9px);
+
+      }
+
+      .c-remove-button {
+        display: inline-block;
+        position: relative;
+        top: rem(5px);
+        margin-left: rem(14px);
+      }
+    }
+  }
+
+  .l-teams-edit__form-add-members {
+    margin-top: 0;
+    border-top: 0;
+
+    .c-form-items {
+      padding-top: 0;
+    }
+  }
+
+  .l-teams-edit__add-member {
+
+    .c-input-text {
+      display: inline-block;
+      max-width: rem(320px);
+      margin-right: rem(16px);
+    }
+
+    .c-button {
+      display: inline-block;
+      max-width: rem(70px);
+    }
+  }
+}

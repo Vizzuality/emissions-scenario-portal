@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby '2.4.1'
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?('/')
@@ -22,6 +23,7 @@ gem 'coffee-rails', '~> 4.2'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -31,8 +33,20 @@ gem 'jbuilder', '~> 2.5'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
+gem 'dotenv-rails' # required by Devise
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+gem 'cancancan', '~> 1.10'
+gem 'devise'
+gem 'devise_invitable'
+gem 'sendgrid-ruby'
+gem 'pg_csv'
+gem 'pg_search'
+gem 'charlock_holmes'
+gem 'paperclip'
+gem 'aws-sdk', '~> 2'
+gem 'sidekiq'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -51,6 +65,7 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'rubocop', require: false
+  gem 'letter_opener'
 end
 
 group :test do
@@ -60,3 +75,13 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+source 'https://rails-assets.org' do
+  gem 'rails-assets-underscore'
+  gem 'rails-assets-backbone'
+  gem 'rails-assets-URIjs'
+  gem 'rails-assets-select2'
+  gem 'rails-assets-tether'
+  gem 'rails-assets-drop'
+  gem 'rails-assets-tether-tooltip'
+end

@@ -3,7 +3,6 @@
   width: 100%;
   border-radius: 2px;
   background-color: $color-app-1;
-  box-shadow: 0 1px 0 0 $color-app-5;
 
   .c-model-card-list {
     margin: 0;
@@ -16,6 +15,10 @@
     bottom: rem(25px);
     left: rem(20px);
     width: calc(100% - #{rem(40px)});
+  }
+
+  .f-ff1-m {
+    line-height: 1.63;
   }
 }
 
@@ -35,6 +38,7 @@
   @extend %card-common;
   min-height: rem(220px);
   padding: rem(26px) rem(20px) rem(70px) rem(20px);
+  box-shadow: 0 1px 0 0 $color-app-5;
 
   .f-ff2-m {
     line-height: 1.18;
@@ -42,7 +46,6 @@
 
   .f-ff1-s {
     margin-top: 10px;
-    line-height: 1.64;
   }
 }
 
@@ -54,7 +57,9 @@
  *    <div class="c-model-overview-card">
  *      <div class="c-item-header -color-1">
  *        <div class="f-ff1-xs">Indicators</div>
- *        <div class="f-ff1-s">40</div>
+ *        <div class="c-item-header__actions">
+ *          <div class="f-ff1-s">40</div>
+ *        </div>
  *      </div>
  *      <ul class="c-model-card-list f-ff1-m">
  *        <li>GCAM-Reference</li>
@@ -71,18 +76,7 @@
   @extend %card-common;
   min-height: rem(257px);
   padding-bottom: rem(67px);
-
-  .f-ff1-m {
-    line-height: 1.63;
-  }
-
-  .f-ff1-s {
-    line-height: 1.64;
-  }
-
-  .f-ff1-xs {
-    line-height: 1.64;
-  }
+  box-shadow: 0 1px 0 0 $color-app-5;
 }
 
 /**
@@ -107,10 +101,7 @@
   min-height: rem(257px);
   padding-bottom: rem(30px);
   background-color: $color-app-3;
-
-  .f-ff1-m {
-    line-height: 1.63;
-  }
+  border: solid 1px $color-app-5;
 }
 
 /**

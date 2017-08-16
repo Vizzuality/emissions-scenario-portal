@@ -1,0 +1,24 @@
+.l-model-edit {
+  padding: rem(20px) 0 0 0;
+
+  .l-model-edit__form-action {
+    text-decoration: none;
+  }
+
+  .l-model-edit__fields {
+    padding-top: rem(20px);
+  }
+
+  .c-vertical-nav {
+    padding-top: rem(9px);
+
+    &.-fixed {
+      position: fixed;
+      top: 0;
+    }
+  }
+
+  .c-form {
+    margin-bottom: rem(20px);
+  }
+}

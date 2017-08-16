@@ -1,0 +1,8 @@
+<%
+  other_class ||= ''
+  column_key ||= ''
+%>
+<div class="c-order-filter-button f-ff1-m-bold js-order-filter <%= other_class %>" <% if column_key.present? %>data-column-key="<%= column_key %>"<% end %>>
+  <%= text %>
+  <svg class="icon"><use xlink:href="#icon-short"></use></svg>
+</div>

@@ -1,0 +1,62 @@
+<%= render 'shared/components/c_landing_header', no_nav: true %>
+
+<% if @user.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+    <ul>
+      <% @user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+<% if @minimum_password_length %>
+  <div><%= @minimum_password_length %> characters minimum</div>
+<% end %>
+
+<%= form_for(@user, url: profile_path, html: { method: :put }) do |f| %>
+  <div class="l-profile-edit">
+    <div class="row">
+      <div class="small-12 columns">
+        <div class="row align-right">
+          <div class="small-2 columns">
+            <%= link_to :back do %>
+              <div class="c-flying-button"><span>Cancel</span></div>
+            <% end %>
+          </div>
+          <div class="small-2 columns">
+            <%= f.submit 'Update', class: 'c-button' %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="l-profile-edit__fields row">
+      <div class="small-12 columns">
+        <div class="c-form">
+          <div class="c-form-items">
+            <div class="c-form-item <% if f.object['email'].present? %>-highlighted<% end %>">
+              <label class="f-ff1-m">Email</label>
+              <%= f.email_field :email, class: 'c-input-text -large js-form-input' %>
+            </div>
+            <div class="c-form-item <% if f.object['name'].present? %>-highlighted<% end %>">
+              <label class="f-ff1-m">Name</label>
+              <%= f.text_field :name, class: 'c-input-text -small js-form-input' %>
+            </div>
+            <div class="c-form-item">
+              <label class="f-ff1-m">Password (leave blank if you don't want to change it)</label>
+              <%= f.password_field :password, autocomplete: 'off', class: 'c-input-text -small js-form-input' %>
+            </div>
+            <div class="c-form-item">
+              <label class="f-ff1-m">Password confirmation</label>
+              <%= f.password_field :password_confirmation, autocomplete: 'off', class: 'c-input-text -small js-form-input' %>
+            </div>
+            <div class="c-form-item">
+              <label class="f-ff1-m">Current password (we need your current password to confirm your changes)</label>
+              <%= f.password_field :current_password, autocomplete: 'off', class: 'c-input-text -small js-form-input' %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

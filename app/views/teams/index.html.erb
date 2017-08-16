@@ -1,0 +1,83 @@
+<%= render 'shared/components/c_landing_header', no_nav: true %>
+<div class="l-teams">
+  <div class="row">
+    <div class="small-6 columns">
+      <div class="f-ff3-m-bold l-teams__title">Teams <span>(<%= @teams.length %>)</span></div>
+    </div>
+    <div class="small-3 columns">
+      <div class="c-form-item">
+        <%= render 'shared/components/form/c_input_search.html',
+                   placeholder: 'Filter by name',
+                   js_class: 'js-table-filter',
+                   data: {
+                     'filter-type' => 'search',
+                     'filter-key' => 'search'
+                   } %>
+      </div>
+    </div>
+    <div class="small-3 columns">
+      <%= link_to new_team_path do %>
+        <div class="c-button">
+          <span>Create new team</span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="l-teams__table-shorts js-table-filter" data-filter-type="order">
+    <div class="row">
+      <div class="small-4 columns">
+        <%= render 'shared/components/c_order_filter_button',
+                   text: 'Name',
+                   column_key: 'name' %>
+      </div>
+      <div class="small-4 columns">
+        <%= render 'shared/components/c_order_filter_button',
+                   text: 'Associated Models',
+                   column_key: 'models' %>
+      </div>
+      <div class="small-3 columns">
+        <%= render 'shared/components/c_order_filter_button',
+                   text: 'Members',
+                   column_key: 'members' %>
+      </div>
+    </div>
+  </div>
+  <% @teams.each do |team| %>
+    <div class="c-table-list-item -center">
+      <div class="row">
+        <div class="small-4 columns">
+          <div class="c-table-list-item__text f-ff1-m-bold"><%= team.name %></div>
+        </div>
+        <div class="small-4 columns">
+          <div class="c-table-list-item__text f-ff1-m">
+            <% if team.models.count > 0 %>
+              <%= team.models.pluck(:abbreviation).join(', ') %>
+            <% else %>
+              <div class="icon icon-cancel"></div>
+            <% end %>
+          </div>
+        </div>
+        <div class="small-3 columns">
+          <div class="c-table-list-item__text f-ff1-m"><%= team.users.count %></div>
+        </div>
+        <div class="small-1 columns">
+          <div class="c-table-list-item__actions">
+            <%= link_to team_path(team), method: :delete, data: { confirm: 'Are you sure?' } do %>
+              <div class="c-delete-button">
+                <svg class="icon"><use xlink:href="#icon-delete"></use></svg>
+              </div>
+            <% end %>
+            <%= link_to edit_team_path(team) do %>
+              <div class="c-edit-button">
+                <div class="c-edit-button__bubble">
+                  <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+                </div>
+                <div class="f-ff1-s">Edit</div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

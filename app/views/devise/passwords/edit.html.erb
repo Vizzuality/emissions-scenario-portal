@@ -1,0 +1,39 @@
+<div class="l-sessions">
+  <div class="row align-center">
+    <div class="small-4 columns">
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
+        <%= f.hidden_field :reset_password_token %>
+        <div class="row">
+          <div class="small-12 columns">
+            <div class="f-ff3-m-bold l-sessions__title">Change your password</div>
+            <div class="c-form">
+              <div class="c-form-items">
+                <div class="c-form-item">
+                  <label class="f-ff1-m">New password</label>
+                  <%= f.password_field :password,
+                                       autofocus: true,
+                                       autocomplete: 'off',
+                                       class: 'c-input-text js-form-input' %>
+                </div>
+                <div class="c-form-item">
+                  <label class="f-ff1-m">Confirm new password</label>
+                  <%= f.password_field :password_confirmation,
+                                       autocomplete: 'off',
+                                       class: 'c-input-text js-form-input' %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="small-6 columns">
+            <%= link_to new_session_path(resource_name) do %>
+              <div class="c-flying-button"><span>Cancel</span></div>
+            <% end %>
+          </div>
+          <div class="small-6 columns">
+            <%= f.submit 'Save', class: 'c-button' %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

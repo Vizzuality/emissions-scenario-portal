@@ -1,0 +1,89 @@
+<%= render 'shared/components/c_landing_header', no_nav: true %>
+<div class="l-locations">
+  <div class="row">
+    <div class="small-6 columns">
+      <div class="f-ff3-m-bold l-locations__title">Countries and regions<span>(<%= @locations.length %>)</span></div>
+    </div>
+    <div class="small-3 columns">
+      <div class="c-form-item">
+        <%= render 'shared/components/form/c_input_search.html',
+                   placeholder: 'Filter by name',
+                   js_class: 'js-table-filter',
+                   data: {
+                     'filter-type' => 'search',
+                     'filter-key' => 'search'
+                   } %>
+      </div>
+    </div>
+    <% if current_user.can?(:create, Location) %>
+      <div class="small-3 columns">
+        <%= link_to new_location_path do %>
+          <div class="c-button">
+            <span>Add new country</span>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+  <div class="l-locations__table-shorts js-table-filter" data-filter-type="order">
+    <div class="row">
+      <div class="small-5 columns">
+        <%= render 'shared/components/c_order_filter_button',
+                   text: 'Name',
+                   column_key: 'name' %>
+      </div>
+      <div class="small-3 columns">
+        <%= render 'shared/components/c_order_filter_button',
+                   text: 'ISO code',
+                   column_key: 'iso_code' %>
+      </div>
+      <div class="small-3 columns">
+        <%= render 'shared/components/c_order_filter_button',
+                   text: 'Region',
+                   column_key: 'region' %>
+      </div>
+    </div>
+  </div>
+  <% @locations.each do |location| %>
+    <div class="c-table-list-item -center">
+      <div class="row">
+        <div class="small-5 columns">
+          <div class="c-table-list-item__text f-ff1-m-bold"><%= location.name %></div>
+        </div>
+        <div class="small-3 columns">
+          <div class="c-table-list-item__text f-ff1-m-bold"><%= location.iso_code %></div>
+        </div>
+        <div class="small-3 columns">
+          <div class="c-table-list-item__text f-ff1-m">
+            <% if location.region? %>
+              <svg class="icon icon-check"><use xlink:href="#icon-check"></use></svg>
+            <% else %>
+              <div class="icon icon-cancel"></div>
+            <% end %>
+          </div>
+        </div>
+        <div class="small-1 columns">
+          <div class="c-table-list-item__actions">
+            <% if current_user.can?(:destroy, location) %>
+              <%= link_to location_path(location), method: :delete, data: { confirm: 'Are you sure?' } do %>
+                <div class="c-delete-button">
+                  <svg class="icon"><use xlink:href="#icon-delete"></use></svg>
+                </div>
+              <% end %>
+            <% end %>
+            <% if current_user.can?(:update, location) %>
+              <%= link_to edit_location_path(location) do %>
+                <div class="c-edit-button">
+                  <div class="c-edit-button__bubble">
+                    <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+                  </div>
+                  <div class="f-ff1-s">Edit</div>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

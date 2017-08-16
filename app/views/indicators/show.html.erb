@@ -1,0 +1,114 @@
+<% if defined? @model %>
+  <%= render 'shared/components/c_landing_header', title: @model.full_name %>
+<% else %>
+  <%= render 'shared/components/c_landing_header', no_nav: true%>
+<% end %>
+<div class="l-indicators-overview">
+  <div class="l-indicators-overview__data-block">
+    <div class="row align-right">
+      <div class="small-3 columns">
+        <%
+          download_time_series_url =
+            if defined? @model
+              download_time_series_model_indicator_url(@model, @indicator)
+            else
+              download_time_series_indicator_url(@indicator)
+            end
+        %>
+        <%= link_to download_time_series_url, class: 'l-indicators__download' do %>
+          <div class="c-hollow-button"><span>Download time series</span></div>
+        <% end %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="small-12 columns">
+        <div class="l-indicators-overview__title f-ff3-m-bold"><%= @indicator.alias %></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="small-2 columns">
+        <div class="f-ff1-m-bold">Category</div>
+        <div class="f-ff1-m l-indicators-overview__data"><%= @indicator.category %></div>
+      </div>
+      <div class="small-2 columns">
+        <div class="f-ff1-m-bold">Subcategory</div>
+        <div class="f-ff1-m l-indicators-overview__data"><%= @indicator.subcategory %></div>
+      </div>
+      <div class="small-1 columns">
+        <div class="f-ff1-m-bold">Unit</div>
+        <div class="f-ff1-m l-indicators-overview__data"><%= @indicator.unit %></div>
+      </div>
+      <div class="small-4 columns">
+        <div class="f-ff1-m-bold">Description</div>
+        <div class="f-ff1-m l-indicators-overview__data"><%= @indicator.definition %></div>
+      </div>
+      <div class="small-2 columns">
+        <% if current_user.can?(:manage, @indicator) %>
+          <%
+            edit_indicator_url =
+              if defined? @model
+                edit_model_indicator_url(@model, @indicator)
+              else
+                edit_indicator_url(@indicator)
+              end
+          %>
+          <%= link_to edit_indicator_url do %>
+            <div class="c-edit-button">
+              <div class="c-edit-button__bubble">
+                <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+              </div>
+              <div class="f-ff1-s">Edit metadata</div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="small-1 columns">
+        <% if @indicator.system? && current_user.can?(:create, Indicator.new(model_id: @model.id)) %>
+          <%= link_to fork_model_indicator_url(@model, @indicator) do %>
+            <div class="c-edit-button">
+              <div class="c-edit-button__bubble">
+                <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+              </div>
+              <div class="f-ff1-s">Fork</div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <% if @indicator.system? && @indicator.variations.any? %>
+    <div class="row">
+      <div class="small-12 columns">
+        <div class="l-indicators-overview__table-title f-ff3-m-bold">Variations <span>(<%= @indicator.variations.length %>)</span></div>
+        <% @indicator.variations.each do |variation| %>
+          <div class="f-ff1-m l-indicators-overview__data">
+            <%= link_to variation.alias, model_indicator_url(variation.model, variation) %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+  <div class="row">
+    <div class="small-9 columns">
+      <div class="l-indicators-overview__table-title f-ff3-m-bold">Time Series <span>(<%= @time_series_values_pivot[:data].length %>)</span></div>
+    </div>
+    <div class="small-3 columns">
+      <div class="c-form-item">
+        <div class="c-input-search">
+          <%= render 'shared/components/form/c_input_search.html',
+                     placeholder: 'Search',
+                     js_class: 'js-table-filter',
+                     data: {
+                       'filter-type' => 'search',
+                       'filter-key' => 'search'
+                     } %>
+          <svg class="icon"><use xlink:href="#icon-search"></use></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%= render 'shared/components/c_table',
+             indicators: @time_series_values_pivot[:years],
+             rows: @time_series_values_pivot[:data],
+             type: 'time_series' %>
+</div>

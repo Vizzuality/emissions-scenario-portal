@@ -1,0 +1,55 @@
+$notifications-margin: rem(10px);
+
+.c-notifications-list {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  z-index: 100;
+
+  li {
+    margin: 0 $notifications-margin $notifications-margin 0;
+    text-align: right;
+  }
+
+  .c-notification {
+    cursor: pointer;
+    transition: all 0.5s ease-in;
+
+    &.-green.-show-animation {
+      @include animation(
+        'hide-notification 0s ease-in 1 forwards',
+        'show-notification 0.5s ease-out 1s 1 forwards',
+        'hide-notification 0.5s ease-in 12s 1 forwards'
+      );
+    }
+
+    &.-red.-show-animation {
+      @include animation(
+        'hide-notification 0s ease-in 1 forwards',
+        'show-notification 0.5s ease-out 1s 1 forwards'
+      );
+    }
+
+    &.-hide-animation {
+      @include animation(
+        'hide-notification 0.5s ease-in 1 forwards'
+      );
+    }
+
+    .c-notification__button {
+      color: $color-app-1;
+      margin-left: rem(25px);
+    }
+  }
+}
+
+@include keyframes(show-notification) {
+  0% { transform: translateX(calc(100% + #{$notifications-margin})); }
+  100% { transform: translateX(0); }
+}
+
+@include keyframes(hide-notification) {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(calc(100% + #{$notifications-margin})); }
+}

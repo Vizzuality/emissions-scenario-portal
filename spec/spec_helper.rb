@@ -99,4 +99,8 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 =end
+  config.before(:example, upload: :s3) do
+    allow_any_instance_of(Paperclip::Attachment).to receive(:save).
+      and_return(true)
+  end
 end

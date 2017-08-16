@@ -11,6 +11,35 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery-ui
 //= require jquery_ujs
+//= require URIjs
 //= require turbolinks
-//= require_tree .
+//= require underscore/underscore
+//= require backbone/backbone
+//= require select2
+//= require tether
+//= require drop
+//= require tether-tooltip
+//= require_self
+
+//= require_tree ./lib/
+
+//= require_tree ./helpers/
+//= require_tree ./views/
+//= require_tree ./controllers/
+
+//= require router
+//= require dispatcher
+
+(function() {
+
+  'use strict';
+
+  this.App = {
+    Events: _.extend(Backbone.Events),
+    View: {},
+    Controller: {}
+  };
+
+}).call(this);

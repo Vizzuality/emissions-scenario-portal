@@ -1,0 +1,40 @@
+<%
+  title ||= ''
+  button_text ||= 'See all'
+  values ||= nil
+  values_limit = 4
+  values_count = values.present? ? values.count : 0
+  if values.present? && values.count > values_limit
+    values = values[0...4]
+  end
+%>
+<div class="c-model-overview-card">
+  <div class="c-item-header -color-1">
+    <div class="f-ff1-xs"><%= title %></div>
+    <div class="c-item-header__actions">
+      <div class="f-ff1-s"><%= values_count %></div>
+    </div>
+  </div>
+  <% if values.present? %>
+    <ul class="c-model-card-list f-ff1-m">
+      <% values.each do |item| %>
+        <%
+          if item.is_a?(Model)
+            name = item.abbreviation
+          elsif item.is_a?(Indicator)
+            name = item.alias
+          else
+            name = item.name
+          end
+        %>
+        <li><%= name %></li>
+      <% end %>
+      <% if values_count > values_limit %>
+        <li>&#8230;</li>
+      <% end %>
+    </ul>
+    <%= link_to button_url do %>
+      <div class="c-button"><span><%= button_text %></span></div>
+    <% end %>
+  <% end %>
+</div>

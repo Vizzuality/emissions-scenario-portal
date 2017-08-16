@@ -1,0 +1,37 @@
+<%= render 'shared/components/c_landing_header',
+  title: @indicator.name %>
+
+<%= form_for [@model, @indicator] do |f| %>
+  <div class="l-indicator-edit">
+    <div class="row">
+      <div class="small-12 columns">
+        <div class="row align-right">
+          <div class="small-2 columns">
+            <%
+              indicators_url =
+                if defined? @model
+                  model_indicators_url(@model)
+                else
+                  indicators_url
+                end
+            %>
+            <%= link_to indicators_url, class: 'l-indicator-edit__form-action' do %>
+              <%= render 'shared/components/c_flying_button' %>
+            <% end %>
+          </div>
+          <div class="small-2 columns">
+            <%= f.submit 'Save', class: 'c-button' %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="l-indicator-edit__fields row">
+      <div class="small-12 columns">
+        <%= render 'shared/components/form/c_form',
+          object: @indicator,
+          f: f,
+          attributes: Indicator.attribute_infos %>
+      </div>
+    </div>
+  </div>
+<% end %>
