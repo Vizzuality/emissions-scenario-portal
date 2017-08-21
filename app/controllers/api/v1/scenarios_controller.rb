@@ -1,8 +1,6 @@
 module Api
   module V1
-    class ScenariosController < ApplicationController
-      skip_before_action :authenticate_user!
-
+    class ScenariosController < ApiController
       def index
         model = Model.find(params[:model_id])
         render json: model.scenarios.order(:name)

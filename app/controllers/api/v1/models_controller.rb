@@ -1,8 +1,6 @@
 module Api
   module V1
-    class ModelsController < ApplicationController
-      skip_before_action :authenticate_user!
-
+    class ModelsController < ApiController
       def index
         models = Model.all
         render json: models.order(:full_name)
