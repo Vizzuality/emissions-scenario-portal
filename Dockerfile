@@ -29,8 +29,9 @@ ENV RACK_ENV production
 
 # Bundle app source
 COPY . ./
+# log and pids folder for sidekiq
+RUN mkdir -p tmp/pids && mkdir -p log
 
-RUN mkdir -p tmp/pids
 
 EXPOSE 3000
 
