@@ -71,7 +71,7 @@ spec:
           - containerPort: 3000
 
       - name: {name}-sidekiq
-				image: vizzuality/{name}
+        image: vizzuality/{name}
         imagePullPolicy: Always
         resources:
           requests:
