@@ -2,12 +2,17 @@ require 'rails_helper'
 
 describe Api::V1::ScenariosController, type: :controller do
   context do
-    let!(:some_model) { FactoryGirl.create(:model) }
-    let!(:some_scenarios) { FactoryGirl.create_list(:scenario, 3, model: some_model) }
+    let!(:some_model) {
+      FactoryGirl.create(:model)
+    }
+
+    let!(:some_scenarios) {
+      FactoryGirl.create_list(:scenario, 3, model: some_model)
+    }
 
     describe 'GET index' do
       it 'returns a successful 200 response' do
-        get :index,  params: {model_id: some_model.id}
+        get :index, params: {model_id: some_model.id}
         expect(response).to be_success
       end
 
