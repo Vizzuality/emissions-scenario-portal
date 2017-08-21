@@ -27,10 +27,9 @@ class ScenariosController < ApplicationController
   end
 
   def show
-    @indicators = @scenario.indicators.fetch_all(@filter_params)
-    @indicator_categories = Indicator.except(:order).
-      order(:category).
-      distinct.pluck(:category)
+    @indicators = Indicator.
+      system_indicators_with_variations_for_scenario(@scenario.id).
+      fetch_all(@filter_params)
   end
 
   def destroy
