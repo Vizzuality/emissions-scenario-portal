@@ -24,9 +24,9 @@ spec:
             memory: "512Mi"
         env:
           - name: MAILER_DEFAULT_FROM
-            value: no-reply@www.emissionspathways.org
+            value: no-reply@emissionspathways.org
           - name: MAILER_DEFAULT_URL
-            value: www.emissionspathways.org
+            value: emissionspathways.org
           - name: AWS_REGION
             value: eu-west-1
           - name: RACK_ENV
