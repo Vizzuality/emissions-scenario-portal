@@ -2,12 +2,12 @@ module Api
   module V1
     class ModelsController < ApiController
       def index
-        models = Model.all
+        models = Model.includes(:scenarios).all
         render json: models.order(:full_name)
       end
 
       def show
-        model = Model.find_by_id!(params[:id])
+        model = Model.includes(:scenarios).find(params[:id])
         render json: model
       end
     end
