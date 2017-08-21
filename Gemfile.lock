@@ -249,6 +249,8 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.0)
+    sparkpost_rails (1.4.0)
+      rails (>= 4.0, < 5.1)
     spring (2.0.1)
       activesupport (>= 4.2)
     spring-watcher-listen (2.0.1)
@@ -322,6 +324,7 @@ DEPENDENCIES
   sass-rails (~> 5.0)
   sidekiq
   simplecov
+  sparkpost_rails
   spring
   spring-watcher-listen (~> 2.0.0)
   turbolinks (~> 5)
