@@ -30,6 +30,8 @@ ENV RACK_ENV production
 # Bundle app source
 COPY . ./
 
+RUN mkdir -p tmp/pids
+
 EXPOSE 3000
 
 # Start puma
