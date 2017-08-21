@@ -70,6 +70,59 @@ spec:
         ports:
           - containerPort: 3000
 
+      - name: {name}-sidekiq
+        image: vizzuality/{name}
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "128Mi"
+          limits:
+            memory: "512Mi"
+        command: ["bundle", "exec", "sidekiq"]
+        env:
+          - name: MAILER_DEFAULT_FROM
+            value: no-reply@emissionspathways.org
+          - name: MAILER_DEFAULT_URL
+            value: www.emissionspathways.org
+          - name: AWS_REGION
+            value: eu-west-1
+          - name: RACK_ENV
+            value: production
+          - name: RAILS_ENV
+            value: production
+          - name: PORT
+            value: "3000"
+          - name: RAILS_SERVE_STATIC_FILES
+            value: "true"
+          - name: S3_BUCKET_NAME
+            value: climate-watch-dev
+          - name: AWS_ACCESS_KEY_ID
+            valueFrom:
+                secretKeyRef:
+                  name: mssecrets
+                  key: EMISSIONS_AWS_ACCESS_KEY_ID
+          - name: AWS_SECRET_ACCESS_KEY
+            valueFrom:
+                secretKeyRef:
+                  name: mssecrets
+                  key: EMISSIONS_AWS_SECRET_ACCESS_KEY
+          - name: SECRET_KEY_BASE
+            valueFrom:
+                secretKeyRef:
+                  name: mssecrets
+                  key: EMISSIONS_SECRET_KEY_BASE
+          - name: SPARKPOST_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mssecrets
+                key: EMISSIONS_SPARKPOST_PASSWORD
+          - name: REDIS_URL
+            value: redis://localhost:6379
+          - name: POSTGRES_URL
+            valueFrom:
+                secretKeyRef:
+                  name: dbsecrets
+                  key: EMISSIONS_POSTGRES_URL
       - name: redis
         image: redis
         ports:
