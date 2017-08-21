@@ -26,7 +26,7 @@ spec:
           - name: MAILER_DEFAULT_FROM
             value: no-reply@emissionspathways.org
           - name: MAILER_DEFAULT_URL
-            value: emissionspathways.org
+            value: www.emissionspathways.org
           - name: AWS_REGION
             value: eu-west-1
           - name: RACK_ENV
