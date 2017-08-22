@@ -30,7 +30,7 @@ node {
   try {
 
     stage ('Build docker') {
-      sh("docker -H :2375 build -t ${imageTag} .")
+      sh("docker -H :2375 build --build-arg secretKey=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1)  -t ${imageTag} .")
       sh("docker -H :2375 build -t ${dockerUsername}/${appName}:latest .")
     }
 

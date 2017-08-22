@@ -49,11 +49,6 @@ spec:
                 secretKeyRef:
                   name: mssecrets
                   key: EMISSIONS_AWS_SECRET_ACCESS_KEY
-          - name: SECRET_KEY_BASE
-            valueFrom:
-                secretKeyRef:
-                  name: mssecrets
-                  key: EMISSIONS_SECRET_KEY_BASE
           - name: SPARKPOST_PASSWORD
             valueFrom:
               secretKeyRef:

@@ -2,7 +2,9 @@ FROM ruby:2.4.1
 MAINTAINER simao <simao.belchior@vizzuality.com>
 
 ENV NAME emission-scenario-portal
+ARG secretKey
 
+ENV SECRET_KEY_BASE $secretKey
 # Install dependencies
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -27,10 +29,11 @@ RUN bundle install --without development test --jobs 4 --deployment
 ENV RAILS_ENV production
 ENV RACK_ENV production
 
-# Bundle app source
 COPY . ./
+# Bundle app source
+RUN bundle exec rake assets:precompile
 
 EXPOSE 3000
 
 # Start puma
-CMD bundle exec rake assets:precompile && bundle exec rake tmp:clear db:migrate && bundle exec puma -C config/puma.rb
+CMD bundle exec rake tmp:clear db:migrate && bundle exec puma -C config/puma.rb
