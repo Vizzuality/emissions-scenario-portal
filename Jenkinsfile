@@ -24,11 +24,7 @@ node {
 
   currentBuild.result = "SUCCESS"
 
-  def uniqueName = { String prefix ->
-    sh "cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 16 | head -n 1 > suffix"
-    suffix = readFile("suffix").trim()
-    return prefix + suffix
-  }
+  def secretKey = UUID.randomUUID().toString().replaceAll('-','')
 
   checkout scm
   properties([pipelineTriggers([[$class: 'GitHubPushTrigger']])])
@@ -36,8 +32,8 @@ node {
   try {
 
     stage ('Build docker') {
-      sh("docker -H :2375 build --build-arg secretKey=${UUID.randomUUID().toString().replaceAll('-','')} -t ${imageTag} .")
-      sh("docker -H :2375 build -t ${dockerUsername}/${appName}:latest .")
+      sh("docker -H :2375 build --build-arg secretKey=${secretKey} -t ${imageTag} .")
+      sh("docker -H :2375 build --build-arg secretKey=${secretKey} -t ${dockerUsername}/${appName}:latest .")
     }
 
     stage ('Run Tests') {
