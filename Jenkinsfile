@@ -21,7 +21,7 @@ node {
   def appName = tokens[0]
   def dockerUsername = "${DOCKER_USERNAME}"
   def imageTag = "${dockerUsername}/${appName}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
-  def secretKey = sh("\$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1)")
+  def secretKey = sh("cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1")
 
   currentBuild.result = "SUCCESS"
 
