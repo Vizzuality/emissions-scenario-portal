@@ -24,14 +24,16 @@ node {
 
   currentBuild.result = "SUCCESS"
 
+  def secretKey = UUID.randomUUID().toString().replaceAll('-','')
+
   checkout scm
   properties([pipelineTriggers([[$class: 'GitHubPushTrigger']])])
 
   try {
 
     stage ('Build docker') {
-      sh("docker -H :2375 build -t ${imageTag} .")
-      sh("docker -H :2375 build -t ${dockerUsername}/${appName}:latest .")
+      sh("docker -H :2375 build --build-arg secretKey=${secretKey} -t ${imageTag} .")
+      sh("docker -H :2375 build --build-arg secretKey=${secretKey} -t ${dockerUsername}/${appName}:latest .")
     }
 
     stage ('Run Tests') {

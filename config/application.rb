@@ -24,5 +24,6 @@ module EmissionsScenarioPortal
 
     config.autoload_paths << "#{Rails.root}/lib/modules"
     config.autoload_paths << "#{Rails.root}/app/validators"
+    config.autoload_paths << "#{Rails.root}/app/serializers"
   end
 end
