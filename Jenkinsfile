@@ -22,7 +22,7 @@ node {
   def dockerUsername = "${DOCKER_USERNAME}"
   def imageTag = "${dockerUsername}/${appName}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
   def secretKey = sh(
-    script: "cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1",
+    script: "cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 28 | head -n 1",
     returnStdout: true
   )
 
