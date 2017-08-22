@@ -21,12 +21,14 @@ node {
   def appName = tokens[0]
   def dockerUsername = "${DOCKER_USERNAME}"
   def imageTag = "${dockerUsername}/${appName}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
-  def secretKey = sh(
-    script: "cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 28 | head -n 1",
-    returnStdout: true
-  )
-  print secretKey + 'pepe'
+
   currentBuild.result = "SUCCESS"
+
+  def uniqueName = { String prefix ->
+    sh "cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 16 | head -n 1 > suffix"
+    suffix = readFile("suffix").trim()
+    return prefix + suffix
+  }
 
   checkout scm
   properties([pipelineTriggers([[$class: 'GitHubPushTrigger']])])
@@ -34,7 +36,7 @@ node {
   try {
 
     stage ('Build docker') {
-      sh("docker -H :2375 build --build-arg secretKey=${secretKey} -t ${imageTag} .")
+      sh("docker -H :2375 build --build-arg secretKey=${UUID.randomUUID().toString()} -t ${imageTag} .")
       sh("docker -H :2375 build -t ${dockerUsername}/${appName}:latest .")
     }
 
