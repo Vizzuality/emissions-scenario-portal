@@ -38,4 +38,13 @@ Rails.application.routes.draw do
     constraints: lambda { |request| request.env['warden'].user.try(:admin?) },
     as: :admin_root
   root to: "models#index"
+
+  # Namespaced API routes
+  namespace :api do
+    namespace :v1 do
+      resources :models, only: [:index, :show] do
+        resources :scenarios, only: [:index]
+      end
+    end
+  end
 end
