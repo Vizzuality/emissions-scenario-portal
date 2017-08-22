@@ -3,8 +3,6 @@ MAINTAINER simao <simao.belchior@vizzuality.com>
 
 ENV NAME emission-scenario-portal
 ARG secretKey
-
-ENV SECRET_KEY_BASE $secretKey
 # Install dependencies
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -28,6 +26,8 @@ RUN bundle install --without development test --jobs 4 --deployment
 # Set Rails to run in production
 ENV RAILS_ENV production
 ENV RACK_ENV production
+
+ENV SECRET_KEY_BASE $secretKey
 
 COPY . ./
 # Bundle app source
