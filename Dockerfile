@@ -33,6 +33,9 @@ COPY . ./
 # Bundle app source
 RUN bundle exec rake assets:precompile
 
+# log and pids folder for sidekiq
+RUN mkdir -p tmp/pids && mkdir -p log
+
 EXPOSE 3000
 
 # Start puma

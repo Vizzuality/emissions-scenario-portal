@@ -46,6 +46,9 @@ gem 'charlock_holmes'
 gem 'paperclip'
 gem 'aws-sdk', '~> 2'
 gem 'sidekiq'
+gem 'active_model_serializers', '~> 0.10.0'
+
+gem 'sparkpost_rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
