@@ -63,7 +63,7 @@
         <% end %>
       </div>
       <div class="small-1 columns">
-        <% if @indicator.system? && current_user.can?(:create, Indicator.new(model_id: @model.id)) %>
+        <% if @indicator.system? && @model && current_user.can?(:fork, @indicator) %>
           <%= link_to fork_model_indicator_url(@model, @indicator) do %>
             <div class="c-edit-button">
               <div class="c-edit-button__bubble">
