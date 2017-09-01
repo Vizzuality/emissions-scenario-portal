@@ -156,7 +156,7 @@ RSpec.describe Indicator, type: :model do
     it 'parses a 3-part slug with blank subcategory' do
       expect(
         Indicator.slug_to_hash('A||B')
-      ).to eq(category: 'A', subcategory: '', name: 'B')
+      ).to eq(category: 'A', subcategory: nil, name: 'B')
     end
     it 'parses a 2-part slug' do
       expect(
