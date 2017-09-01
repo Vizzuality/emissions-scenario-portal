@@ -68,16 +68,18 @@ module AliasTransformations
   class_methods do
     def slug_to_hash(slug)
       return {} unless slug.present?
-      slug_parts = slug && slug.split('|', 3)
+      slug_parts = slug && slug.split('|', 3).map(&:strip)
       return {} if slug_parts.empty?
       slug_parts_to_hash(slug_parts)
     end
 
     def slug_parts_to_hash(slug_parts)
-      slug_hash = {category: fix_category_capitalisation(slug_parts[0].strip)}
+      slug_hash = {category: fix_category_capitalisation(slug_parts[0])}
       if slug_parts.length >= 2
-        slug_hash[:subcategory] = slug_parts[1].strip
-        slug_hash[:name] = slug_parts[2].strip if slug_parts.length == 3
+        slug_hash[:subcategory] = slug_parts[1]
+        if slug_parts.length == 3 && slug_parts[2].present?
+          slug_hash[:name] = slug_parts[2]
+        end
       end
       slug_hash
     end

@@ -65,7 +65,13 @@ indicator instead.'
       )
       return nil
     end
-    indicator = Indicator.where(id_attributes).first
+    indicator = Indicator.where(id_attributes.slice(:category, :subcategory))
+    indicator =
+      if id_attributes[:name].blank?
+        indicator.where('name IS NULL OR name = ?', '')
+      else
+        indicator.where(name: id_attributes[:name])
+      end.first
     attributes = id_attributes.merge(common_attributes).merge(
       model_id: nil,
       parent_id: nil
