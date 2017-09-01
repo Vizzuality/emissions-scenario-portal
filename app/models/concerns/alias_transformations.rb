@@ -77,9 +77,7 @@ module AliasTransformations
       slug_hash = {category: fix_category_capitalisation(slug_parts[0])}
       if slug_parts.length >= 2
         slug_hash[:subcategory] = slug_parts[1].presence
-        if slug_parts.length == 3
-          slug_hash[:name] = slug_parts[2].presence
-        end
+        slug_hash[:name] = slug_parts[2].presence if slug_parts.length == 3
       end
       slug_hash
     end
