@@ -76,7 +76,7 @@
       </div>
     </div>
   </div>
-  <% if @indicator.system? && @indicator.variations.any? %>
+  <% if (@indicator.system? || @indicator.team?) && @indicator.variations.any? %>
     <div class="row">
       <div class="small-12 columns">
         <div class="l-indicators-overview__table-title f-ff3-m-bold">Variations <span>(<%= @indicator.variations.length %>)</span></div>
@@ -85,6 +85,15 @@
             <%= link_to variation.alias, model_indicator_url(variation.model, variation) %>
           </div>
         <% end %>
+      </div>
+    </div>
+  <% elsif @indicator.variation? %>
+      <div class="row">
+      <div class="small-12 columns">
+        <div class="l-indicators-overview__table-title f-ff3-m-bold">
+          Variation of:
+          <%= link_to @indicator.parent.alias, model_indicator_url(@indicator.model, @indicator.parent) %>
+        </div>
       </div>
     </div>
   <% end %>
