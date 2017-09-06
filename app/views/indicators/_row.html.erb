@@ -5,7 +5,7 @@
         <%= link_to indicator.build_alias, model_indicator_url(@model, indicator) %>
       </div>
     </div>
-    <div class="small-2 columns">
+    <div class="small-3 columns">
       <div class="c-table-list-item__text f-ff1-m-bold">
         <% if variation.present? %>
           <%= link_to variation.alias, model_indicator_url(@model, variation) %>
@@ -22,7 +22,7 @@
         <%= indicator.definition && truncate(indicator.definition, length: 120) %>
       </div>
     </div>
-    <div class="small-2 columns">
+    <div class="small-1 columns">
       <div class="c-table-list-item__text f-ff1-m-bold">
         <% if variation.present? %>
           <%= variation.model.team.try(:name) %>

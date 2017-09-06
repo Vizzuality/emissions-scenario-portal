@@ -76,27 +76,41 @@
       </div>
     </div>
   </div>
-  <% if (@indicator.system? || @indicator.team?) && @indicator.variations.any? %>
-    <div class="row">
-      <div class="small-12 columns">
-        <div class="l-indicators-overview__table-title f-ff3-m-bold">Variations <span>(<%= @indicator.variations.length %>)</span></div>
-        <% @indicator.variations.each do |variation| %>
-          <div class="f-ff1-m l-indicators-overview__data">
-            <%= link_to variation.alias, model_indicator_url(variation.model, variation) %>
-          </div>
+
+  <div class="row">
+    <div class="small-9 columns">
+      <div class="l-indicators-overview__hierarchy_info">
+        <% if @indicator.system? %>
+          <p>This is a <span class="f-ff1-m-bold">system indicator</span>.</p>
+        <% elsif @indicator.team? %>
+          <p>This is a <span class="f-ff1-m-bold">team indicator</span>.</p>
+        <% else %>
+          <p>This is a <span class="f-ff1-m-bold">variation of <%= link_to @indicator.parent.alias, model_indicator_url(@indicator.model, @indicator.parent) %></span></p>
+        <% end %>
+        <% if @indicator.model.present? %>
+          <p>
+            <span class="f-ff1-m-bold">Model:</span>
+            <%= link_to @indicator.model.abbreviation, model_url(@indicator.model) %>
+          </p>
+          <% if @indicator.model.team.present? && current_user.admin? %>
+            <p>
+              <span class="f-ff1-m-bold">Team:</span>
+              <%= link_to @indicator.model.team.name, edit_team_url(@indicator.model.team) %>
+            </p>
+          <% end %>
+        <% end %>
+        <% if (@indicator.system? || @indicator.team?) && @indicator.variations.any? %>
+          <p>The following variations exist:</p>
+          <% @indicator.variations.each do |variation| %>
+            <p class="f-ff1-m-bold">
+              <%= link_to variation.alias, model_indicator_url(variation.model, variation) %>
+            </p>
+          <% end %>
         <% end %>
       </div>
     </div>
-  <% elsif @indicator.variation? %>
-      <div class="row">
-      <div class="small-12 columns">
-        <div class="l-indicators-overview__table-title f-ff3-m-bold">
-          Variation of:
-          <%= link_to @indicator.parent.alias, model_indicator_url(@indicator.model, @indicator.parent) %>
-        </div>
-      </div>
-    </div>
-  <% end %>
+  </div>
+
   <div class="row">
     <div class="small-9 columns">
       <div class="l-indicators-overview__table-title f-ff3-m-bold">Time Series <span>(<%= @time_series_values_pivot[:data].length %>)</span></div>
