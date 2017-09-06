@@ -17,11 +17,11 @@
       }
 
       .ag-header-cell-label {
+        display: flex;
         cursor: pointer;
       }
 
       .ag-header-cell-text {
-        float: left;
         margin-right: rem(6px);
         font-family: $font-family-1;
         font-size: $ff1-size-m;
@@ -29,6 +29,7 @@
         line-height: 1.63;
         letter-spacing: 0.1px;
         color: $color-app-2;
+        order: 1;
       }
 
       .ag-header-icon .icon {
@@ -38,8 +39,12 @@
         height: rem(11px);
       }
 
-      .ag-sort-none-icon .icon {
-        fill: rgba($color-app-2, 0.3);
+      .ag-sort-none-icon {
+        order: 2;
+
+        .icon {
+          fill: rgba($color-app-2, 0.3);
+        }
       }
     }
 
@@ -47,7 +52,7 @@
 
       &:not(:first-child):before{
         content: '';
-        position: fixed;
+        position: absolute;
         left: 0;
         height: rem(1px);
         width: 100%;
