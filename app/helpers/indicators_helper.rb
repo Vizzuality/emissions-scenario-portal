@@ -40,4 +40,10 @@ module IndicatorsHelper
     message.prepend time_series_data if indicator.time_series_data?
     message
   end
+
+  def promote_confirmation_message(indicator)
+    <<~EOM
+      This will create a system indicator #{indicator.alias} and turn this indicator into its variation. Are you sure you want to proceed?
+    EOM
+  end
 end
