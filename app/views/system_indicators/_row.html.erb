@@ -47,7 +47,9 @@
             </div>
           <% end %>
           <% if indicator.team? %>
-            <%= link_to promote_indicator_url(indicator), method: :put do %>
+            <%= link_to promote_indicator_url(indicator),
+              method: :put,
+              data: {confirm: promote_confirmation_message(indicator)} do %>
               <div class="c-edit-button">
                 <div class="c-edit-button__bubble">
                   <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
