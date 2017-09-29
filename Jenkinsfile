@@ -5,7 +5,7 @@ node {
   // Actions
   def forceCompleteDeploy = false
   try {
-    timeout(time: 15, unit: 'SECONDS') {
+    timeout(time: 60, unit: 'SECONDS') {
       forceCompleteDeploy = input(
         id: 'Proceed0', message: 'Force COMPLETE Deployment', parameters: [
         [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Please confirm you want to recreate services and deployments']
@@ -73,7 +73,7 @@ node {
           def userInput = true
           def didTimeout = false
           try {
-            timeout(time: 60, unit: 'SECONDS') {
+            timeout(time: 90, unit: 'SECONDS') {
               userInput = input(
                 id: 'Proceed1', message: 'Confirm deployment', parameters: [
                 [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Please confirm you agree with this deployment']

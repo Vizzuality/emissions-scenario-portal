@@ -69,19 +69,21 @@
                       <%= ff.text_field :email, class: 'c-input-text js-form-input', placeholder: 'Email' %>
                     </div>
                     <div class="small-4 columns">
-                      <div class="c-checkbox">
-                        <%= ff.check_box :admin %>
-                        <%= ff.label :admin do %>
-                          <div class="c-checkbox__box">
-                            <svg class="icon icon-checkbox-off"><use xlink:href="#icon-checkbox-off"></use></svg>
-                            <svg class="icon icon-checkbox-on"><use xlink:href="#icon-checkbox-on"></use></svg>
-                          </div>
-                          <div class="f-ff1-s">Admin</div>
-                        <% end %>
-                      </div>
+                      <% if current_user.admin? %>
+                        <div class="c-checkbox">
+                          <%= ff.check_box :admin %>
+                          <%= ff.label :admin do %>
+                            <div class="c-checkbox__box">
+                              <svg class="icon icon-checkbox-off"><use xlink:href="#icon-checkbox-off"></use></svg>
+                              <svg class="icon icon-checkbox-on"><use xlink:href="#icon-checkbox-on"></use></svg>
+                            </div>
+                            <div class="f-ff1-s">Admin</div>
+                          <% end %>
+                        </div>
+                      <% end %>
                       <%= link_to team_user_url(@team, ff.object),
-                                  method: :delete,
-                                  data: { confirm: 'Are you sure?' } do %>
+                        method: :delete,
+                        data: { confirm: 'Are you sure?' } do %>
                         <div class="c-remove-button">
                           <svg class="icon"><use xlink:href="#icon-delete"></use></svg>
                           <div class="f-ff1-s">Delete</div>
