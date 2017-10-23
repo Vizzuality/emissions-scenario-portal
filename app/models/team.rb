@@ -28,7 +28,7 @@ class Team < ApplicationRecord
 
   class << self
     def fetch_all(options)
-      teams = Team
+      teams = Team.all
       options.each do |filter|
         teams = apply_filter(teams, options, filter[0], filter[1])
       end
