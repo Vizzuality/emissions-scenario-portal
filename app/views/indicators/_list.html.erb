@@ -78,7 +78,7 @@
   </div>
 </div>
 <% @indicators.each do |indicator| %>
-  <% if indicator.variations.any? %>
+  <% if indicator.variations.where(model_id: @model.id).any? %>
     <% indicator.variations.eager_load(model: :team).where(model_id: @model.id).each do |variation| %>
       <%= render partial: 'indicators/row', locals: {indicator: indicator, variation: variation} %>
     <% end %>
