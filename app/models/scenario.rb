@@ -41,7 +41,7 @@ class Scenario < ApplicationRecord
 
   class << self
     def fetch_all(options)
-      scenarios = Scenario
+      scenarios = Scenario.all
       options.each do |filter|
         scenarios = apply_filter(scenarios, options, filter[0], filter[1])
       end

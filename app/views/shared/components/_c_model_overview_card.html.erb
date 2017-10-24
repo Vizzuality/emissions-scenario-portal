@@ -3,8 +3,8 @@
   button_text ||= 'See all'
   values ||= nil
   values_limit = 4
-  values_count = values.present? ? values.count : 0
-  if values.present? && values.count > values_limit
+  values_count = values.try(:size) || 0
+  if values_count > values_limit
     values = values[0...4]
   end
 %>
