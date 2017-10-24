@@ -6,7 +6,7 @@ class Location < ApplicationRecord
 
   class << self
     def fetch_all(options)
-      locations = Location
+      locations = Location.all
       options.each_with_index do |filter|
         locations = apply_filter(locations, options, filter[0], filter[1])
       end

@@ -142,6 +142,11 @@ variations_models.team_id")
           WHEN variations.id IS NOT NULL THEN variations_teams.name
           WHEN indicators.model_id IS NOT NULL THEN teams.name
           ELSE NULL
+        END,
+        CASE
+          WHEN variations.id IS NOT NULL THEN variations.created_at
+          WHEN indicators.model_id IS NOT NULL THEN indicators.created_at
+          ELSE NULL
         END
         SQL
       [sql, order_direction].join(' ')
