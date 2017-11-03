@@ -29,7 +29,6 @@
     },
 
     _loadTable: function () {
-      this._setParentHeight();
       var gridOptions = {
         columnDefs: this.columns,
         rowData: this.rows,
@@ -38,26 +37,18 @@
         headerHeight: 33,
         rowHeight: 60,
         colWidth: 150,
+        domLayout: 'autoHeight',
         icons: {
           sortUnSort: '<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-short"></use></svg>',
           sortAscending: '<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-short"></use></svg>',
           sortDescending: '<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-short"></use></svg>'
         }
       };
+      this.$el.wrap('<div class="row">');
+      this.$el.wrap('<div class="columns small-12">');
       new agGrid.Grid(this.$el[0], gridOptions);
-      this._adjustTableMargins();
     },
 
-    _setParentHeight: function () {
-      this.$parent.css('height', $(window).height() - $('body').height());
-    },
-
-    _adjustTableMargins: function () {
-      var margin = ($('body').width() - $('.small-12').width()) / 2;
-      $('.ag-header').css('padding-left', margin);
-      $('.ag-body').css('left', margin);
-    },
-    
     _formatData: function () {
       switch (this.$el.data('type')) {
         case 'time_series':
