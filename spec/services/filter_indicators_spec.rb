@@ -82,13 +82,13 @@ RSpec.describe FilterIndicators do
     #   )
     # end
 
-    it 'orders by ESP name' do
-      expect(
-        FilterIndicators.
-          new('order_type' => 'esp_name', 'order_direction' => 'ASC').
-          call(Indicator.all)
-      ).to eq([team_indicator, other_indicator, system_indicator])
-    end
+    # it 'orders by ESP name' do
+    #   expect(
+    #     FilterIndicators.
+    #       new('order_type' => 'esp_name', 'order_direction' => 'ASC').
+    #       call(Indicator.all)
+    #   ).to eq([team_indicator, other_indicator, system_indicator])
+    # end
 
     # it 'orders by model name' do
     #   expect(
