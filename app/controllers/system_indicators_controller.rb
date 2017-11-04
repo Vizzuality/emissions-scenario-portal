@@ -5,8 +5,9 @@ class SystemIndicatorsController < AdminController
   before_action :set_upload_errors, only: [:index]
 
   def index
-    @indicators = Indicator.system_indicators_with_variations.
-      fetch_all(@filter_params)
+    @indicators = FilterIndicators.
+      new(@filter_params).
+      call(Indicator.system_with_variations)
     render template: 'indicators/index'
   end
 

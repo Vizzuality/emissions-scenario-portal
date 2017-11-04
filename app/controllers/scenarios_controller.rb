@@ -27,9 +27,9 @@ class ScenariosController < ApplicationController
   end
 
   def show
-    @indicators = Indicator.
-      system_indicators_with_variations_for_scenario(@scenario.id).
-      fetch_all(@filter_params)
+    @indicators = FilterIndicators.
+      new(@filter_params).
+      call(Indicator.for_scenario(@scenario.id))
   end
 
   def destroy
