@@ -27,9 +27,12 @@ class Indicator < ApplicationRecord
     :category, :subcategory, :name, :alias
   ]
 
-  def self.system_with_variations
-    where(parent_id: nil).
-      joins('LEFT JOIN models ON models.id = indicators.model_id').
+  def self.system
+    where(parent_id: nil)
+  end
+
+  def self.with_variations
+    joins('LEFT JOIN models ON models.id = indicators.model_id').
       joins('LEFT JOIN teams ON teams.id = models.team_id').
       eager_load(:variations).
       joins("LEFT JOIN indicators variations ON variations.parent_id = \
@@ -43,7 +46,7 @@ variations_models.team_id")
   def self.for_scenario(scenario_id)
     subquery = TimeSeriesValue.where(scenario_id: scenario_id).
       select(:indicator_id).group(:indicator_id).to_sql
-    system_with_variations.
+    with_variations.
       joins("JOIN (#{subquery}) s ON variations.id = s.indicator_id")
   end
 

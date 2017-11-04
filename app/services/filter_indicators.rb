@@ -6,7 +6,7 @@ class FilterIndicators
   attr_accessor :search, :order_type, :order_direction, :type, :category
 
   def call(scope)
-    indicators.
+    scope.
       merge(search_scope).
       merge(order_scope).
       merge(type_scope).
@@ -16,7 +16,7 @@ class FilterIndicators
   private
 
   def indicators
-    Indicator.system_with_variations
+    Indicator.with_variations
   end
 
   def search_scope

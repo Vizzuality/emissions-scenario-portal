@@ -46,9 +46,7 @@ class ModelsController < ApplicationController
 
   def show
     @scenarios = @model.scenarios.limit(5)
-    @indicators = Indicator.
-      system_with_variations.
-      order(:category, :subcategory, :name)
+    @indicators = Indicator.system.order(:category, :subcategory, :name)
   end
 
   def destroy
