@@ -26,7 +26,7 @@ class FilterIndicators
 
   def order_scope
     return indicators unless ORDER_COLUMNS.include?(order_type)
-    direction = order_direction.to_s.downcase == 'desc' ? :desc : :asc
+    direction = order_direction.to_s.casecmp('desc') ? :desc : :asc
     order_clause = send("#{order_type}_order_clause", direction)
     indicators.order(order_clause)
   end
@@ -39,7 +39,7 @@ class FilterIndicators
         where('variations_models.id' => nil)
     when /team-(\d+)/
       indicators.
-        where('models.team_id = :team_id', team_id: $1.to_i)
+        where('models.team_id = :team_id', team_id: Regexp.last_match[1].to_i)
     else
       indicators
     end
@@ -47,7 +47,7 @@ class FilterIndicators
 
   def category_scope
     return indicators if category.blank?
-    indicators.where("indicators.category IN (?)", category.split(','))
+    indicators.where('indicators.category IN (?)', category.split(','))
   end
 
   def model_name_order_clause(direction)
