@@ -35,8 +35,12 @@
         <div class="f-ff1-m l-indicators-overview__data"><%= @indicator.subcategory %></div>
       </div>
       <div class="small-1 columns">
-        <div class="f-ff1-m-bold">Unit</div>
+        <div class="f-ff1-m-bold">ESP Unit</div>
         <div class="f-ff1-m l-indicators-overview__data"><%= @indicator.unit %></div>
+      </div>
+      <div class="small-1 columns">
+        <div class="f-ff1-m-bold">Model Unit</div>
+        <div class="f-ff1-m l-indicators-overview__data"><%= @time_series_values_pivot.inspect %></div>
       </div>
       <div class="small-4 columns">
         <div class="f-ff1-m-bold">Description</div>
