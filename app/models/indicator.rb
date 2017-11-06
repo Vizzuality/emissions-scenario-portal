@@ -27,8 +27,12 @@ class Indicator < ApplicationRecord
     :category, :subcategory, :name, :alias
   ]
 
-  def self.system
+  def self.system_and_team
     where(parent_id: nil)
+  end
+
+  def self.system
+    system_and_team.where(model_id: nil)
   end
 
   def self.with_variations

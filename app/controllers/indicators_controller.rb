@@ -12,7 +12,7 @@ class IndicatorsController < ApplicationController
   def index
     @indicators = FilterIndicators.
       new(@filter_params).
-      call(Indicator.system)
+      call(Indicator.system_and_team)
   end
 
   def new

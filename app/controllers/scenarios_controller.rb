@@ -29,7 +29,7 @@ class ScenariosController < ApplicationController
   def show
     @indicators = FilterIndicators.
       new(@filter_params).
-      call(Indicator.system.for_scenario(@scenario.id))
+      call(Indicator.system_and_team.for_scenario(@scenario.id))
   end
 
   def destroy

@@ -7,7 +7,7 @@ class SystemIndicatorsController < AdminController
   def index
     @indicators = FilterIndicators.
       new(@filter_params).
-      call(Indicator.system)
+      call(Indicator.system_and_team)
     render template: 'indicators/index'
   end
 
