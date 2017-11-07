@@ -2,17 +2,17 @@ require 'rails_helper'
 
 RSpec.describe FilterIndicators do
   let!(:system_indicator) do
-    FactoryGirl.create(
+    create(
       :indicator,
       category: 'Energy', subcategory: 'Energy use by fuel', name: 'Biomass'
     )
   end
-  let(:team) { FactoryGirl.create(:team, name: 'AAA') }
-  let(:other_team) { FactoryGirl.create(:team, name: 'BBB') }
-  let(:model) { FactoryGirl.create(:model, full_name: 'AAA model', team: team) }
-  let(:other_model) { FactoryGirl.create(:model, full_name: 'BBB model', team: other_team) }
+  let(:team) { create(:team, name: 'AAA') }
+  let(:other_team) { create(:team, name: 'BBB') }
+  let(:model) { create(:model, full_name: 'AAA model', team: team) }
+  let(:other_model) { create(:model, full_name: 'BBB model', team: other_team) }
   let!(:team_indicator) do
-    FactoryGirl.create(
+    create(
       :indicator,
       category: 'Emissions', subcategory: 'CO2 by sector', name: 'Industry',
       model: model,
@@ -20,7 +20,7 @@ RSpec.describe FilterIndicators do
     )
   end
   let!(:other_indicator) do
-    FactoryGirl.create(
+    create(
       :indicator,
       category: 'Emissions', subcategory: 'CO2 by sector', name: 'Transport',
       model: other_model,
@@ -74,7 +74,7 @@ RSpec.describe FilterIndicators do
 
   context 'when sorting' do
     # let!(:variation) do
-    #   FactoryGirl.create(
+    #   create(
     #     :indicator,
     #     parent: system_indicator,
     #     model: model,
