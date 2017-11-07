@@ -26,7 +26,7 @@ class FilterIndicators
 
   def order_scope
     return indicators unless ORDER_COLUMNS.include?(order_type)
-    direction = order_direction.to_s.casecmp('desc') ? :desc : :asc
+    direction = order_direction.to_s.casecmp('desc').zero? ? :desc : :asc
     order_clause = send("#{order_type}_order_clause", direction)
     indicators.order(order_clause)
   end
@@ -72,7 +72,7 @@ class FilterIndicators
       CASE
         WHEN variations.id IS NOT NULL THEN variations_teams.name
         WHEN indicators.model_id IS NOT NULL THEN teams.name
-        ELSE NULL
+        ELSE 'System'
       END,
       CASE
         WHEN variations.id IS NOT NULL THEN variations.created_at
