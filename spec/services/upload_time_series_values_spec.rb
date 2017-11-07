@@ -1,15 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe UploadTimeSeriesValues, upload: :s3 do
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user) { create(:user) }
   let(:model) {
-    FactoryGirl.create(:model, abbreviation: 'Model A', team: user.team)
+    create(:model, abbreviation: 'Model A', team: user.team)
   }
   let!(:scenario) {
-    FactoryGirl.create(:scenario, name: 'Scenario 1', model: model)
+    create(:scenario, name: 'Scenario 1', model: model)
   }
   let!(:indicator) {
-    FactoryGirl.create(
+    create(
       :indicator,
       category: 'Emissions',
       subcategory: 'GHG Emissions by gas',
@@ -21,7 +21,7 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
     )
   }
   let(:variation) {
-    FactoryGirl.create(
+    create(
       :indicator,
       parent: indicator,
       alias: "#{model.abbreviation} #{indicator.alias}",
@@ -32,13 +32,13 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
     )
   }
   let!(:location1) {
-    FactoryGirl.create(:location, name: 'Poland', iso_code: 'PL')
+    create(:location, name: 'Poland', iso_code: 'PL')
   }
   let!(:location2) {
-    FactoryGirl.create(:location, name: 'Portugal', iso_code: 'PT')
+    create(:location, name: 'Portugal', iso_code: 'PT')
   }
   let(:csv_upload) {
-    FactoryGirl.create(
+    create(
       :csv_upload,
       user: user,
       model: model,
@@ -86,7 +86,7 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
       )
     }
     before(:each) do
-      FactoryGirl.create(
+      create(
         :time_series_value,
         scenario: scenario,
         indicator: variation,
@@ -261,9 +261,9 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
       )
     }
     let(:csv_upload) {
-      FactoryGirl.create(
+      create(
         :csv_upload,
-        user: FactoryGirl.create(:user),
+        user: create(:user),
         model: model,
         service_type: 'UploadTimeSeriesValues',
         data: file
@@ -295,7 +295,7 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
       )
     }
     before(:each) {
-      FactoryGirl.create(
+      create(
         :indicator,
         category: indicator.category,
         subcategory: indicator.subcategory,
@@ -354,9 +354,9 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
         )
       )
     }
-    let(:other_model) { FactoryGirl.create(:model) }
+    let(:other_model) { create(:model) }
     let!(:team_indicator) {
-      FactoryGirl.create(
+      create(
         :indicator,
         category: 'Emissions',
         subcategory: 'GHG Emissions',
@@ -408,9 +408,9 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
         )
       )
     }
-    let(:other_model) { FactoryGirl.create(:model, abbreviation: 'Model B') }
+    let(:other_model) { create(:model, abbreviation: 'Model B') }
     let!(:variation) {
-      FactoryGirl.create(
+      create(
         :indicator,
         category: 'Emissions',
         subcategory: 'GHG Emissions',

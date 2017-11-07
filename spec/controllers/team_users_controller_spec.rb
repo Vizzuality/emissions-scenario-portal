@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe TeamUsersController, type: :controller do
-  let(:team) { FactoryGirl.create(:team) }
+  let(:team) { create(:team) }
 
   context 'when admin' do
     login_admin
@@ -18,7 +18,7 @@ RSpec.describe TeamUsersController, type: :controller do
       end
       context 'when existing user' do
         it 'does not create a new user' do
-          user = FactoryGirl.create(:user)
+          user = create(:user)
           expect {
             post :create, params: {team_id: team.id, user: {email: user.email}}
           }.not_to change(team.users, :count)
@@ -28,7 +28,7 @@ RSpec.describe TeamUsersController, type: :controller do
 
     describe 'DELETE #destroy' do
       it 'destroys the user' do
-        user = FactoryGirl.create(:user, team: team)
+        user = create(:user, team: team)
         expect {
           delete :destroy, params: {team_id: team.id, id: user.id}
         }.to change(team.users, :count).by(-1)
@@ -58,7 +58,7 @@ RSpec.describe TeamUsersController, type: :controller do
       end
       context 'when existing user' do
         it 'does not create a new user' do
-          user = FactoryGirl.create(:user)
+          user = create(:user)
           expect {
             post :create, params: {
               team_id: @user.team.id, user: {email: user.email}
@@ -70,13 +70,13 @@ RSpec.describe TeamUsersController, type: :controller do
 
     describe 'DELETE #destroy' do
       it 'removes the user from user\'s team' do
-        user = FactoryGirl.create(:user, team: @user.team)
+        user = create(:user, team: @user.team)
         expect {
           delete :destroy, params: {team_id: user.team_id, id: user.id}
         }.to change(@user.team.users, :count).by(-1)
       end
       it 'prevents unauthorized access' do
-        user = FactoryGirl.create(:user, team: team)
+        user = create(:user, team: team)
         delete :destroy, params: {team_id: team.id, id: user.id}
         expect(response).to redirect_to(root_url)
         expect(flash[:alert]).to match(/You are not authorized/)

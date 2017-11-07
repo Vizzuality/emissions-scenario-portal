@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Api::V1::ModelsController, type: :controller do
   context do
-    let!(:some_models) { FactoryGirl.create_list(:model, 3) }
+    let!(:some_models) { create_list(:model, 3) }
 
     describe 'GET index' do
       it 'returns a successful 200 response' do

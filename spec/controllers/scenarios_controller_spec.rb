@@ -3,10 +3,10 @@ require 'rails_helper'
 RSpec.describe ScenariosController, type: :controller do
   context 'when admin' do
     login_admin
-    let(:team_model) { FactoryGirl.create(:model, team: @user.team) }
-    let(:some_model) { FactoryGirl.create(:model) }
-    let!(:team_scenario) { FactoryGirl.create(:scenario, model: team_model) }
-    let!(:some_scenario) { FactoryGirl.create(:scenario, model: some_model) }
+    let(:team_model) { create(:model, team: @user.team) }
+    let(:some_model) { create(:model) }
+    let!(:team_scenario) { create(:scenario, model: team_model) }
+    let!(:some_scenario) { create(:scenario, model: some_model) }
 
     describe 'GET index' do
       it 'renders index' do
@@ -55,7 +55,7 @@ RSpec.describe ScenariosController, type: :controller do
       end
 
       it 'destroys linked time series data' do
-        FactoryGirl.create(:time_series_value, scenario: some_scenario)
+        create(:time_series_value, scenario: some_scenario)
         expect {
           delete :destroy, params: {
             model_id: some_model.id, id: some_scenario.id
@@ -67,10 +67,10 @@ RSpec.describe ScenariosController, type: :controller do
 
   context 'when user' do
     login_user
-    let(:team_model) { FactoryGirl.create(:model, team: @user.team) }
-    let(:some_model) { FactoryGirl.create(:model) }
-    let!(:team_scenario) { FactoryGirl.create(:scenario, model: team_model) }
-    let!(:some_scenario) { FactoryGirl.create(:scenario, model: some_model) }
+    let(:team_model) { create(:model, team: @user.team) }
+    let(:some_model) { create(:model) }
+    let!(:team_scenario) { create(:scenario, model: team_model) }
+    let!(:some_scenario) { create(:scenario, model: some_model) }
 
     describe 'GET index' do
       it 'renders index' do
@@ -211,7 +211,7 @@ RSpec.describe ScenariosController, type: :controller do
 
     describe 'GET download_time_series' do
       it 'returns scenario time series file' do
-        FactoryGirl.create(:time_series_value, scenario: team_scenario)
+        create(:time_series_value, scenario: team_scenario)
 
         get :download_time_series, params: {
           model_id: team_model.id, id: team_scenario.id

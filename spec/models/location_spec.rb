@@ -3,16 +3,16 @@ require 'rails_helper'
 RSpec.describe Location, type: :model do
   it 'should be invalid when name not present' do
     expect(
-      FactoryGirl.build(:location, name: nil)
+      build(:location, name: nil)
     ).to have(1).errors_on(:name)
   end
 
   describe :fetch_all do
     let!(:location1) {
-      FactoryGirl.create(:location, name: 'Poland', iso_code: 'PL')
+      create(:location, name: 'Poland', iso_code: 'PL')
     }
     let!(:location2) {
-      FactoryGirl.create(:location, name: 'Portugal', iso_code: 'PT')
+      create(:location, name: 'Portugal', iso_code: 'PT')
     }
     context 'when using text search' do
       it 'searches by iso codeca' do

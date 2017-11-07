@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationHelper, type: :helper do
-  let(:model) { FactoryGirl.create(:model) }
+  let(:model) { create(:model) }
   describe :attribute_input do
     context :models do
       let(:form) {
@@ -24,7 +24,7 @@ RSpec.describe ApplicationHelper, type: :helper do
       end
     end
     context :scenarios do
-      let(:scenario) { FactoryGirl.create(:scenario) }
+      let(:scenario) { create(:scenario) }
       let(:form) {
         ActionView::Helpers::FormBuilder.new(:scenario, scenario, self, {})
       }
@@ -40,7 +40,7 @@ RSpec.describe ApplicationHelper, type: :helper do
       end
     end
     context :indicators do
-      let(:indicator) { FactoryGirl.create(:indicator) }
+      let(:indicator) { create(:indicator) }
       let(:form) {
         ActionView::Helpers::FormBuilder.new(:indicator, indicator, self, {})
       }
