@@ -1,5 +1,5 @@
 GIT
-  remote: git://github.com/the-refinery/sparkpost_rails.git
+  remote: https://github.com/the-refinery/sparkpost_rails.git
   revision: b318bb7a345d04825f4c7de8944caf2ca120ab42
   specs:
     sparkpost_rails (1.4.0)

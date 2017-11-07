@@ -32,7 +32,7 @@ gem 'aws-sdk', '~> 2'
 gem 'sidekiq'
 gem 'active_model_serializers'
 
-gem 'sparkpost_rails', :git => 'git://github.com/the-refinery/sparkpost_rails.git'
+gem 'sparkpost_rails', github: 'the-refinery/sparkpost_rails'
 
 group :development, :test do
   gem 'byebug', platform: :mri
