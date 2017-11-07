@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe UploadScenarios, upload: :s3 do
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user) { create(:user) }
   let(:model) {
-    FactoryGirl.create(:model, abbreviation: 'Model A', team: user.team)
+    create(:model, abbreviation: 'Model A', team: user.team)
   }
   let(:csv_upload) {
-    FactoryGirl.create(
+    create(
       :csv_upload,
       user: user,
       model: model,
@@ -51,7 +51,7 @@ RSpec.describe UploadScenarios, upload: :s3 do
       )
     }
     before(:each) do
-      FactoryGirl.create(
+      create(
         :scenario,
         model: model,
         name: 'Scenario 1'
@@ -172,9 +172,9 @@ RSpec.describe UploadScenarios, upload: :s3 do
       )
     }
     let(:csv_upload) {
-      FactoryGirl.create(
+      create(
         :csv_upload,
-        user: FactoryGirl.create(:user),
+        user: create(:user),
         model: model,
         service_type: 'UploadScenarios',
         data: file

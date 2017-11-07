@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :location do
     name 'Poland'
     iso_code 'PL'

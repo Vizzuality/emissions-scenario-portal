@@ -2,12 +2,10 @@ require 'rails_helper'
 
 describe Api::V1::ScenariosController, type: :controller do
   context do
-    let!(:some_model) {
-      FactoryGirl.create(:model)
-    }
+    let!(:some_model) { create(:model) }
 
     let!(:some_scenarios) {
-      FactoryGirl.create_list(:scenario, 3, model: some_model)
+      create_list(:scenario, 3, model: some_model)
     }
 
     describe 'GET index' do

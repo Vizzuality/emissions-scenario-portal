@@ -17,8 +17,8 @@ RSpec.describe TeamsController, type: :controller do
         expect(assigns(:team)).to be_a_new(Team)
       end
       it 'assigns available models' do
-        FactoryGirl.create(:model, team: FactoryGirl.create(:team))
-        unassigned_model = FactoryGirl.build(:model, team: nil)
+        create(:model, team: create(:team))
+        unassigned_model = build(:model, team: nil)
         unassigned_model.save(validate: false)
         get :new
         expect(assigns(:models)).to eq([unassigned_model])
@@ -27,16 +27,16 @@ RSpec.describe TeamsController, type: :controller do
 
     describe 'GET #edit' do
       it 'assigns the requested team as @team' do
-        team = FactoryGirl.create(:team)
+        team = create(:team)
         get :edit, params: {id: team.id}
         expect(assigns(:team)).to eq(team)
       end
       it 'assigns available models' do
-        team = FactoryGirl.create(:team)
-        FactoryGirl.create(:model, team: FactoryGirl.create(:team))
-        unassigned_model = FactoryGirl.build(:model, team: nil)
+        team = create(:team)
+        create(:model, team: create(:team))
+        unassigned_model = build(:model, team: nil)
         unassigned_model.save(validate: false)
-        my_model = FactoryGirl.create(:model, team: team)
+        my_model = create(:model, team: team)
         get :edit, params: {id: team.id}
         expect(assigns(:models)).to eq([unassigned_model, my_model])
       end
@@ -78,20 +78,20 @@ RSpec.describe TeamsController, type: :controller do
     describe 'PUT #update' do
       context 'with valid params' do
         it 'updates the requested team' do
-          team = FactoryGirl.create(:team)
+          team = create(:team)
           put :update, params: {id: team.id, team: {name: 'New Name'}}
           team.reload
           expect(team.name).to eq('New Name')
         end
 
         it 'assigns the requested team as @team' do
-          team = FactoryGirl.create(:team)
+          team = create(:team)
           put :update, params: {id: team.id, team: {name: 'New Name'}}
           expect(assigns(:team)).to eq(team)
         end
 
         it 'redirects to the team' do
-          team = FactoryGirl.create(:team)
+          team = create(:team)
           put :update, params: {id: team.id, team: {name: 'New Name'}}
           expect(response).to redirect_to(edit_team_url(team))
         end
@@ -99,13 +99,13 @@ RSpec.describe TeamsController, type: :controller do
 
       context 'with invalid params' do
         it 'assigns the team as @team' do
-          team = FactoryGirl.create(:team)
+          team = create(:team)
           put :update, params: {id: team.id, team: {name: nil}}
           expect(assigns(:team)).to eq(team)
         end
 
         it 're-renders the edit template' do
-          team = FactoryGirl.create(:team)
+          team = create(:team)
           put :update, params: {id: team.id, team: {name: nil}}
           expect(response).to render_template('edit')
         end
@@ -114,14 +114,14 @@ RSpec.describe TeamsController, type: :controller do
 
     describe 'DELETE #destroy' do
       it 'destroys the requested team' do
-        team = FactoryGirl.create(:team)
+        team = create(:team)
         expect {
           delete :destroy, params: {id: team.id}
         }.to change(Team, :count).by(-1)
       end
 
       it 'redirects to the teams list' do
-        team = FactoryGirl.create(:team)
+        team = create(:team)
         delete :destroy, params: {id: team.id}
         expect(response).to redirect_to(teams_url)
       end
@@ -153,7 +153,7 @@ RSpec.describe TeamsController, type: :controller do
         expect(assigns(:team)).to eq(@user.team)
       end
       it 'prevents unauthorized access' do
-        team = FactoryGirl.create(:team)
+        team = create(:team)
         get :edit, params: {id: team.id}
         expect(response).to redirect_to(root_url)
         expect(flash[:alert]).to match(/You are not authorized/)
@@ -174,7 +174,7 @@ RSpec.describe TeamsController, type: :controller do
         expect(@user.team.reload.name).to eq('New Name')
       end
       it 'prevents unauthorized access' do
-        team = FactoryGirl.create(:team)
+        team = create(:team)
         put :update, params: {id: team.id, team: {name: 'New Name'}}
         expect(response).to redirect_to(root_url)
         expect(flash[:alert]).to match(/You are not authorized/)
@@ -183,7 +183,7 @@ RSpec.describe TeamsController, type: :controller do
 
     describe 'DELETE #destroy' do
       it 'prevents unauthorized access' do
-        team = FactoryGirl.create(:team)
+        team = create(:team)
         delete :destroy, params: {id: team.id}
         expect(response).to redirect_to(root_url)
         expect(flash[:alert]).to match(/You are not authorized/)

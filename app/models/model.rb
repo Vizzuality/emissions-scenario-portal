@@ -4,7 +4,7 @@ class Model < ApplicationRecord
   ).freeze
   include MetadataAttributes
 
-  belongs_to :team
+  belongs_to :team, optional: true
   has_many :scenarios, dependent: :destroy
   has_many :indicators, dependent: :destroy
 

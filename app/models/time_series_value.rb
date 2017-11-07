@@ -14,9 +14,6 @@ class TimeSeriesValue < ApplicationRecord
     inclusion: {in: 1900..3000, allow_nil: true}
   )
   validates :value, presence: true, numericality: {allow_nil: true}
-  validates :scenario, presence: true
-  validates :indicator, presence: true
-  validates :location, presence: true
   validate :unit_compatible_with_indicator, if: proc { |v| v.indicator }
 
   pg_search_scope :search_for, associated_against: {

@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe TimeSeriesValuesController, type: :controller do
   context 'when user' do
     login_user
-    let(:team_model) { FactoryGirl.create(:model, team: @user.team) }
-    let(:some_model) { FactoryGirl.create(:model) }
+    let(:team_model) { create(:model, team: @user.team) }
+    let(:some_model) { create(:model) }
 
     describe 'POST upload_meta_data', upload: :s3 do
       let(:file_name) { 'time_series_values-correct.csv' }

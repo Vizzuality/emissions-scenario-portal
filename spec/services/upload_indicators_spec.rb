@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe UploadIndicators, upload: :s3 do
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user) { create(:user) }
   let(:model) {
-    FactoryGirl.create(:model, abbreviation: 'Model A', team: user.team)
+    create(:model, abbreviation: 'Model A', team: user.team)
   }
   let(:csv_upload) {
-    FactoryGirl.create(
+    create(
       :csv_upload,
       user: user,
       model: model,
@@ -29,7 +29,7 @@ RSpec.describe UploadIndicators, upload: :s3 do
       )
     }
     context 'when admin' do
-      let(:user) { FactoryGirl.create(:user, admin: true) }
+      let(:user) { create(:user, admin: true) }
       it 'should have saved all indicators' do
         expect { subject }.to change { Indicator.count }.by(3)
       end
@@ -52,9 +52,9 @@ RSpec.describe UploadIndicators, upload: :s3 do
       end
     end
     context 'when researcher from another team' do
-      let(:user) { FactoryGirl.create(:user) }
+      let(:user) { create(:user) }
       let(:model) {
-        FactoryGirl.create(:model, abbreviation: 'Model A')
+        create(:model, abbreviation: 'Model A')
       }
       it 'should not have saved any indicators' do
         expect { subject }.to change { Indicator.count }.by(0)
@@ -80,7 +80,7 @@ RSpec.describe UploadIndicators, upload: :s3 do
       )
     }
     before(:each) do
-      FactoryGirl.create(
+      create(
         :indicator,
         category: 'Emissions',
         subcategory: 'CO2 by sector',
@@ -91,7 +91,7 @@ RSpec.describe UploadIndicators, upload: :s3 do
       )
     end
     context 'when admin' do
-      let(:user) { FactoryGirl.create(:user, admin: true) }
+      let(:user) { create(:user, admin: true) }
       it 'should have saved new rows' do
         expect { subject }.to change { Indicator.count }.by(2)
       end
@@ -127,7 +127,7 @@ RSpec.describe UploadIndicators, upload: :s3 do
       )
     }
     context 'when admin' do
-      let(:user) { FactoryGirl.create(:user, admin: true) }
+      let(:user) { create(:user, admin: true) }
       it 'should have saved new rows' do
         expect { subject }.to change { Indicator.count }.by(3)
       end
@@ -245,7 +245,7 @@ RSpec.describe UploadIndicators, upload: :s3 do
   end
 
   context 'when incompatible unit' do
-    let(:user) { FactoryGirl.create(:user, admin: true) }
+    let(:user) { create(:user, admin: true) }
     let(:file) {
       Rack::Test::UploadedFile.new(
         File.join(
@@ -258,7 +258,7 @@ RSpec.describe UploadIndicators, upload: :s3 do
     }
 
     before(:each) do
-      system_indicator = FactoryGirl.create(
+      system_indicator = create(
         :indicator,
         category: 'Emissions',
         subcategory: 'CO2 by sector',
@@ -267,7 +267,7 @@ RSpec.describe UploadIndicators, upload: :s3 do
         model: nil,
         parent: nil
       )
-      FactoryGirl.create(
+      create(
         :indicator,
         category: 'Emissions',
         subcategory: 'CO2',
