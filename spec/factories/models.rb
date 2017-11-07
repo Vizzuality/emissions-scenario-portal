@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :model do
     sequence(:full_name) { |n| "#{n} " + Faker::App.name }
     abbreviation { full_name[0..10] }

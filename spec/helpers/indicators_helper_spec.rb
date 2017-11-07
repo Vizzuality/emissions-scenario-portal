@@ -1,22 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe IndicatorsHelper, type: :helper do
-  let(:team) { FactoryGirl.create(:team) }
-  let(:model) { FactoryGirl.create(:model, team: team) }
-  let(:other_model) { FactoryGirl.create(:model) }
+  let(:team) { create(:team) }
+  let(:model) { create(:model, team: team) }
+  let(:other_model) { create(:model) }
   let(:system_indicator) {
-    FactoryGirl.create(:indicator, category: 'Buildings')
+    create(:indicator, category: 'Buildings')
   }
   let!(:team_variation) {
-    FactoryGirl.create(
+    create(
       :indicator, alias: '1|2|3', parent: system_indicator, model: model
     )
   }
   let!(:team_indicator) {
-    FactoryGirl.create(:indicator, category: 'Transportation', model: model)
+    create(:indicator, category: 'Transportation', model: model)
   }
   let!(:other_team_indicator) {
-    FactoryGirl.create(
+    create(
       :indicator, category: 'Transportation', model: other_model
     )
   }
@@ -28,7 +28,7 @@ RSpec.describe IndicatorsHelper, type: :helper do
     let(:system_match) { '<option value="system">.+' }
     let(:team_match) { '<option value="team-.+">.+' }
     context 'when admin' do
-      let(:user) { FactoryGirl.create(:user, admin: true, team: team) }
+      let(:user) { create(:user, admin: true, team: team) }
       it 'returns system indicators in first position' do
         expect(helper.types_for_select).to match(
           /#{system_match}\n(#{team_match}\n?){2}/
@@ -36,7 +36,7 @@ RSpec.describe IndicatorsHelper, type: :helper do
       end
     end
     context 'when researcher' do
-      let(:user) { FactoryGirl.create(:user, team: team) }
+      let(:user) { create(:user, team: team) }
       it 'returns system indicators in first position' do
         expect(helper.types_for_select).to match(
           /#{system_match}\n(#{team_match}\n?){2}/

@@ -7,7 +7,7 @@ git_source(:github) do |repo_name|
 end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.0.6'
+gem 'rails', '~> 5.1.4'
 gem 'pg'
 gem 'puma'
 gem 'sass-rails'
@@ -32,14 +32,14 @@ gem 'aws-sdk', '~> 2'
 gem 'sidekiq'
 gem 'active_model_serializers'
 
-gem 'sparkpost_rails'
+gem 'sparkpost_rails', :git => 'git://github.com/the-refinery/sparkpost_rails.git'
 
 group :development, :test do
   gem 'byebug', platform: :mri
   gem 'rspec-rails'
   gem 'rspec-collection_matchers'
   gem 'rails-controller-testing'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
 end
 
 group :development do
