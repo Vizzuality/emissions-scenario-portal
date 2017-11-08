@@ -53,7 +53,6 @@ class FilterIndicators
   def model_name_order_clause(direction)
     sql = <<~END_OF_SQL
       CASE
-        WHEN variations.alias IS NOT NULL THEN variations.alias
         WHEN indicators.model_id IS NOT NULL THEN indicators.alias
         ELSE NULL
       END
@@ -70,12 +69,10 @@ class FilterIndicators
   def added_by_order_clause(direction)
     sql = <<~END_OF_SQL
       CASE
-        WHEN variations.id IS NOT NULL THEN variations_teams.name
         WHEN indicators.model_id IS NOT NULL THEN teams.name
         ELSE 'System'
       END,
       CASE
-        WHEN variations.id IS NOT NULL THEN variations.created_at
         WHEN indicators.model_id IS NOT NULL THEN indicators.created_at
         ELSE NULL
       END
