@@ -10,7 +10,7 @@ describe Api::V1::ScenariosController, type: :controller do
 
     describe 'GET index' do
       it 'returns a successful 200 response' do
-        get :index, params: {model_id: some_model.id}
+        get :index
         expect(response).to be_success
       end
 
