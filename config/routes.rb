@@ -43,8 +43,8 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :models, only: [:index, :show]
-      resources :scenarios, only: [:index]
-      resources :indicators, only: [:index]
+      resources :scenarios, only: [:index, :show]
+      resources :indicators, only: [:index, :show]
       resources :time_series_values, only: [:index]
       resources :locations, only: [:index]
     end
