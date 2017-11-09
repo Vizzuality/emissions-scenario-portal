@@ -2,7 +2,9 @@
   <div class="row">
     <div class="small-2 columns">
       <div class="c-table-list-item__text f-ff1-m-bold">
-        <%= link_to indicator.build_alias, model_indicator_url(@model, indicator) %>
+        <% (indicator.parent || indicator).tap do |system_indicator| %>
+          <%= link_to system_indicator.build_alias, model_indicator_url(@model, system_indicator) %>
+        <% end %>
       </div>
     </div>
     <div class="small-3 columns">
