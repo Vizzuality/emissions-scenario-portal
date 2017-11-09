@@ -39,6 +39,13 @@ class Indicator < ApplicationRecord
     system_and_team.where(model_id: nil)
   end
 
+  def self.exclude_with_variations_in_model(model)
+    where.not("EXISTS (\
+      SELECT id FROM indicators AS v\
+      WHERE v.parent_id = indicators.id AND v.model_id = ?\
+    )", model.id)
+  end
+
   def self.with_variations
     joins('LEFT JOIN models ON models.id = indicators.model_id').
       joins('LEFT JOIN teams ON teams.id = models.team_id').

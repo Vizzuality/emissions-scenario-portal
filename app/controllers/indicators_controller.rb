@@ -14,8 +14,8 @@ class IndicatorsController < ApplicationController
       new(@filter_params).
       call(
         Indicator.
-          model_variations(@model).
-          or(Indicator.system_and_team).
+          system_and_team.exclude_with_variations_in_model(@model).
+          or(Indicator.model_variations(@model)).
           includes(:time_series_values)
       )
   end
