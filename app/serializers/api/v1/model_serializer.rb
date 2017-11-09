@@ -1,8 +1,10 @@
 module Api
   module V1
     class ModelSerializer < ActiveModel::Serializer
-      attributes :id, :full_name
-      has_many :scenarios
+      attribute :id
+      attribute :full_name
+      has_many :scenarios, if: -> { instance_options[:include_relations] }
+      has_many :indicators, if: -> { instance_options[:include_relations] }
     end
   end
 end

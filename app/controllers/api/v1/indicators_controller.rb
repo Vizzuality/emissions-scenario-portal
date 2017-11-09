@@ -8,6 +8,13 @@ module Api
 
         render json: indicators
       end
+
+      def show
+        indicator = Indicator.
+          find_by!(id: params[:id])
+
+        render json: indicator
+      end
     end
   end
 end
