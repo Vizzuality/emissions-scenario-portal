@@ -27,6 +27,10 @@ class Indicator < ApplicationRecord
     :category, :subcategory, :name, :alias
   ]
 
+  def self.model_variations(model)
+    where(model_id: model.respond_to?(:id) ? model.id : model)
+  end
+
   def self.system_and_team
     where(parent_id: nil)
   end
