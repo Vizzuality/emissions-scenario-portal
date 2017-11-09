@@ -10,7 +10,7 @@ class ScenariosController < ApplicationController
   before_action :set_upload_errors, only: [:index]
 
   def index
-    @scenarios = @model.scenarios.fetch_all(@filter_params)
+    @scenarios = FilterScenarios.new(@filter_params).call(@model.scenarios)
   end
 
   def edit; end
