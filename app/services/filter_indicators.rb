@@ -3,7 +3,8 @@ class FilterIndicators
 
   include ActiveModel::Model
 
-  attr_accessor :search, :order_type, :order_direction, :type, :category
+  attr_writer :order_type, :order_direction
+  attr_accessor :search, :type, :category
 
   def call(scope)
     scope.
@@ -11,6 +12,14 @@ class FilterIndicators
       merge(order_scope).
       merge(type_scope).
       merge(category_scope)
+  end
+
+  def order_type
+    @order_type if ORDER_COLUMNS.include?(@order_type)
+  end
+
+  def order_direction
+    @order_direction.to_s.casecmp('desc').zero? ? :desc : :asc
   end
 
   private
@@ -21,13 +30,14 @@ class FilterIndicators
 
   def search_scope
     return indicators if search.blank?
+
     indicators.search_for(search)
   end
 
   def order_scope
-    return indicators unless ORDER_COLUMNS.include?(order_type)
-    direction = order_direction.to_s.casecmp('desc').zero? ? :desc : :asc
-    order_clause = send("#{order_type}_order_clause", direction)
+    return indicators if order_type.blank?
+
+    order_clause = send("#{order_type}_order_clause", order_direction)
     indicators.order(order_clause)
   end
 
@@ -47,6 +57,7 @@ class FilterIndicators
 
   def category_scope
     return indicators if category.blank?
+
     indicators.where('indicators.category IN (?)', category.split(','))
   end
 
