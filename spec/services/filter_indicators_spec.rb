@@ -73,15 +73,6 @@ RSpec.describe FilterIndicators do
   end
 
   context 'when sorting' do
-    # let!(:variation) do
-    #   create(
-    #     :indicator,
-    #     parent: system_indicator,
-    #     model: model,
-    #     alias: 'Goodbye|My|Custom'
-    #   )
-    # end
-
     it 'orders by ESP name' do
       expect(
         FilterIndicators.
@@ -91,11 +82,24 @@ RSpec.describe FilterIndicators do
     end
 
     it 'orders by model name' do
+      b_variation = create(
+        :indicator,
+        parent: system_indicator,
+        model: model,
+        alias: 'B|My|Custom'
+      )
+      a_variation = create(
+        :indicator,
+        parent: system_indicator,
+        model: model,
+        alias: 'A|My|Custom'
+      )
+
       expect(
         FilterIndicators.
-          new(order_type: 'model_name', order_direction: 'ASC').
-          call(Indicator.all)
-      ).to eq([other_indicator, team_indicator, system_indicator])
+          new(order_type: 'model_name', order_direction: 'DESC').
+          call(Indicator.all)[0..1]
+      ).to eq([b_variation, a_variation])
     end
 
     it 'orders by team who added it' do
