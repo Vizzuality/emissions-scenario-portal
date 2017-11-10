@@ -18,6 +18,8 @@ module Api
       attribute :purpose_or_objective
 
       has_many :scenarios, if: -> { instance_options[:include_relations] }
+      attribute :scenario_ids, unless: -> { instance_options[:include_relations] }
+
       has_many :indicators, if: -> { instance_options[:include_relations] }
     end
   end

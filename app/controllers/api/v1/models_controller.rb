@@ -3,6 +3,7 @@ module Api
     class ModelsController < ApiController
       def index
         models = Model.
+          includes(:scenarios).
           order(:full_name)
 
         render json: models
