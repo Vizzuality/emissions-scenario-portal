@@ -64,8 +64,9 @@ class FilterIndicators
   def model_name_order_clause(direction)
     sql = <<~END_OF_SQL
       CASE
-        WHEN indicators.model_id IS NOT NULL THEN indicators.alias
-        ELSE NULL
+        WHEN indicators.model_id IS NOT NULL AND
+             indicators.parent_id IS NOT NULL THEN indicators.alias
+        ELSE ''
       END
     END_OF_SQL
     [sql, direction].join(' ')
