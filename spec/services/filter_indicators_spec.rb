@@ -73,37 +73,41 @@ RSpec.describe FilterIndicators do
   end
 
   context 'when sorting' do
-    # let!(:variation) do
-    #   create(
-    #     :indicator,
-    #     parent: system_indicator,
-    #     model: model,
-    #     alias: 'Goodbye|My|Custom'
-    #   )
-    # end
+    it 'orders by ESP name' do
+      expect(
+        FilterIndicators.
+          new(order_type: 'esp_name', order_direction: 'ASC').
+          call(Indicator.all)
+      ).to eq([team_indicator, other_indicator, system_indicator])
+    end
 
-    # it 'orders by ESP name' do
-    #   expect(
-    #     FilterIndicators.
-    #       new('order_type' => 'esp_name', 'order_direction' => 'ASC').
-    #       call(Indicator.all)
-    #   ).to eq([team_indicator, other_indicator, system_indicator])
-    # end
+    it 'orders by model name' do
+      b_variation = create(
+        :indicator,
+        parent: system_indicator,
+        model: model,
+        alias: 'B|My|Custom'
+      )
+      a_variation = create(
+        :indicator,
+        parent: system_indicator,
+        model: model,
+        alias: 'A|My|Custom'
+      )
 
-    # it 'orders by model name' do
-    #   expect(
-    #     FilterIndicators.
-    #       new('order_type' => 'model_name', 'order_direction' => 'ASC').
-    #       call(Indicator.all)
-    #   ).to eq([system_indicator, team_indicator, other_indicator])
-    # end
+      expect(
+        FilterIndicators.
+          new(order_type: 'model_name', order_direction: 'DESC').
+          call(Indicator.all)[0..1]
+      ).to eq([b_variation, a_variation])
+    end
 
-    # it 'orders by team who added it' do
-    #   expect(
-    #     FilterIndicators.
-    #       new('order_type' => 'added_by', 'order_direction' => 'ASC').
-    #       call(Indicator.all)
-    #   ).to eq([team_indicator, other_indicator, system_indicator])
-    # end
+    it 'orders by team who added it' do
+      expect(
+        FilterIndicators.
+          new(order_type: 'added_by', order_direction: 'ASC').
+          call(Indicator.all)
+      ).to eq([team_indicator, other_indicator, system_indicator])
+    end
   end
 end
