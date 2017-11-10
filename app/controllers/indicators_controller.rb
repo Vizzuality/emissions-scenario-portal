@@ -12,7 +12,12 @@ class IndicatorsController < ApplicationController
   def index
     @indicators = FilterIndicators.
       new(@filter_params).
-      call(Indicator.system_and_team.includes(:time_series_values))
+      call(
+        Indicator.
+          system_and_team.exclude_with_variations_in_model(@model).
+          or(Indicator.model_variations(@model)).
+          includes(:time_series_values)
+      )
   end
 
   def new
