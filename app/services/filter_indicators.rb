@@ -26,7 +26,7 @@ class FilterIndicators
 
   def order_scope
     return indicators unless ORDER_COLUMNS.include?(order_type)
-    direction = order_direction.to_s.casecmp('desc') ? :desc : :asc
+    direction = order_direction.to_s.casecmp('desc').zero? ? :desc : :asc
     order_clause = send("#{order_type}_order_clause", direction)
     indicators.order(order_clause)
   end

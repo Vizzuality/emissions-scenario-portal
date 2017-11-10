@@ -2,14 +2,14 @@
   <div class="row">
     <div class="small-2 columns">
       <div class="c-table-list-item__text f-ff1-m-bold">
-        <%= link_to indicator.build_alias, model_indicator_url(@model, indicator) %>
+        <% (indicator.parent || indicator).tap do |system_indicator| %>
+          <%= link_to system_indicator.build_alias, model_indicator_url(@model, system_indicator) %>
+        <% end %>
       </div>
     </div>
     <div class="small-3 columns">
       <div class="c-table-list-item__text f-ff1-m-bold">
-        <% if variation.present? %>
-          <%= link_to variation.alias, model_indicator_url(@model, variation) %>
-        <% elsif indicator.team? %>
+        <% if indicator.variation? %>
           <%= link_to indicator.alias, model_indicator_url(@model, indicator) %>
         <% end %>
       </div>
@@ -24,9 +24,7 @@
     </div>
     <div class="small-1 columns">
       <div class="c-table-list-item__text f-ff1-m-bold">
-        <% if variation.present? %>
-          <%= variation.model.team.try(:name) %>
-        <% elsif indicator.team? %>
+        <% if indicator.team? || indicator.variation? %>
           <%= indicator.model.team.try(:name) %>
         <% else %>
           System
@@ -35,19 +33,18 @@
     </div>
     <div class="small-2 columns">
       <div class="c-table-list-item__actions">
-        <% action_indicator = variation || indicator %>
-        <% if current_user.can?(:destroy, action_indicator) %>
-          <%= link_to model_indicator_url(@model, action_indicator),
+        <% if current_user.can?(:destroy, indicator) %>
+          <%= link_to model_indicator_url(@model, indicator),
             method: :delete,
-            data: {confirm: destroy_confirmation_message(action_indicator)} do %>
+            data: {confirm: destroy_confirmation_message(indicator)} do %>
             <div class="c-remove-button">
               <svg class="icon"><use xlink:href="#icon-delete"></use></svg>
               <div class="f-ff1-s">Delete</div>
             </div>
           <% end %>
         <% end %>
-        <% if current_user.can?(:manage, action_indicator) %>
-          <%= link_to edit_model_indicator_url(@model, action_indicator) do %>
+        <% if current_user.can?(:manage, indicator) %>
+          <%= link_to edit_model_indicator_url(@model, indicator) do %>
             <div class="c-edit-button">
               <div class="c-edit-button__bubble">
                 <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
@@ -56,8 +53,8 @@
             </div>
           <% end %>
         <% end %>
-        <% if action_indicator.system? && current_user.can?(:create, Indicator.new(model_id: @model.id)) %>
-          <%= link_to fork_model_indicator_url(@model, action_indicator) do %>
+        <% if indicator.system? && current_user.can?(:create, Indicator.new(model_id: @model.id)) %>
+          <%= link_to fork_model_indicator_url(@model, indicator) do %>
             <div class="c-edit-button">
               <div class="c-edit-button__bubble">
                 <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
