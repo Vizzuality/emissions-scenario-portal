@@ -44,9 +44,10 @@ class SystemIndicatorsController < AdminController
   end
 
   def show
-    @time_series_values_pivot = TimeSeriesValue.fetch_all(
-      @indicator.time_series_values, @filter_params
-    )
+    @time_series_values_pivot = FilterTimeSeriesValues.
+      new(@filter_params).
+      call(@indicator.time_series_values)
+
     render template: 'indicators/show'
   end
 
