@@ -10,7 +10,7 @@ class ScenariosController < ApplicationController
   before_action :set_upload_errors, only: [:index]
 
   def index
-    @scenarios = @model.scenarios.fetch_all(@filter_params)
+    @scenarios = FilterScenarios.new(@filter_params).call(@model.scenarios)
   end
 
   def edit; end
@@ -27,9 +27,9 @@ class ScenariosController < ApplicationController
   end
 
   def show
-    @indicators = Indicator.
-      system_indicators_with_variations_for_scenario(@scenario.id).
-      fetch_all(@filter_params)
+    @indicators = FilterIndicators.
+      new(@filter_params).
+      call(Indicator.system_and_team.for_scenario(@scenario.id))
   end
 
   def destroy

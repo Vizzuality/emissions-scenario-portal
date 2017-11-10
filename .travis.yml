@@ -2,15 +2,14 @@ dist: trusty
 sudo: false
 language: ruby
 rvm:
-  - 2.4.1
+  - 2.4.2
 addons:
   postgresql: 9.5
 env:
   - MAILER_DEFAULT_FROM=no-reply@example.com MAILER_DEFAULT_URL=example.com
 before_script:
-- psql -c 'create database "emissions-scenario-portal_test"' -U postgres
-- RAILS_ENV=test bundle exec rake db:migrate
+  - bundle exec rails db:drop db:create db:schema:load RAILS_ENV=test
 script:
-- bundle exec rspec spec
+  - bundle exec rails spec
 notifications:
   slack: vizzuality:jd7HURe31GqlUW0nHF5n7fm0

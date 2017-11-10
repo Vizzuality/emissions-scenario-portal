@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :scenario do
     name { Faker::App.name }
     model

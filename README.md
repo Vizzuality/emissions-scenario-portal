@@ -7,19 +7,19 @@
 
 ## Setting up the db
 
-To reset the database & reseed: `bundle exec rake db:drop db:create db:migrate db:seed`.
+To reset the database & reseed: `rails db:drop db:setup`.
 
-There are rake tasks that allow to clear individual tables:
+There are rails tasks that allow to clear individual tables:
 
-`rake clear:time_series_values`
+`rails clear:time_series_values`
 
-`rake clear:scenarios`
+`rails clear:scenarios`
 
-`rake clear:indicators`
+`rails clear:indicators`
 
-`rake clear:models`
+`rails clear:models`
 
-`rake clear:locations`
+`rails clear:locations`
 
 Some of them are dependent, so e.g. clearing models clears scenarios, indicators and time series values.
 
@@ -37,6 +37,6 @@ To run the application:
 
 `redis-server`
 
-`bundle exec sidekiq`
+`sidekiq`
 
-`rails s`
+`rails server`

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Api::V1::ModelsController, type: :controller do
   context do
-    let!(:some_models) { FactoryGirl.create_list(:model, 3) }
+    let!(:some_models) { create_list(:model, 3) }
 
     describe 'GET index' do
       it 'returns a successful 200 response' do
@@ -21,6 +21,11 @@ describe Api::V1::ModelsController, type: :controller do
       it 'returns a successful 200 response' do
         get :show, params: {id: some_models[0].id}
         expect(response).to be_success
+      end
+
+      it 'returns a 404 not found' do
+        get :show, params: {id: -1}
+        expect(response).to be_not_found
       end
 
       it 'shows one model' do

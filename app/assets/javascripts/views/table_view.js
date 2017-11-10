@@ -29,7 +29,6 @@
     },
 
     _loadTable: function () {
-      this._setParentHeight();
       var gridOptions = {
         columnDefs: this.columns,
         rowData: this.rows,
@@ -38,40 +37,35 @@
         headerHeight: 33,
         rowHeight: 60,
         colWidth: 150,
+        domLayout: 'autoHeight',
         icons: {
           sortUnSort: '<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-short"></use></svg>',
           sortAscending: '<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-short"></use></svg>',
           sortDescending: '<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-short"></use></svg>'
         }
       };
+      this.$el.wrap('<div class="row">');
+      this.$el.wrap('<div class="columns small-12">');
       new agGrid.Grid(this.$el[0], gridOptions);
-      this._adjustTableMargins();
     },
 
-    _setParentHeight: function () {
-      this.$parent.css('height', $(window).height() - $('body').height());
-    },
-
-    _adjustTableMargins: function () {
-      var margin = ($('body').width() - $('.small-12').width()) / 2;
-      $('.ag-header').css('padding-left', margin);
-      $('.ag-body').css('left', margin);
-    },
-    
     _formatData: function () {
       switch (this.$el.data('type')) {
-        case 'time_series':
-          this._formatTimeSeries();
-          break;
+      case 'time_series':
+        this._formatTimeSeries();
+        break;
       }
     },
 
     _formatTimeSeries: function () {
       var years = this.$el.data('indicators');
       var rows = this.$el.data('rows');
+      var defaults = {cellClass: 'f-ff1-m-bold', pinned: true};
 
-      this.columns.push({headerName: "Country", field: "country", cellClass: 'f-ff1-m-bold', pinned: true});
-      this.columns.push({headerName: "Scenario", field: "scenario", cellClass: 'f-ff1-m-bold', pinned: true});
+      this.columns.push(_.extend({}, defaults, {headerName: "Country", field: "country"}));
+      this.columns.push(_.extend({}, defaults, {headerName: "Scenario", field: "scenario"}));
+      this.columns.push(_.extend({}, defaults, {headerName: "Unit", field: "unit"}));
+
       _.each(years, function(year) {
         this.columns.push({headerName: year.toString(), field: year.toString()});
       }.bind(this));
@@ -82,10 +76,15 @@
           yearValues[years[i].toString()] = yearValue;
         });
 
-        this.rows.push(_.extend({country: row.location_name, scenario: row.scenario_name}, yearValues));
+        this.rows.push(
+          _.extend({
+            country: row.location_name,
+            scenario: row.scenario_name,
+            unit: row.unit_of_entry
+          }, yearValues)
+        );
       }.bind(this));
     }
-    
   });
 
 })(this.App);

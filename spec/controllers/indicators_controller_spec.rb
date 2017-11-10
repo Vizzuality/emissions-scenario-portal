@@ -3,11 +3,11 @@ require 'rails_helper'
 RSpec.describe IndicatorsController, type: :controller do
   context 'when admin' do
     login_admin
-    let(:team_model) { FactoryGirl.create(:model) }
-    let(:some_model) { FactoryGirl.create(:model) }
-    let!(:team_indicator) { FactoryGirl.create(:indicator, model: team_model) }
-    let!(:some_indicator) { FactoryGirl.create(:indicator, model: some_model) }
-    let!(:master_indicator) { FactoryGirl.create(:indicator, model: nil) }
+    let(:team_model) { create(:model) }
+    let(:some_model) { create(:model) }
+    let!(:team_indicator) { create(:indicator, model: team_model) }
+    let!(:some_indicator) { create(:indicator, model: some_model) }
+    let!(:master_indicator) { create(:indicator, model: nil) }
 
     describe 'GET index' do
       it 'assigns all indicators for own team\'s model' do
@@ -163,14 +163,14 @@ RSpec.describe IndicatorsController, type: :controller do
   context 'when user' do
     login_user
     let(:user_team) { @user.team }
-    let(:some_team) { FactoryGirl.create(:team) }
-    let!(:team_model) { FactoryGirl.create(:model, team: user_team) }
-    let!(:some_model) { FactoryGirl.create(:model, team: some_team) }
-    let(:team_indicator) { FactoryGirl.create(:indicator, model: team_model) }
+    let(:some_team) { create(:team) }
+    let!(:team_model) { create(:model, team: user_team) }
+    let!(:some_model) { create(:model, team: some_team) }
+    let(:team_indicator) { create(:indicator, model: team_model) }
     let(:some_indicator) {
-      FactoryGirl.create(:indicator, model: some_model, unit: 'km')
+      create(:indicator, model: some_model, unit: 'km')
     }
-    let(:master_indicator) { FactoryGirl.create(:indicator, model: nil) }
+    let(:master_indicator) { create(:indicator, model: nil) }
 
     describe 'GET index' do
       it 'renders index' do
@@ -450,7 +450,7 @@ RSpec.describe IndicatorsController, type: :controller do
 
     describe 'GET download_time_series' do
       it 'returns indicator time series file' do
-        FactoryGirl.create(:time_series_value, indicator: team_indicator)
+        create(:time_series_value, indicator: team_indicator)
 
         get :download_time_series, params: {
           model_id: team_model.id, id: team_indicator.id
