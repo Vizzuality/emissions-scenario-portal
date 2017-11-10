@@ -2,8 +2,18 @@ module Api
   module V1
     class ScenariosController < ApiController
       def index
-        model = Model.find(params[:model_id])
-        render json: model.scenarios.order(:name)
+        scenarios = Scenario.
+          order(:name)
+        scenarios = scenarios.where(model_id: params[:model]) if params[:model]
+
+        render json: scenarios
+      end
+
+      def show
+        scenario = Scenario.
+          find_by!(id: params[:id])
+
+        render json: scenario, include_relations: true
       end
     end
   end

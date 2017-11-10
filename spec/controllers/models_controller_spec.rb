@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe ModelsController, type: :controller do
   context 'when admin' do
     login_admin
-    let!(:team_model) { FactoryGirl.create(:model, team: @user.team) }
-    let!(:some_model) { FactoryGirl.create(:model) }
+    let!(:team_model) { create(:model, team: @user.team) }
+    let!(:some_model) { create(:model) }
 
     describe 'GET index' do
       it 'lists all models' do
@@ -61,7 +61,7 @@ RSpec.describe ModelsController, type: :controller do
       end
 
       it 'destroys linked scenarios' do
-        FactoryGirl.create(:scenario, model: some_model)
+        create(:scenario, model: some_model)
         expect {
           delete :destroy, params: {id: some_model.id}
         }.to change { Scenario.count }.by(-1)
@@ -71,8 +71,8 @@ RSpec.describe ModelsController, type: :controller do
 
   context 'when user' do
     login_user
-    let!(:team_model) { FactoryGirl.create(:model, team: @user.team) }
-    let!(:some_model) { FactoryGirl.create(:model) }
+    let!(:team_model) { create(:model, team: @user.team) }
+    let!(:some_model) { create(:model) }
 
     describe 'GET index' do
       it 'lists all models available to the team' do

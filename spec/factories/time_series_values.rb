@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :time_series_value do
     scenario
     indicator

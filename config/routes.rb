@@ -42,9 +42,11 @@ Rails.application.routes.draw do
   # Namespaced API routes
   namespace :api do
     namespace :v1 do
-      resources :models, only: [:index, :show] do
-        resources :scenarios, only: [:index]
-      end
+      resources :models, only: [:index, :show]
+      resources :scenarios, only: [:index, :show]
+      resources :indicators, only: [:index, :show]
+      resources :time_series_values, only: [:index]
+      resources :locations, only: [:index]
     end
   end
 end

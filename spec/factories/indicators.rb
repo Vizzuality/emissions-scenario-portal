@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :indicator do
     category 'Emissions'
     subcategory 'Emissions by sector'

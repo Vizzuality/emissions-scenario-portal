@@ -46,7 +46,8 @@ class ModelsController < ApplicationController
 
   def show
     @scenarios = @model.scenarios.limit(5)
-    @indicators = Indicator.order(:category, :subcategory, :name)
+    @indicators = Indicator.
+      system_and_team.order(:category, :subcategory, :name)
   end
 
   def destroy
