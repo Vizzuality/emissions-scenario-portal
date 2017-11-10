@@ -27,12 +27,23 @@ class Indicator < ApplicationRecord
     :category, :subcategory, :name, :alias
   ]
 
+  def self.model_variations(model)
+    where(model_id: model.respond_to?(:id) ? model.id : model)
+  end
+
   def self.system_and_team
     where(parent_id: nil)
   end
 
   def self.system
     system_and_team.where(model_id: nil)
+  end
+
+  def self.exclude_with_variations_in_model(model)
+    where.not("EXISTS (\
+      SELECT id FROM indicators AS v\
+      WHERE v.parent_id = indicators.id AND v.model_id = ?\
+    )", model.id)
   end
 
   def self.with_variations
