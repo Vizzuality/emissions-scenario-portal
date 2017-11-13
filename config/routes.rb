@@ -47,6 +47,7 @@ Rails.application.routes.draw do
       resources :indicators, only: [:index, :show]
       resources :time_series_values, only: [:index]
       resources :locations, only: [:index]
+      resources :categories, only: [:index]
     end
   end
 end
