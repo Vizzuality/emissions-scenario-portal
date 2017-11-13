@@ -63,9 +63,15 @@
       var rows = this.$el.data('rows');
       var defaults = {cellClass: 'f-ff1-m-bold', pinned: true};
 
-      this.columns.push(_.extend({}, defaults, {headerName: "Country", field: "country", filter: "text"}));
-      this.columns.push(_.extend({}, defaults, {headerName: "Scenario", field: "scenario", filter: "text"}));
-      this.columns.push(_.extend({}, defaults, {headerName: "Unit", field: "unit", filter: "text"}));
+      _.each(["Country", "Scenario", "Unit"], function (name) {
+        this.columns.push(
+          _.extend(
+            {},
+            defaults,
+            {headerName: name, field: name.toLowerCase(), filter: "text"}
+          )
+        );
+      }, this);
 
       _.each(years, function(year) {
         this.columns.push({headerName: year.toString(), field: year.toString(), filter: "number"});
