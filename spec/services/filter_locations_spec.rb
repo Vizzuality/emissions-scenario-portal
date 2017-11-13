@@ -34,7 +34,10 @@ RSpec.describe FilterLocations do
 
     it 'orders by iso code' do
       expect(
-        FilterLocations.new(order_type: 'iso_code', order_direction: :desc).call(Location.all)
+        FilterLocations.new(
+          order_type: 'iso_code',
+          order_direction: :desc
+        ).call(Location.all)
       ).to eq([zimbabwe, portugal, poland])
     end
   end
