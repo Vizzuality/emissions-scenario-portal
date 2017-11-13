@@ -26,4 +26,21 @@ class TimeSeriesValue < ApplicationRecord
       errors[:unit_of_entry] << 'Unit of entry incompatible with indicator.'
     end
   end
+
+  def self.time_series_values_pivot
+    pivot = TimeSeriesYearPivotQuery.new(self)
+    query_sql = pivot.query_with_order(nil, nil)
+    result = TimeSeriesValue.find_by_sql(query_sql)
+    {
+      years: pivot.years,
+      data: result.map do |tsv|
+        {
+          scenario_name: tsv['scenario_name'],
+          location_name: tsv['location_name'],
+          unit_of_entry: tsv['unit_of_entry'],
+          values: pivot.years.map { |y| tsv[y] }
+        }
+      end
+    }
+  end
 end

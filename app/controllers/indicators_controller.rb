@@ -64,9 +64,9 @@ class IndicatorsController < ApplicationController
   end
 
   def show
-    @time_series_values_pivot = FilterTimeSeriesValues.
-      new(@filter_params).
-      call(@indicator.time_series_values)
+    @time_series_values_pivot = @indicator.
+                                  time_series_values.
+                                  time_series_values_pivot
   end
 
   def destroy
