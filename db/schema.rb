@@ -16,6 +16,12 @@ ActiveRecord::Schema.define(version: 20171120094334) do
   enable_extension "plpgsql"
   enable_extension "tablefunc"
 
+  create_table "categories", force: :cascade do |t|
+    t.text "name"
+    t.bigint "parent_id"
+    t.index ["parent_id"], name: "index_categories_on_parent_id"
+  end
+
   create_table "csv_uploads", id: :serial, force: :cascade do |t|
     t.text "job_id"
     t.integer "user_id", null: false
@@ -36,13 +42,11 @@ ActiveRecord::Schema.define(version: 20171120094334) do
   end
 
   create_table "indicators", id: :serial, force: :cascade do |t|
-    t.text "category", null: false
     t.text "name"
     t.text "definition"
     t.text "unit"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "subcategory"
     t.boolean "stackable_subcategory", default: false
     t.text "unit_of_entry"
     t.decimal "conversion_factor"
@@ -50,6 +54,8 @@ ActiveRecord::Schema.define(version: 20171120094334) do
     t.text "alias"
     t.boolean "auto_generated", default: false
     t.integer "model_id"
+    t.bigint "category_id"
+    t.index ["category_id"], name: "index_indicators_on_category_id"
     t.index ["model_id", "parent_id", "alias"], name: "index_indicators_on_model_id_and_parent_id_and_alias", unique: true
     t.index ["model_id"], name: "index_indicators_on_model_id"
     t.index ["parent_id"], name: "index_indicators_on_parent_id"
@@ -210,8 +216,10 @@ ActiveRecord::Schema.define(version: 20171120094334) do
     t.index ["team_id"], name: "index_users_on_team_id"
   end
 
+  add_foreign_key "categories", "categories", column: "parent_id", on_delete: :cascade
   add_foreign_key "csv_uploads", "models", on_delete: :cascade
   add_foreign_key "csv_uploads", "users", on_delete: :cascade
+  add_foreign_key "indicators", "categories"
   add_foreign_key "indicators", "indicators", column: "parent_id"
   add_foreign_key "indicators", "models"
   add_foreign_key "models", "teams"
