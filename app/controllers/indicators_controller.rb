@@ -65,8 +65,8 @@ class IndicatorsController < ApplicationController
 
   def show
     @time_series_values_pivot = @indicator.
-                                  time_series_values.
-                                  time_series_values_pivot
+      time_series_values.
+      time_series_values_pivot
   end
 
   def destroy
