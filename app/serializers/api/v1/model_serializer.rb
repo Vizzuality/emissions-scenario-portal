@@ -19,10 +19,8 @@ module Api
       attribute :time_step
       attribute :time_horizon
 
-      has_many :scenarios, if: -> { instance_options[:include_relations] }
-      attribute :scenario_ids, unless: -> { instance_options[:include_relations] }
-
-      has_many :indicators, if: -> { instance_options[:include_relations] }
+      has_many :scenarios
+      has_many :indicators
     end
   end
 end
