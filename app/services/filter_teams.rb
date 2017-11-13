@@ -1,23 +1,17 @@
 class FilterTeams
-  ORDER_COLUMNS = %w[name models members].freeze
+  cattr_reader :order_columns do
+    %w[name models members].freeze
+  end
 
   include ActiveModel::Model
+  include OrderableFilter
 
-  attr_writer :order_type, :order_direction
   attr_accessor :search
 
   def call(scope)
     scope.
       merge(search_scope).
       merge(order_scope)
-  end
-
-  def order_type
-    @order_type if ORDER_COLUMNS.include?(@order_type)
-  end
-
-  def order_direction
-    @order_direction.to_s.casecmp('desc').zero? ? :desc : :asc
   end
 
   private
