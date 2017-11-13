@@ -14,6 +14,7 @@ class Indicator < ApplicationRecord
            dependent: :nullify
   has_many :time_series_values, dependent: :destroy
   belongs_to :model, optional: true
+  belongs_to :category
 
   validates :model, presence: true, if: proc { |i| i.parent.present? }
   validates :conversion_factor, presence: {

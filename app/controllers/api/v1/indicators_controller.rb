@@ -3,6 +3,7 @@ module Api
     class IndicatorsController < ApiController
       def index
         indicators = Indicator.
+          includes(category: :parent).
           order(:name).
           all
 
@@ -11,6 +12,7 @@ module Api
 
       def show
         indicator = Indicator.
+          includes(category: :parent).
           find_by!(id: params[:id])
 
         render json: indicator
