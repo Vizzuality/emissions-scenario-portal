@@ -2,8 +2,6 @@ module Api
   module V1
     class IndicatorSerializer < ActiveModel::Serializer
       attribute :id
-      attribute :category
-      attribute :subcategory
       attribute :name
       attribute :definition
       attribute :unit
@@ -16,17 +14,20 @@ module Api
       attribute :model_id
       attribute :parent_id
 
+      belongs_to :category
+      belongs_to :subcategory
+
       def category
         if object.category.parent
-          object.category.parent.name
+          object.category.parent
         else
-          object.category.name
+          object.category
         end
       end
 
       def subcategory
         if object.category.parent
-          object.category.name
+          object.category
         end
       end
     end
