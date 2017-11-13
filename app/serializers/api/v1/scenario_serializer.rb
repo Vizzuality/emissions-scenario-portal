@@ -36,7 +36,12 @@ module Api
       attribute :other_target_type
       attribute :other_target
       attribute :burden_sharing
-      has_many :indicators, if: -> { instance_options[:include_relations] }
+
+      has_many :indicators_relation, key: :indicators
+
+      def indicators_relation
+        object.model.indicators
+      end
     end
   end
 end
