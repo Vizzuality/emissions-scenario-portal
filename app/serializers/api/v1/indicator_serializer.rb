@@ -16,20 +16,6 @@ module Api
 
       belongs_to :category
       belongs_to :subcategory
-
-      def category
-        if object.category.parent
-          object.category.parent
-        else
-          object.category
-        end
-      end
-
-      def subcategory
-        if object.category.parent
-          object.category
-        end
-      end
     end
   end
 end

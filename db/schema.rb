@@ -55,10 +55,12 @@ ActiveRecord::Schema.define(version: 20171120094334) do
     t.boolean "auto_generated", default: false
     t.integer "model_id"
     t.bigint "category_id"
+    t.bigint "subcategory_id"
     t.index ["category_id"], name: "index_indicators_on_category_id"
     t.index ["model_id", "parent_id", "alias"], name: "index_indicators_on_model_id_and_parent_id_and_alias", unique: true
     t.index ["model_id"], name: "index_indicators_on_model_id"
     t.index ["parent_id"], name: "index_indicators_on_parent_id"
+    t.index ["subcategory_id"], name: "index_indicators_on_subcategory_id"
   end
 
   create_table "locations", id: :serial, force: :cascade do |t|
@@ -220,6 +222,7 @@ ActiveRecord::Schema.define(version: 20171120094334) do
   add_foreign_key "csv_uploads", "models", on_delete: :cascade
   add_foreign_key "csv_uploads", "users", on_delete: :cascade
   add_foreign_key "indicators", "categories"
+  add_foreign_key "indicators", "categories", column: "subcategory_id"
   add_foreign_key "indicators", "indicators", column: "parent_id"
   add_foreign_key "indicators", "models"
   add_foreign_key "models", "teams"

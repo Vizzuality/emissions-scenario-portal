@@ -6,10 +6,14 @@ class ModifyIndicators < ActiveRecord::Migration[5.1]
 
   class Indicator < ApplicationRecord
     belongs_to :the_category, class_name: 'Category', foreign_key: 'category_id'
+    belongs_to :the_subcategory, class_name: 'Category', foreign_key: 'subcategory_id', optional: true
   end
 
   def change
     add_reference :indicators, :category, foreign_key: {
+      to_table: :categories
+    }
+    add_reference :indicators, :subcategory, foreign_key: {
       to_table: :categories
     }
     migrate_data
@@ -51,7 +55,8 @@ class ModifyIndicators < ActiveRecord::Migration[5.1]
       end
 
       unless category.nil? && subcategory.nil?
-        ind.category_id = (subcategory || category).id
+        ind.category_id = category.id
+        ind.subcategory_id = subcategory.id unless subcategory.nil?
         ind.save!
       end
     end
@@ -59,14 +64,9 @@ class ModifyIndicators < ActiveRecord::Migration[5.1]
 
   def migrate_data_down
     Indicator.includes(the_category: :parent).all.each do |ind|
-      if ind.the_category && ind.the_category.parent
-        ind.category = ind.the_category.parent.name
-        ind.subcategory = ind.the_category.name
-        ind.save!
-      elsif ind.the_category
-        ind.category = ind.the_category.name
-        ind.save!
-      end
+      ind.category = ind.the_category.name if ind.the_category
+      ind.subcategory = ind.the_subcategory.name if ind.the_subcategory
+      ind.save! if (ind.the_category || ind.the_subcategory)
     end
   end
 end
