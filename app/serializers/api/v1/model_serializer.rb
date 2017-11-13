@@ -16,6 +16,8 @@ module Api
       attribute :expertise_detailed
       attribute :platform_detailed
       attribute :purpose_or_objective
+      attribute :time_step
+      attribute :time_horizon
 
       has_many :scenarios, if: -> { instance_options[:include_relations] }
       has_many :indicators, if: -> { instance_options[:include_relations] }
