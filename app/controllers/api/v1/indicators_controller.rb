@@ -3,7 +3,17 @@ module Api
     class IndicatorsController < ApiController
       def index
         indicators = Indicator.
-          includes(category: :parent).
+          includes(category: :parent)
+
+        if params[:category]
+          indicators = indicators.where(
+            categories: {id: params[:category]}
+          ).or(indicators.where(
+            categories: {parent_id: params[:category]}
+          ))
+        end
+
+        indicators = indicators.
           order(:name).
           all
 
