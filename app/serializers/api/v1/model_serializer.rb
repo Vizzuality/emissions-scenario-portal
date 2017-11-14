@@ -18,11 +18,11 @@ module Api
       attribute :purpose_or_objective
       attribute :time_step
       attribute :time_horizon
+      attribute :geographic_coverage_region
+      attribute :sectoral_coverage
 
-      has_many :scenarios, if: -> { instance_options[:include_relations] }
-      attribute :scenario_ids, unless: -> { instance_options[:include_relations] }
-
-      has_many :indicators, if: -> { instance_options[:include_relations] }
+      has_many :scenarios
+      has_many :indicators
     end
   end
 end
