@@ -7,8 +7,13 @@ RSpec.describe CsvUploadJob do
   context 'time series values' do
     let!(:ieo) { create(:model, full_name: 'IEO', team: team) }
     let!(:gcam) { create(:model, full_name: 'GCAM', team: team) }
-    let!(:reference) { create(:scenario, name: 'Reference', model: ieo) }
-    let!(:gcam_reference) { create(:scenario, name: 'GCAM-Reference', model: gcam) }
+
+    let!(:reference) do
+      create(:scenario, name: 'Reference', model: ieo)
+    end
+    let!(:gcam_reference) do
+      create(:scenario, name: 'GCAM-Reference', model: gcam)
+    end
 
     let!(:electric_power) do
       create(
@@ -22,7 +27,7 @@ RSpec.describe CsvUploadJob do
       create(
         :indicator,
         model: ieo,
-        alias: 'Emissions|CO2 by sector|industry',
+        alias: 'Emissions|CO2 by sector|Industry',
         unit: 'Mt CO2e/yr'
       )
     end

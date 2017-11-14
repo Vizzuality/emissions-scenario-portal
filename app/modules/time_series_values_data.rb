@@ -123,6 +123,7 @@ class TimeSeriesValuesData
       variation = indicator.fork_variation(
         alias: "#{model.abbreviation} #{indicator.alias}", model_id: model.id
       )
+
       variation.save!
       message = "A model variation of system indicator #{indicator.alias} was \
 automatically created."
