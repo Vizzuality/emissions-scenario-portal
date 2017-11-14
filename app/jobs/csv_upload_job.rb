@@ -1,6 +1,4 @@
-class CsvUploadWorker
-  include Sidekiq::Worker
-
+class CsvUploadJob < ApplicationJob
   def perform(csv_upload_id)
     begin
       csv_upload = CsvUpload.find(csv_upload_id)
@@ -18,6 +16,8 @@ processing."
     fus = service_class.new(csv_upload).call
     store_results(csv_upload, fus)
   end
+
+  private
 
   def store_results(csv_upload, fus)
     csv_upload.finished_at = Time.now

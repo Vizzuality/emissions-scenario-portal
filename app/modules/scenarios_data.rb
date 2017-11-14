@@ -1,7 +1,3 @@
-require 'csv_upload_data'
-require 'csv_vertical_upload_data'
-require 'scenarios_headers'
-
 class ScenariosData
   include CsvUploadData
   include CsvVerticalUploadData

@@ -1,6 +1,3 @@
-require 'csv_upload_data'
-require 'indicators_headers'
-
 class IndicatorsData
   include CsvUploadData
 

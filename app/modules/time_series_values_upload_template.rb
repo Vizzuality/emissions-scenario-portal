@@ -1,5 +1,3 @@
-require 'time_series_values_headers'
-
 class TimeSeriesValuesUploadTemplate
   def export
     years = %w(2005 2010 2020 2030 2040 2050 2060 2070 2080 2090 2100)

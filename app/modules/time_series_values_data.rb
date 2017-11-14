@@ -1,6 +1,3 @@
-require 'csv_upload_data'
-require 'time_series_values_headers'
-
 class TimeSeriesValuesData
   include CsvUploadData
 
