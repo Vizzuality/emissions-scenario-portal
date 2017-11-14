@@ -80,7 +80,7 @@
           <% end %>
         </div>
         <div class="small-2 columns">
-          <div class="c-table-list-item__text f-ff1-m"><%= scenario.indicators.count %></div>
+          <div class="c-table-list-item__text f-ff1-m"><%= scenario.indicators.for_model(@model).count %></div>
         </div>
         <div class="small-1 columns">
           <div class="c-table-list-item__actions">

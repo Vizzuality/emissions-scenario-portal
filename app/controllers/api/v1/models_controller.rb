@@ -3,6 +3,7 @@ module Api
     class ModelsController < ApiController
       def index
         models = Model.
+          includes(:scenarios, :indicators).
           order(:full_name)
 
         render json: models
@@ -13,7 +14,7 @@ module Api
           includes(:scenarios, :indicators).
           find_by!(id: params[:id])
 
-        render json: model, include_relations: true
+        render json: model
       end
     end
   end

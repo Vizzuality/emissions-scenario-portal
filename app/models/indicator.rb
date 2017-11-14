@@ -46,6 +46,12 @@ class Indicator < ApplicationRecord
     )", model.id)
   end
 
+  def self.for_model(model)
+    system_and_team.
+      exclude_with_variations_in_model(model).
+      or(Indicator.model_variations(model))
+  end
+
   def self.with_variations
     joins('LEFT JOIN models ON models.id = indicators.model_id').
       joins('LEFT JOIN teams ON teams.id = models.team_id').
@@ -56,13 +62,6 @@ indicators.id").
 variations.model_id").
       joins("LEFT JOIN teams variations_teams ON variations_teams.id = \
 variations_models.team_id")
-  end
-
-  def self.for_scenario(scenario_id)
-    subquery = TimeSeriesValue.where(scenario_id: scenario_id).
-      select(:indicator_id).group(:indicator_id).to_sql
-    with_variations.
-      joins("JOIN (#{subquery}) s ON variations.id = s.indicator_id")
   end
 
   def unit_compatible_with_parent
