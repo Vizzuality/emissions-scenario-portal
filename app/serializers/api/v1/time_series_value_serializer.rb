@@ -9,6 +9,11 @@ module Api
       attribute :scenario_id
       attribute :indicator_id
       attribute :location_id
+      attribute :model_id
+
+      def model_id
+        object.indicator.model_id
+      end
     end
   end
 end
