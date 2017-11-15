@@ -15,7 +15,7 @@ class IndicatorsController < ApplicationController
       call(
         Indicator.
           for_model(@model).
-          includes(:time_series_values)
+          includes(:category, :time_series_values)
       )
   end
 

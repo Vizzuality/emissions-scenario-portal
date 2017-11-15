@@ -54,10 +54,12 @@ class FilterIndicators
   def category_scope
     return indicators if category.blank?
 
-    indicators.
-      includes(:category).
-      references(:category).
-      where('categories.name IN (?)', category.split(','))
+    query = indicators.
+      includes(:category, :subcategory).
+      references(:category, :subcategory)
+
+    ids = category.split(',').map(&:to_i)
+    query.where('categories.id IN (?) OR subcategories_indicators.id IN (?)', ids, ids)
   end
 
   def model_name_order_clause(direction)
