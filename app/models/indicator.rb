@@ -28,8 +28,10 @@ class Indicator < ApplicationRecord
   before_validation :ignore_blank_array_values
 
   pg_search_scope :search_for, against: [
-    :category, :subcategory, :name, :alias
-  ]
+    :name, :alias
+  ], associated_against: {
+    category: :name
+  }
 
   def self.model_variations(model)
     where(model_id: model.respond_to?(:id) ? model.id : model)

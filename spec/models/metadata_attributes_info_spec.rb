@@ -51,7 +51,7 @@ RSpec.describe MetadataAttributes::Info, type: :model do
       Indicator.attribute_info(:stackable_subcategory)
     }
     let(:not_checkbox_attribute_info) {
-      Indicator.attribute_info(:category)
+      Indicator.attribute_info(:name)
     }
     it 'should be true when attribute is a checkbox' do
       expect(checkbox_attribute_info.checkbox?).to be(true)

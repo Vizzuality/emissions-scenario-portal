@@ -32,7 +32,9 @@ class FilterIndicators
     return indicators if order_type.blank?
 
     order_clause = send("#{order_type}_order_clause", order_direction)
-    indicators.order(order_clause)
+    indicators.
+      joins(:category, :subcategory).
+      order(order_clause)
   end
 
   def type_scope
@@ -52,7 +54,10 @@ class FilterIndicators
   def category_scope
     return indicators if category.blank?
 
-    indicators.where('indicators.category IN (?)', category.split(','))
+    indicators.
+      includes(:category).
+      references(:category).
+      where('categories.name IN (?)', category.split(','))
   end
 
   def model_name_order_clause(direction)
@@ -67,8 +72,8 @@ class FilterIndicators
   end
 
   def esp_name_order_clause(direction)
-    %w(category subcategory name).map do |column|
-      ["indicators.#{column}", direction].join(' ')
+    %w(categories.name subcategories_indicators.name indicators.name).map do |column|
+      [column, direction].join(' ')
     end.join(', ')
   end
 

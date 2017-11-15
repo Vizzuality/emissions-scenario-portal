@@ -8,11 +8,20 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
   let!(:scenario) {
     create(:scenario, name: 'Scenario 1', model: model)
   }
+  let(:category) {
+    create(:category, name: 'Emissions')
+  }
+  let(:subcategory) {
+    create(:category, name: 'GHG Emissions by gas', parent: category)
+  }
+  let(:another_subcategory) {
+    create(:category, name: 'GHG Emissions', parent: category)
+  }
   let!(:indicator) {
     create(
       :indicator,
-      category: 'Emissions',
-      subcategory: 'GHG Emissions by gas',
+      category: category,
+      subcategory: subcategory,
       name: 'CH4',
       stackable_subcategory: true,
       unit: 'Mt CO2e/yr',
@@ -358,8 +367,8 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
     let!(:team_indicator) {
       create(
         :indicator,
-        category: 'Emissions',
-        subcategory: 'GHG Emissions',
+        category: category,
+        subcategory: another_subcategory,
         name: 'direct',
         stackable_subcategory: true,
         unit: 'Mt CO2e/yr',
@@ -412,8 +421,8 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
     let!(:variation) {
       create(
         :indicator,
-        category: 'Emissions',
-        subcategory: 'GHG Emissions',
+        category: category,
+        subcategory: another_subcategory,
         name: 'direct',
         stackable_subcategory: true,
         unit: 'Mt CO2e/yr',
