@@ -33,6 +33,11 @@ Rails.application.routes.draw do
 
   resources :locations, only: [:index, :new, :create, :edit, :update, :destroy]
 
+  resources :categories, only: [:index, :new, :create, :edit, :update, :destroy] do
+    resources :subcategories, only: [:create, :destroy],
+              controller: 'category_subcategories'
+  end
+
   # Rails routes are matched in the order they are specified
   root to: "admin#home",
     constraints: lambda { |request| request.env['warden'].user.try(:admin?) },

@@ -1,0 +1,86 @@
+<%= render 'shared/components/c_landing_header', no_nav: true %>
+<div class="l-categories">
+  <div class="row">
+    <div class="small-6 columns">
+      <div class="f-ff3-m-bold l-categories__title">Category<span>(<%= @categories.length %>)</span></div>
+    </div>
+    <div class="small-3 columns">
+      <div class="c-form-item">
+        <%= render 'shared/components/form/c_input_search.html',
+                   placeholder: 'Filter by name',
+                   js_class: 'js-table-filter',
+                   data: {
+                     'filter-type' => 'search',
+                     'filter-key' => 'search'
+                   } %>
+      </div>
+    </div>
+    <% if current_user.can?(:create, Category) %>
+      <div class="small-3 columns">
+        <%= link_to new_category_path do %>
+          <div class="c-button">
+            <span>Add new category</span>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+  <div class="l-categories__table-shorts js-table-filter" data-filter-type="order">
+    <div class="row">
+      <div class="small-8 columns">
+        <%= render 'shared/components/c_order_filter_button',
+                   text: 'Name',
+                   column_key: 'name' %>
+      </div>
+      <div class="small-2 columns">
+        <%= render 'shared/components/c_order_filter_button',
+                   text: 'Subcategory Count',
+                   column_key: 'subcategories' %>
+      </div>
+      <div class="small-1 columns">
+      </div>
+    </div>
+  </div>
+  <% @categories.each do |category| %>
+    <div class="c-table-list-item -center">
+      <div class="row">
+        <div class="small-8 columns">
+          <div class="c-table-list-item__text f-ff1-m-bold"><%= category.name %></div>
+        </div>
+        <div class="small-2 columns">
+          <div class="c-table-list-item__text f-ff1-m-bold"><%= category.subcategories.length %></div>
+        </div>
+        <div class="small-1 columns">
+          <div class="c-table-list-item__text f-ff1-m">
+            <% if category.stackable? %>
+              <svg class="icon icon-check"><use xlink:href="#icon-check"></use></svg>
+            <% else %>
+              <div class="icon icon-cancel"></div>
+            <% end %>
+          </div>
+        </div>
+        <div class="small-1 columns">
+          <div class="c-table-list-item__actions">
+            <% if current_user.can?(:destroy, category) %>
+              <%= link_to category_path(category), method: :delete, data: { confirm: 'Are you sure?' } do %>
+                <div class="c-delete-button">
+                  <svg class="icon"><use xlink:href="#icon-delete"></use></svg>
+                </div>
+              <% end %>
+            <% end %>
+            <% if current_user.can?(:update, category) %>
+              <%= link_to edit_category_path(category) do %>
+                <div class="c-edit-button">
+                  <div class="c-edit-button__bubble">
+                    <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+                  </div>
+                  <div class="f-ff1-s">Edit</div>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

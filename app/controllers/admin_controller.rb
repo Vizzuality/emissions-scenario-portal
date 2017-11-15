@@ -6,6 +6,7 @@ class AdminController < ApplicationController
     @models = Model.order(:abbreviation)
     @locations = Location.order(:name)
     @indicators = Indicator.where(parent_id: nil)
+    @categories = Category.where(parent_id: nil).order(:name)
   end
 
   private
