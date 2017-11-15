@@ -446,4 +446,45 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
       expect(subject.number_of_records_failed).to eq(0)
     end
   end
+
+  context 'when csv with lower cased indicators given' do
+    let!(:ieo) { create(:model, full_name: 'IEO', team: user.team) }
+
+    let!(:reference) do
+      create(:scenario, name: 'Reference', model: ieo)
+    end
+
+    let!(:electric_power) do
+      create(
+        :indicator,
+        model: ieo,
+        alias: 'Energy Related Emissions|Electric Power',
+        unit: 'Mt CO2e/yr'
+      )
+    end
+
+    let!(:pakistan) { create(:location, name: 'Pakistan') }
+
+    let!(:csv_upload) do
+      create(
+        :csv_upload,
+        user: user,
+        model: ieo,
+        data: File.open(
+          Rails.root.join(
+            'spec', 'fixtures', 'time_series_values-lowercase.csv'
+          )
+        ),
+        service_type: 'UploadTimeSeriesValues'
+      )
+    end
+
+    it 'should create TimeSeriesValues' do
+      expect { subject }.to change { TimeSeriesValue.count }.by(3)
+    end
+
+    it 'should not create an new indicator' do
+      expect { subject }.not_to change { Indicator.count }
+    end
+  end
 end
