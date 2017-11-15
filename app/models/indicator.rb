@@ -29,9 +29,7 @@ class Indicator < ApplicationRecord
 
   pg_search_scope :search_for, against: [
     :name, :alias
-  ], associated_against: {
-    category: :name
-  }
+  ]
 
   def self.model_variations(model)
     where(model_id: model.respond_to?(:id) ? model.id : model)

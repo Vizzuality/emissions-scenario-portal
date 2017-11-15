@@ -59,6 +59,7 @@ class FilterIndicators
       references(:category, :subcategory)
 
     ids = category.split(',').map(&:to_i)
+
     query.where('categories.id IN (?) OR subcategories_indicators.id IN (?)', ids, ids)
   end
 
