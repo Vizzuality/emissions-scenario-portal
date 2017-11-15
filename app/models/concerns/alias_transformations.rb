@@ -24,7 +24,6 @@ module AliasTransformations
     self.category = parent.category
     self.subcategory = parent.subcategory
     self.name = parent.name
-    self.stackable_subcategory = parent.stackable_subcategory
     self.unit = parent.unit
   end
 
@@ -46,7 +45,6 @@ module AliasTransformations
     self.category = parent.category
     self.subcategory = parent.subcategory
     self.name = parent.name
-    self.stackable_subcategory = parent.stackable_subcategory
   end
 
   class_methods do

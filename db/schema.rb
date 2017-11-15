@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 20171120094334) do
 
   create_table "categories", force: :cascade do |t|
     t.text "name"
+    t.boolean "stackable"
     t.bigint "parent_id"
     t.index ["parent_id"], name: "index_categories_on_parent_id"
   end
@@ -47,7 +48,6 @@ ActiveRecord::Schema.define(version: 20171120094334) do
     t.text "unit"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "stackable_subcategory", default: false
     t.text "unit_of_entry"
     t.decimal "conversion_factor"
     t.integer "parent_id"

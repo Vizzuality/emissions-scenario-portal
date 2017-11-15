@@ -44,11 +44,6 @@ RSpec.describe ApplicationHelper, type: :helper do
       let(:form) {
         ActionView::Helpers::FormBuilder.new(:indicator, indicator, self, {})
       }
-      it 'returns a checkbox for release_date' do
-        expect(
-          helper.attribute_input(indicator, form, :stackable_subcategory)
-        ).to match('checkbox')
-      end
       it 'returns a select input for parent_id' do
         assign(:model, model)
         expect(

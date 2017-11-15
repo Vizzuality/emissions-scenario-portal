@@ -19,6 +19,7 @@ class ModifyIndicators < ActiveRecord::Migration[5.1]
     migrate_data
     remove_column :indicators, :category, :string
     remove_column :indicators, :subcategory, :string
+    remove_column :indicators, :stackable_subcategory, :boolean
   end
 
   private
@@ -49,6 +50,7 @@ class ModifyIndicators < ActiveRecord::Migration[5.1]
         unless ind[:subcategory].blank?
           subcategory = Category.find_or_create_by!(
             name: ind[:subcategory],
+            stackable: ind[:stackable_subcategory],
             parent: category
           )
         end
@@ -66,6 +68,7 @@ class ModifyIndicators < ActiveRecord::Migration[5.1]
     Indicator.includes(the_category: :parent).all.each do |ind|
       ind.category = ind.the_category.name if ind.the_category
       ind.subcategory = ind.the_subcategory.name if ind.the_subcategory
+      ind.stackable_subcategory = ind.the_subcategory.stackable if ind.the_subcategory
       ind.save! if (ind.the_category || ind.the_subcategory)
     end
   end

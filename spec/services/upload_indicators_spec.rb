@@ -81,7 +81,12 @@ RSpec.describe UploadIndicators, upload: :s3 do
     }
     before(:each) do
       category = create(:category, name: 'Emissions')
-      subcategory = create(:category, name: 'CO2 by sector', parent: category)
+      subcategory = create(
+        :category,
+        name: 'CO2 by sector',
+        parent: category,
+        stackable: true
+      )
       create(
         :indicator,
         category: category,
@@ -190,12 +195,18 @@ RSpec.describe UploadIndicators, upload: :s3 do
     end
     it 'should have created one indicator with not stackable subcategory' do
       expect { subject }.to change {
-        Indicator.where(stackable_subcategory: false).count
+        Indicator.
+          includes(:subcategory).
+          references(:subcategory).
+          where(categories: {stackable: false}).count
       }.by(2)
     end
     it 'should have created one indicator with stackable subcategory' do
       expect { subject }.to change {
-        Indicator.where(stackable_subcategory: true).count
+        Indicator.
+          includes(:subcategory).
+          references(:subcategory).
+          where(categories: {stackable: true}).count
       }.by(2)
     end
   end

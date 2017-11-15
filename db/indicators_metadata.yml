@@ -11,8 +11,6 @@
 - name: :subcategory_id
   reference: 'subcategory.id'
   size: 'large'
-- name: :stackable_subcategory
-  checkbox: true
 - name: :unit
   picklist: true
   size: 'small'

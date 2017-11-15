@@ -5,8 +5,12 @@ class Category < ApplicationRecord
   def self.case_insensitive_find_or_create(attributes)
     category = Category.where('lower(name) = lower(?)', attributes[:name])
 
-    if (attributes[:parent])
+    if attributes[:parent]
       category = category.where(parent: attributes[:parent])
+    end
+
+    if attributes[:stackable]
+      category = category.where(stackable: attributes[:stackable])
     end
 
     category = category.first
