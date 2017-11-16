@@ -1,5 +1,6 @@
 class Category < ApplicationRecord
   validates :name, presence: true
+  validate :parent_categories_cannot_be_stackable, :cannot_have_subcategory_as_parent
 
   belongs_to :parent, class_name: 'Category', foreign_key: 'parent_id', optional: true
   has_many :subcategories, class_name: 'Category', foreign_key: 'parent_id'
@@ -8,27 +9,39 @@ class Category < ApplicationRecord
 
   ORDERS = %w[name parent stackable].freeze
 
-  def self.case_insensitive_find_or_create(attributes)
-    category = Category.where('lower(name) = lower(?)', attributes[:name])
-
-    if attributes[:parent]
-      category = category.where(parent: attributes[:parent])
+  def parent_categories_cannot_be_stackable
+    if stackable && !parent
+      errors.add(:stackable, "can't be set on parent categories")
     end
+  end
 
-    if attributes[:stackable]
-      category = category.where(stackable: attributes[:stackable])
+  def cannot_have_subcategory_as_parent
+    if parent && parent.parent
+      errors.add(:parent, " can't be a subcategory")
     end
-
-    category = category.first
-
-    unless category
-      category = Category.new(attributes)
-    end
-
-    category
   end
 
   class << self
+    def case_insensitive_find_or_create(attributes)
+      category = Category.where('lower(name) = lower(?)', attributes[:name])
+
+      if attributes[:parent]
+        category = category.where(parent: attributes[:parent])
+      end
+
+      if attributes[:stackable]
+        category = category.where(stackable: attributes[:stackable])
+      end
+
+      category = category.first
+
+      unless category
+        category = Category.new(attributes)
+      end
+
+      category
+    end
+
     def fetch_all(options)
       categories = Category.includes(:subcategories).where(parent_id: nil)
       options.each do |filter|
