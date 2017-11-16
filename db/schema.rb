@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170728144124) do
+ActiveRecord::Schema.define(version: 20171115102106) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 20170728144124) do
     t.text "alias"
     t.boolean "auto_generated", default: false
     t.integer "model_id"
+    t.index ["model_id", "parent_id", "alias"], name: "index_indicators_on_model_id_and_parent_id_and_alias", unique: true
     t.index ["model_id"], name: "index_indicators_on_model_id"
     t.index ["parent_id"], name: "index_indicators_on_parent_id"
   end
