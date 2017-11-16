@@ -1,5 +1,3 @@
-require 'indicators_headers'
-
 class IndicatorsUploadTemplate
   def export
     CSV.generate do |csv|

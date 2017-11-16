@@ -1,5 +1,3 @@
-require 'file_upload_error'
-
 module CsvUploadData
   delegate :url_helpers, to: 'Rails.application.routes'
   attr_reader :number_of_records, :error_type

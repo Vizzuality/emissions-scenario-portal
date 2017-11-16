@@ -1,6 +1,3 @@
-require 'csv_upload_headers'
-require 'csv_vertical_upload_headers'
-
 class ScenariosHeaders
   include CsvUploadHeaders
   include CsvVerticalUploadHeaders

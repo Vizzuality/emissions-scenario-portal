@@ -1,7 +1,3 @@
-require 'csv_upload_data'
-require 'csv_vertical_upload_data'
-require 'models_headers'
-
 class ModelsData
   include CsvUploadData
   include CsvVerticalUploadData
