@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :category do
-    name 'Emissions'
+    name { Faker::Pokemon.name }
   end
 end
 
