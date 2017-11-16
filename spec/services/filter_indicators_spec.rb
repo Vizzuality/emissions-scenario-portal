@@ -44,7 +44,7 @@ RSpec.describe FilterIndicators do
     it 'filters by category' do
       expect(
         FilterIndicators.
-          new('category' => 'Energy').
+        new('category' => some_category.id.to_s).
           call(Indicator.all)
       ).to match_array([system_indicator])
     end
