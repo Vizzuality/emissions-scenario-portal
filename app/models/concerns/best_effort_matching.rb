@@ -7,8 +7,8 @@ module BestEffortMatching
     def best_effort_matches(indicator_name, model)
       indicator_name = indicator_name.downcase
       # best match: variation or team indicator with matching alias and model
-      indicators = Indicator.where(model_id: model.id)
-                     .where('lower(alias) = ?', indicator_name)
+      indicators = Indicator.where(model_id: model.id).
+        where('lower(alias) = ?', indicator_name)
       if indicators.none?
         # second best: variation with matching model and parent matching alias
         indicators = variations_with_matching_parent(indicator_name, model)
