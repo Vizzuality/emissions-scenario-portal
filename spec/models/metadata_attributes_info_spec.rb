@@ -46,20 +46,22 @@ RSpec.describe MetadataAttributes::Info, type: :model do
     end
   end
 
-  describe :checkbox? do
-    let(:checkbox_attribute_info) {
-      Indicator.attribute_info(:stackable_subcategory)
-    }
-    let(:not_checkbox_attribute_info) {
-      Indicator.attribute_info(:name)
-    }
-    it 'should be true when attribute is a checkbox' do
-      expect(checkbox_attribute_info.checkbox?).to be(true)
-    end
-    it 'should be false when attribute is not a picklist' do
-      expect(not_checkbox_attribute_info.checkbox?).to be(false)
-    end
-  end
+#  commented this test because there are no checkboxes rendered using MetadataAttributes
+#
+#  describe :checkbox? do
+#    let(:checkbox_attribute_info) {
+#      Indicator.attribute_info(:stackable_subcategory)
+#    }
+#    let(:not_checkbox_attribute_info) {
+#      Indicator.attribute_info(:name)
+#    }
+#    it 'should be true when attribute is a checkbox' do
+#      expect(checkbox_attribute_info.checkbox?).to be(true)
+#    end
+#    it 'should be false when attribute is not a picklist' do
+#      expect(not_checkbox_attribute_info.checkbox?).to be(false)
+#    end
+#  end
 
   describe :size do
     it 'expertise_detailed should have large size' do
