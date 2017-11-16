@@ -1,6 +1,3 @@
-require 'csv_vertical_upload_template'
-require 'scenarios_data'
-
 class ScenariosUploadTemplate < CsvVerticalUploadTemplate
   def headers
     super + ['Scenario 1']

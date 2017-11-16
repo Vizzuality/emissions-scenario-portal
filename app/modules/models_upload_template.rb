@@ -1,6 +1,3 @@
-require 'csv_vertical_upload_template'
-require 'models_data'
-
 class ModelsUploadTemplate < CsvVerticalUploadTemplate
   def headers
     super + ['Model 1']

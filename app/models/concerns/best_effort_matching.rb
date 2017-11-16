@@ -5,8 +5,10 @@ module BestEffortMatching
 
   class_methods do
     def best_effort_matches(indicator_name, model)
+      indicator_name = indicator_name.downcase
       # best match: variation or team indicator with matching alias and model
-      indicators = Indicator.where(alias: indicator_name, model_id: model.id)
+      indicators = Indicator.where(model_id: model.id).
+        where('lower(alias) = ?', indicator_name)
       if indicators.none?
         # second best: variation with matching model and parent matching alias
         indicators = variations_with_matching_parent(indicator_name, model)
@@ -28,26 +30,26 @@ module BestEffortMatching
     end
 
     def variations_with_matching_parent(indicator_name, model)
-      Indicator.joins(:parent).where(
-        'parents_indicators.alias' => indicator_name, model_id: model.id
-      )
+      Indicator.joins(:parent).
+        where(model_id: model.id).
+        where('lower(parents_indicators.alias) = ?', indicator_name)
     end
 
     def matching_system_indicators(indicator_name)
-      Indicator.where(
-        alias: indicator_name, parent_id: nil, model_id: nil
-      )
+      Indicator.where(parent_id: nil, model_id: nil).
+        where('lower(alias) = ?', indicator_name)
     end
 
     def matching_team_indicators(indicator_name)
-      Indicator.where(alias: indicator_name, parent_id: nil).
+      Indicator.where(parent_id: nil).
+        where('lower(alias) = ?', indicator_name).
         where('model_id IS NOT NULL')
     end
 
     def system_indicators_with_matching_variations(indicator_name)
       Indicator.where(parent_id: nil).
         joins(:variations).
-        where('variations_indicators.alias' => indicator_name)
+        where('lower(variations_indicators.alias) = ?', indicator_name)
     end
   end
 end

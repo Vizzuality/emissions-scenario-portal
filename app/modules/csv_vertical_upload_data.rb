@@ -1,5 +1,3 @@
-require 'csv_upload_helpers'
-
 module CsvVerticalUploadData
   attr_reader :number_of_records, :error_type
 

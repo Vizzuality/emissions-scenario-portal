@@ -1,5 +1,3 @@
-require 'csv_upload_headers'
-
 class TimeSeriesValuesHeaders
   include CsvUploadHeaders
 

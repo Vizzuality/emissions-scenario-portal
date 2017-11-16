@@ -4,7 +4,6 @@ class CsvUpload < ApplicationRecord
   has_attached_file(
     :data,
     path: "#{Rails.env}/:class/:id/:filename",
-    storage: :s3
   )
   validates_attachment_content_type(
     :data,

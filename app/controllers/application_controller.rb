@@ -53,8 +53,8 @@ class ApplicationController < ActionController::Base
   end
 
   def handle_io_upload_in_background(csv_upload)
-    sidekiq_id = CsvUploadWorker.perform_async(csv_upload.id)
-    csv_upload.update_attribute(:job_id, sidekiq_id)
+    job = CsvUploadJob.perform_later(csv_upload.id)
+    csv_upload.update_attribute(:job_id, job.job_id)
     redirect_to(
       redirect_after_upload_url(csv_upload),
       notice: 'File has been queued for processing. Please refresh.'
