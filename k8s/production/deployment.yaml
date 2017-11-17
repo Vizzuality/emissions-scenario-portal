@@ -62,7 +62,7 @@ spec:
           - name: APPSIGNAL_PUSH_API_KEY
             valueFrom:
               secretKeyRef:
-                name: dbsecrets
+                name: mssecrets
                 key: EMISSIONS_APP_SIGNAL_PUSH_API_KEY
 
         ports:
