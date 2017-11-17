@@ -59,6 +59,11 @@ spec:
                 secretKeyRef:
                   name: dbsecrets
                   key: EMISSIONS_POSTGRES_URL
+          - name: APPSIGNAL_PUSH_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: dbsecrets
+                key: EMISSIONS_APP_SIGNAL_PUSH_API_KEY
 
         ports:
           - containerPort: 3000
