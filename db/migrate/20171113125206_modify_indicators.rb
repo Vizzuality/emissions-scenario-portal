@@ -50,7 +50,7 @@ class ModifyIndicators < ActiveRecord::Migration[5.1]
         unless ind[:subcategory].blank?
           subcategory = Category.find_or_create_by!(
             name: ind[:subcategory],
-            stackable: ind[:stackable_subcategory],
+            stackable: !!ind[:stackable_subcategory],
             parent: category
           )
         end
