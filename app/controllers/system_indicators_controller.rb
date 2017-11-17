@@ -18,6 +18,7 @@ class SystemIndicatorsController < AdminController
 
   def new
     @indicator = Indicator.new(model: nil, parent: nil)
+    @categories = Category.all.to_json
     render template: 'indicators/edit'
   end
 
@@ -34,6 +35,7 @@ class SystemIndicatorsController < AdminController
   end
 
   def edit
+    @categories = Category.all.to_json
     render template: 'indicators/edit'
   end
 

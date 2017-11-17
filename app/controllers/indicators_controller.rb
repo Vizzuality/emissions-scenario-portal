@@ -39,7 +39,8 @@ class IndicatorsController < ApplicationController
     end
   end
 
-  def edit; end
+  def edit
+  end
 
   def fork
     if current_user.team.model_ids.include?(@indicator.model_id)

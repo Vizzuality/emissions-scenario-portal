@@ -47,7 +47,8 @@ module ApplicationHelper
   def reference_input(object, form, attr_info)
     select_values, selection, disabled =
       values_for_reference_dropdown(object, attr_info)
-    options = {prompt: 'Select element'}
+    options = (attr_info.options && attr_info.options.symbolize_keys) ||
+      {prompt: 'Select element'}
     html_options = {class: 'js-select', disabled: disabled}
     object_method = attr_info.ref_object_symbol + '_id'
     content_tag :div, class: "c-select -#{attr_info.size}" do

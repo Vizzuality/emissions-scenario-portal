@@ -13,3 +13,7 @@
     margin-bottom: rem(20px);
   }
 }
+
+.select2-results__option[aria-disabled="true"] {
+  display: none;
+}

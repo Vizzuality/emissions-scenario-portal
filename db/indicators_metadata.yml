@@ -11,6 +11,8 @@
 - name: :subcategory_id
   reference: 'subcategory.id'
   size: 'large'
+  options:
+    include_blank: 'None'
 - name: :unit
   picklist: true
   size: 'small'
