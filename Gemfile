@@ -34,6 +34,8 @@ gem 'active_model_serializers'
 
 gem 'sparkpost_rails', github: 'the-refinery/sparkpost_rails'
 
+gem 'appsignal'
+
 group :development, :test do
   gem 'byebug', platform: :mri
   gem 'rspec-rails'
