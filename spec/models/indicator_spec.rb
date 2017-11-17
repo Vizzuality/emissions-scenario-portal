@@ -1,10 +1,30 @@
 require 'rails_helper'
 
 RSpec.describe Indicator, type: :model do
-  it 'should be invalid when category not present' do
-    expect(
-      build(:indicator, category: nil)
-    ).to have(1).errors_on(:category)
+  context 'validations' do
+    it 'should be invalid when category not present' do
+      expect(
+        build(:indicator, category: nil)
+      ).to have(1).errors_on(:category)
+    end
+
+    it 'should be invalid when alias already exists within model and parent' do
+      indicator = create(:indicator)
+      expect(
+        build(
+          :indicator,
+          alias: indicator.alias,
+          model: indicator.model,
+          parent: indicator.parent
+        )
+      ).to have(1).errors_on(:alias)
+    end
+
+    it 'should be invalid when references self as a parent' do
+      indicator = build(:indicator)
+      indicator.parent = indicator
+      expect(indicator).to have(1).errors_on(:parent)
+    end
   end
 
   context 'linked scenarios and models' do
