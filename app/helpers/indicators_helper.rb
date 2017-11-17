@@ -51,7 +51,9 @@ module IndicatorsHelper
       where('parent_id IS NOT NULL').
       select(:id, :name).
       order(name: :asc).
-      pluck(:name, :id)
+      pluck(:name, :stackable, :id).map do |name, stackable, id|
+        [stackable ? "#{name} (stackable)" : name, id]
+      end
 
     selection = indicator.subcategory
 
