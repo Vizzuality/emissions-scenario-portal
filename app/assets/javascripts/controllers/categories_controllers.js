@@ -1,5 +1,4 @@
 (function(App) {
-console.log("woopy");
   'use strict';
 
   App.Controller = App.Controller || {};
