@@ -2,6 +2,37 @@
 
   'use strict';
 
+  var routes = {
+    '': 'Models#index',
+    'models': 'Models#index',
+    'models/:id': 'Models#show',
+    'models/:id/edit': 'Models#edit',
+    'models/:modelId/scenarios': 'Scenarios#index',
+    'models/:modelId/scenarios/upload_meta_data': 'Scenarios#index',
+    'models/:modelId/scenarios/:id': 'Scenarios#show',
+    'models/:modelId/scenarios/:id/edit': 'Scenarios#edit',
+    'models/:modelId/indicators': 'Indicators#index',
+    'models/:modelId/indicators/:id/edit': 'Indicators#edit',
+    'models/:modelId/indicators/:id/fork': 'Indicators#fork',
+    'models/:modelId/indicators/:id': 'Indicators#show',
+    'indicators': 'Indicators#index',
+    'indicators/:id/edit': 'Indicators#edit',
+    'indicators/:id': 'Indicators#show',
+    'teams': 'Teams#index',
+    'teams/:id/edit': 'Teams#edit',
+    'teams/:id': 'Teams#edit',
+    'locations': 'Teams#index',
+    'locations/:id/edit': 'Teams#edit',
+    '*notFound': 'Error#index'
+  };
+
+  var optionalTrailingSlash = function(routes) {
+    return Object.keys(routes).reduce(function(result, current) {
+      result[current + '(/)'] = routes[current];
+      return result;
+    }, {});
+  };
+
   App.Router = Backbone.Router.extend({
 
     /**
@@ -9,29 +40,7 @@
      * and any additional route parameters.
      * @type {Object}
      */
-    routes: {
-      '': 'Models#index',
-      'models': 'Models#index',
-      'models/:id': 'Models#show',
-      'models/:id/edit': 'Models#edit',
-      'models/:modelId/scenarios': 'Scenarios#index',
-      'models/:modelId/scenarios/upload_meta_data': 'Scenarios#index',
-      'models/:modelId/scenarios/:id': 'Scenarios#show',
-      'models/:modelId/scenarios/:id/edit': 'Scenarios#edit',
-      'models/:modelId/indicators': 'Indicators#index',
-      'models/:modelId/indicators/:id/edit': 'Indicators#edit',
-      'models/:modelId/indicators/:id/fork': 'Indicators#fork',
-      'models/:modelId/indicators/:id': 'Indicators#show',
-      'indicators': 'Indicators#index',
-      'indicators/:id/edit': 'Indicators#edit',
-      'indicators/:id': 'Indicators#show',
-      'teams': 'Teams#index',
-      'teams/:id/edit': 'Teams#edit',
-      'teams/:id': 'Teams#edit',
-      'locations': 'Teams#index',
-      'locations/:id/edit': 'Teams#edit',
-      '*notFound': 'Error#index'
-    },
+    routes: optionalTrailingSlash(routes),
 
     initialize: function() {
       // We are going to save params in model
