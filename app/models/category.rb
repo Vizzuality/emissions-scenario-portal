@@ -1,8 +1,10 @@
 class Category < ApplicationRecord
   validates :name, presence: true
-  validate :parent_categories_cannot_be_stackable, :cannot_have_subcategory_as_parent
+  validate :parent_categories_cannot_be_stackable,
+           :cannot_have_subcategory_as_parent
 
-  belongs_to :parent, class_name: 'Category', foreign_key: 'parent_id', optional: true
+  belongs_to :parent, class_name: 'Category', foreign_key: 'parent_id',
+             optional: true
   has_many :subcategories, class_name: 'Category', foreign_key: 'parent_id'
 
   accepts_nested_attributes_for :subcategories
@@ -54,7 +56,6 @@ class Category < ApplicationRecord
     end
 
     def apply_filter(categories, options, filter, value)
-      puts "a_f #{filter} #{value}"
       case filter
       when 'search'
         categories.where(
