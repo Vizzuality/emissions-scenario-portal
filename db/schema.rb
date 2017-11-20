@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171120094334) do
+ActiveRecord::Schema.define(version: 20171120155547) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,7 +83,6 @@ ActiveRecord::Schema.define(version: 20171120094334) do
     t.text "key_usage"
     t.text "scenario_coverage_detailed"
     t.text "geographic_coverage"
-    t.text "geographic_coverage_region", default: [], array: true
     t.text "geographic_coverage_country", default: [], array: true
     t.text "sectoral_coverage", default: [], array: true
     t.text "gas_and_pollutant_coverage", default: [], array: true
