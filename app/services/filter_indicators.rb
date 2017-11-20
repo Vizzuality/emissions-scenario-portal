@@ -1,9 +1,11 @@
 class FilterIndicators
-  ORDER_COLUMNS = %w[esp_name definition unit model_name added_by type].freeze
+  cattr_reader :order_columns do
+    %w[esp_name definition unit model_name added_by type].freeze
+  end
 
   include ActiveModel::Model
+  include OrderableFilter
 
-  attr_writer :order_type, :order_direction
   attr_accessor :search, :type, :category
 
   def call(scope)
@@ -12,14 +14,6 @@ class FilterIndicators
       merge(order_scope).
       merge(type_scope).
       merge(category_scope)
-  end
-
-  def order_type
-    @order_type if ORDER_COLUMNS.include?(@order_type)
-  end
-
-  def order_direction
-    @order_direction.to_s.casecmp('desc').zero? ? :desc : :asc
   end
 
   private

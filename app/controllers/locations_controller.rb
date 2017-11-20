@@ -4,7 +4,7 @@ class LocationsController < ApplicationController
   before_action :set_filter_params, only: [:index]
 
   def index
-    @locations = Location.fetch_all(@filter_params)
+    @locations = FilterLocations.new(@filter_params).call(Location.all)
   end
 
   def new
