@@ -53,6 +53,8 @@ class IndicatorsData
   end
 
   def process_system_indicator(id_attributes, common_attributes, row_no)
+    id_attributes, common_attributes =
+        indicator_attributes(id_attributes, common_attributes)
     if @user.cannot?(:create, Indicator.new(model_id: nil))
       message = 'Access denied to manage core indicators.'
       suggestion = 'ESP admins curate core indicators. Please add a team \
@@ -84,6 +86,9 @@ indicator instead.'
   def process_team_variation(
     id_attributes, common_attributes, model_slug, row_no
   )
+    id_attributes, common_attributes =
+      indicator_attributes(id_attributes, common_attributes)
+
     if @user.cannot?(:create, Indicator.new(model_id: @model.id))
       message = "Access denied to manage team indicators \
 (#{@model.abbreviation})."
@@ -136,5 +141,25 @@ indicator instead.'
     end
     process_other_errors(row_no, indicator.errors)
     nil
+  end
+
+  def indicator_attributes(id_attributes, common_attributes)
+    category = Category.case_insensitive_find_or_create(
+      name: id_attributes[:category]
+    )
+
+    subcategory = Category.case_insensitive_find_or_create(
+      name: id_attributes[:subcategory],
+      stackable: common_attributes[:stackable_subcategory],
+      parent: category
+    )
+
+    [
+      id_attributes.
+        except(:category, :subcategory).
+        merge(category: category, subcategory: subcategory),
+      common_attributes.
+        except(:stackable_subcategory)
+    ]
   end
 end

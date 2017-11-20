@@ -47,9 +47,14 @@ class ModelsController < ApplicationController
   def show
     @scenarios = @model.scenarios.limit(5)
     @indicators = Indicator.
+      includes(:category, :subcategory).
       system_and_team.exclude_with_variations_in_model(@model).
-      or(Indicator.model_variations(@model)).
-      order(:category, :subcategory, :name)
+      or(
+        Indicator.
+          includes(:category, :subcategory).
+          model_variations(@model)
+      ).
+      order('categories.name, subcategories_indicators.name, indicators.name')
   end
 
   def destroy

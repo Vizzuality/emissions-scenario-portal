@@ -15,7 +15,7 @@ class IndicatorsController < ApplicationController
       call(
         Indicator.
           for_model(@model).
-          includes(:time_series_values)
+          includes(:category, :time_series_values)
       )
   end
 
@@ -39,7 +39,8 @@ class IndicatorsController < ApplicationController
     end
   end
 
-  def edit; end
+  def edit
+  end
 
   def fork
     if current_user.team.model_ids.include?(@indicator.model_id)

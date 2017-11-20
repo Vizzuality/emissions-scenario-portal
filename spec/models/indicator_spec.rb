@@ -74,14 +74,22 @@ RSpec.describe Indicator, type: :model do
   context 'variations' do
     let(:model) { create(:model) }
     let(:system_indicator) {
+      category = create(
+        :category,
+        name: 'Buildings'
+      )
       create(
-        :indicator, parent: nil, model: nil, category: 'Buildings'
+        :indicator, parent: nil, model: nil, category: category
       )
     }
     let(:team_variation) {
+      category = create(
+        :category,
+        name: 'Transportation'
+      )
       create(
         :indicator,
-        parent: system_indicator, model: model, category: 'Transportation',
+        parent: system_indicator, model: model, category: category,
         unit: system_indicator.unit
       )
     }
@@ -102,7 +110,7 @@ RSpec.describe Indicator, type: :model do
     end
     describe :update_category do
       it 'updates category to match parent' do
-        expect(team_variation.category).to eq('Buildings')
+        expect(team_variation.category.name).to eq('Buildings')
       end
     end
   end

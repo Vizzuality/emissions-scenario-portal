@@ -28,11 +28,11 @@
     <div class="row">
       <div class="small-2 columns">
         <div class="f-ff1-m-bold">Category</div>
-        <div class="f-ff1-m l-indicators-overview__data"><%= @indicator.category %></div>
+        <div class="f-ff1-m l-indicators-overview__data"><%= @indicator.category.name %></div>
       </div>
       <div class="small-2 columns">
         <div class="f-ff1-m-bold">Subcategory</div>
-        <div class="f-ff1-m l-indicators-overview__data"><%= @indicator.subcategory %></div>
+        <div class="f-ff1-m l-indicators-overview__data"><%= @indicator.subcategory&.name %></div>
       </div>
       <div class="small-1 columns">
         <div class="f-ff1-m-bold">ESP Unit</div>

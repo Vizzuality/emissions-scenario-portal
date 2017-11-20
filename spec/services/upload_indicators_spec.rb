@@ -80,10 +80,17 @@ RSpec.describe UploadIndicators, upload: :s3 do
       )
     }
     before(:each) do
+      category = create(:category, name: 'Emissions')
+      subcategory = create(
+        :category,
+        name: 'CO2 by sector',
+        parent: category,
+        stackable: true
+      )
       create(
         :indicator,
-        category: 'Emissions',
-        subcategory: 'CO2 by sector',
+        category: category,
+        subcategory: subcategory,
         name: 'industry',
         unit: 'Mt CO2e/yr',
         model: nil,
@@ -188,12 +195,18 @@ RSpec.describe UploadIndicators, upload: :s3 do
     end
     it 'should have created one indicator with not stackable subcategory' do
       expect { subject }.to change {
-        Indicator.where(stackable_subcategory: false).count
+        Indicator.
+          includes(:subcategory).
+          references(:subcategory).
+          where(categories: {stackable: false}).count
       }.by(2)
     end
     it 'should have created one indicator with stackable subcategory' do
       expect { subject }.to change {
-        Indicator.where(stackable_subcategory: true).count
+        Indicator.
+          includes(:subcategory).
+          references(:subcategory).
+          where(categories: {stackable: true}).count
       }.by(2)
     end
   end
@@ -258,10 +271,14 @@ RSpec.describe UploadIndicators, upload: :s3 do
     }
 
     before(:each) do
+      category = create(:category, name: 'Emissions')
+      subcategory1 = create(:category, name: 'CO2 by sector', parent: category)
+      subcategory2 = create(:category, name: 'CO2', parent: category)
+
       system_indicator = create(
         :indicator,
-        category: 'Emissions',
-        subcategory: 'CO2 by sector',
+        category: category,
+        subcategory: subcategory1,
         name: 'transport',
         unit: 'Mt CO2e/yr',
         model: nil,
@@ -269,8 +286,8 @@ RSpec.describe UploadIndicators, upload: :s3 do
       )
       create(
         :indicator,
-        category: 'Emissions',
-        subcategory: 'CO2',
+        category: category,
+        subcategory: subcategory2,
         name: 'Fossil Fuels and Industry|Energy Demand|Transport',
         unit: 'Mt CO2e/yr',
         model: model,

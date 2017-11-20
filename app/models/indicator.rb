@@ -14,6 +14,8 @@ class Indicator < ApplicationRecord
            dependent: :nullify
   has_many :time_series_values, dependent: :destroy
   belongs_to :model, optional: true
+  belongs_to :category
+  belongs_to :subcategory, class_name: 'Category', optional: true
 
   validates :model, presence: true, if: proc { |i| i.parent.present? }
   validates :conversion_factor, presence: {
@@ -26,7 +28,7 @@ class Indicator < ApplicationRecord
   before_validation :ignore_blank_array_values
 
   pg_search_scope :search_for, against: [
-    :category, :subcategory, :name, :alias
+    :name, :alias
   ]
 
   def self.model_variations(model)

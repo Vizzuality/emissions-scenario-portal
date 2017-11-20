@@ -5,6 +5,7 @@ RSpec.describe SystemIndicatorsController, type: :controller do
     login_admin
     let(:team_model) { create(:model) }
     let(:some_model) { create(:model) }
+    let(:some_category) { create(:category, name: 'Buildings') }
     let!(:team_indicator) { create(:indicator, model: team_model) }
     let!(:some_indicator) { create(:indicator, model: some_model) }
     let!(:master_indicator) { create(:indicator, model: nil) }
@@ -27,7 +28,7 @@ RSpec.describe SystemIndicatorsController, type: :controller do
 
     describe 'POST create' do
       it 'redirects to indicator when successful' do
-        post :create, params: {indicator: {category: ['Buildings']}}
+        post :create, params: {indicator: {category_id: some_category.id}}
         expect(response).to redirect_to(
           indicator_url(assigns(:indicator))
         )
@@ -45,7 +46,7 @@ RSpec.describe SystemIndicatorsController, type: :controller do
       it 'redirects to indicator when successful' do
         put :update, params: {
           id: team_indicator.id,
-          indicator: {category: ['Buildings']}
+          indicator: {category_id: some_category.id}
         }
         expect(response).to redirect_to(
           indicator_url(team_indicator)
@@ -136,6 +137,7 @@ RSpec.describe SystemIndicatorsController, type: :controller do
     login_user
     let(:user_team) { @user.team }
     let(:some_team) { create(:team) }
+    let(:some_category) { create(:category, name: 'Buildings') }
     let!(:team_model) { create(:model, team: user_team) }
     let!(:some_model) { create(:model, team: some_team) }
     let(:team_indicator) { create(:indicator, model: team_model) }
@@ -163,7 +165,7 @@ RSpec.describe SystemIndicatorsController, type: :controller do
     describe 'POST create' do
       it 'prevents unauthorized access' do
         post :create, params: {
-          indicator: {category: ['Buildings']}
+          indicator: {category_id: some_category.id}
         }
         expect(response).to redirect_to(root_url)
         expect(flash[:alert]).to match(/You are not authorized/)
@@ -182,7 +184,7 @@ RSpec.describe SystemIndicatorsController, type: :controller do
       it 'prevents unauthorized access' do
         put :update, params: {
           id: some_indicator.id,
-          indicator: {category: ['Buildings']}
+          indicator: {category_id: some_category.id}
         }
         expect(response).to redirect_to(root_url)
         expect(flash[:alert]).to match(/You are not authorized/)

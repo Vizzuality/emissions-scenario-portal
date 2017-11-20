@@ -5,19 +5,14 @@
   size: 'large'
 - name: :name
   size: 'small'
-- name: :category
-  picklist: true
+- name: :category_id
+  reference: 'category.id'
   size: 'large'
-  options: [
-    'Emissions', 'Climate and Health Impacts', 'Population and Economy',
-    'Energy', 'Electricity', 'Industry', 'Buildings', 'Transportation',
-    'Agriculture, Land Use and Forestry', 'Policy', 'Technology', 'Financial'
-  ]
-- name: :subcategory
-  picklist: true
-  size: 'small'
-- name: :stackable_subcategory
-  checkbox: true
+- name: :subcategory_id
+  reference: 'subcategory.id'
+  size: 'large'
+  options:
+    include_blank: 'None'
 - name: :unit
   picklist: true
   size: 'small'

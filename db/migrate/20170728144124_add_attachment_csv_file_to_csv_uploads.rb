@@ -1,4 +1,4 @@
-class AddAttachmentCsvFileToCsvUploads < ActiveRecord::Migration
+class AddAttachmentCsvFileToCsvUploads < ActiveRecord::Migration[5.1]
   def self.up
     change_table :csv_uploads do |t|
       t.attachment :data
