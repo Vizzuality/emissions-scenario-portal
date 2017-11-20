@@ -6,7 +6,6 @@ module Api
       attribute :model_abbreviation
       attribute :category
       attribute :description
-      attribute :geographic_coverage_region
       attribute :geographic_coverage_country
       attribute :sectoral_coverage
       attribute :gas_and_pollutant_coverage
