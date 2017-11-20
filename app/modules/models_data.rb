@@ -41,7 +41,6 @@ class ModelsData
     :time_horizon,
     :time_step,
     :geographic_coverage,
-    :geographic_coverage_region,
     :policy_coverage_detailed,
     :technology_coverage_detailed,
     :spatial_resolution,
