@@ -44,7 +44,6 @@ class SystemIndicatorsController < AdminController
       redirect_to indicator_url(@indicator),
                   notice: 'Indicator was successfully updated.'
     else
-      debugger
       flash[:alert] =
         'We could not update the indicator. Please check the inputs in red'
       render template: 'indicators/edit'
