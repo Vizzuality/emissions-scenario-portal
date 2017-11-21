@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171120155547) do
+ActiveRecord::Schema.define(version: 20171121122421) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -124,6 +124,19 @@ ActiveRecord::Schema.define(version: 20171120155547) do
     t.index ["team_id"], name: "index_models_on_team_id"
   end
 
+  create_table "notes", force: :cascade do |t|
+    t.text "description"
+    t.text "unit_of_entry"
+    t.decimal "conversion_factor"
+    t.bigint "indicator_id", null: false
+    t.bigint "model_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["indicator_id", "model_id"], name: "index_notes_on_indicator_id_and_model_id", unique: true
+    t.index ["indicator_id"], name: "index_notes_on_indicator_id"
+    t.index ["model_id"], name: "index_notes_on_model_id"
+  end
+
   create_table "scenarios", id: :serial, force: :cascade do |t|
     t.text "name", null: false
     t.integer "model_id"
@@ -225,6 +238,8 @@ ActiveRecord::Schema.define(version: 20171120155547) do
   add_foreign_key "indicators", "indicators", column: "parent_id"
   add_foreign_key "indicators", "models"
   add_foreign_key "models", "teams"
+  add_foreign_key "notes", "indicators"
+  add_foreign_key "notes", "models"
   add_foreign_key "scenarios", "models"
   add_foreign_key "time_series_values", "indicators"
   add_foreign_key "time_series_values", "locations"
