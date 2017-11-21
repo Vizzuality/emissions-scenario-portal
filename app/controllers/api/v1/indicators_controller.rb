@@ -3,7 +3,7 @@ module Api
     class IndicatorsController < ApiController
       def index
         indicators = Indicator.
-          includes(:category, :subcategory)
+          includes(:category, :subcategory, :model)
 
         if params[:category]
           indicators = indicators.where(
