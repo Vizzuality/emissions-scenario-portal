@@ -18,7 +18,7 @@
     });
 
     return grouped;
-  }
+  };
 
   var initializeSelectBehaviour = function() {
     var $categorySelect = $('select[name="indicator[category_id]"]');
@@ -27,9 +27,9 @@
     $categorySelect.change(function() {
       var subcategory_ids = getCategories()[this.value];
         $subcategorySelect.find('option').each(function() {
-        if (_.isEmpty(subcategory_ids) && this.value != '') {
+        if (_.isEmpty(subcategory_ids) && this.value !== '') {
           $(this).attr('disabled', 'disabled');
-        } else if (_.includes(subcategory_ids, this.value) || this.value == '') {
+        } else if (_.includes(subcategory_ids, this.value) || this.value === '') {
           $(this).removeAttr('disabled');
         } else {
           $(this).attr('disabled', 'disabled');
@@ -37,7 +37,7 @@
       });
 
       if (!_.includes(subcategory_ids, $subcategorySelect.val())) {
-        $subcategorySelect.val('')
+        $subcategorySelect.val('');
       }
 
       $subcategorySelect.select2({
@@ -46,7 +46,7 @@
     });
 
     $categorySelect.trigger('change');
-  }
+  };
 
   App.Controller.Indicators = App.Controller.Page.extend({
 
