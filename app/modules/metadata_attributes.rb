@@ -22,9 +22,7 @@ module MetadataAttributes
     end
 
     def location_options
-      if @name == :geographic_coverage_region
-        Location.where(region: true).pluck(:name)
-      elsif @name == :geographic_coverage_country
+      if @name == :geographic_coverage_country
         Location.where(region: false).pluck(:name)
       end
     end

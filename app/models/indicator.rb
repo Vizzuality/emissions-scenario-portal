@@ -14,17 +14,21 @@ class Indicator < ApplicationRecord
            dependent: :nullify
   has_many :time_series_values, dependent: :destroy
   belongs_to :model, optional: true
+  belongs_to :category
+  belongs_to :subcategory, class_name: 'Category', optional: true
 
   validates :model, presence: true, if: proc { |i| i.parent.present? }
   validates :conversion_factor, presence: {
     message: "can't be blank if unit of entry differs from standard unit"
   }, if: proc { |i| i.unit_of_entry.present? && i.unit_of_entry != unit }
+  validates :alias, uniqueness: {scope: [:parent_id, :model_id]}
   validate :unit_compatible_with_parent, if: proc { |i| i.parent.present? }
   validate :parent_is_not_variation, if: proc { |i| i.parent.present? }
+  validate :parent_is_not_itself
   before_validation :ignore_blank_array_values
 
   pg_search_scope :search_for, against: [
-    :category, :subcategory, :name, :alias
+    :name, :alias
   ]
 
   def self.model_variations(model)
@@ -64,16 +68,6 @@ variations.model_id").
 variations_models.team_id")
   end
 
-  def unit_compatible_with_parent
-    return true if unit.blank? && parent.unit.blank? || unit == parent.unit
-    errors[:unit] << 'incompatible with parent indicator'
-  end
-
-  def parent_is_not_variation
-    return true unless parent.variation?
-    errors[:parent] << 'cannot be a variation'
-  end
-
   def scenarios
     Scenario.joins(
       "JOIN (
@@ -88,5 +82,21 @@ variations_models.team_id")
 
   def time_series_data?
     time_series_values.any?
+  end
+
+  private
+
+  def parent_is_not_variation
+    return true unless parent.variation?
+    errors[:parent] << 'cannot be a variation'
+  end
+
+  def unit_compatible_with_parent
+    return true if unit.blank? && parent.unit.blank? || unit == parent.unit
+    errors[:unit] << 'incompatible with parent indicator'
+  end
+
+  def parent_is_not_itself
+    errors[:parent] << 'cannot be itself' if parent == self
   end
 end

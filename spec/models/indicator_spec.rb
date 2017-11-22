@@ -1,10 +1,30 @@
 require 'rails_helper'
 
 RSpec.describe Indicator, type: :model do
-  it 'should be invalid when category not present' do
-    expect(
-      build(:indicator, category: nil)
-    ).to have(1).errors_on(:category)
+  context 'validations' do
+    it 'should be invalid when category not present' do
+      expect(
+        build(:indicator, category: nil)
+      ).to have(1).errors_on(:category)
+    end
+
+    it 'should be invalid when alias already exists within model and parent' do
+      indicator = create(:indicator)
+      expect(
+        build(
+          :indicator,
+          alias: indicator.alias,
+          model: indicator.model,
+          parent: indicator.parent
+        )
+      ).to have(1).errors_on(:alias)
+    end
+
+    it 'should be invalid when references self as a parent' do
+      indicator = build(:indicator)
+      indicator.parent = indicator
+      expect(indicator).to have(1).errors_on(:parent)
+    end
   end
 
   context 'linked scenarios and models' do
@@ -54,14 +74,22 @@ RSpec.describe Indicator, type: :model do
   context 'variations' do
     let(:model) { create(:model) }
     let(:system_indicator) {
+      category = create(
+        :category,
+        name: 'Buildings'
+      )
       create(
-        :indicator, parent: nil, model: nil, category: 'Buildings'
+        :indicator, parent: nil, model: nil, category: category
       )
     }
     let(:team_variation) {
+      category = create(
+        :category,
+        name: 'Transportation'
+      )
       create(
         :indicator,
-        parent: system_indicator, model: model, category: 'Transportation',
+        parent: system_indicator, model: model, category: category,
         unit: system_indicator.unit
       )
     }
@@ -82,7 +110,7 @@ RSpec.describe Indicator, type: :model do
     end
     describe :update_category do
       it 'updates category to match parent' do
-        expect(team_variation.category).to eq('Buildings')
+        expect(team_variation.category.name).to eq('Buildings')
       end
     end
   end

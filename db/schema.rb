@@ -10,11 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171115102106) do
+ActiveRecord::Schema.define(version: 20171120155547) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "tablefunc"
+
+  create_table "categories", force: :cascade do |t|
+    t.text "name"
+    t.boolean "stackable"
+    t.bigint "parent_id"
+    t.index ["parent_id"], name: "index_categories_on_parent_id"
+  end
 
   create_table "csv_uploads", id: :serial, force: :cascade do |t|
     t.text "job_id"
@@ -36,23 +43,24 @@ ActiveRecord::Schema.define(version: 20171115102106) do
   end
 
   create_table "indicators", id: :serial, force: :cascade do |t|
-    t.text "category", null: false
     t.text "name"
     t.text "definition"
     t.text "unit"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "subcategory"
-    t.boolean "stackable_subcategory", default: false
     t.text "unit_of_entry"
     t.decimal "conversion_factor"
     t.integer "parent_id"
     t.text "alias"
     t.boolean "auto_generated", default: false
     t.integer "model_id"
+    t.bigint "category_id"
+    t.bigint "subcategory_id"
+    t.index ["category_id"], name: "index_indicators_on_category_id"
     t.index ["model_id", "parent_id", "alias"], name: "index_indicators_on_model_id_and_parent_id_and_alias", unique: true
     t.index ["model_id"], name: "index_indicators_on_model_id"
     t.index ["parent_id"], name: "index_indicators_on_parent_id"
+    t.index ["subcategory_id"], name: "index_indicators_on_subcategory_id"
   end
 
   create_table "locations", id: :serial, force: :cascade do |t|
@@ -83,7 +91,6 @@ ActiveRecord::Schema.define(version: 20171115102106) do
     t.text "key_usage"
     t.text "scenario_coverage_detailed"
     t.text "geographic_coverage"
-    t.text "geographic_coverage_region", default: [], array: true
     t.text "geographic_coverage_country", default: [], array: true
     t.text "sectoral_coverage", default: [], array: true
     t.text "gas_and_pollutant_coverage", default: [], array: true
@@ -125,7 +132,6 @@ ActiveRecord::Schema.define(version: 20171115102106) do
     t.text "model_abbreviation"
     t.text "category"
     t.text "description"
-    t.text "geographic_coverage_region", default: [], array: true
     t.text "geographic_coverage_country", default: [], array: true
     t.text "sectoral_coverage", default: [], array: true
     t.text "gas_and_pollutant_coverage", default: [], array: true
@@ -211,8 +217,11 @@ ActiveRecord::Schema.define(version: 20171115102106) do
     t.index ["team_id"], name: "index_users_on_team_id"
   end
 
+  add_foreign_key "categories", "categories", column: "parent_id", on_delete: :cascade
   add_foreign_key "csv_uploads", "models", on_delete: :cascade
   add_foreign_key "csv_uploads", "users", on_delete: :cascade
+  add_foreign_key "indicators", "categories"
+  add_foreign_key "indicators", "categories", column: "subcategory_id"
   add_foreign_key "indicators", "indicators", column: "parent_id"
   add_foreign_key "indicators", "models"
   add_foreign_key "models", "teams"

@@ -1,6 +1,10 @@
 <%= render 'shared/components/c_landing_header',
   title: @indicator.name %>
 
+<script>
+  App.Data.categories = <%= raw(@categories) %>;
+</script>
+
 <%= form_for [@model, @indicator] do |f| %>
   <div class="l-indicator-edit">
     <div class="row">

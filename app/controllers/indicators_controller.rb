@@ -15,7 +15,7 @@ class IndicatorsController < ApplicationController
       call(
         Indicator.
           for_model(@model).
-          includes(:time_series_values)
+          includes(:category, :time_series_values)
       )
   end
 
@@ -39,7 +39,8 @@ class IndicatorsController < ApplicationController
     end
   end
 
-  def edit; end
+  def edit
+  end
 
   def fork
     if current_user.team.model_ids.include?(@indicator.model_id)
@@ -63,9 +64,9 @@ class IndicatorsController < ApplicationController
   end
 
   def show
-    @time_series_values_pivot = TimeSeriesValue.fetch_all(
-      @indicator.time_series_values, @filter_params
-    )
+    @time_series_values_pivot = @indicator.
+      time_series_values.
+      time_series_values_pivot
   end
 
   def destroy

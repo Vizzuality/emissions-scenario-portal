@@ -102,12 +102,9 @@ en:
     geographic_coverage:
       name: "Geographic Coverage"
       definition: "What is the geographic scope of the model?"
-    geographic_coverage_region:
-      name: "Geographic Coverage-Region"
-      definition: "What geographic regions are covered by the model?"
     geographic_coverage_country:
       name: "Geographic Coverage-Country"
-      definition: "What countries are covered by the model?"
+      definition: "What are the geographic regions and/or countries that are covered by the model?"
     sectoral_coverage:
       name: "Sectoral Coverage"
       definition: "What economic sectors are covered by the model?"
@@ -166,10 +163,10 @@ en:
     alias:
       name: "Model Indicator Name"
       definition: "Alias for a core indicator (only applicable for derived indicators)"
-    category:
+    category_id:
       name: "Category"
       definition: "Which category does it belong to? Categories are fixed in the system and the options are: Emissions, Climate and Health Impacts, Population and Economy, Energy, Electricty, Industry, Buildings, Transportation, Agriculture Land Use and Forestry, Policy, Technology, Financial"
-    subcategory:
+    subcategory_id:
       name: "Subcategory"
       definition: "What sub-category does the indicator belong to? New sub-categories can be added"
     stackable_subcategory:
@@ -215,12 +212,9 @@ en:
     literature_reference:
       name: "Literature Reference"
       definition: "Was the scenario used in a publication? provide literature reference"
-    geographic_coverage_region:
-      name: "Geographic Coverage-Region"
-      definition: "What geographic regions are covered by the scenario?"
     geographic_coverage_country:
       name: "Geographic Coverage-Country"
-      definition: "What countries are covered by the scenario?"
+      definition: "What are the geographic regions and/or countries that are covered by the scenario?"
     sectoral_coverage:
       name: "Sectoral Coverage"
       definition: "What economic sectors are covered by the scenario?"

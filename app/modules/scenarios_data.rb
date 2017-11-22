@@ -21,7 +21,6 @@ class ScenariosData
     :energy_resource_coverage,
     :time_horizon,
     :time_step,
-    :geographic_coverage_region,
     :policy_coverage_detailed,
     :technology_coverage_detailed,
     :climate_target_type,
