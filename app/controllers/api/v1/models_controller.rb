@@ -4,8 +4,8 @@ module Api
       def index
         if location_ids.blank?
           models = Model.
-              includes(:scenarios, :indicators).
-              order(:full_name)
+            includes(:scenarios, :indicators).
+            order(:full_name)
         else
           models = Model.
             joins({indicators: {time_series_values: :location}}, :scenarios).
@@ -13,8 +13,6 @@ module Api
             order(:full_name).distinct
         end
 
-        puts models.count
-        models.each {|x| puts x.id}
         render json: models
       end
 
