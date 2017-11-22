@@ -25,6 +25,7 @@
   </div>
   <div class="l-teams__table-shorts js-table-filter" data-filter-type="order">
     <div class="row">
+      <div class="small-1 columns"></div>
       <div class="small-4 columns">
         <%= render 'shared/components/c_order_filter_button',
                    text: 'Name',
@@ -35,7 +36,7 @@
                    text: 'Associated Models',
                    column_key: 'models' %>
       </div>
-      <div class="small-3 columns">
+      <div class="small-2 columns">
         <%= render 'shared/components/c_order_filter_button',
                    text: 'Members',
                    column_key: 'members' %>
@@ -45,6 +46,9 @@
   <% @teams.each do |team| %>
     <div class="c-table-list-item -center">
       <div class="row">
+        <div class="small-1 columns">
+          <%= image_tag team.image.url(:thumb) unless team.image_file_name.nil? %>
+        </div>
         <div class="small-4 columns">
           <div class="c-table-list-item__text f-ff1-m-bold"><%= team.name %></div>
         </div>
@@ -57,7 +61,7 @@
             <% end %>
           </div>
         </div>
-        <div class="small-3 columns">
+        <div class="small-2 columns">
           <div class="c-table-list-item__text f-ff1-m"><%= team.users.count %></div>
         </div>
         <div class="small-1 columns">

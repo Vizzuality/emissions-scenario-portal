@@ -12,6 +12,14 @@ RSpec.describe Team, type: :model do
       build(:team, name: 'A-Team')
     ).to have(1).errors_on(:name)
   end
+  it 'should be invalid when invalid image is selected' do
+    team = build(:team, image: File.new("#{Rails.root}/spec/fixtures/invalid_image.jpg"))
+    expect(team).to have(1).errors_on(:image)
+  end
+    it 'should be valid when valid image is selected' do
+    team = build(:team, image: File.new("#{Rails.root}/spec/fixtures/valid_image.jpg"))
+    expect(team).to have(0).errors_on(:image)
+  end
   describe :members_list_for_display do
     let(:team) { create(:team) }
     it 'displays email if name blank' do

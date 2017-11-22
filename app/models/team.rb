@@ -4,6 +4,13 @@ class Team < ApplicationRecord
 
   validates :name, presence: true, uniqueness: true
 
+  has_attached_file :image, storage: :s3, styles: {
+    thumb: '300x300>'
+  }
+
+  validates_attachment_content_type :image, content_type: ["image/jpeg","image/png"]
+  validates_attachment_size :image, in: 0.kilobytes..500.kilobytes
+
   accepts_nested_attributes_for :users
 
   def self.models
