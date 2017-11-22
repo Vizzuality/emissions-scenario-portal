@@ -3,13 +3,26 @@ class Note < ApplicationRecord
   belongs_to :indicator, required: true
 
   validates :indicator_id, uniqueness: {scope: [:model_id]}
-  validates :conversion_factor, presence: {
-    message: "can't be blank if unit of entry differs from standard unit"
-  }, if: :indicator_unit_of_entry_differs?
-
-  private
-
-  def indicator_unit_of_entry_differs?
-    unit_of_entry.present? && unit_of_entry != indicator.try(:unit)
-  end
+  validates(
+    :unit_of_entry,
+    presence: {
+      message: "can't be blank if no description given",
+      unless: :description?
+    },
+    exclusion: {
+      in: ->(note) { [note.indicator.try(:unit)].compact },
+      message: "can't be equal to indicator's unit"
+    }
+  )
+  validates(
+    :conversion_factor,
+    presence: {
+      message: "can't be blank if unit of entry present",
+      if: :unit_of_entry?
+    },
+    absence: {
+      message: "can't be present if unit of entry blank",
+      unless: :unit_of_entry?
+    }
+  )
 end
