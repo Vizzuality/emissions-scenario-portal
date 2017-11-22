@@ -46,6 +46,12 @@ RSpec.describe Note, type: :model do
       ).to have(1).errors_on(:conversion_factor)
     end
 
+    it "is invalid when conversion_factor is zero" do
+      expect(
+        build(:note, unit_of_entry: "units", conversion_factor: 0)
+      ).to have(1).errors_on(:conversion_factor)
+    end
+
     it "is invalid without unit_of_entry when no description given" do
       expect(
         build(:note, unit_of_entry: nil, description: nil)

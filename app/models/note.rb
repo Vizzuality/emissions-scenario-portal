@@ -23,6 +23,10 @@ class Note < ApplicationRecord
     absence: {
       message: "can't be present if unit of entry blank",
       unless: :unit_of_entry?
+    },
+    numericality: {
+      other_than: 0,
+      allow_nil: true
     }
   )
 end
