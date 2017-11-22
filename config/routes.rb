@@ -51,7 +51,9 @@ Rails.application.routes.draw do
       resources :scenarios, only: [:index, :show]
       resources :indicators, only: [:index, :show]
       resources :time_series_values, only: [:index]
-      resources :locations, only: [:index]
+      resources :locations, only: [:index] do
+        resources :time_series_values, controller: :location_time_series_values, only: [:index]
+      end
       resources :categories, only: [:index]
     end
   end
