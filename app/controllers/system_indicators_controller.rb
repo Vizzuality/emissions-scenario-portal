@@ -7,12 +7,18 @@ class SystemIndicatorsController < AdminController
   def index
     @indicators = FilterIndicators.
       new(@filter_params).
-      call(Indicator.system_and_team)
+      call(
+        Indicator.
+          includes(:category, :subcategory, :time_series_values).
+          references(:category, :subcategory).
+          system_and_team
+      )
     render template: 'indicators/index'
   end
 
   def new
     @indicator = Indicator.new(model: nil, parent: nil)
+    @categories = Category.all.to_json
     render template: 'indicators/edit'
   end
 
@@ -24,11 +30,12 @@ class SystemIndicatorsController < AdminController
     else
       flash[:alert] =
         'We could not create the indicator. Please check the inputs in red'
-      render action: :edit
+      render template: 'indicators/edit'
     end
   end
 
   def edit
+    @categories = Category.all.to_json
     render template: 'indicators/edit'
   end
 
@@ -39,14 +46,15 @@ class SystemIndicatorsController < AdminController
     else
       flash[:alert] =
         'We could not update the indicator. Please check the inputs in red'
-      render action: :edit
+      render template: 'indicators/edit'
     end
   end
 
   def show
-    @time_series_values_pivot = TimeSeriesValue.fetch_all(
-      @indicator.time_series_values, @filter_params
-    )
+    @time_series_values_pivot = @indicator.
+      time_series_values.
+      time_series_values_pivot
+
     render template: 'indicators/show'
   end
 

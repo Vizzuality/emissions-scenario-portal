@@ -1,9 +1,11 @@
 class FilterIndicators
-  ORDER_COLUMNS = %w[esp_name definition unit model_name added_by type].freeze
+  cattr_reader :order_columns do
+    %w[esp_name definition unit model_name added_by type].freeze
+  end
 
   include ActiveModel::Model
+  include OrderableFilter
 
-  attr_writer :order_type, :order_direction
   attr_accessor :search, :type, :category
 
   def call(scope)
@@ -12,14 +14,6 @@ class FilterIndicators
       merge(order_scope).
       merge(type_scope).
       merge(category_scope)
-  end
-
-  def order_type
-    @order_type if ORDER_COLUMNS.include?(@order_type)
-  end
-
-  def order_direction
-    @order_direction.to_s.casecmp('desc').zero? ? :desc : :asc
   end
 
   private
@@ -38,7 +32,9 @@ class FilterIndicators
     return indicators if order_type.blank?
 
     order_clause = send("#{order_type}_order_clause", order_direction)
-    indicators.order(order_clause)
+    indicators.
+      joins(:category, :subcategory).
+      order(order_clause)
   end
 
   def type_scope
@@ -58,7 +54,13 @@ class FilterIndicators
   def category_scope
     return indicators if category.blank?
 
-    indicators.where('indicators.category IN (?)', category.split(','))
+    query = indicators.
+      includes(:category, :subcategory).
+      references(:category, :subcategory)
+
+    ids = category.split(',').map(&:to_i)
+
+    query.where('categories.id IN (?) OR subcategories_indicators.id IN (?)', ids, ids)
   end
 
   def model_name_order_clause(direction)
@@ -73,8 +75,8 @@ class FilterIndicators
   end
 
   def esp_name_order_clause(direction)
-    %w(category subcategory name).map do |column|
-      ["indicators.#{column}", direction].join(' ')
+    %w(categories.name subcategories_indicators.name indicators.name).map do |column|
+      [column, direction].join(' ')
     end.join(', ')
   end
 

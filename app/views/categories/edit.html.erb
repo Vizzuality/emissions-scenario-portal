@@ -1,0 +1,125 @@
+<%
+  form_blocks = [
+    ['Category Info'],
+    ['Subcategories']
+  ]
+%>
+<%= render 'shared/components/c_landing_header', no_nav: true %>
+
+<div class="l-categories-edit">
+  <div class="row l-categories-edit__fields">
+    <div class="small-3 columns">
+      <%= render 'shared/components/form/c_form_vertical_nav', form_blocks: form_blocks %>
+    </div>
+    <div class="small-9 columns">
+      <%= form_for @category do |f| %>
+        <div class="row">
+          <div class="small-12 columns">
+            <div class="row align-right">
+              <div class="small-2 columns">
+                <%= link_to categories_url, class: 'l-categories-edit__form-action' do %>
+                  <%= render 'shared/components/c_flying_button' %>
+                <% end %>
+              </div>
+              <div class="small-2 columns">
+                <%= f.submit 'Save', class: 'c-button' %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="small-12 columns">
+            <div class="c-form" data-block-key="<%= Digest::MD5.hexdigest('Category Info') %>">
+              <div class="c-item-header -color-2">
+                <div class="f-ff1-xs">Category Info</div>
+              </div>
+              <div class="c-form-items">
+                <div class="c-form-item -highlighted <% if @category.errors.messages[:name].present? %>-error<% end %>">
+                  <%= f.label :name, 'Category name', class: 'f-ff1-m' %>
+                  <%= f.text_field :name, class: 'c-input-text -large js-form-input' %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <% if @category.persisted? %>
+          <div class="row">
+            <div class="small-12 columns">
+              <div class="c-form l-categories-edit__form-subcategories" data-block-key="<%= Digest::MD5.hexdigest('Subcategories') %>">
+                <div class="c-item-header -color-2">
+                  <div class="f-ff1-xs">Subcategories</div>
+                </div>
+                <div class="c-form-items">
+                  <div class="l-categories-edit__subcategory">
+                    <%= f.fields_for :subcategories do |ff| %>
+                      <li class="row">
+                        <div class="small-8 columns">
+                          <%= ff.text_field :name, class: 'c-input-text js-form-input', placeholder: 'Name' %>
+                        </div>
+                        <div class="small-2 columns">
+                          <div class="c-checkbox">
+                            <%= ff.check_box :stackable %>
+                            <%= ff.label :stackable do %>
+                              <div class="c-checkbox__box">
+                                <svg class="icon icon-checkbox-off"><use xlink:href="#icon-checkbox-off"></use></svg>
+                                <svg class="icon icon-checkbox-on"><use xlink:href="#icon-checkbox-on"></use></svg>
+                              </div>
+                              <div class="f-ff1-s">Stackable</div>
+                            <% end %>
+                          </div>
+                        </div>
+                        <div class="small-2 columns">
+                          <%= link_to category_subcategory_url(@category, ff.object),
+                            method: :delete,
+                            data: { confirm: 'Are you sure?' } do
+                          %>
+                            <div class="c-remove-button">
+                              <svg class="icon"><use xlink:href="#icon-delete"></use></svg>
+                              <div class="f-ff1-s">Delete</div>
+                            </div>
+                          <% end %>
+                        </div>
+                      </li>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+      <% if @category.persisted? %>
+        <div class="c-form l-categories-edit__form-add-subcategories">
+          <%= form_tag(category_subcategories_url(@category)) do %>
+            <div class="c-form-items">
+              <div class="c-form-item l-categories-edit__add-subcategory row">
+                <div class="small-8 columns">
+                  <%= text_field_tag 'category[name]',
+                                     nil,
+                                     placeholder: 'Enter subcategory name',
+                                     class: 'c-input-text js-form-input' %>
+                </div>
+                <div class="small-2 columns">
+                  <div class="c-checkbox">
+                    <%= check_box_tag 'category[stackable]' %>
+                    <%= label_tag 'category[stackable]' do %>
+                      <div class="c-checkbox__box">
+                        <svg class="icon icon-checkbox-off"><use xlink:href="#icon-checkbox-off"></use></svg>
+                        <svg class="icon icon-checkbox-on"><use xlink:href="#icon-checkbox-on"></use></svg>
+                      </div>
+                      <div class="f-ff1-s">Stackable</div>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="small-2 columns">
+                  <%= submit_tag 'Add', class: 'c-button' %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

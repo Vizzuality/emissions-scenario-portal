@@ -18,7 +18,6 @@ module Api
       attribute :purpose_or_objective
       attribute :time_step
       attribute :time_horizon
-      attribute :geographic_coverage_region
       attribute :sectoral_coverage
 
       has_many :scenarios

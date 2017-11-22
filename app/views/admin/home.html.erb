@@ -22,9 +22,9 @@
     </div>
     <div class="small-6 columns">
       <%= render 'shared/components/c_model_overview_card',
-                 title: 'Countries',
+                 title: 'countries',
                  values: @locations,
-                 button_text: 'Manage countries',
+                 button_text: 'manage countries',
                  button_url: locations_url
       %>
     </div>
@@ -34,6 +34,14 @@
                  values: @indicators,
                  button_text: 'Manage indicators',
                  button_url: indicators_url
+      %>
+    </div>
+    <div class="small-6 columns">
+      <%= render 'shared/components/c_model_overview_card',
+                 title: 'Categories',
+                 values: @categories,
+                 button_text: 'Manage categories',
+                 button_url: categories_url
       %>
     </div>
   </div>

@@ -4,7 +4,7 @@ class TeamsController < ApplicationController
   before_action :set_filter_params, only: [:index]
 
   def index
-    @teams = Team.fetch_all(@filter_params)
+    @teams = FilterTeams.new(@filter_params).call(Team.all)
   end
 
   def new

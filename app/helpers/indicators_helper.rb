@@ -12,7 +12,7 @@ module IndicatorsHelper
 
   def categories_for_select
     options_for_select(
-      Indicator.order(:category).distinct.pluck(:category)
+      Category.order(:name).pluck(:name, :id)
     )
   end
 
@@ -32,6 +32,32 @@ module IndicatorsHelper
         [i.alias, i.id]
       end
     [select_values, selection, action_name == 'fork']
+  end
+
+  def values_for_indicator_category_dropdown(indicator)
+    select_values = Category.
+      where('parent_id IS NULL').
+      select(:id, :name).
+      order(name: :asc).
+      pluck(:name, :id)
+
+    selection = indicator.category
+
+    [select_values, selection, false]
+  end
+
+  def values_for_indicator_subcategory_dropdown(indicator)
+    select_values = Category.
+      where('parent_id IS NOT NULL').
+      select(:id, :name).
+      order(name: :asc).
+      pluck(:name, :stackable, :id).map do |name, stackable, id|
+        [stackable ? "#{name} (stackable)" : name, id]
+      end
+
+    selection = indicator.subcategory
+
+    [select_values, selection, false]
   end
 
   def destroy_confirmation_message(indicator)

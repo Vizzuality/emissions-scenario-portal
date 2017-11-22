@@ -33,6 +33,7 @@
         columnDefs: this.columns,
         rowData: this.rows,
         enableSorting: true,
+        enableFilter: true,
         unSortIcon: true,
         headerHeight: 33,
         rowHeight: 60,
@@ -62,12 +63,18 @@
       var rows = this.$el.data('rows');
       var defaults = {cellClass: 'f-ff1-m-bold', pinned: true};
 
-      this.columns.push(_.extend({}, defaults, {headerName: "Country", field: "country"}));
-      this.columns.push(_.extend({}, defaults, {headerName: "Scenario", field: "scenario"}));
-      this.columns.push(_.extend({}, defaults, {headerName: "Unit", field: "unit"}));
+      _.each(["Country", "Scenario", "Unit"], function (name) {
+        this.columns.push(
+          _.extend(
+            {},
+            defaults,
+            {headerName: name, field: name.toLowerCase(), filter: "text"}
+          )
+        );
+      }, this);
 
       _.each(years, function(year) {
-        this.columns.push({headerName: year.toString(), field: year.toString()});
+        this.columns.push({headerName: year.toString(), field: year.toString(), filter: "number"});
       }.bind(this));
 
       _.each(rows, function(row) {
