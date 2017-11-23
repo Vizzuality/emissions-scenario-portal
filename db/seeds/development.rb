@@ -1,4 +1,4 @@
-ActiveRecord::Migration.say_with_time("Loading development seeds") do
+ActiveRecord::Migration.say_with_time('Loading development seeds') do
   team_amazing = Team.create(name: 'Team Amazing')
 
   admin = User.new(
@@ -44,9 +44,9 @@ ActiveRecord::Migration.say_with_time("Loading development seeds") do
     Scenario.create(name: scenario_name, model: gcam)
   end
 
-  energy = Category.create(name: "Energy")
+  energy = Category.create(name: 'Energy')
   energy_use_by_fuel= Category.create(
-    name: "Energy use by fuel",
+    name: 'Energy use by fuel',
     parent: energy,
     stackable: true
   )
