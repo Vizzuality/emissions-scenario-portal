@@ -1,6 +1,10 @@
 class Location < ApplicationRecord
   validates :name, presence: true, uniqueness: true
-  validates :iso_code, length: {is: 2}, uniqueness: true, unless: :region?
   validates :region, inclusion: {in: [false, true]}
-  before_validation -> { iso_code.upcase! }
+  validates(
+    :iso_code,
+    format: {with: /\A[A-Z]{2}\z/},
+    uniqueness: true,
+    unless: :region?
+  )
 end
