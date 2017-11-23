@@ -45,7 +45,7 @@ ActiveRecord::Migration.say_with_time('Loading development seeds') do
   end
 
   energy = Category.create(name: 'Energy')
-  energy_use_by_fuel= Category.create(
+  energy_use_by_fuel = Category.create(
     name: 'Energy use by fuel',
     parent: energy,
     stackable: true
