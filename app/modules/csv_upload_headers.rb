@@ -1,5 +1,3 @@
-require 'csv'
-
 module CsvUploadHeaders
   delegate :url_helpers, to: 'Rails.application.routes'
 
