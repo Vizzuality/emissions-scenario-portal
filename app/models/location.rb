@@ -7,4 +7,6 @@ class Location < ApplicationRecord
     uniqueness: true,
     unless: :region?
   )
+
+  has_many :time_series_values
 end
