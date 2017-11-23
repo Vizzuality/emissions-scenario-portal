@@ -9,7 +9,8 @@ module Api
         else
           models = Model.
             joins({indicators: {time_series_values: :location}}, :scenarios).
-            where(indicators: {time_series_values: {location_id: location_ids}}).
+            where(indicators:
+                      {time_series_values: {location_id: location_ids}}).
             order(:full_name).distinct
         end
 

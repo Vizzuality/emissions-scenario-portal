@@ -1,6 +1,7 @@
 module Api
   module V1
     class TimeSeriesValuesController < ApiController
+      # rubocop:disable AbcSize
       def index
         values = TimeSeriesValue.
           includes(:indicator).
@@ -12,6 +13,7 @@ module Api
 
         render json: values
       end
+      # rubocop:enable AbcSize
 
       private
 
