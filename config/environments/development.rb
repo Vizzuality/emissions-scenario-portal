@@ -58,6 +58,8 @@ Rails.application.configure do
 
   config.paperclip_defaults = {
     storage: :s3,
+    url: ":s3_domain_url",
+    path: "#{Rails.env}/:class/:attachment/:id_partition/:style/:filename",
     s3_credentials: {
       bucket: Rails.application.secrets.s3_bucket_name,
       access_key_id: Rails.application.secrets.aws_access_key_id,
