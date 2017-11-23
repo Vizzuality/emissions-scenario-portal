@@ -8,7 +8,8 @@ class Team < ApplicationRecord
     thumb: '300x300>'
   }
 
-  validates_attachment_content_type :image, content_type: ["image/jpeg","image/png"]
+  validates_attachment_content_type :image,
+                                    content_type: ['image/jpeg', 'image/png']
   validates_attachment_size :image, in: 0.kilobytes..500.kilobytes
 
   accepts_nested_attributes_for :users
