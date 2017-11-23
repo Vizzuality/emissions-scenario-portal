@@ -69,7 +69,7 @@ ActiveRecord::Schema.define(version: 20171123120735) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "iso_code"
-    t.index ["iso_code"], name: "index_locations_on_iso_code", unique: true, where: "(iso_code IS NOT NULL)"
+    t.index ["iso_code"], name: "index_locations_on_iso_code", unique: true
     t.index ["name"], name: "index_locations_on_name", unique: true
   end
 
