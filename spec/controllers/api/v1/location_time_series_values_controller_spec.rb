@@ -17,12 +17,12 @@ describe Api::V1::LocationTimeSeriesValuesController, type: :controller do
 
     describe 'GET index' do
       it 'returns a successful 200 response' do
-        get :index, params: {location_id: location.iso_code}
+        get :index, params: {location_id: location.id}
         expect(response).to be_success
       end
 
       it 'lists all time series values' do
-        get :index, params: {location_id: location.iso_code}
+        get :index, params: {location_id: location.id}
         parsed_body = JSON.parse(response.body)
         expect(parsed_body.length).to eq(1)
         expect(parsed_body.first['values'].length).to eq(10)

@@ -16,7 +16,8 @@ module Api
           to_a
 
         render json: time_series_values,
-               each_serializer: Api::V1::LocationTimeSeriesValuesSerializer
+               each_serializer: Api::V1::LocationTimeSeriesValuesSerializer,
+               include_scenario_id: params[:scenario].blank?
       end
 
       private
@@ -24,7 +25,7 @@ module Api
       def set_location
         @location = Location.
           includes(:time_series_values).
-          find_by!(iso_code: params[:location_id])
+          find_by!(id: params[:location_id])
       end
 
       def scenario_ids
