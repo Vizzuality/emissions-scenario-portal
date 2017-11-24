@@ -5,12 +5,36 @@ module Api
         indicators = Indicator.
           includes(:category, :subcategory, :model)
 
-        if params[:category]
+        if param_list(:category)
           indicators = indicators.where(
-            category_id: params[:category]
-          ).or(indicators.where(
-            subcategory_id: params[:category]
-          ))
+            category_id: param_list(:category)
+          )
+        end
+
+        if param_list(:subcategory)
+          indicators = indicators.where(
+            subcategory_id: param_list(:subcategory)
+          )
+        end
+
+        if param_list(:scenario)
+          indicator_ids = Scenario.where(id: param_list(:scenario)).
+            includes(:time_series_values).
+            flat_map(&:time_series_values).
+            map(&:indicator_id).
+            uniq
+
+          indicators = indicators.where(id: indicator_ids)
+        end
+
+        if param_list(:location)
+          indicator_ids = Location.where(id: param_list(:location)).
+            includes(:time_series_values).
+            flat_map(&:time_series_values).
+            map(&:indicator_id).
+            uniq
+
+          indicators = indicators.where(id: indicator_ids)
         end
 
         indicators = indicators.
@@ -26,6 +50,16 @@ module Api
           find_by!(id: params[:id])
 
         render json: indicator
+      end
+
+      private
+
+      def param_list(param)
+        if params[param].blank?
+          nil
+        else
+          params[param].split(',')
+        end
       end
     end
   end
