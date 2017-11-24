@@ -3,6 +3,7 @@ module Api
     class CategorySerializer < ActiveModel::Serializer
       attribute :id
       attribute :name
+      attribute :stackable, unless: -> { object.stackable.nil? }
 
       has_many :subcategories
     end
