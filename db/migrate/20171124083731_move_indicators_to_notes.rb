@@ -41,7 +41,9 @@ class MoveIndicatorsToNotes < ActiveRecord::Migration[5.1]
           attributes[:conversion_factor] =
             CONVERSION_FACTORS["#{parent.unit}-#{attributes[:unit_of_entry]}"]
 
-          puts "indicator.id: #{indicator.id}, parent.unit: #{parent.unit}, indicator.unit_of_entry: #{indicator.unit_of_entry}" if attributes[:conversion_factor].blank?
+          if attributes[:conversion_factor].blank?
+            puts "unable to create note: indicator.id: #{indicator.id}, parent.unit: #{parent.unit}, indicator.unit_of_entry: #{indicator.unit_of_entry}"
+          end
         end
       end
 

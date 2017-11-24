@@ -1,4 +1,7 @@
 class NormalizeUnitNames < ActiveRecord::Migration[5.1]
+  class Indicator < ApplicationRecord; end
+  class TimeSeriesValue < ApplicationRecord; end
+
   UNITS = {
     "billion kWh/year" => "TWh/yr",
     "Billion kWh/year" => "TWh/yr",
@@ -10,9 +13,9 @@ class NormalizeUnitNames < ActiveRecord::Migration[5.1]
     "Mt CO2-equiv/yr" => "Mt CO2e/yr",
     "million metric tons/yr" => "Mmt/yr",
     "Mmt CO2/year" => "Mmt CO2/yr",
-    "Mmt CO2/year" => "Mmt CO2/yr",
     "Mmt/yr" => "Mmt/yr",
-    "million metric tons CO2e/yr" => "Mmt CO2e/yr"
+    "million metric tons CO2e/yr" => "Mmt CO2e/yr",
+    "Mt CO2e/year" => "Mt CO2e/yr"
   }
 
   def change
