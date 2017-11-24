@@ -19,11 +19,9 @@ module Api
 
         if param_list(:scenario)
           indicator_ids = Scenario.where(id: param_list(:scenario)).
-            includes(model: :indicators).
-            all.
-            map(&:model).
-            flat_map(&:indicators).
-            map(&:id).
+            includes(:time_series_values).
+            flat_map(&:time_series_values).
+            map(&:indicator_id).
             uniq
 
           indicators = indicators.where(id: indicator_ids)
