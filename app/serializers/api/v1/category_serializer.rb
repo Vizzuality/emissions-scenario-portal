@@ -3,7 +3,8 @@ module Api
     class CategorySerializer < ActiveModel::Serializer
       attribute :id
       attribute :name
-      attribute :parent_id, if: -> { object.parent_id }
+
+      has_many :subcategories
     end
   end
 end
