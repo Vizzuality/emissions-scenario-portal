@@ -3,9 +3,13 @@ class Category < ApplicationRecord
   validate :parent_categories_cannot_be_stackable,
            :cannot_have_subcategory_as_parent
 
-  belongs_to :parent, class_name: 'Category', foreign_key: 'parent_id',
+  belongs_to :parent,
+             class_name: 'Category',
+             foreign_key: 'parent_id',
              optional: true
-  has_many :subcategories, class_name: 'Category', foreign_key: 'parent_id'
+  has_many :subcategories, -> { order(:name) },
+           class_name: 'Category',
+           foreign_key: 'parent_id'
 
   accepts_nested_attributes_for :subcategories
 
