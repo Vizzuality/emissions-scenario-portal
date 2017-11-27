@@ -9,7 +9,9 @@ class MoveIndicatorsToNotes < ActiveRecord::Migration[5.1]
     "TWh/yr-EJ/yr" => 277.8,
     "billion US$2016/yr-billion US$2012/yr" => 1.0454,
     "billion US$2016/yr-billion US$2010/yr" => 1.1007,
-    "Mt CO2e/yr-Mmt CO2/yr" => 1.10231131
+    "Mt CO2e/yr-Mmt CO2/yr" => 1.10231131,
+    "Mt CO2e/yr-Mt CH4/yr" => 25,
+    "Mt CO2e/yr-kt N2O/yr" => 0.001
   }
 
   def change
