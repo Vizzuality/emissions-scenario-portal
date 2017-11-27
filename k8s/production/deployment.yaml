@@ -18,8 +18,6 @@ spec:
         resources:
           requests:
             memory: "128Mi"
-          limits:
-            memory: "512Mi"
         env:
           - name: MAILER_DEFAULT_FROM
             value: no-reply@emissionspathways.org
@@ -75,7 +73,7 @@ spec:
           requests:
             memory: "64Mi"
           limits:
-            memory: "256Mi"
+            memory: "512Mi"
         command: ["bundle", "exec", "sidekiq"]
         env:
           - name: MAILER_DEFAULT_FROM
