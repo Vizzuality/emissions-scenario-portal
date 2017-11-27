@@ -92,9 +92,7 @@ RSpec.describe UploadIndicators, upload: :s3 do
         category: category,
         subcategory: subcategory,
         name: 'industry',
-        unit: 'Mt CO2e/yr',
-        model: nil,
-        parent: nil
+        unit: 'Mt CO2e/yr'
       )
     end
     context 'when admin' do
@@ -280,9 +278,7 @@ RSpec.describe UploadIndicators, upload: :s3 do
         category: category,
         subcategory: subcategory1,
         name: 'transport',
-        unit: 'Mt CO2e/yr',
-        model: nil,
-        parent: nil
+        unit: 'Mt CO2e/yr'
       )
       create(
         :indicator,
@@ -290,8 +286,6 @@ RSpec.describe UploadIndicators, upload: :s3 do
         subcategory: subcategory2,
         name: 'Fossil Fuels and Industry|Energy Demand|Transport',
         unit: 'Mt CO2e/yr',
-        model: model,
-        parent: system_indicator,
         alias: 'Emissions|CO2|Fossil Fuels and Industry|Energy Demand|Transport'
       )
     end

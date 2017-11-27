@@ -12,6 +12,8 @@ class TimeSeriesValue < ApplicationRecord
   validates :value, presence: true, numericality: {allow_nil: true}
   validate :unit_compatible_with_indicator, if: proc { |v| v.indicator }
 
+  attr_accessor :unit_of_entry
+
   def self.time_series_values_pivot
     pivot = TimeSeriesYearPivotQuery.new(self)
     query_sql = pivot.query_with_order(nil, nil)
@@ -37,9 +39,7 @@ class TimeSeriesValue < ApplicationRecord
   private
 
   def unit_compatible_with_indicator
-    if unit_of_entry.present? &&
-        unit_of_entry != indicator.unit &&
-        unit_of_entry != indicator.unit_of_entry
+    if unit_of_entry.present? && unit_of_entry != indicator.unit
       errors[:unit_of_entry] << 'Unit of entry incompatible with indicator.'
     end
   end

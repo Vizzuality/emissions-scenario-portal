@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171124084751) do
+ActiveRecord::Schema.define(version: 20171127105349) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,18 +48,10 @@ ActiveRecord::Schema.define(version: 20171124084751) do
     t.text "unit"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "unit_of_entry"
-    t.decimal "conversion_factor"
-    t.integer "parent_id"
     t.text "alias"
-    t.boolean "auto_generated", default: false
-    t.integer "model_id"
     t.bigint "category_id"
     t.bigint "subcategory_id"
     t.index ["category_id"], name: "index_indicators_on_category_id"
-    t.index ["model_id", "parent_id", "alias"], name: "index_indicators_on_model_id_and_parent_id_and_alias", unique: true
-    t.index ["model_id"], name: "index_indicators_on_model_id"
-    t.index ["parent_id"], name: "index_indicators_on_parent_id"
     t.index ["subcategory_id"], name: "index_indicators_on_subcategory_id"
   end
 
@@ -191,8 +183,6 @@ ActiveRecord::Schema.define(version: 20171124084751) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "location_id"
-    t.text "unit_of_entry"
-    t.decimal "conversion_factor"
     t.index ["indicator_id"], name: "index_time_series_values_on_indicator_id"
     t.index ["location_id"], name: "index_time_series_values_on_location_id"
     t.index ["scenario_id"], name: "index_time_series_values_on_scenario_id"
@@ -235,8 +225,6 @@ ActiveRecord::Schema.define(version: 20171124084751) do
   add_foreign_key "csv_uploads", "users", on_delete: :cascade
   add_foreign_key "indicators", "categories"
   add_foreign_key "indicators", "categories", column: "subcategory_id"
-  add_foreign_key "indicators", "indicators", column: "parent_id"
-  add_foreign_key "indicators", "models"
   add_foreign_key "models", "teams"
   add_foreign_key "notes", "indicators"
   add_foreign_key "notes", "models"

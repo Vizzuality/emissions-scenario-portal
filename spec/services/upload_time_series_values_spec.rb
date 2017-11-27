@@ -24,19 +24,13 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
       subcategory: subcategory,
       name: 'CH4',
       unit: 'Mt CO2e/yr',
-      unit_of_entry: 'Mt CH4/yr',
-      conversion_factor: 25.0
     )
   }
   let(:variation) {
     create(
       :indicator,
-      parent: indicator,
       alias: "#{model.abbreviation} #{indicator.alias}",
-      model: model,
       unit: indicator.unit,
-      unit_of_entry: indicator.unit_of_entry,
-      conversion_factor: indicator.conversion_factor
     )
   }
   let!(:location1) {
@@ -370,11 +364,7 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
         subcategory: another_subcategory,
         name: 'direct',
         unit: 'Mt CO2e/yr',
-        unit_of_entry: 'Mt CH4/yr',
-        conversion_factor: 25.0,
         alias: 'Emissions|GHG Emissions|direct',
-        model: other_model,
-        parent: nil
       )
     }
     it 'should have saved values' do
@@ -423,11 +413,7 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
         subcategory: another_subcategory,
         name: 'direct',
         unit: 'Mt CO2e/yr',
-        unit_of_entry: 'Mt CH4/yr',
-        conversion_factor: 25.0,
         alias: 'Model B Emissions|GHG Emissions|direct',
-        model: other_model,
-        parent: indicator
       )
     }
     it 'should have saved values' do

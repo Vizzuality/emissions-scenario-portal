@@ -4,68 +4,36 @@ class Indicator < ApplicationRecord
   ).freeze
   include MetadataAttributes
   include PgSearch
-  include AliasTransformations
-  include ScopeManagement
-  include BestEffortMatching
 
-  belongs_to :parent, class_name: 'Indicator', optional: true
-  has_many :variations,
-           class_name: 'Indicator', foreign_key: :parent_id,
-           dependent: :nullify
   has_many :time_series_values, dependent: :destroy
-  belongs_to :model, optional: true
   belongs_to :category
   belongs_to :subcategory, class_name: 'Category', optional: true
 
-  validates :model, presence: true, if: proc { |i| i.parent.present? }
-  validates :conversion_factor, presence: {
-    message: "can't be blank if unit of entry differs from standard unit"
-  }, if: proc { |i| i.unit_of_entry.present? && i.unit_of_entry != unit }
-  validates :alias, uniqueness: {scope: [:parent_id, :model_id]}
-  validate :unit_compatible_with_parent, if: proc { |i| i.parent.present? }
-  validate :parent_is_not_variation, if: proc { |i| i.parent.present? }
-  validate :parent_is_not_itself
+  validates :alias, uniqueness: true
   before_validation :ignore_blank_array_values
+  before_validation :strip_whitespace
+  before_validation :generate_alias
 
-  pg_search_scope :search_for, against: [
-    :name, :alias
-  ]
+  pg_search_scope :search_for, against: %i[name alias]
 
-  def self.model_variations(model)
-    where(model_id: model.respond_to?(:id) ? model.id : model)
+  def self.slug_to_hash(slug)
+    return {} unless slug.present?
+    slug_parts = slug && slug.split('|', 3).map(&:strip)
+    return {} if slug_parts.empty?
+    slug_parts_to_hash(slug_parts)
   end
 
-  def self.system_and_team
-    where(parent_id: nil)
+  def self.slug_parts_to_hash(slug_parts)
+    slug_hash = {category: slug_parts[0]}
+    if slug_parts.length >= 2
+      slug_hash[:subcategory] = slug_parts[1].presence
+      slug_hash[:name] = slug_parts[2].presence if slug_parts.length == 3
+    end
+    slug_hash
   end
 
-  def self.system
-    system_and_team.where(model_id: nil)
-  end
-
-  def self.exclude_with_variations_in_model(model)
-    where.not("EXISTS (\
-      SELECT id FROM indicators AS v\
-      WHERE v.parent_id = indicators.id AND v.model_id = ?\
-    )", model.id)
-  end
-
-  def self.for_model(model)
-    system_and_team.
-      exclude_with_variations_in_model(model).
-      or(Indicator.model_variations(model))
-  end
-
-  def self.with_variations
-    joins('LEFT JOIN models ON models.id = indicators.model_id').
-      joins('LEFT JOIN teams ON teams.id = models.team_id').
-      eager_load(:variations).
-      joins("LEFT JOIN indicators variations ON variations.parent_id = \
-indicators.id").
-      joins("LEFT JOIN models variations_models ON variations_models.id = \
-variations.model_id").
-      joins("LEFT JOIN teams variations_teams ON variations_teams.id = \
-variations_models.team_id")
+  def self.hash_to_slug(hash)
+    [hash[:category].name, hash[:subcategory].name, hash[:name]].join('|')
   end
 
   def scenarios
@@ -86,17 +54,12 @@ variations_models.team_id")
 
   private
 
-  def parent_is_not_variation
-    return true unless parent.variation?
-    errors[:parent] << 'cannot be a variation'
+  def strip_whitespace
+    self.name = name.try(:strip)
+    self.unit = unit.try(:strip)
   end
 
-  def unit_compatible_with_parent
-    return true if unit.blank? && parent.unit.blank? || unit == parent.unit
-    errors[:unit] << 'incompatible with parent indicator'
-  end
-
-  def parent_is_not_itself
-    errors[:parent] << 'cannot be itself' if parent == self
+  def generate_alias
+    self.alias ||= [category&.name, subcategory&.name, name].join('|').chomp('|')
   end
 end
