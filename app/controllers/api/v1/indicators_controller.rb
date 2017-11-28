@@ -10,7 +10,7 @@ module Api
                        Indicator.all
                      end
 
-        indicators = Indicator.
+        indicators = indicators.
           includes(:category, :subcategory, :model)
 
         if param_list(:category)
