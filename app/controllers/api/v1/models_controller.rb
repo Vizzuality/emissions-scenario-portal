@@ -8,7 +8,8 @@ module Api
                    Model.all
                  end
 
-        models = models.filtered_by_locations(location_ids) if location_ids.present?
+        models = models.
+          filtered_by_locations(location_ids) if location_ids.present?
         models = models.with_scenarios_and_indicators
         models = models.order(:full_name)
 

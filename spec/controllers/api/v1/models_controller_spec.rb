@@ -23,7 +23,7 @@ describe Api::V1::ModelsController, type: :controller do
       end
 
       it 'filters by models with time_series_values' do
-        get :index, params: { time_series: true }
+        get :index, params: {time_series: true}
         parsed_body = JSON.parse(response.body)
         expect(parsed_body.length).to eq(1)
       end

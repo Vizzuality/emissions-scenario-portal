@@ -22,7 +22,7 @@ describe Api::V1::LocationsController, type: :controller do
       end
 
       it 'list only locations with time_series_values data' do
-        get :index, params: { time_series: true }
+        get :index, params: {time_series: true}
         parsed_body = JSON.parse(response.body)
         expect(parsed_body.length).to eq(1)
       end

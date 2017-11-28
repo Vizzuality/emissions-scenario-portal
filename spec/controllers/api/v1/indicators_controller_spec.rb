@@ -22,7 +22,7 @@ describe Api::V1::IndicatorsController, type: :controller do
       end
 
       it 'list all indicators with time_series_values associated' do
-        get :index, params: { time_series: true }
+        get :index, params: {time_series: true}
 
         parsed_body = JSON.parse(response.body)
         expect(parsed_body.length).to eq(1)

@@ -42,11 +42,10 @@ class Model < ApplicationRecord
       where(id: models_ids.map(&:model_id))
     end
 
-    def filtered_by_locations location_ids
+    def filtered_by_locations(location_ids)
       joins({indicators: {time_series_values: :location}}, :scenarios).
         where(indicators: {time_series_values: {location_id: location_ids}}).
         distinct
     end
   end
-
 end
