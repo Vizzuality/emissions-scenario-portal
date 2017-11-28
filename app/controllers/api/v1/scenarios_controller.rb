@@ -3,7 +3,7 @@ module Api
     class ScenariosController < ApiController
       def index
         scenarios = Scenario.
-          includes(model: :indicators).
+          includes(:model).
           order(:name)
         scenarios = scenarios.where(model_id: params[:model]) if params[:model]
 

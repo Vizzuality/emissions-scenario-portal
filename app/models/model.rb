@@ -6,7 +6,6 @@ class Model < ApplicationRecord
 
   belongs_to :team, optional: true
   has_many :scenarios, dependent: :destroy
-  has_many :indicators, dependent: :destroy
 
   validates :abbreviation, presence: true, uniqueness: true
   validates :full_name, presence: true
