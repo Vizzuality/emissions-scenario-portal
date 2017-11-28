@@ -2,7 +2,15 @@ module Api
   module V1
     class IndicatorsController < ApiController
       def index
-        indicators = Indicator.
+
+        indicators = if params[:time_series]
+                       ind_ids = TimeSeriesValue.select(:indicator_id).distinct
+                       Indicator.where(id: ind_ids.map(&:indicator_id))
+                     else
+                       Indicator.all
+                     end
+
+        indicators = indicators.
           includes(:category, :subcategory, :model)
 
         if param_list(:category)
@@ -37,9 +45,7 @@ module Api
           indicators = indicators.where(id: indicator_ids)
         end
 
-        indicators = indicators.
-          order(:name).
-          all
+        indicators = indicators.order(:name)
 
         render json: indicators
       end

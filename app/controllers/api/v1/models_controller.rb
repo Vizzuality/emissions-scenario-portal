@@ -2,17 +2,16 @@ module Api
   module V1
     class ModelsController < ApiController
       def index
-        if location_ids.blank?
-          models = Model.
-            includes(:scenarios, :indicators).
-            order(:full_name)
-        else
-          models = Model.
-            joins({indicators: {time_series_values: :location}}, :scenarios).
-            where(indicators:
-                      {time_series_values: {location_id: location_ids}}).
-            order(:full_name).distinct
-        end
+        models = if params[:time_series]
+                   Model.have_time_series
+                 else
+                   Model.all
+                 end
+
+        models = models.
+          filtered_by_locations(location_ids) if location_ids.present?
+        models = models.with_scenarios_and_indicators
+        models = models.order(:full_name)
 
         render json: models
       end

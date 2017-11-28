@@ -5,7 +5,13 @@ describe Api::V1::ScenariosController, type: :controller do
     let!(:some_model) { create(:model) }
 
     let!(:some_scenarios) {
-      create_list(:scenario, 3, model: some_model)
+      create_list(:scenario, 2, model: some_model)
+    }
+
+    let!(:scenario_with_time_series) {
+      my_scenario = create(:scenario, model: some_model)
+      create(:time_series_value, scenario_id: my_scenario.id)
+      my_scenario
     }
 
     describe 'GET index' do
@@ -18,6 +24,12 @@ describe Api::V1::ScenariosController, type: :controller do
         get :index, params: {model_id: some_model.id}
         parsed_body = JSON.parse(response.body)
         expect(parsed_body.length).to eq(3)
+      end
+
+      it 'lists all scenarios that have time_series_values associated' do
+        get :index, params: {time_series: true}
+        parsed_body = JSON.parse(response.body)
+        expect(parsed_body.length).to eq(1)
       end
     end
 
