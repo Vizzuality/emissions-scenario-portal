@@ -48,12 +48,6 @@ class ModelsController < ApplicationController
     @scenarios = @model.scenarios.limit(5)
     @indicators = Indicator.
       includes(:category, :subcategory).
-      system_and_team.exclude_with_variations_in_model(@model).
-      or(
-        Indicator.
-          includes(:category, :subcategory).
-          model_variations(@model)
-      ).
       order('categories.name, subcategories_indicators.name, indicators.name')
   end
 

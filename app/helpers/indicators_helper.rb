@@ -1,42 +1,12 @@
 module IndicatorsHelper
-  def types_for_select
-    options = [
-      ['System indicators', 'system']
-    ]
-    options +=
-      Team.all.map do |t|
-        ["Indicators added by team: #{t.name}", "team-#{t.id}"]
-      end
-    options_for_select(options)
-  end
-
   def categories_for_select
     options_for_select(
       Category.order(:name).pluck(:name, :id)
     )
   end
 
-  def values_for_indicator_parent_dropdown(indicator)
-    selection = indicator.parent
-    select_values = Indicator.where('parent_id IS NULL')
-    select_values =
-      if defined? @model
-        select_values.where('model_id IS NULL OR model_id != ?', @model.id)
-      else
-        select_values.where('model_id IS NULL')
-      end
-    select_values = select_values.
-      order(composite_name: :asc).
-      select(:id, :composite_name).
-      map do |i|
-        [i.composite_name, i.id]
-      end
-    [select_values, selection, action_name == 'fork']
-  end
-
   def values_for_indicator_category_dropdown(indicator)
     select_values = Category.
-      where('parent_id IS NULL').
       select(:id, :name).
       order(name: :asc).
       pluck(:name, :id)
@@ -48,7 +18,6 @@ module IndicatorsHelper
 
   def values_for_indicator_subcategory_dropdown(indicator)
     select_values = Category.
-      where('parent_id IS NOT NULL').
       select(:id, :name).
       order(name: :asc).
       pluck(:name, :stackable, :id).map do |name, stackable, id|

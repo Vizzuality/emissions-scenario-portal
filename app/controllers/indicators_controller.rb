@@ -5,30 +5,21 @@ class IndicatorsController < ApplicationController
   load_resource except: [:new, :create, :index]
   authorize_resource through: :model
 
-  before_action :set_nav_links, only: [:index, :show, :edit, :fork]
+  before_action :set_nav_links, only: [:index, :show, :edit]
   before_action :set_filter_params, only: [:index, :show]
   before_action :set_upload_errors, only: [:index]
 
   def index
-    @indicators = FilterIndicators.
-      new(@filter_params).
-      call(
-        Indicator.
-          for_model(@model).
-          includes(:category, :time_series_values)
-      )
+    @indicators = FilterIndicators.new(@filter_params).call(Indicator.all)
   end
 
   def new
-    @indicator = Indicator.new(model: @model)
+    @indicator = Indicator.new
     render action: :edit
   end
 
   def create
     @indicator = Indicator.new(indicator_params)
-    unless current_user.admin? && @indicator.parent_id.nil?
-      @indicator.model = @model
-    end
     if @indicator.save
       redirect_to model_indicator_url(@model, @indicator),
                   notice: 'Indicator was successfully created.'
@@ -40,16 +31,6 @@ class IndicatorsController < ApplicationController
   end
 
   def edit
-  end
-
-  def fork
-    if current_user.team.model_ids.include?(@indicator.model_id)
-      redirect_to edit_model_indicator_url(@model, @indicator) and return
-    end
-    original_indicator = @indicator
-    @indicator = original_indicator.dup
-    @indicator.parent = original_indicator
-    render :edit
   end
 
   def update
