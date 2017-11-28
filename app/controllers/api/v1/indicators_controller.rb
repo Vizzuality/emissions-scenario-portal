@@ -2,6 +2,14 @@ module Api
   module V1
     class IndicatorsController < ApiController
       def index
+
+        indicators = if params[:time_series]
+                       ind_ids = TimeSeriesValue.select(:indicator_id).distinct
+                       Indicator.where(id: ind_ids.map(&:indicator_id)
+                     else
+                       Indicator.all
+                     end
+
         indicators = Indicator.
           includes(:category, :subcategory, :model)
 
