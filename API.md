@@ -34,7 +34,12 @@ Retrieves the indicator with the given id along with associated entities
 
 ## `GET /locations`
 
-Lists all locations
+Lists all locations.
+
+### Query parameters
+* `time_series` - Filters locations by the presence of time_series_values
+associated with them.
+
 
 ## `GET /time_series_values`
 
