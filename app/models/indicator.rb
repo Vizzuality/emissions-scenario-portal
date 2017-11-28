@@ -36,6 +36,22 @@ class Indicator < ApplicationRecord
     [hash[:category].name, hash[:subcategory].name, hash[:name]].join('|')
   end
 
+  def self.best_effort_matches(indicator_name, model)
+    Indicator.where('lower(alias) = ?', indicator_name.to_s.downcase)
+  end
+
+  def system?
+    true
+  end
+
+  def fork_variation(attributes)
+    self
+  end
+
+  def fork_system_indicator
+    self
+  end
+
   def scenarios
     Scenario.joins(
       "JOIN (

@@ -163,8 +163,7 @@ automatically created."
     return nil if indicator.nil?
     unit_of_entry = value_for(row, :unit_of_entry)
     return nil if unit_of_entry.nil?
-    if unit_of_entry != indicator.unit &&
-        unit_of_entry != indicator.unit_of_entry
+    if unit_of_entry != indicator.unit
       message = "Conversion factor unavailable for unit of entry \
 #{unit_of_entry}."
       suggestion = "Please ensure unit of entry is compatible with [indicator]\
