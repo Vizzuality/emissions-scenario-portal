@@ -3,7 +3,7 @@ module Api
     class LocationsController < ApiController
       def index
         locations = if params[:time_series]
-                      loc_ids = TimeSeriesValue.select('distinct(location_id)')
+                      loc_ids = TimeSeriesValue.select(:location_id).distinct
                       Location.where(id: loc_ids.map(&:location_id))
                     else
                       Location.all
