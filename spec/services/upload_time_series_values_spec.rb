@@ -449,7 +449,6 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
     let!(:electric_power) do
       create(
         :indicator,
-        model: ieo,
         alias: 'Energy Related Emissions|Electric Power',
         unit: 'Mt CO2e/yr'
       )

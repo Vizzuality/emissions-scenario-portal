@@ -11,17 +11,7 @@ class Ability
       can :manage, Model, team_id: team.id
       can :manage, Scenario, model: {team_id: team.id}
       can :download_time_series, Scenario
-      can :fork, Indicator do |indicator|
-        team.model_ids.include?(indicator.model_id) ||
-          indicator.parent_id.blank?
-      end
-      can :read, Indicator do |indicator|
-        team.model_ids.include?(indicator.model_id) ||
-          indicator.parent_id.blank?
-      end
-      can :manage, Indicator do |indicator|
-        team.model_ids.include?(indicator.model_id)
-      end
+      can :read, Indicator
       can :download_time_series, Indicator
       can :show, Team, id: team.id
       can :edit, Team, id: team.id
@@ -32,23 +22,5 @@ class Ability
       can :destroy, User, team_id: team.id
       can :read, Location
     end
-    #
-    # The first argument to `can` is the action you are giving the user
-    # permission to do.
-    # If you pass :manage it will apply to every action. Other common actions
-    # here are :read, :create, :update and :destroy.
-    #
-    # The second argument is the resource the user can perform the action on.
-    # If you pass :all it will apply to every resource. Otherwise pass a Ruby
-    # class of the resource.
-    #
-    # The third argument is an optional hash of conditions to further filter the
-    # objects.
-    # For example, here the user can only update published articles.
-    #
-    #   can :update, Article, :published => true
-    #
-    # See the wiki for details:
-    # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
   end
 end
