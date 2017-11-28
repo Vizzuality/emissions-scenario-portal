@@ -1,5 +1,6 @@
 module Admin
   class TeamsController < AdminController
+    load_and_authorize_resource
     before_action :set_filter_params, only: [:index]
 
     def index
@@ -20,7 +21,7 @@ module Admin
       @team = Team.new(team_params)
 
       if @team.save
-        redirect_to edit_team_url(@team), notice: 'Team was successfully created.'
+        redirect_to edit_admin_team_url(@team), notice: 'Team was successfully created.'
       else
         set_available_models
         flash[:alert] =
@@ -31,7 +32,7 @@ module Admin
 
     def update
       if @team.update_attributes(team_params)
-        redirect_to edit_team_url(@team), notice: 'Team was successfully updated.'
+        redirect_to edit_admin_team_url(@team), notice: 'Team was successfully updated.'
       else
         set_available_models
         flash[:alert] =
@@ -42,7 +43,7 @@ module Admin
 
     def destroy
       @team.destroy
-      redirect_to teams_url, notice: 'Team was successfully destroyed.'
+      redirect_to admin_teams_url, notice: 'Team was successfully destroyed.'
     end
 
     private

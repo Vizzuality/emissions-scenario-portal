@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="small-3 columns">
-      <%= link_to new_team_path do %>
+      <%= link_to new_admin_team_path do %>
         <div class="c-button">
           <span>Create new team</span>
         </div>
@@ -62,12 +62,12 @@
         </div>
         <div class="small-1 columns">
           <div class="c-table-list-item__actions">
-            <%= link_to team_path(team), method: :delete, data: { confirm: 'Are you sure?' } do %>
+            <%= link_to admin_team_path(team), method: :delete, data: { confirm: 'Are you sure?' } do %>
               <div class="c-delete-button">
                 <svg class="icon"><use xlink:href="#icon-delete"></use></svg>
               </div>
             <% end %>
-            <%= link_to edit_team_path(team) do %>
+            <%= link_to edit_admin_team_path(team) do %>
               <div class="c-edit-button">
                 <div class="c-edit-button__bubble">
                   <svg class="icon"><use xlink:href="#icon-edit"></use></svg>

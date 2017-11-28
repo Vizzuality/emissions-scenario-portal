@@ -1,5 +1,6 @@
 module Admin
   class LocationsController < AdminController
+    load_and_authorize_resource
     before_action :set_filter_params, only: [:index]
 
     def index
@@ -17,7 +18,7 @@ module Admin
       @location = Location.new(location_params)
 
       if @location.save
-        redirect_to edit_location_url(@location),
+        redirect_to edit_admin_location_url(@location),
           notice: 'Country was successfully created.'
       else
         flash[:alert] =
@@ -28,7 +29,7 @@ module Admin
 
     def update
       if @location.update_attributes(location_params)
-        redirect_to edit_location_url(@location),
+        redirect_to edit_admin_location_url(@location),
           notice: 'Country was successfully updated.'
       else
         flash[:alert] =
@@ -39,7 +40,7 @@ module Admin
 
     def destroy
       @location.destroy
-      redirect_to locations_url,
+      redirect_to admin_locations_url,
         notice: 'Country was successfully destroyed.'
     end
 

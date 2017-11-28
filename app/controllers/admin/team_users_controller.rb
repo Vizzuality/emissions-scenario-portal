@@ -16,7 +16,7 @@ module Admin
       @user.team_id = nil
       @user.save(validate: false)
       redirect_to(
-        edit_team_url(@team),
+        edit_admin_team_url(@team),
         notice: 'User successfully removed from team.'
       )
     end
@@ -52,7 +52,7 @@ module Admin
             is not a member of another team."
           }
         end
-      redirect_to edit_team_url(@team), flash_message
+      redirect_to edit_admin_team_url(@team), flash_message
     end
 
     def set_team

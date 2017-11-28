@@ -13,7 +13,7 @@
                  form_blocks: form_blocks %>
     </div>
     <div class="small-9 columns">
-      <%= form_for @team do |f| %>
+      <%= form_for [:admin, @team] do |f| %>
         <div class="row">
           <div class="small-12 columns">
             <div class="row align-right">
@@ -99,7 +99,7 @@
       <% end %>
       <% if @team.persisted? %>
         <div class="c-form l-teams-edit__form-add-members">
-          <%= form_tag(team_users_url(@team)) do %>
+          <%= form_tag(admin_team_users_path(@team)) do %>
             <div class="c-form-items">
               <div class="c-form-item l-teams-edit__add-member row">
                 <div class="small-4 columns">

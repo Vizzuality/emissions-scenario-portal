@@ -1,4 +1,5 @@
 class CategoriesController < AdminController
+  load_and_authorize_resource
   before_action :set_filter_params, only: [:index]
 
   def index
