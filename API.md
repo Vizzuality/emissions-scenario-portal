@@ -12,6 +12,7 @@ Lists all models
 
 * `time_series` - Filters locations by the presence of time_series_values
 associated with them.
+* `location` - Filter models by the location they have data for. Accepts several location ids, separated by commas.
 
 ## `GET /models/:id`
 
@@ -23,6 +24,8 @@ Lists all scenarios
 
 ### Query parameters
 
+* `time_series` - Filters locations by the presence of time_series_values
+associated with them.
 * `model` - Filters scenarios by the model id they belong to
 
 ## `GET /scenarios/:id`
