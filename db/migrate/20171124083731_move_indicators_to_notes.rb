@@ -1,7 +1,6 @@
 class MoveIndicatorsToNotes < ActiveRecord::Migration[5.1]
   class MissingConversionFactor < StandardError; end
   class IncompatibleUnits < StandardError; end
-
   class Indicator < ApplicationRecord; end
   class Note < ApplicationRecord; end
 
@@ -49,7 +48,7 @@ class MoveIndicatorsToNotes < ActiveRecord::Migration[5.1]
               redo
             else
               puts "unable to create note for indicator.id: #{indicator.id}, parent.unit: #{parent.unit}, indicator.unit_of_entry: #{indicator.unit_of_entry}"
-              raise IncompatibleUnits
+              # raise IncompatibleUnits
             end
           end
         end

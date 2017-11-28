@@ -1,6 +1,5 @@
 class AddMissingConversionFactors < ActiveRecord::Migration[5.1]
   class MissingConversionFactor < StandardError; end
-
   class Indicator < ApplicationRecord; end
 
   CONVERSION_FACTORS = {
