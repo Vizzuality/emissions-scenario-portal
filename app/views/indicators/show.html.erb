@@ -22,7 +22,7 @@
     </div>
     <div class="row">
       <div class="small-12 columns">
-        <div class="l-indicators-overview__title f-ff3-m-bold"><%= @indicator.alias %></div>
+        <div class="l-indicators-overview__title f-ff3-m-bold"><%= @indicator.composite_name %></div>
       </div>
     </div>
     <div class="row">
@@ -85,7 +85,7 @@
         <% elsif @indicator.team? %>
           <p>This is a <span class="f-ff1-m-bold">team indicator</span>.</p>
         <% else %>
-          <p>This is a <span class="f-ff1-m-bold">variation of <%= link_to @indicator.parent.alias, model_indicator_url(@indicator.model, @indicator.parent) %></span></p>
+          <p>This is a <span class="f-ff1-m-bold">variation of <%= link_to @indicator.parent.composite_name, model_indicator_url(@indicator.model, @indicator.parent) %></span></p>
         <% end %>
         <% if @indicator.model.present? %>
           <p>
@@ -103,7 +103,7 @@
           <p>The following variations exist:</p>
           <% @indicator.variations.each do |variation| %>
             <p class="f-ff1-m-bold">
-              <%= link_to variation.alias, model_indicator_url(variation.model, variation) %>
+              <%= link_to variation.composite_name, model_indicator_url(variation.model, variation) %>
             </p>
           <% end %>
         <% end %>

@@ -22,7 +22,7 @@
           if item.is_a?(Model)
             name = item.abbreviation
           elsif item.is_a?(Indicator)
-            name = item.alias
+            name = item.composite_name
           else
             name = item.name
           end

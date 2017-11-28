@@ -26,10 +26,10 @@ module IndicatorsHelper
         select_values.where('model_id IS NULL')
       end
     select_values = select_values.
-      order(alias: :asc).
-      select(:id, :alias).
+      order(composite_name: :asc).
+      select(:id, :composite_name).
       map do |i|
-        [i.alias, i.id]
+        [i.composite_name, i.id]
       end
     [select_values, selection, action_name == 'fork']
   end
@@ -69,7 +69,7 @@ module IndicatorsHelper
 
   def promote_confirmation_message(indicator)
     <<~EOM
-      This will create a system indicator #{indicator.alias} and turn this indicator into its variation. Are you sure you want to proceed?
+      This will create a system indicator #{indicator.composite_name} and turn this indicator into its variation. Are you sure you want to proceed?
     EOM
   end
 end

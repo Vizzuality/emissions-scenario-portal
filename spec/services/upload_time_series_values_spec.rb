@@ -29,7 +29,7 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
   let(:variation) {
     create(
       :indicator,
-      alias: "#{model.abbreviation} #{indicator.alias}",
+      composite_name: "#{model.abbreviation} #{indicator.composite_name}",
       unit: indicator.unit,
     )
   }
@@ -364,7 +364,7 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
         subcategory: another_subcategory,
         name: 'direct',
         unit: 'Mt CO2e/yr',
-        alias: 'Emissions|GHG Emissions|direct',
+        composite_name: 'Emissions|GHG Emissions|direct',
       )
     }
     it 'should have saved values' do
@@ -382,7 +382,7 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
       subject
       variation = Indicator.where(
         parent_id: team_indicator.reload.parent_id,
-        alias: "#{model.abbreviation} #{team_indicator.alias}"
+        composite_name: "#{model.abbreviation} #{team_indicator.composite_name}"
       ).first
       expect(variation.time_series_values.count).to eq(2)
     end
@@ -413,7 +413,7 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
         subcategory: another_subcategory,
         name: 'direct',
         unit: 'Mt CO2e/yr',
-        alias: 'Model B Emissions|GHG Emissions|direct',
+        composite_name: 'Model B Emissions|GHG Emissions|direct',
       )
     }
     it 'should have saved values' do
@@ -427,7 +427,7 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
       subject
       variation = Indicator.where(
         parent_id: indicator.id,
-        alias: "#{model.abbreviation} #{indicator.alias}"
+        composite_name: "#{model.abbreviation} #{indicator.composite_name}"
       ).first
       expect(variation.time_series_values.count).to eq(2)
     end
@@ -449,7 +449,7 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
     let!(:electric_power) do
       create(
         :indicator,
-        alias: 'Energy Related Emissions|Electric Power',
+        composite_name: 'Energy Related Emissions|Electric Power',
         unit: 'Mt CO2e/yr'
       )
     end

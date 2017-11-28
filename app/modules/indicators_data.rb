@@ -103,14 +103,14 @@ indicator instead.'
     end
     slug = Indicator.hash_to_slug(id_attributes)
     indicator = Indicator.where(
-      parent_id: nil, model_id: nil, alias: slug
+      parent_id: nil, model_id: nil, composite_name: slug
     ).first
     if indicator.nil?
       team_indicator = Indicator.where(id_attributes).where(
         parent_id: nil, model_id: @model.id
       ).first
       attributes = id_attributes.merge(common_attributes).merge(
-        alias: slug,
+        composite_name: slug,
         model_id: @model.id,
         parent_id: nil
       )
@@ -121,10 +121,10 @@ indicator instead.'
     return unless indicator
 
     team_variation = Indicator.where(
-      parent_id: indicator.id, model_id: @model.id, alias: model_slug
+      parent_id: indicator.id, model_id: @model.id, composite_name: model_slug
     ).first
     attributes = id_attributes.merge(common_attributes).merge(
-      alias: model_slug,
+      composite_name: model_slug,
       model_id: @model.id,
       parent_id: indicator.id
     )

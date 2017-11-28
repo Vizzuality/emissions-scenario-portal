@@ -3,14 +3,14 @@
     <div class="small-2 columns">
       <div class="c-table-list-item__text f-ff1-m-bold">
         <% (indicator.parent || indicator).tap do |system_indicator| %>
-          <%= link_to system_indicator.build_alias, model_indicator_url(@model, system_indicator) %>
+          <%= link_to system_indicator.composite_name, model_indicator_url(@model, system_indicator) %>
         <% end %>
       </div>
     </div>
     <div class="small-3 columns">
       <div class="c-table-list-item__text f-ff1-m-bold">
         <% if indicator.variation? %>
-          <%= link_to indicator.alias, model_indicator_url(@model, indicator) %>
+          <%= link_to indicator.composite_name, model_indicator_url(@model, indicator) %>
         <% end %>
       </div>
     </div>

@@ -121,11 +121,11 @@ class TimeSeriesValuesData
       # or another model's team indicator
       # fork a variation
       variation = indicator.fork_variation(
-        alias: "#{model.abbreviation} #{indicator.alias}", model_id: model.id
+        composite_name: "#{model.abbreviation} #{indicator.composite_name}", model_id: model.id
       )
 
       variation.save!
-      message = "A model variation of system indicator #{indicator.alias} was \
+      message = "A model variation of system indicator #{indicator.composite_name} was \
 automatically created."
       suggestion = 'Please review the [list of indicators] added by your team'
       link_options = {

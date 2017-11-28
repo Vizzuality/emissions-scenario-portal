@@ -286,7 +286,7 @@ RSpec.describe UploadIndicators, upload: :s3 do
         subcategory: subcategory2,
         name: 'Fossil Fuels and Industry|Energy Demand|Transport',
         unit: 'Mt CO2e/yr',
-        alias: 'Emissions|CO2|Fossil Fuels and Industry|Energy Demand|Transport'
+        composite_name: 'Emissions|CO2|Fossil Fuels and Industry|Energy Demand|Transport'
       )
     end
 

@@ -19,7 +19,7 @@ ON locations_pivot.id = time_series_values.location_id"
       ).
       select(TimeSeriesYearPivotQuery.column_names).
       order(
-        'scenarios_pivot.name', 'indicators_pivot.alias',
+        'scenarios_pivot.name', 'indicators_pivot.composite_name',
         'locations_pivot.name', 'time_series_values.unit_of_entry'
       )
     @years_query = original_query.select(:year).except(:order).order(:year).
@@ -101,7 +101,7 @@ ORDER BY \"#{order_type}\" #{order_direction}"
       ] = 'scenarios_pivot.name AS scenario_name'
       column_names[
         column_names.index(:indicator_name)
-      ] = 'indicators_pivot.alias AS indicator_name'
+      ] = 'indicators_pivot.composite_name AS indicator_name'
       column_names[
         column_names.index(:location_name)
       ] = 'locations_pivot.name AS region'

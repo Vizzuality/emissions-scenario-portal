@@ -9,12 +9,12 @@ class Indicator < ApplicationRecord
   belongs_to :category
   belongs_to :subcategory, class_name: 'Category', optional: true
 
-  validates :alias, uniqueness: true
+  validates :composite_name, uniqueness: true
   before_validation :ignore_blank_array_values
   before_validation :strip_whitespace
-  before_validation :generate_alias
+  before_validation :generate_composite_name
 
-  pg_search_scope :search_for, against: %i[name alias]
+  pg_search_scope :search_for, against: %i[name composite_name]
 
   def self.slug_to_hash(slug)
     return {} unless slug.present?
@@ -37,7 +37,7 @@ class Indicator < ApplicationRecord
   end
 
   def self.best_effort_matches(indicator_name, model)
-    Indicator.where('lower(alias) = ?', indicator_name.to_s.downcase)
+    Indicator.where('lower(composite_name) = ?', indicator_name.to_s.downcase)
   end
 
   def system?
@@ -75,7 +75,7 @@ class Indicator < ApplicationRecord
     self.unit = unit.try(:strip)
   end
 
-  def generate_alias
-    self.alias ||= [category&.name, subcategory&.name, name].join('|').chomp('|')
+  def generate_composite_name
+    self.composite_name ||= [category&.name, subcategory&.name, name].join('|').chomp('|')
   end
 end

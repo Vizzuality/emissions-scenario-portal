@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171127133148) do
+ActiveRecord::Schema.define(version: 20171128124113) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,11 +48,11 @@ ActiveRecord::Schema.define(version: 20171127133148) do
     t.text "unit"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "alias"
+    t.text "composite_name"
     t.bigint "category_id"
     t.bigint "subcategory_id"
-    t.index ["alias"], name: "index_indicators_on_alias", unique: true
     t.index ["category_id"], name: "index_indicators_on_category_id"
+    t.index ["composite_name"], name: "index_indicators_on_composite_name", unique: true
     t.index ["subcategory_id"], name: "index_indicators_on_subcategory_id"
   end
 

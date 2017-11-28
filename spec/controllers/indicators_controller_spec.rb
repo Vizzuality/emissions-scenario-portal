@@ -60,7 +60,7 @@ RSpec.describe IndicatorsController, type: :controller do
         post :create, params: {
           model_id: team_model.id, indicator: {
             parent_id: master_indicator.id,
-            alias: 'Hello|variation',
+            composite_name: 'Hello|variation',
             unit_of_entry: master_indicator.unit
           }
         }
@@ -227,7 +227,7 @@ RSpec.describe IndicatorsController, type: :controller do
         post :create, params: {
           model_id: team_model.id, indicator: {
             parent_id: master_indicator.id,
-            alias: 'Hello|variation',
+            composite_name: 'Hello|variation',
             unit_of_entry: master_indicator.unit
           }
         }
