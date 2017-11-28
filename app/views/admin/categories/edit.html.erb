@@ -12,12 +12,12 @@
       <%= render 'shared/components/form/c_form_vertical_nav', form_blocks: form_blocks %>
     </div>
     <div class="small-9 columns">
-      <%= form_for @category do |f| %>
+      <%= form_for [:admin, @category] do |f| %>
         <div class="row">
           <div class="small-12 columns">
             <div class="row align-right">
               <div class="small-2 columns">
-                <%= link_to categories_url, class: 'l-categories-edit__form-action' do %>
+                <%= link_to admin_categories_url, class: 'l-categories-edit__form-action' do %>
                   <%= render 'shared/components/c_flying_button' %>
                 <% end %>
               </div>
@@ -70,7 +70,7 @@
                           </div>
                         </div>
                         <div class="small-2 columns">
-                          <%= link_to category_subcategory_url(@category, ff.object),
+                          <%= link_to admin_category_subcategory_path(@category, ff.object),
                             method: :delete,
                             data: { confirm: 'Are you sure?' } do
                           %>
@@ -91,7 +91,7 @@
       <% end %>
       <% if @category.persisted? %>
         <div class="c-form l-categories-edit__form-add-subcategories">
-          <%= form_tag(category_subcategories_url(@category)) do %>
+          <%= form_tag(admin_category_subcategories_path(@category)) do %>
             <div class="c-form-items">
               <div class="c-form-item l-categories-edit__add-subcategory row">
                 <div class="small-8 columns">

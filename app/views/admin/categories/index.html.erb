@@ -17,7 +17,7 @@
     </div>
     <% if current_user.can?(:create, Category) %>
       <div class="small-3 columns">
-        <%= link_to new_category_path do %>
+        <%= link_to new_admin_category_path do %>
           <div class="c-button">
             <span>Add new category</span>
           </div>
@@ -62,14 +62,14 @@
         <div class="small-1 columns">
           <div class="c-table-list-item__actions">
             <% if current_user.can?(:destroy, category) %>
-              <%= link_to category_path(category), method: :delete, data: { confirm: 'Are you sure?' } do %>
+              <%= link_to admin_category_path(category), method: :delete, data: { confirm: 'Are you sure?' } do %>
                 <div class="c-delete-button">
                   <svg class="icon"><use xlink:href="#icon-delete"></use></svg>
                 </div>
               <% end %>
             <% end %>
             <% if current_user.can?(:update, category) %>
-              <%= link_to edit_category_path(category) do %>
+              <%= link_to edit_admin_category_path(category) do %>
                 <div class="c-edit-button">
                   <div class="c-edit-button__bubble">
                     <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
