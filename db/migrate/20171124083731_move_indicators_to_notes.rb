@@ -6,8 +6,8 @@ class MoveIndicatorsToNotes < ActiveRecord::Migration[5.1]
   class Note < ApplicationRecord; end
 
   UNIT_RESOLUTIONS = {
-    "GW/yr-GW" => "GW/yr",
-    "EJ/yr-GW" => "EJ/yr"
+    "GW->GW/yr" => "GW/yr",
+    "GW->EJ/yr" => "EJ/yr"
   }
 
   def change
@@ -37,10 +37,12 @@ class MoveIndicatorsToNotes < ActiveRecord::Migration[5.1]
         else
           attributes[:unit_of_entry] = indicator.unit_of_entry
           attributes[:conversion_factor] =
-            AddMissingConversionFactors::CONVERSION_FACTORS["#{parent.unit}-#{attributes[:unit_of_entry]}"]
+            AddMissingConversionFactors::CONVERSION_FACTORS[
+              [attributes[:unit_of_entry], parent.unit].join('->')
+            ]
 
           if attributes[:conversion_factor].blank?
-            unit = UNIT_RESOLUTIONS[[parent.unit, indicator.unit].join('-')]
+            unit = UNIT_RESOLUTIONS[[indicator.unit, parent.unit].join('->')]
 
             if unit
               indicator.update!(unit: unit)

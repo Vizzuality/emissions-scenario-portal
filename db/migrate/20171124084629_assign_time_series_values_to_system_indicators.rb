@@ -10,7 +10,7 @@ class AssignTimeSeriesValuesToSystemIndicators < ActiveRecord::Migration[5.1]
 
       if indicator.unit != parent.unit
         conversion_factor = AddMissingConversionFactors::CONVERSION_FACTORS[
-          [parent.unit, indicator.unit].join("-")
+          [indicator.unit, parent.unit].join('->')
         ]
         if conversion_factor
           TimeSeriesValue.
