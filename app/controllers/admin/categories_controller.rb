@@ -1,6 +1,4 @@
-class CategoriesController < ApplicationController
-  load_and_authorize_resource
-
+class CategoriesController < AdminController
   before_action :set_filter_params, only: [:index]
 
   def index

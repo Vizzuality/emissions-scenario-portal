@@ -1,13 +1,6 @@
 class AdminController < ApplicationController
+  load_and_authorize_resource
   before_action :ensure_admin
-
-  def home
-    @teams = Team.order(:name)
-    @models = Model.order(:abbreviation)
-    @locations = Location.order(:name)
-    @indicators = Indicator.where(parent_id: nil)
-    @categories = Category.where(parent_id: nil).order(:name)
-  end
 
   private
 

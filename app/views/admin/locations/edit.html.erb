@@ -3,12 +3,12 @@
 <div class="l-locations-edit">
   <div class="row l-locations-edit__fields">
     <div class="small-12 columns">
-      <%= form_for @location do |f| %>
+      <%= form_for [:admin, @location] do |f| %>
         <div class="row">
           <div class="small-12 columns">
             <div class="row align-right">
               <div class="small-2 columns">
-                <%= link_to locations_url, class: 'l-locations-edit__form-action' do %>
+                <%= link_to admin_locations_path, class: 'l-locations-edit__form-action' do %>
                   <%= render 'shared/components/c_flying_button' %>
                 <% end %>
               </div>

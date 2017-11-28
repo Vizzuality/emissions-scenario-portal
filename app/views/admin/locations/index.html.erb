@@ -17,7 +17,7 @@
     </div>
     <% if current_user.can?(:create, Location) %>
       <div class="small-3 columns">
-        <%= link_to new_location_path do %>
+        <%= link_to new_admin_location_path do %>
           <div class="c-button">
             <span>Add new country</span>
           </div>
@@ -65,14 +65,14 @@
         <div class="small-1 columns">
           <div class="c-table-list-item__actions">
             <% if current_user.can?(:destroy, location) %>
-              <%= link_to location_path(location), method: :delete, data: { confirm: 'Are you sure?' } do %>
+              <%= link_to admin_location_path(location), method: :delete, data: { confirm: 'Are you sure?' } do %>
                 <div class="c-delete-button">
                   <svg class="icon"><use xlink:href="#icon-delete"></use></svg>
                 </div>
               <% end %>
             <% end %>
             <% if current_user.can?(:update, location) %>
-              <%= link_to edit_location_path(location) do %>
+              <%= link_to edit_admin_location_path(location) do %>
                 <div class="c-edit-button">
                   <div class="c-edit-button__bubble">
                     <svg class="icon"><use xlink:href="#icon-edit"></use></svg>

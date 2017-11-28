@@ -20,28 +20,32 @@ Rails.application.routes.draw do
       get :upload_template, on: :collection
     end
   end
-  resources :indicators, only: [:index, :show, :new, :create, :edit, :update, :destroy], controller: :system_indicators do
-    post :upload_meta_data, on: :collection
-    get :download_time_series, on: :member
-    get :upload_template, on: :collection
-    put :promote, on: :member
-  end
 
   resources :teams, except: [:show] do
     resources :users, only: [:create, :destroy], controller: 'team_users'
   end
 
-  resources :locations, only: [:index, :new, :create, :edit, :update, :destroy]
+  namespace :admin do
+    resources :indicators, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
+      post :upload_meta_data, on: :collection
+      get :download_time_series, on: :member
+      get :upload_template, on: :collection
+      put :promote, on: :member
+    end
 
-  resources :categories, only: [:index, :new, :create, :edit, :update, :destroy] do
-    resources :subcategories, only: [:create, :destroy],
-              controller: 'category_subcategories'
+    resources :teams, except: [:show] do
+      resources :users, only: [:create, :destroy], controller: 'team_users'
+    end
+
+    resources :locations, only: [:index, :new, :create, :edit, :update, :destroy]
+
+    resources :categories, only: [:index, :new, :create, :edit, :update, :destroy] do
+      resources :subcategories, only: [:create, :destroy],
+                controller: 'category_subcategories'
+    end
+    root to: "home#index"
   end
 
-  # Rails routes are matched in the order they are specified
-  root to: "admin#home",
-    constraints: lambda { |request| request.env['warden'].user.try(:admin?) },
-    as: :admin_root
   root to: "models#index"
 
   # Namespaced API routes

@@ -1,4 +1,4 @@
-class SystemIndicatorsController < AdminController
+class IndicatorsController < AdminController
   load_resource :indicator, parent: false, except: [:new, :create, :index]
   authorize_resource :indicator
   before_action :set_filter_params, only: [:index, :show]
