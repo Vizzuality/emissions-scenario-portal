@@ -2,10 +2,17 @@ module Api
   module V1
     class ScenariosController < ApiController
       def index
-        scenarios = Scenario.
-          includes(model: :indicators).
-          order(:name)
+        scenarios = if params[:time_series]
+                      scenarios_ids = TimeSeriesValue.select(:scenario_id).
+                        distinct
+                      Scenario.where(id: scenarios_ids.map(&:scenario_id))
+                    else
+                      Scenario.all
+                    end
+
         scenarios = scenarios.where(model_id: params[:model]) if params[:model]
+
+        scenarios = scenarios.includes(model: :indicators).order(:name)
 
         render json: scenarios
       end

@@ -3,6 +3,11 @@ require 'rails_helper'
 describe Api::V1::IndicatorsController, type: :controller do
   context do
     let!(:some_indicator) { create(:indicator) }
+    let!(:indicator_with_time_series) {
+      ind = create(:indicator)
+      create(:time_series_value, indicator_id: ind.id)
+      ind
+    }
 
     describe 'GET index' do
       it 'returns a successful 200 response' do
@@ -12,6 +17,13 @@ describe Api::V1::IndicatorsController, type: :controller do
 
       it 'lists all indicators' do
         get :index
+        parsed_body = JSON.parse(response.body)
+        expect(parsed_body.length).to eq(2)
+      end
+
+      it 'list all indicators with time_series_values associated' do
+        get :index, params: {time_series: true}
+
         parsed_body = JSON.parse(response.body)
         expect(parsed_body.length).to eq(1)
       end
