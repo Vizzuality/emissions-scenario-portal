@@ -21,14 +21,6 @@ class IndicatorsHeaders
       property_name: :unit
     },
     {
-      display_name: 'Unit of Entry',
-      property_name: :unit_of_entry
-    },
-    {
-      display_name: 'Conversion factor',
-      property_name: :conversion_factor
-    },
-    {
       display_name: 'Definition',
       property_name: :definition
     }

@@ -3,17 +3,6 @@
     <div class="l-indicators__title f-ff3-m-bold">Indicators <span>(<%= @indicators.count %>)</span></div>
   </div>
   <div class="small-2 columns">
-    <div class="c-form-item js-table-filter" data-filter-type="select" data-filter-key="type">
-      <label class="f-ff1-m">Filter by "Added by"</label>
-      <div class="c-select">
-        <%= select_tag 'filters[type]',
-                      types_for_select,
-                      class: 'js-form-input js-select',
-                      prompt: 'Select any type' %>
-      </div>
-    </div>
-  </div>
-  <div class="small-2 columns">
     <div class="c-form-item js-table-filter" data-filter-type="multiselect" data-filter-key="category">
       <label class="f-ff1-m">Filter by Category</label>
       <div class="c-select">

@@ -2,16 +2,12 @@
   <div class="row">
     <div class="small-2 columns">
       <div class="c-table-list-item__text f-ff1-m-bold">
-        <% (indicator.parent || indicator).tap do |system_indicator| %>
-          <%= link_to system_indicator.composite_name, model_indicator_url(@model, system_indicator) %>
-        <% end %>
+        <%= link_to indicator.composite_name, model_indicator_url(@model, indicator) %>
       </div>
     </div>
     <div class="small-3 columns">
       <div class="c-table-list-item__text f-ff1-m-bold">
-        <% if indicator.variation? %>
-          <%= link_to indicator.composite_name, model_indicator_url(@model, indicator) %>
-        <% end %>
+        -
       </div>
     </div>
     <div class="small-1 columns">
@@ -24,11 +20,7 @@
     </div>
     <div class="small-1 columns">
       <div class="c-table-list-item__text f-ff1-m-bold">
-        <% if indicator.team? || indicator.variation? %>
-          <%= indicator.model.team.try(:name) %>
-        <% else %>
-          System
-        <% end %>
+        -
       </div>
     </div>
     <div class="small-2 columns">
@@ -50,16 +42,6 @@
                 <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
               </div>
               <div class="f-ff1-s">Edit</div>
-            </div>
-          <% end %>
-        <% end %>
-        <% if indicator.system? && current_user.can?(:create, Indicator.new(model_id: @model.id)) %>
-          <%= link_to fork_model_indicator_url(@model, indicator) do %>
-            <div class="c-edit-button">
-              <div class="c-edit-button__bubble">
-                <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
-              </div>
-              <div class="f-ff1-s">Fork</div>
             </div>
           <% end %>
         <% end %>
