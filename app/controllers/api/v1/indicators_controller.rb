@@ -45,9 +45,7 @@ module Api
           indicators = indicators.where(id: indicator_ids)
         end
 
-        indicators = indicators.
-          order(:name).
-          all
+        indicators = indicators.order(:name)
 
         render json: indicators
       end
