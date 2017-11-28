@@ -8,6 +8,11 @@ The API endpoints are always prefixed by `/api/v1`.
 
 Lists all models
 
+### Query parameters
+
+* `time_series` - Filters locations by the presence of time_series_values
+associated with them.
+
 ## `GET /models/:id`
 
 Retrieves the model with the given id along with associated entities
