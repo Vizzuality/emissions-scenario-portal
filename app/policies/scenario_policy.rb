@@ -4,7 +4,7 @@ class ScenarioPolicy < ApplicationPolicy
       if user.admin?
         scope
       else
-        scope.joins(:model).where(model: {team_id: user.team_id})
+        scope.joins(:model).where(models: {team_id: user.team_id})
       end
     end
   end

@@ -29,12 +29,12 @@ class IndicatorsController < ApplicationController
   end
 
   def edit
-    @indicator.find(params[:id])
+    @indicator = Indicator.find(params[:id])
     authorize(@indicator)
   end
 
   def update
-    @indicator.find(params[:id])
+    @indicator = Indicator.find(params[:id])
     authorize(@indicator)
     if @indicator.update_attributes(indicator_params)
       redirect_to model_indicator_path(@model, @indicator),
@@ -47,7 +47,7 @@ class IndicatorsController < ApplicationController
   end
 
   def show
-    @indicator.find(params[:id])
+    @indicator = Indicator.find(params[:id])
     authorize(@indicator)
     @time_series_values_pivot =
       @indicator.
@@ -56,7 +56,7 @@ class IndicatorsController < ApplicationController
   end
 
   def destroy
-    @indicator.find(params[:id])
+    @indicator = Indicator.find(params[:id])
     authorize(@indicator)
     @indicator.destroy
     redirect_to(
@@ -86,7 +86,7 @@ class IndicatorsController < ApplicationController
   # end
 
   # def download_time_series
-  #   @indicator.find(params[:id])
+  #   @indicator = Indicator.find(params[:id])
   #   csv_download = DownloadTimeSeriesValues.new(current_user).call(
   #     @indicator.time_series_values
   #   )

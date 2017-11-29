@@ -43,56 +43,14 @@
         <div class="f-ff1-m l-indicators-overview__data"><%= @indicator.definition %></div>
       </div>
       <div class="small-2 columns">
-        <% if current_user.admin? %>
-          <%
-            edit_indicator_path =
-              if defined? @model
-                edit_model_indicator_path(@model, @indicator)
-              else
-                edit_indicator_path(@indicator)
-              end
-          %>
-          <%= link_to edit_indicator_path do %>
+        <% if policy(@indicator).edit? %>
+          <%= link_to [:edit, @model, @indicator] do %>
             <div class="c-edit-button">
               <div class="c-edit-button__bubble">
                 <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
               </div>
               <div class="f-ff1-s">Edit metadata</div>
             </div>
-          <% end %>
-        <% end %>
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="small-9 columns">
-      <div class="l-indicators-overview__hierarchy_info">
-        <% if @indicator.system? %>
-          <p>This is a <span class="f-ff1-m-bold">system indicator</span>.</p>
-        <% elsif @indicator.team? %>
-          <p>This is a <span class="f-ff1-m-bold">team indicator</span>.</p>
-        <% else %>
-          <p>This is a <span class="f-ff1-m-bold">variation of <%= link_to @indicator.parent.composite_name, model_indicator_path(@indicator.model, @indicator.parent) %></span></p>
-        <% end %>
-        <% if @indicator.model.present? %>
-          <p>
-            <span class="f-ff1-m-bold">Model:</span>
-            <%= link_to @indicator.model.abbreviation, model_path(@indicator.model) %>
-          </p>
-          <% if @indicator.model.team.present? && current_user.admin? %>
-            <p>
-              <span class="f-ff1-m-bold">Team:</span>
-              <%= link_to @indicator.model.team.name, edit_team_path(@indicator.model.team) %>
-            </p>
-          <% end %>
-        <% end %>
-        <% if (@indicator.system? || @indicator.team?) && @indicator.variations.any? %>
-          <p>The following variations exist:</p>
-          <% @indicator.variations.each do |variation| %>
-            <p class="f-ff1-m-bold">
-              <%= link_to variation.composite_name, model_indicator_path(variation.model, variation) %>
-            </p>
           <% end %>
         <% end %>
       </div>

@@ -88,7 +88,8 @@ missing data into the system [here]."
       models, 'model', identification, row_no, url_helpers.models_path
     )
     return nil if model.nil?
-    if !@user.admin? && @user.team != model.team
+
+    unless Pundit.policy(@user, model).update?
       message = "Access denied to manage model (#{identification})."
       suggestion = 'Please verify your team\'s permissions [here].'
       link_options = {
