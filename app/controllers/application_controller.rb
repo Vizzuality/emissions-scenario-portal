@@ -1,15 +1,22 @@
 class ApplicationController < ActionController::Base
+  include Pundit
+
   protect_from_forgery with: :exception
   before_action :authenticate_user!
 
-  private
-
-  def require_admin!
-    redirect_to(
-      root_path,
-      alert: 'You are not authorized to access this page.'
-    ) unless current_user.admin?
+  rescue_from Pundit::NotAuthorizedError do |exception|
+    respond_to do |format|
+      format.json { head :forbidden }
+      format.html do
+        redirect_to(
+          root_url,
+          alert: "You're not authorized to perform this action"
+        )
+      end
+    end
   end
+
+  private
 
   def set_nav_links
     return unless @model.present?

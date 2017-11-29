@@ -1,26 +1,29 @@
 class TeamsController < ApplicationController
-  before_action :require_admin!
-
   def index
-    @teams = FilterTeams.new(filter_params).call(Team.all)
+    @teams =
+      FilterTeams.
+        new(filter_params).
+        call(policy_scope(Team))
   end
 
   def new
     @team = Team.new
+    authorize(@team)
     @models = Model.team(@team)
     render :edit
   end
 
   def edit
     @team = Team.find(params[:id])
+    authorize(@team)
     @models = Model.team(@team)
   end
 
   def create
     @team = Team.new(team_params)
-
+    authorize(@team)
     if @team.save
-      redirect_to edit_admin_team_path(@team), notice: 'Team was successfully created.'
+      redirect_to edit_team_path(@team), notice: 'Team was successfully created.'
     else
       @models = Model.team(@team)
       flash[:alert] =
@@ -31,8 +34,9 @@ class TeamsController < ApplicationController
 
   def update
     @team = Team.find(params[:id])
+    authorize(@team)
     if @team.update_attributes(team_params)
-      redirect_to edit_admin_team_path(@team), notice: 'Team was successfully updated.'
+      redirect_to edit_team_path(@team), notice: 'Team was successfully updated.'
     else
       @models = Model.team(@team)
       flash[:alert] =
@@ -43,8 +47,9 @@ class TeamsController < ApplicationController
 
   def destroy
     @team = Team.find(params[:id])
+    authorize(@team)
     @team.destroy
-    redirect_to admin_teams_path, alert: @team.errors[:base].first
+    redirect_to teams_path, alert: @team.errors[:base].first
   end
 
   private

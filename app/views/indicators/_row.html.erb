@@ -2,7 +2,7 @@
   <div class="row">
     <div class="small-4 columns">
       <div class="c-table-list-item__text f-ff1-m-bold">
-        <%= link_to indicator.composite_name, indicator_url(indicator) %>
+        <%= link_to indicator.composite_name, indicator_path(indicator) %>
       </div>
     </div>
     <div class="small-1 columns">
@@ -28,7 +28,7 @@
     <div class="small-2 columns">
       <div class="c-table-list-item__actions">
         <% if current_user.admin? %>
-          <%= link_to indicator_url(indicator),
+          <%= link_to indicator_path(indicator),
             method: :delete,
             data: {confirm: destroy_confirmation_message(indicator)} do %>
             <div class="c-remove-button">
@@ -38,7 +38,7 @@
           <% end %>
         <% end %>
         <% if current_user.admin? %>
-          <%= link_to edit_indicator_url(indicator) do %>
+          <%= link_to edit_indicator_path(indicator) do %>
             <div class="c-edit-button">
               <div class="c-edit-button__bubble">
                 <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
@@ -47,7 +47,7 @@
             </div>
           <% end %>
           <% if indicator.team? %>
-            <%= link_to promote_indicator_url(indicator),
+            <%= link_to promote_indicator_path(indicator),
               method: :put,
               data: {confirm: promote_confirmation_message(indicator)} do %>
               <div class="c-edit-button">

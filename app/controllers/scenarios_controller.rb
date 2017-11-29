@@ -17,7 +17,7 @@ class ScenariosController < ApplicationController
     @model = Model.find(params[:model_id])
     @scenario = @model.scenarios.find(params[:id])
     if @scenario.update_attributes(scenario_params)
-      redirect_to model_scenario_url(@model, @scenario),
+      redirect_to model_scenario_path(@model, @scenario),
                   notice: 'Scenario was successfully updated.'
     else
       flash[:alert] =
@@ -37,14 +37,14 @@ class ScenariosController < ApplicationController
   def destroy
     @scenario.destroy
     redirect_to(
-      model_scenarios_url(@model),
+      model_scenarios_path(@model),
       notice: 'Scenario successfully destroyed.'
     )
   end
 
   def upload_meta_data
     @model = Model.find(params[:model_id])
-    handle_io_upload(:scenarios_file, model_scenarios_url(@model)) do
+    handle_io_upload(:scenarios_file, model_scenarios_path(@model)) do
       CsvUpload.create(
         user: current_user,
         model: @model,
@@ -85,7 +85,7 @@ class ScenariosController < ApplicationController
     )
   end
 
-  def redirect_after_upload_url(csv_upload = nil)
-    model_scenarios_url(@model, csv_upload_id: csv_upload.try(:id))
+  def redirect_after_upload_path(csv_upload = nil)
+    model_scenarios_path(@model, csv_upload_id: csv_upload.try(:id))
   end
 end

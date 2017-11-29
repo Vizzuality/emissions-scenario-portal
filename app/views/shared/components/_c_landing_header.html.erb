@@ -24,7 +24,7 @@
               <div class="f-ff1-s"><%= user.name || user.email %></div>
             </div>
           <% end %>
-          <%= link_to destroy_user_session_url, method: :delete  do %>
+          <%= link_to destroy_user_session_path, method: :delete  do %>
             <div class="c-signout-button">
               <svg class="icon"><use xlink:href="#icon-signout"></use></svg>
               <div class="f-ff1-s">Sign out</div>

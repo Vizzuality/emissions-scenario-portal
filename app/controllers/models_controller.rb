@@ -18,7 +18,7 @@ class ModelsController < ApplicationController
     @model.team = current_user.team unless current_user.admin?
     if @model.save
       redirect_to(
-        model_url(@model),
+        model_path(@model),
         notice: 'Model was successfully created.'
       )
     else
@@ -35,7 +35,7 @@ class ModelsController < ApplicationController
   def update
     @model = Model.find(params[:id])
     if @model.update_attributes(model_params)
-      redirect_to model_url(@model), notice: 'Model was successfully updated.'
+      redirect_to model_path(@model), notice: 'Model was successfully updated.'
     else
       set_nav_links
       flash[:alert] =
@@ -55,11 +55,11 @@ class ModelsController < ApplicationController
   def destroy
     @model = Model.find(params[:id])
     @model.destroy
-    redirect_to models_url, notice: 'Model successfully destroyed.'
+    redirect_to models_path, notice: 'Model successfully destroyed.'
   end
 
   def upload_meta_data
-    handle_io_upload(:models_file, models_url) do
+    handle_io_upload(:models_file, models_path) do
       CsvUpload.create(
         user: current_user,
         model: nil,
@@ -84,7 +84,7 @@ class ModelsController < ApplicationController
     params.require(:model).permit(*Model.attribute_symbols_for_strong_params)
   end
 
-  def redirect_after_upload_url(csv_upload = nil)
-    models_url(csv_upload_id: csv_upload.try(:id))
+  def redirect_after_upload_path(csv_upload = nil)
+    models_path(csv_upload_id: csv_upload.try(:id))
   end
 end

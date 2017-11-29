@@ -12,14 +12,14 @@
         <div class="row align-right">
           <div class="small-2 columns">
             <%
-              indicators_url =
+              indicators_path =
                 if defined? @model
-                  model_indicators_url(@model)
+                  model_indicators_path(@model)
                 else
-                  indicators_url
+                  indicators_path
                 end
             %>
-            <%= link_to indicators_url, class: 'l-indicator-edit__form-action' do %>
+            <%= link_to indicators_path, class: 'l-indicator-edit__form-action' do %>
               <%= render 'shared/components/c_flying_button' %>
             <% end %>
           </div>

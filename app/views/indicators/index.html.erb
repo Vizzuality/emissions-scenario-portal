@@ -8,24 +8,24 @@
     <div class="row">
       <div class="small-12 columns">
         <%
-          upload_meta_data_url =
+          upload_meta_data_path =
             if defined? @model
-              upload_meta_data_model_indicators_url(@model)
+              upload_meta_data_model_indicators_path(@model)
             else
-              upload_meta_data_indicators_url
+              upload_meta_data_indicators_path
             end
-          upload_template_url =
+          upload_template_path =
             if defined? @model
-              upload_template_model_indicators_url(@model)
+              upload_template_model_indicators_path(@model)
             else
-              upload_template_indicators_url
+              upload_template_indicators_path
             end
         %>
         <%= render 'shared/components/c_upload_card',
-                   form_url: upload_meta_data_url,
+                   form_path: upload_meta_data_path,
                    input_id: 'indicators_file',
-                   structure_url: upload_template_url,
-                   sample_url: '/System_Indicator_Master_List.csv',
+                   structure_path: upload_template_path,
+                   sample_path: '/System_Indicator_Master_List.csv',
                    button_text: 'Upload or update indicators' %>
       </div>
     </div>

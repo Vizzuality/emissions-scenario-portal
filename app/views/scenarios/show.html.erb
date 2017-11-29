@@ -5,7 +5,7 @@
   <div class="l-scenarios-overview__data-block">
     <div class="row align-right">
       <div class="small-3 columns">
-        <%= link_to download_time_series_model_scenario_url(@model, @scenario), class: 'l-scenarios__download' do %>
+        <%= link_to download_time_series_model_scenario_path(@model, @scenario), class: 'l-scenarios__download' do %>
           <div class="c-button"><span>Download time series</span></div>
         <% end %>
       </div>
@@ -23,7 +23,7 @@
         <div class="f-ff1-m l-scenarios-overview__data"><%= @scenario.updated_at.strftime("%b %d %Y") %></div>
       </div>
       <div class="small-1 columns">
-        <%= link_to edit_model_scenario_url(@model, @scenario) do %>
+        <%= link_to edit_model_scenario_path(@model, @scenario) do %>
           <div class="c-edit-button">
             <div class="c-edit-button__bubble">
               <svg class="icon"><use xlink:href="#icon-edit"></use></svg>

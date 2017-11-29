@@ -1,24 +1,27 @@
 class LocationsController < ApplicationController
-  before_action :require_admin!, except: %i[index]
-
   def index
-    @locations = FilterLocations.new(filter_params).call(Location.all)
+    @locations =
+      FilterLocations.
+        new(filter_params).
+        call(policy_scope(Location))
   end
 
   def new
     @location = Location.new
+    authorize(@location)
     render :edit
   end
 
   def edit
     @location = Location.find(params[:id])
+    authorize(@location)
   end
 
   def create
     @location = Location.new(location_params)
-
+    authorize(@location)
     if @location.save
-      redirect_to edit_admin_location_url(@location),
+      redirect_to edit_location_path(@location),
                   notice: 'Country was successfully created.'
     else
       flash[:alert] =
@@ -29,9 +32,10 @@ class LocationsController < ApplicationController
 
   def update
     @location = Location.find(params[:id])
+    authorize(@location)
     if @location.update_attributes(location_params)
       redirect_to(
-        edit_admin_location_url(@location),
+        edit_location_path(@location),
         notice: 'Country was successfully updated.'
       )
     else
@@ -43,9 +47,10 @@ class LocationsController < ApplicationController
 
   def destroy
     @location = Location.find(params[:id])
+    authorize(@location)
     @location.destroy
     redirect_to(
-      admin_locations_url,
+      locations_path,
       notice: 'Country was successfully destroyed.'
     )
   end

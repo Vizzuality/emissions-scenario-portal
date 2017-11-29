@@ -1,29 +1,33 @@
 class CategoriesController < ApplicationController
-  before_action :require_admin!, except: %i[index]
-
   def index
     @categories =
       FilterCategories.
         new(filter_params).
-        call(Category.includes(:subcategories).where(parent_id: nil))
+        call(
+          policy_scope(Category).
+            includes(:subcategories).
+            where(parent_id: nil)
+        )
   end
 
   def new
     @category = Category.new
+    authorize(@category)
     @parent_categories = Category.where(parent_id: nil)
     render :edit
   end
 
   def edit
     @category = Category.find(params[:id])
+    authorize(@category)
     @parent_categories = Category.where(parent_id: nil)
   end
 
   def create
     @category = Category.new(category_params)
-
+    authorize(@category)
     if @category.save
-      redirect_to edit_admin_category_path(@category),
+      redirect_to edit_category_path(@category),
                   notice: 'Category was successfully created.'
     else
       flash[:alert] =
@@ -34,8 +38,9 @@ class CategoriesController < ApplicationController
 
   def update
     @category = Category.find(params[:id])
+    authorize(@category)
     if @category.update_attributes(category_params)
-      redirect_to edit_admin_category_path(@category),
+      redirect_to edit_category_path(@category),
                   notice: 'Category was successfully updated.'
     else
       flash[:alert] =
@@ -46,9 +51,10 @@ class CategoriesController < ApplicationController
 
   def destroy
     @category = Category.find(params[:id])
+    authorize(@category)
     @category.destroy
     redirect_to(
-      admin_categories_path,
+      categories_path,
       alert: @category.errors.full_messages_for(:base).first
     )
   end

@@ -1,13 +1,12 @@
 class SubcategoriesController < ApplicationController
-  before_action :require_admin!
-
   def create
     category = Category.find(params[:category_id])
     subcategory = category.subcategories.build(subcategory_params)
     subcategory.parent_id = params[:category_id]
+    authorize(subcategory)
     subcategory.save!
     redirect_to(
-      edit_admin_category_path(category),
+      edit_category_path(category),
       notice: 'Subcategory successfully added.'
     )
   end
@@ -15,9 +14,10 @@ class SubcategoriesController < ApplicationController
   def destroy
     category = Category.find(params[:category_id])
     subcategory = category.subcategories.find(params[:id])
+    authorize(subcategory)
     subcategory.destroy
     redirect_to(
-      edit_admin_category_path(category),
+      edit_category_path(category),
       alert: subcategory.errors[:base].first
     )
   end

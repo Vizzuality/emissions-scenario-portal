@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   resource :profile, only: [:edit, :update]
+  resource :dashboard, only: %i[show]
 
   resources :models, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
     collection do

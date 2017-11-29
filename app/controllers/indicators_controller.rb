@@ -1,5 +1,4 @@
 class IndicatorsController < ApplicationController
-  before_action :require_admin!, except: %i[new create update destroy]
   before_action :set_nav_links, only: [:index, :show, :edit]
   before_action :set_filter_params, only: [:index, :show]
   before_action :set_upload_errors, only: [:index]
@@ -16,7 +15,7 @@ class IndicatorsController < ApplicationController
   def create
     @indicator = Indicator.new(indicator_params)
     if @indicator.save
-      redirect_to model_indicator_url(@model, @indicator),
+      redirect_to model_indicator_path(@model, @indicator),
                   notice: 'Indicator was successfully created.'
     else
       flash[:alert] =
@@ -32,7 +31,7 @@ class IndicatorsController < ApplicationController
   def update
     @indicator.find(params[:id])
     if @indicator.update_attributes(indicator_params)
-      redirect_to model_indicator_url(@model, @indicator),
+      redirect_to model_indicator_path(@model, @indicator),
                   notice: 'Indicator was successfully updated.'
     else
       flash[:alert] =
@@ -53,13 +52,13 @@ class IndicatorsController < ApplicationController
     @indicator.find(params[:id])
     @indicator.destroy
     redirect_to(
-      model_indicators_url(@model),
+      model_indicators_path(@model),
       notice: 'Indicator successfully destroyed'
     )
   end
 
   def upload_meta_data
-    handle_io_upload(:indicators_file, model_indicators_url(@model)) do
+    handle_io_upload(:indicators_file, model_indicators_path(@model)) do
       CsvUpload.create(
         user: current_user,
         model: @model,
@@ -98,7 +97,7 @@ class IndicatorsController < ApplicationController
     )
   end
 
-  def redirect_after_upload_url(csv_upload = nil)
-    model_indicators_url(@model, csv_upload_id: csv_upload.try(:id))
+  def redirect_after_upload_path(csv_upload = nil)
+    model_indicators_path(@model, csv_upload_id: csv_upload.try(:id))
   end
 end

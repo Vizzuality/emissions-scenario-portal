@@ -8,14 +8,14 @@
     <div class="row align-right">
       <div class="small-3 columns">
         <%
-          download_time_series_url =
+          download_time_series_path =
             if defined? @model
-              download_time_series_model_indicator_url(@model, @indicator)
+              download_time_series_model_indicator_path(@model, @indicator)
             else
-              download_time_series_indicator_url(@indicator)
+              download_time_series_indicator_path(@indicator)
             end
         %>
-        <%= link_to download_time_series_url, class: 'l-indicators__download' do %>
+        <%= link_to download_time_series_path, class: 'l-indicators__download' do %>
           <div class="c-hollow-button"><span>Download time series</span></div>
         <% end %>
       </div>
@@ -45,14 +45,14 @@
       <div class="small-2 columns">
         <% if current_user.admin? %>
           <%
-            edit_indicator_url =
+            edit_indicator_path =
               if defined? @model
-                edit_model_indicator_url(@model, @indicator)
+                edit_model_indicator_path(@model, @indicator)
               else
-                edit_indicator_url(@indicator)
+                edit_indicator_path(@indicator)
               end
           %>
-          <%= link_to edit_indicator_url do %>
+          <%= link_to edit_indicator_path do %>
             <div class="c-edit-button">
               <div class="c-edit-button__bubble">
                 <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
@@ -73,17 +73,17 @@
         <% elsif @indicator.team? %>
           <p>This is a <span class="f-ff1-m-bold">team indicator</span>.</p>
         <% else %>
-          <p>This is a <span class="f-ff1-m-bold">variation of <%= link_to @indicator.parent.composite_name, model_indicator_url(@indicator.model, @indicator.parent) %></span></p>
+          <p>This is a <span class="f-ff1-m-bold">variation of <%= link_to @indicator.parent.composite_name, model_indicator_path(@indicator.model, @indicator.parent) %></span></p>
         <% end %>
         <% if @indicator.model.present? %>
           <p>
             <span class="f-ff1-m-bold">Model:</span>
-            <%= link_to @indicator.model.abbreviation, model_url(@indicator.model) %>
+            <%= link_to @indicator.model.abbreviation, model_path(@indicator.model) %>
           </p>
           <% if @indicator.model.team.present? && current_user.admin? %>
             <p>
               <span class="f-ff1-m-bold">Team:</span>
-              <%= link_to @indicator.model.team.name, edit_team_url(@indicator.model.team) %>
+              <%= link_to @indicator.model.team.name, edit_team_path(@indicator.model.team) %>
             </p>
           <% end %>
         <% end %>
@@ -91,7 +91,7 @@
           <p>The following variations exist:</p>
           <% @indicator.variations.each do |variation| %>
             <p class="f-ff1-m-bold">
-              <%= link_to variation.composite_name, model_indicator_url(variation.model, variation) %>
+              <%= link_to variation.composite_name, model_indicator_path(variation.model, variation) %>
             </p>
           <% end %>
         <% end %>

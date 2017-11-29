@@ -1,6 +1,7 @@
 class TeamUsersController < ApplicationController
   def create
     @team = Team.find(params[:team_id])
+    authorize(@team, :update?)
     email = user_params[:email].downcase.strip
     @user = User.where('LOWER(email) = ?', email).first
 
@@ -13,10 +14,11 @@ class TeamUsersController < ApplicationController
 
   def destroy
     @team = Team.find(params[:team_id])
+    authorize(@team, :update?)
     @user.team_id = nil
     @user.save(validate: false)
     redirect_to(
-      edit_admin_team_url(@team),
+      edit_team_path(@team),
       notice: 'User successfully removed from team.'
     )
   end
@@ -31,12 +33,12 @@ class TeamUsersController < ApplicationController
         email: email, name: user_params[:name], team: @team
       )
       redirect_to(
-        edit_admin_team_url(@team),
+        edit_team_path(@team),
         notice: 'User successfully invited to team.'
       )
     else
       redirect_to(
-        edit_admin_team_url(@team),
+        edit_team_path(@team),
         alert: "User could not be invited. Please ensure email address is \
           valid."
       )
@@ -46,12 +48,12 @@ class TeamUsersController < ApplicationController
   def update_user
     if @user.update(team: @team, name: user_params[:name])
       redirect_to(
-        edit_admin_team_url(@team),
+        edit_team_path(@team),
         notice: 'User successfully invited to team.'
       )
     else
       redirect_to(
-        edit_admin_team_url(@team),
+        edit_team_path(@team),
         alert: "User could not be added to team. Please ensure this user \
             is not a member of another team."
       )

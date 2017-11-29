@@ -1,21 +1,21 @@
 <% locations_reference ||= nil %>
-<% xls_structure_url ||= nil %>
-<% sample_url ||= nil %>
+<% xls_structure_path ||= nil %>
+<% sample_path ||= nil %>
 <div class="c-upload-card">
-  <%= form_tag(form_url, method: :post, multipart: true) do %>
+  <%= form_tag(form_path, method: :post, multipart: true) do %>
     <%= file_field_tag input_id, class: 'js-upload-card' %>
   <% end %>
   <div class="c-button"><span><%= button_text %></span></div>
   <div class="f-ff1-s">
-    Please follow <%= link_to 'this structure', structure_url %>
-      <% if xls_structure_url %>
-        or use this <%= link_to 'macro-enabled worksheet', xls_structure_url %> (save as .csv)
+    Please follow <%= link_to 'this structure', structure_path %>
+      <% if xls_structure_path %>
+        or use this <%= link_to 'macro-enabled worksheet', xls_structure_path %> (save as .csv)
       <% end %>
-      <% if sample_url %>
-        or use the <%= link_to 'list of system indicators', sample_url %> as base
+      <% if sample_path %>
+        or use the <%= link_to 'list of system indicators', sample_path %> as base
       <% end %>
       <% if locations_reference %>
-        and the <%= link_to 'list of countries and regions', locations_url %>
+        and the <%= link_to 'list of countries and regions', locations_path %>
       <% end %>
   </div>
 </div>
