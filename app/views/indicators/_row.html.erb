@@ -15,7 +15,7 @@
     </div>
     <div class="small-2 columns">
       <div class="c-table-list-item__actions">
-        <% if current_user.can?(:destroy, indicator) %>
+        <% if current_user.admin? %>
           <%= link_to [@model, indicator],
             method: :delete,
             data: {confirm: destroy_confirmation_message(indicator)} do %>
@@ -25,7 +25,7 @@
             </div>
           <% end %>
         <% end %>
-        <% if current_user.can?(:manage, indicator) %>
+        <% if current_user.admin? %>
           <%= link_to [:edit, @model, indicator] do %>
             <div class="c-edit-button">
               <div class="c-edit-button__bubble">

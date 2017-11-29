@@ -15,7 +15,7 @@
                    } %>
       </div>
     </div>
-    <% if current_user.can?(:create, Location) %>
+    <% if current_user.admin? %>
       <div class="small-3 columns">
         <%= link_to new_admin_location_path do %>
           <div class="c-button">
@@ -64,14 +64,14 @@
         </div>
         <div class="small-1 columns">
           <div class="c-table-list-item__actions">
-            <% if current_user.can?(:destroy, location) %>
+            <% if current_user.admin? %>
               <%= link_to admin_location_path(location), method: :delete, data: { confirm: 'Are you sure?' } do %>
                 <div class="c-delete-button">
                   <svg class="icon"><use xlink:href="#icon-delete"></use></svg>
                 </div>
               <% end %>
             <% end %>
-            <% if current_user.can?(:update, location) %>
+            <% if current_user.admin? %>
               <%= link_to edit_admin_location_path(location) do %>
                 <div class="c-edit-button">
                   <div class="c-edit-button__bubble">

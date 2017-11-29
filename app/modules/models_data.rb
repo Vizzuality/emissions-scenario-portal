@@ -82,7 +82,7 @@ class ModelsData
       abbreviation: model_attributes[:abbreviation]
     ).first
 
-    if model && @user.cannot?(:manage, model)
+    if model && @user.team != model.team
       message = "Access denied to manage model (#{model.abbreviation})."
       suggestion = 'Please verify your team\'s permissions [here].'
       link_options = {

@@ -43,7 +43,7 @@
         <div class="f-ff1-m l-indicators-overview__data"><%= @indicator.definition %></div>
       </div>
       <div class="small-2 columns">
-        <% if current_user.can?(:manage, @indicator) %>
+        <% if current_user.admin? %>
           <%
             edit_indicator_url =
               if defined? @model
@@ -58,18 +58,6 @@
                 <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
               </div>
               <div class="f-ff1-s">Edit metadata</div>
-            </div>
-          <% end %>
-        <% end %>
-      </div>
-      <div class="small-1 columns">
-        <% if @indicator.system? && @model && current_user.can?(:fork, @indicator) %>
-          <%= link_to fork_model_indicator_url(@model, @indicator) do %>
-            <div class="c-edit-button">
-              <div class="c-edit-button__bubble">
-                <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
-              </div>
-              <div class="f-ff1-s">Fork</div>
             </div>
           <% end %>
         <% end %>

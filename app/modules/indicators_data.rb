@@ -55,7 +55,7 @@ class IndicatorsData
   def process_system_indicator(id_attributes, common_attributes, row_no)
     id_attributes, common_attributes =
         indicator_attributes(id_attributes, common_attributes)
-    if @user.cannot?(:create, Indicator.new(model_id: nil))
+    unless @user.admin?
       message = 'Access denied to manage core indicators.'
       suggestion = 'ESP admins curate core indicators. Please add a team \
 indicator instead.'
@@ -89,7 +89,7 @@ indicator instead.'
     id_attributes, common_attributes =
       indicator_attributes(id_attributes, common_attributes)
 
-    if @user.cannot?(:create, Indicator.new(model_id: @model.id))
+    unless @user.admin?
       message = "Access denied to manage team indicators \
 (#{@model.abbreviation})."
       suggestion = 'Please verify your team\'s permissions [here].'
