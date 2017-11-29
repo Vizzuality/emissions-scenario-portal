@@ -27,6 +27,10 @@ class Model < ApplicationRecord
   validates :team, team_reassignment: true
   before_validation :ignore_blank_array_values
 
+  def self.team(team)
+    where(team_id: [nil, team.respond_to?(:id) ? team.id : team].uniq)
+  end
+
   def scenarios?
     scenarios.any?
   end

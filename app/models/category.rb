@@ -14,22 +14,6 @@ class Category < ApplicationRecord
   validate :parent_categories_cannot_be_stackable,
            :cannot_have_subcategory_as_parent
 
-  def subcategory?
-    parent.present?
-  end
-
-  def parent_categories_cannot_be_stackable
-    if stackable && !subcategory?
-      errors.add(:stackable, "can't be set on parent categories")
-    end
-  end
-
-  def cannot_have_subcategory_as_parent
-    if parent && parent.subcategory?
-      errors.add(:parent, "can't be a subcategory")
-    end
-  end
-
   def self.case_insensitive_find_or_create(attributes)
     category = Category.where('lower(name) = lower(?)', attributes[:name])
 
@@ -48,5 +32,21 @@ class Category < ApplicationRecord
     end
 
     category
+  end
+
+  def subcategory?
+    parent.present?
+  end
+
+  def parent_categories_cannot_be_stackable
+    if stackable && !subcategory?
+      errors.add(:stackable, "can't be set on parent categories")
+    end
+  end
+
+  def cannot_have_subcategory_as_parent
+    if parent && parent.subcategory?
+      errors.add(:parent, "can't be a subcategory")
+    end
   end
 end

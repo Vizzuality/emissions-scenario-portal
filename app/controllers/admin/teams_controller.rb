@@ -1,29 +1,27 @@
 module Admin
   class TeamsController < AdminController
-    load_and_authorize_resource
-    before_action :set_filter_params, only: [:index]
-
     def index
-      @teams = FilterTeams.new(@filter_params).call(Team.all)
+      @teams = FilterTeams.new(filter_params).call(Team.all)
     end
 
     def new
       @team = Team.new
-      set_available_models
+      @models = Model.team(@team)
       render :edit
     end
 
     def edit
-      set_available_models
+      @team = Team.find(params[:id])
+      @models = Model.team(@team)
     end
 
     def create
       @team = Team.new(team_params)
 
       if @team.save
-        redirect_to edit_admin_team_url(@team), notice: 'Team was successfully created.'
+        redirect_to edit_admin_team_path(@team), notice: 'Team was successfully created.'
       else
-        set_available_models
+        @models = Model.team(@team)
         flash[:alert] =
           'We could not create the team. Please check the inputs in red'
         render :edit
@@ -31,10 +29,11 @@ module Admin
     end
 
     def update
+      @team = Team.find(params[:id])
       if @team.update_attributes(team_params)
-        redirect_to edit_admin_team_url(@team), notice: 'Team was successfully updated.'
+        redirect_to edit_admin_team_path(@team), notice: 'Team was successfully updated.'
       else
-        set_available_models
+        @models = Model.team(@team)
         flash[:alert] =
           'We could not update the team. Please check the inputs in red'
         render :edit
@@ -42,25 +41,21 @@ module Admin
     end
 
     def destroy
+      @team = Team.find(params[:id])
       @team.destroy
-      redirect_to admin_teams_url, notice: 'Team was successfully destroyed.'
+      redirect_to admin_teams_path, alert: @team.errors[:base].first
     end
 
     private
-
-    def set_available_models
-      @models =
-        if @team.present? && @team.persisted?
-          Model.where('team_id IS NULL OR team_id = ?', @team.id)
-        else
-          Model.where('team_id IS NULL')
-        end
-    end
 
     def team_params
       params.require(:team).permit(
         :name, model_ids: [], users_attributes: [:id, :email, :name, :admin]
       )
+    end
+
+    def filter_params
+      params.permit(:order_type, :order_direction, :search)
     end
   end
 end

@@ -18,7 +18,7 @@
           <div class="small-12 columns">
             <div class="row align-right">
               <div class="small-2 columns">
-                <%= link_to current_user.admin? ? teams_url : '/', class: 'l-teams-edit__form-action' do %>
+                <%= link_to current_user.admin? ? admin_teams_path : root_path, class: 'l-teams-edit__form-action' do %>
                   <%= render 'shared/components/c_flying_button' %>
                 <% end %>
               </div>
@@ -81,7 +81,7 @@
                           <% end %>
                         </div>
                       <% end %>
-                      <%= link_to team_user_url(@team, ff.object),
+                      <%= link_to admin_team_user_url(@team, ff.object),
                         method: :delete,
                         data: { confirm: 'Are you sure?' } do %>
                         <div class="c-remove-button">
