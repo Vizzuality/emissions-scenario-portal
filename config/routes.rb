@@ -21,10 +21,12 @@ Rails.application.routes.draw do
   end
 
   resources :indicators do
-      post :upload_meta_data, on: :collection
-      get :download_time_series, on: :member
-      get :upload_template, on: :collection
+    post :upload_meta_data, on: :collection
+    get :download_time_series, on: :member
+    get :upload_template, on: :collection
   end
+
+  resources :locations
 
   resources :teams, except: [:show] do
     resources :users, only: [:create, :destroy], controller: 'team_users'
