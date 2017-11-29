@@ -4,7 +4,6 @@ class AddMissingConversionFactors < ActiveRecord::Migration[5.1]
 
   CONVERSION_FACTORS = {
     "TWh/yr->EJ/yr" => 0.0036,
-    "Mmt CO2/yr->Mt CO2e/yr" => 1.10231131,
     "Mt CH4/yr->Mt CO2e/yr" => 25,
     "kt N2O/yr->Mt CO2e/yr" => 0.001,
     "EJ/yr->TWh/yr" => 277.8,

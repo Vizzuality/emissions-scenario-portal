@@ -27,7 +27,7 @@ class AssignTimeSeriesValuesToSystemIndicators < ActiveRecord::Migration[5.1]
             redo
           else
             puts "unable to convert indicator.id: #{indicator.id}, unit: #{indicator.unit}, parent #{parent.id}, parent.unit: #{parent.unit}"
-            # raise IncompatibleUnits
+            raise IncompatibleUnits
           end
         end
       end
