@@ -50,12 +50,9 @@ module Admin
     def destroy
       @category = Category.find(params[:id])
       @category.destroy
-      redirect_to admin_categories_path
-
-    rescue ActiveRecord::InvalidForeignKey
       redirect_to(
-        categories_url,
-        alert: 'Could not delete category.'
+        admin_categories_path,
+        alert: @category.errors.full_messages_for(:base).first
       )
     end
 
