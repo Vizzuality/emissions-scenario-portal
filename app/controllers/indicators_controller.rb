@@ -4,16 +4,21 @@ class IndicatorsController < ApplicationController
   before_action :set_upload_errors, only: [:index]
 
   def index
-    @indicators = FilterIndicators.new(@filter_params).call(Indicator.all)
+    @indicators =
+      FilterIndicators.
+        new(@filter_params).
+        call(policy_scope(Indicator))
   end
 
   def new
     @indicator = Indicator.new
+    authorize(@indicator)
     render action: :edit
   end
 
   def create
     @indicator = Indicator.new(indicator_params)
+    authorize(@indicator)
     if @indicator.save
       redirect_to model_indicator_path(@model, @indicator),
                   notice: 'Indicator was successfully created.'
@@ -26,10 +31,12 @@ class IndicatorsController < ApplicationController
 
   def edit
     @indicator.find(params[:id])
+    authorize(@indicator)
   end
 
   def update
     @indicator.find(params[:id])
+    authorize(@indicator)
     if @indicator.update_attributes(indicator_params)
       redirect_to model_indicator_path(@model, @indicator),
                   notice: 'Indicator was successfully updated.'
@@ -42,6 +49,7 @@ class IndicatorsController < ApplicationController
 
   def show
     @indicator.find(params[:id])
+    authorize(@indicator)
     @time_series_values_pivot =
       @indicator.
         time_series_values.
@@ -50,6 +58,7 @@ class IndicatorsController < ApplicationController
 
   def destroy
     @indicator.find(params[:id])
+    authorize(@indicator)
     @indicator.destroy
     redirect_to(
       model_indicators_path(@model),
@@ -57,37 +66,37 @@ class IndicatorsController < ApplicationController
     )
   end
 
-  def upload_meta_data
-    handle_io_upload(:indicators_file, model_indicators_path(@model)) do
-      CsvUpload.create(
-        user: current_user,
-        model: @model,
-        service_type: 'UploadIndicators',
-        data: @uploaded_io
-      )
-    end
-  end
+  # def upload_meta_data
+  #   handle_io_upload(:indicators_file, model_indicators_path(@model)) do
+  #     CsvUpload.create(
+  #       user: current_user,
+  #       model: @model,
+  #       service_type: 'UploadIndicators',
+  #       data: @uploaded_io
+  #     )
+  #   end
+  # end
 
-  def upload_template
-    csv_template = IndicatorsUploadTemplate.new
-    send_data(
-      csv_template.export,
-      type: 'text/csv; charset=utf-8; header=present',
-      disposition: 'attachment; filename=indicators_upload_template.csv'
-    )
-  end
+  # def upload_template
+  #   csv_template = IndicatorsUploadTemplate.new
+  #   send_data(
+  #     csv_template.export,
+  #     type: 'text/csv; charset=utf-8; header=present',
+  #     disposition: 'attachment; filename=indicators_upload_template.csv'
+  #   )
+  # end
 
-  def download_time_series
-    @indicator.find(params[:id])
-    csv_download = DownloadTimeSeriesValues.new(current_user).call(
-      @indicator.time_series_values
-    )
-    send_data(
-      csv_download.export,
-      type: 'text/csv; charset=utf-8; header=present',
-      disposition: 'attachment; filename=indicator_time_series_data.csv'
-    )
-  end
+  # def download_time_series
+  #   @indicator.find(params[:id])
+  #   csv_download = DownloadTimeSeriesValues.new(current_user).call(
+  #     @indicator.time_series_values
+  #   )
+  #   send_data(
+  #     csv_download.export,
+  #     type: 'text/csv; charset=utf-8; header=present',
+  #     disposition: 'attachment; filename=indicator_time_series_data.csv'
+  #   )
+  # end
 
   private
 

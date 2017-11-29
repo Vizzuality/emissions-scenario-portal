@@ -27,8 +27,10 @@
     </div>
   </div>
   <div class="small-2 columns">
-    <%= link_to new_indicator_path do %>
-      <div class="c-button l-indicators__add-new"><span>Add new indicator</span></div>
+    <%= if policy(Indicator).new? %>
+      <%= link_to new_indicator_path do %>
+        <div class="c-button l-indicators__add-new"><span>Add new indicator</span></div>
+      <% end %>
     <% end %>
   </div>
 </div>

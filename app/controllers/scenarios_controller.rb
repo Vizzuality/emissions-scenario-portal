@@ -5,17 +5,22 @@ class ScenariosController < ApplicationController
 
   def index
     @model = Model.find(params[:model_id])
-    @scenarios = FilterScenarios.new(@filter_params).call(@model.scenarios)
+    @scenarios =
+      FilterScenarios.
+        new(@filter_params).
+        call(policy_scope(@model.scenarios))
   end
 
   def edit
     @model = Model.find(params[:model_id])
     @scenario = @model.scenarios.find(params[:id])
+    authorize(@scenario)
   end
 
   def update
     @model = Model.find(params[:model_id])
     @scenario = @model.scenarios.find(params[:id])
+    authorize(@scenario)
     if @scenario.update_attributes(scenario_params)
       redirect_to model_scenario_path(@model, @scenario),
                   notice: 'Scenario was successfully updated.'
@@ -29,6 +34,7 @@ class ScenariosController < ApplicationController
   def show
     @model = Model.find(params[:model_id])
     @scenario = @model.scenarios.find(params[:id])
+    authorize(@scenario)
     @indicators = FilterIndicators.
       new(@filter_params).
       call(@scenario.indicators)
@@ -36,46 +42,47 @@ class ScenariosController < ApplicationController
 
   def destroy
     @scenario.destroy
+    authorize(@scenario)
     redirect_to(
       model_scenarios_path(@model),
       notice: 'Scenario successfully destroyed.'
     )
   end
 
-  def upload_meta_data
-    @model = Model.find(params[:model_id])
-    handle_io_upload(:scenarios_file, model_scenarios_path(@model)) do
-      CsvUpload.create(
-        user: current_user,
-        model: @model,
-        service_type: 'UploadScenarios',
-        data: @uploaded_io
-      )
-    end
-  end
+  # def upload_meta_data
+  #   @model = Model.find(params[:model_id])
+  #   handle_io_upload(:scenarios_file, model_scenarios_path(@model)) do
+  #     CsvUpload.create(
+  #       user: current_user,
+  #       model: @model,
+  #       service_type: 'UploadScenarios',
+  #       data: @uploaded_io
+  #     )
+  #   end
+  # end
 
-  def upload_template
-    @model = Model.find(params[:model_id])
-    csv_template = ScenariosUploadTemplate.new
-    send_data(
-      csv_template.export,
-      type: 'text/csv; charset=utf-8; header=present',
-      disposition: 'attachment; filename=scenarios_upload_template.csv'
-    )
-  end
+  # def upload_template
+  #   @model = Model.find(params[:model_id])
+  #   csv_template = ScenariosUploadTemplate.new
+  #   send_data(
+  #     csv_template.export,
+  #     type: 'text/csv; charset=utf-8; header=present',
+  #     disposition: 'attachment; filename=scenarios_upload_template.csv'
+  #   )
+  # end
 
-  def download_time_series
-    @model = Model.find(params[:model_id])
-    @scenario = @model.scenarios.find(params[:id])
-    csv_download = DownloadTimeSeriesValues.new(current_user).call(
-      @scenario.time_series_values
-    )
-    send_data(
-      csv_download.export,
-      type: 'text/csv; charset=utf-8; header=present',
-      disposition: 'attachment; filename=scenario_time_series_data.csv'
-    )
-  end
+  # def download_time_series
+  #   @model = Model.find(params[:model_id])
+  #   @scenario = @model.scenarios.find(params[:id])
+  #   csv_download = DownloadTimeSeriesValues.new(current_user).call(
+  #     @scenario.time_series_values
+  #   )
+  #   send_data(
+  #     csv_download.export,
+  #     type: 'text/csv; charset=utf-8; header=present',
+  #     disposition: 'attachment; filename=scenario_time_series_data.csv'
+  #   )
+  # end
 
   private
 

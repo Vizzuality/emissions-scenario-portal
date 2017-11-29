@@ -14,8 +14,10 @@
   </div>
   <div class="row align-right">
     <div class="small-3 columns">
-      <%= link_to new_model_path, class: 'l-models__new-model' do %>
-        <div class="c-hollow-button"><span>Create new model</span></div>
+      <% if policy(Model).new? %>
+        <%= link_to new_model_path, class: 'l-models__new-model' do %>
+          <div class="c-hollow-button"><span>Create new model</span></div>
+        <% end %>
       <% end %>
     </div>
   </div>
