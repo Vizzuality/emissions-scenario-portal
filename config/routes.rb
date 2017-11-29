@@ -40,8 +40,7 @@ Rails.application.routes.draw do
     resources :locations, only: [:index, :new, :create, :edit, :update, :destroy]
 
     resources :categories, only: [:index, :new, :create, :edit, :update, :destroy] do
-      resources :subcategories, only: [:create, :destroy],
-                controller: 'category_subcategories'
+      resources :subcategories, only: [:create, :destroy]
     end
     root to: "home#index"
   end

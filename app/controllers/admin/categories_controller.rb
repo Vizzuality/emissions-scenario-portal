@@ -1,10 +1,8 @@
 module Admin
   class CategoriesController < AdminController
-    before_action :set_filter_params, only: [:index]
-
     def index
       @categories =
-        FilterCategories.new(@filter_params).call(
+        FilterCategories.new(filter_params).call(
           Category.
             includes(:subcategories).
             where(parent_id: nil)
@@ -63,6 +61,10 @@ module Admin
         :name, subcategories_attributes: [
           :id, :name, :stackable
         ])
+    end
+
+    def filter_params
+      params.permit(:search, :order_type, :order_direction)
     end
   end
 end

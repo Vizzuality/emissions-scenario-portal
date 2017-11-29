@@ -23,7 +23,7 @@ class FilterCategories
   def search_scope
     return categories if search.blank?
 
-    categories.where('lower(name) LIKE :name', name: "%#{search.downcase}%")
+    categories.where('lower(categories.name) LIKE :name', name: "%#{search.downcase}%")
   end
 
   def order_scope
