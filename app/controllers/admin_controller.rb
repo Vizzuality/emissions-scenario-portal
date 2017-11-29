@@ -4,7 +4,9 @@ class AdminController < ApplicationController
   private
 
   def ensure_admin
-    return true if current_user.admin?
-    redirect_to '/', alert: 'You are not authorized to access this page.'
+    redirect_to(
+      root_path,
+      alert: 'You are not authorized to access this page.'
+    ) unless current_user.admin?
   end
 end
