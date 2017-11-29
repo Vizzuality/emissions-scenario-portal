@@ -1,61 +1,58 @@
 Rails.application.routes.draw do
   devise_for :users
-  get 'profiles/edit' => 'profiles#edit', as: 'edit_profile'
-  put 'profiles' => 'profiles#update', as: 'profile'
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  resource :profile, only: [:edit, :update]
+
   resources :models, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
-    post :upload_meta_data, on: :collection
-    get :upload_template, on: :collection
+    collection do
+      post :upload_meta_data
+      get :upload_template
+    end
+
     resources :scenarios, only: [:index, :show, :edit, :update, :destroy] do
-      post :upload_meta_data, on: :collection
-      post :upload_time_series, on: :collection, to: 'time_series_values#upload', as: :upload_time_series
-      get :upload_time_series_template, on: :collection, to: 'time_series_values#upload_template', as: :upload_time_series_template
-      get :download_time_series, on: :member
-      get :upload_template, on: :collection
+      collection do
+        post :upload_meta_data
+        post :upload_time_series, to: 'time_series_values#upload', as: :upload_time_series
+        get :upload_time_series_template, to: 'time_series_values#upload_template', as: :upload_time_series_template
+        get :upload_template
+      end
+      member do
+        get :download_time_series
+      end
     end
+
     resources :indicators do
-      post :upload_meta_data, on: :collection
-      get :download_time_series, on: :member
-      get :upload_template, on: :collection
+      collection do
+        get :upload_template
+        post :upload_meta_data
+      end
+      member do
+        get :download_time_series
+      end
     end
   end
 
-  resources :indicators do
-    post :upload_meta_data, on: :collection
-    get :download_time_series, on: :member
-    get :upload_template, on: :collection
+  resources :indicators, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
+    collection do
+      get :upload_template
+    end
+    member do
+      get :download_time_series
+    end
   end
-
-  resources :locations
 
   resources :teams, except: [:show] do
-    resources :users, only: [:create, :destroy], controller: 'team_users'
+    resources :users, only: [:create, :destroy]
   end
 
-  namespace :admin do
-    resources :indicators, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
-      post :upload_meta_data, on: :collection
-      get :download_time_series, on: :member
-      get :upload_template, on: :collection
-      put :promote, on: :member
-    end
+  resources :locations, only: [:index, :new, :create, :edit, :update, :destroy]
 
-    resources :teams, except: [:show] do
-      resources :users, only: [:create, :destroy], controller: 'team_users'
-    end
-
-    resources :locations, only: [:index, :new, :create, :edit, :update, :destroy]
-
-    resources :categories, only: [:index, :new, :create, :edit, :update, :destroy] do
-      resources :subcategories, only: [:create, :destroy]
-    end
-
-    root to: "home#index"
+  resources :categories, only: [:index, :new, :create, :edit, :update, :destroy] do
+    resources :subcategories, only: [:create, :destroy]
   end
 
   root to: "models#index"
 
-  # Namespaced API routes
   namespace :api do
     namespace :v1 do
       resources :models, only: [:index, :show]

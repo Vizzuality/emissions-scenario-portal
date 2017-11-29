@@ -1,4 +1,5 @@
 class IndicatorsController < ApplicationController
+  before_action :require_admin!, except: %i[new create update destroy]
   before_action :set_nav_links, only: [:index, :show, :edit]
   before_action :set_filter_params, only: [:index, :show]
   before_action :set_upload_errors, only: [:index]
@@ -25,9 +26,11 @@ class IndicatorsController < ApplicationController
   end
 
   def edit
+    @indicator.find(params[:id])
   end
 
   def update
+    @indicator.find(params[:id])
     if @indicator.update_attributes(indicator_params)
       redirect_to model_indicator_url(@model, @indicator),
                   notice: 'Indicator was successfully updated.'
@@ -39,12 +42,15 @@ class IndicatorsController < ApplicationController
   end
 
   def show
-    @time_series_values_pivot = @indicator.
-      time_series_values.
-      time_series_values_pivot
+    @indicator.find(params[:id])
+    @time_series_values_pivot =
+      @indicator.
+        time_series_values.
+        time_series_values_pivot
   end
 
   def destroy
+    @indicator.find(params[:id])
     @indicator.destroy
     redirect_to(
       model_indicators_url(@model),
@@ -73,6 +79,7 @@ class IndicatorsController < ApplicationController
   end
 
   def download_time_series
+    @indicator.find(params[:id])
     csv_download = DownloadTimeSeriesValues.new(current_user).call(
       @indicator.time_series_values
     )
