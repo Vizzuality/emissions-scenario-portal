@@ -1,7 +1,7 @@
 class DashboardController < ApplicationController
   before_action :require_admin!
 
-  def index
+  def show
     @teams = Team.order(:name)
     @models = Model.order(:abbreviation)
     @locations = Location.order(:name)

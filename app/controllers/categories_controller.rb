@@ -5,11 +5,7 @@ class CategoriesController < ApplicationController
     @categories =
       FilterCategories.
         new(filter_params).
-        call(
-          Category.
-            includes(:subcategories).
-            where(parent_id: nil)
-        )
+        call(Category.includes(:subcategories).where(parent_id: nil))
   end
 
   def new

@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="small-8 columns">
+  <div class="small-6 columns">
     <div class="l-indicators__title f-ff3-m-bold">Indicators <span>(<%= @indicators.count %>)</span></div>
   </div>
   <div class="small-2 columns">
@@ -27,16 +27,14 @@
     </div>
   </div>
   <div class="small-2 columns">
-    <% if @model.present? %>
-      <%= link_to new_model_indicator_url(@model) do %>
-        <div class="c-button l-indicators__add-new"><span>Add new indicator</span></div>
-      <% end %>
+    <%= link_to new_indicator_url do %>
+      <div class="c-button l-indicators__add-new"><span>Add new indicator</span></div>
     <% end %>
   </div>
 </div>
 <div class="l-indicators__table-shorts js-table-filter" data-filter-type="order">
   <div class="row">
-    <div class="small-5 columns">
+    <div class="small-4 columns">
       <%= render 'shared/components/c_order_filter_button',
                  text: 'ESP Indicator Name',
                  other_class: '-no-wrap',
@@ -48,15 +46,20 @@
                  other_class: '-no-wrap',
                  column_key: 'unit' %>
     </div>
-    <div class="small-4 columns">
+    <div class="small-3 columns">
       <%= render 'shared/components/c_order_filter_button',
                  text: 'Description',
                  other_class: '-no-wrap',
                  column_key: 'definition' %>
     </div>
+    <div class="small-2 columns">
+      <%= render 'shared/components/c_order_filter_button',
+                 text: 'Type',
+                 other_class: '-no-wrap',
+                 column_key: 'type' %>
+    </div>
   </div>
 </div>
-
 <% @indicators.each do |indicator| %>
-  <%= render partial: 'indicators/row', locals: {indicator: indicator} %>
+  <%= render partial: 'row', locals: {indicator: indicator, variation: nil} %>
 <% end %>
