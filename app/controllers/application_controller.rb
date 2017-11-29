@@ -33,16 +33,6 @@ class ApplicationController < ActionController::Base
     ]
   end
 
-  def set_filter_params
-    @filter_params = params.permit(
-      :search,
-      :order_type,
-      :order_direction,
-      :category,
-      :type
-    )
-  end
-
   def handle_io_upload(file_name, redirect_url)
     @uploaded_io = params[file_name]
     unless @uploaded_io.present?

@@ -14,16 +14,7 @@
       </div>
     </div>
     <div class="small-2 columns">
-      <div class="c-table-list-item__text f-ff1-m-bold">
-        <% if indicator.team? %>
-          <%= indicator.model.team.try(:name) %>
-        <% else %>
-          System
-        <% end %>
-        <div>
-          <%= indicator.variations.size %> variations
-        </div>
-      </div>
+      -
     </div>
     <div class="small-2 columns">
       <div class="c-table-list-item__actions">
@@ -45,18 +36,6 @@
               </div>
               <div class="f-ff1-s">Edit</div>
             </div>
-          <% end %>
-          <% if indicator.team? %>
-            <%= link_to promote_indicator_path(indicator),
-              method: :put,
-              data: {confirm: promote_confirmation_message(indicator)} do %>
-              <div class="c-edit-button">
-                <div class="c-edit-button__bubble">
-                  <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
-                </div>
-                <div class="f-ff1-s">Promote</div>
-              </div>
-            <% end %>
           <% end %>
         <% end %>
       </div>

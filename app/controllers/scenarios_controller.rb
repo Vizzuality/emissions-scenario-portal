@@ -1,13 +1,12 @@
 class ScenariosController < ApplicationController
   before_action :set_nav_links, only: [:index, :show, :edit]
-  before_action :set_filter_params, only: [:index, :show]
   before_action :set_upload_errors, only: [:index]
 
   def index
     @model = Model.find(params[:model_id])
     @scenarios =
       FilterScenarios.
-        new(@filter_params).
+        new(filter_params).
         call(policy_scope(@model.scenarios))
   end
 
@@ -94,5 +93,9 @@ class ScenariosController < ApplicationController
 
   def redirect_after_upload_path(csv_upload = nil)
     model_scenarios_path(@model, csv_upload_id: csv_upload.try(:id))
+  end
+
+  def filter_params
+    params.permit(:search, :order_type, :order_direction)
   end
 end

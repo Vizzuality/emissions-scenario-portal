@@ -36,6 +36,7 @@ Rails.application.routes.draw do
   resources :indicators, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
     collection do
       get :upload_template
+      post :upload_meta_data
     end
     member do
       get :download_time_series
