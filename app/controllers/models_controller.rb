@@ -1,12 +1,9 @@
-require 'models_upload_template'
-
 class ModelsController < ApplicationController
-  load_and_authorize_resource
-
   before_action :set_nav_links, only: [:index, :show, :edit]
   before_action :set_upload_errors, only: [:index]
 
   def index
+    @models = Model.all
     @team = current_user.team
   end
 
@@ -31,9 +28,12 @@ class ModelsController < ApplicationController
     end
   end
 
-  def edit; end
+  def edit
+    @model = Model.find(params[:id])
+  end
 
   def update
+    @model = Model.find(params[:id])
     if @model.update_attributes(model_params)
       redirect_to model_url(@model), notice: 'Model was successfully updated.'
     else
@@ -45,6 +45,7 @@ class ModelsController < ApplicationController
   end
 
   def show
+    @model = Model.find(params[:id])
     @scenarios = @model.scenarios.limit(5)
     @indicators = Indicator.
       includes(:category, :subcategory).
@@ -52,6 +53,7 @@ class ModelsController < ApplicationController
   end
 
   def destroy
+    @model = Model.find(params[:id])
     @model.destroy
     redirect_to models_url, notice: 'Model successfully destroyed.'
   end

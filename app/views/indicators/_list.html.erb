@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="small-4 columns">
+  <div class="small-8 columns">
     <div class="l-indicators__title f-ff3-m-bold">Indicators <span>(<%= @indicators.count %>)</span></div>
   </div>
   <div class="small-2 columns">
@@ -27,24 +27,20 @@
     </div>
   </div>
   <div class="small-2 columns">
-    <%= link_to new_model_indicator_url(@model) do %>
-      <div class="c-button l-indicators__add-new"><span>Add new indicator</span></div>
+    <% if @model.present? %>
+      <%= link_to new_model_indicator_url(@model) do %>
+        <div class="c-button l-indicators__add-new"><span>Add new indicator</span></div>
+      <% end %>
     <% end %>
   </div>
 </div>
 <div class="l-indicators__table-shorts js-table-filter" data-filter-type="order">
   <div class="row">
-    <div class="small-2 columns">
+    <div class="small-5 columns">
       <%= render 'shared/components/c_order_filter_button',
                  text: 'ESP Indicator Name',
                  other_class: '-no-wrap',
                  column_key: 'esp_name' %>
-    </div>
-    <div class="small-3 columns">
-      <%= render 'shared/components/c_order_filter_button',
-                 text: 'Model Indicator Name',
-                 other_class: '-no-wrap',
-                 column_key: 'model_name' %>
     </div>
     <div class="small-1 columns">
       <%= render 'shared/components/c_order_filter_button',
@@ -52,17 +48,11 @@
                  other_class: '-no-wrap',
                  column_key: 'unit' %>
     </div>
-    <div class="small-3 columns">
+    <div class="small-4 columns">
       <%= render 'shared/components/c_order_filter_button',
                  text: 'Description',
                  other_class: '-no-wrap',
                  column_key: 'definition' %>
-    </div>
-    <div class="small-1 columns">
-      <%= render 'shared/components/c_order_filter_button',
-                 text: 'Added by',
-                 other_class: '-no-wrap',
-                 column_key: 'added_by' %>
     </div>
   </div>
 </div>

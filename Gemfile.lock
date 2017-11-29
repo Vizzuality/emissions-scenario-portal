@@ -69,7 +69,6 @@ GEM
     bindex (0.5.0)
     builder (3.2.3)
     byebug (9.1.0)
-    cancancan (1.17.0)
     case_transform (0.2)
       activesupport
     charlock_holmes (0.7.5)
@@ -327,7 +326,6 @@ DEPENDENCIES
   appsignal
   aws-sdk (~> 2)
   byebug
-  cancancan (~> 1.10)
   charlock_holmes
   coffee-rails
   devise

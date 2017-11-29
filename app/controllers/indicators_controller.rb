@@ -1,10 +1,4 @@
-require 'indicators_upload_template'
-
 class IndicatorsController < ApplicationController
-  load_and_authorize_resource :model
-  load_resource except: [:new, :create, :index]
-  authorize_resource through: :model
-
   before_action :set_nav_links, only: [:index, :show, :edit]
   before_action :set_filter_params, only: [:index, :show]
   before_action :set_upload_errors, only: [:index]

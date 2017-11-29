@@ -21,7 +21,6 @@ gem 'jbuilder'
 
 gem 'dotenv-rails' # required by Devise
 
-gem 'cancancan', '~> 1.10'
 gem 'devise'
 gem 'devise_invitable'
 gem 'pg_csv'

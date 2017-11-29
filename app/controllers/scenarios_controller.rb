@@ -1,21 +1,21 @@
-require 'scenarios_upload_template'
-
 class ScenariosController < ApplicationController
-  load_and_authorize_resource :model
-  load_and_authorize_resource through: :model, except: [:index]
-  authorize_resource only: [:index]
-
   before_action :set_nav_links, only: [:index, :show, :edit]
   before_action :set_filter_params, only: [:index, :show]
   before_action :set_upload_errors, only: [:index]
 
   def index
+    @model = Model.find(params[:model_id])
     @scenarios = FilterScenarios.new(@filter_params).call(@model.scenarios)
   end
 
-  def edit; end
+  def edit
+    @model = Model.find(params[:model_id])
+    @scenario = @model.scenarios.find(params[:id])
+  end
 
   def update
+    @model = Model.find(params[:model_id])
+    @scenario = @model.scenarios.find(params[:id])
     if @scenario.update_attributes(scenario_params)
       redirect_to model_scenario_url(@model, @scenario),
                   notice: 'Scenario was successfully updated.'
@@ -27,6 +27,8 @@ class ScenariosController < ApplicationController
   end
 
   def show
+    @model = Model.find(params[:model_id])
+    @scenario = @model.scenarios.find(params[:id])
     @indicators = FilterIndicators.
       new(@filter_params).
       call(@scenario.indicators)
@@ -41,6 +43,7 @@ class ScenariosController < ApplicationController
   end
 
   def upload_meta_data
+    @model = Model.find(params[:model_id])
     handle_io_upload(:scenarios_file, model_scenarios_url(@model)) do
       CsvUpload.create(
         user: current_user,
@@ -52,6 +55,7 @@ class ScenariosController < ApplicationController
   end
 
   def upload_template
+    @model = Model.find(params[:model_id])
     csv_template = ScenariosUploadTemplate.new
     send_data(
       csv_template.export,
@@ -61,6 +65,8 @@ class ScenariosController < ApplicationController
   end
 
   def download_time_series
+    @model = Model.find(params[:model_id])
+    @scenario = @model.scenarios.find(params[:id])
     csv_download = DownloadTimeSeriesValues.new(current_user).call(
       @scenario.time_series_values
     )

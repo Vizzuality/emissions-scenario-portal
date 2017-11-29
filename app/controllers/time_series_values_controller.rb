@@ -1,9 +1,6 @@
-require 'time_series_values_upload_template'
-
 class TimeSeriesValuesController < ApplicationController
-  load_and_authorize_resource :model
-
   def upload
+    @model = Model.find(params[:model_id])
     handle_io_upload(:time_series_values_file, model_scenarios_url(@model)) do
       CsvUpload.create(
         user: current_user,

@@ -13,12 +13,17 @@ Rails.application.routes.draw do
       get :download_time_series, on: :member
       get :upload_template, on: :collection
     end
-    resources :indicators, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
+    resources :indicators do
       post :upload_meta_data, on: :collection
       get :download_time_series, on: :member
-      get :fork, on: :member
       get :upload_template, on: :collection
     end
+  end
+
+  resources :indicators do
+      post :upload_meta_data, on: :collection
+      get :download_time_series, on: :member
+      get :upload_template, on: :collection
   end
 
   resources :teams, except: [:show] do
@@ -42,8 +47,6 @@ Rails.application.routes.draw do
     resources :categories, only: [:index, :new, :create, :edit, :update, :destroy] do
       resources :subcategories, only: [:create, :destroy]
     end
-
-    resources :models
 
     root to: "home#index"
   end
