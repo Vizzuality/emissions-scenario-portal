@@ -1,10 +1,14 @@
 module Admin
   class CategoriesController < AdminController
-    load_and_authorize_resource
     before_action :set_filter_params, only: [:index]
 
     def index
-      @categories = Category.fetch_all(@filter_params)
+      @categories =
+        FilterCategories.new(@filter_params).call(
+          Category.
+            includes(:subcategories).
+            where(parent_id: nil)
+        )
     end
 
     def new
@@ -14,6 +18,7 @@ module Admin
     end
 
     def edit
+      @category = Category.find(params[:id])
       @parent_categories = Category.where(parent_id: nil)
     end
 
@@ -21,7 +26,7 @@ module Admin
       @category = Category.new(category_params)
 
       if @category.save
-        redirect_to edit_category_url(@category),
+        redirect_to edit_admin_category_path(@category),
           notice: 'Category was successfully created.'
       else
         flash[:alert] =
@@ -31,8 +36,9 @@ module Admin
     end
 
     def update
+      @category = Category.find(params[:id])
       if @category.update_attributes(category_params)
-        redirect_to edit_category_url(@category),
+        redirect_to edit_admin_category_path(@category),
           notice: 'Category was successfully updated.'
       else
         flash[:alert] =
@@ -42,9 +48,10 @@ module Admin
     end
 
     def destroy
+      @category = Category.find(params[:id])
       @category.destroy
-      redirect_to categories_url,
-        notice: 'Category was successfully destroyed.'
+      redirect_to admin_categories_path
+
     rescue ActiveRecord::InvalidForeignKey
       redirect_to(
         categories_url,
