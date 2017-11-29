@@ -1,5 +1,3 @@
-require 'csv'
-
 class CsvVerticalUploadTemplate
   def headers
     [
