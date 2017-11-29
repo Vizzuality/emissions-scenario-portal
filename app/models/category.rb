@@ -3,7 +3,8 @@ class Category < ApplicationRecord
              optional: true
   has_many :subcategories, class_name: 'Category', foreign_key: 'parent_id',
            dependent: :restrict_with_error
-  has_many :category_indicators, class_name: 'Indicator', dependent: :restrict_with_error
+  has_many :category_indicators, class_name: 'Indicator',
+           dependent: :restrict_with_error
   has_many :subcategory_indicators, class_name: 'Indicator',
            foreign_key: 'subcategory_id', dependent: :restrict_with_error
 
@@ -18,13 +19,15 @@ class Category < ApplicationRecord
   end
 
   def parent_categories_cannot_be_stackable
-    if stackable && !subcategory
+    if stackable && !subcategory?
       errors.add(:stackable, "can't be set on parent categories")
     end
   end
 
   def cannot_have_subcategory_as_parent
-    errors.add(:parent, "can't be a subcategory") if parent.subcategory?
+    if parent && parent.subcategory?
+      errors.add(:parent, "can't be a subcategory")
+    end
   end
 
   def self.case_insensitive_find_or_create(attributes)
