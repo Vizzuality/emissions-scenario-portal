@@ -4,9 +4,11 @@ class Team < ApplicationRecord
 
   validates :name, presence: true, uniqueness: true
 
-  has_attached_file :image, storage: :s3, styles: {
-    thumb: '300x300>'
-  }
+  has_attached_file :image, storage: :s3,
+    path: "#{Rails.env}/:class/:id/:filename",
+    styles: {
+      thumb: '300x300>'
+    }
 
   validates_attachment_content_type :image,
                                     content_type: ['image/jpeg', 'image/png']
