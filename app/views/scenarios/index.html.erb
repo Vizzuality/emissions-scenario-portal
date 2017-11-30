@@ -15,7 +15,7 @@
         <%= render 'shared/components/c_upload_card',
           form_path: upload_time_series_model_scenarios_path(@model),
           input_id: 'time_series_values_file',
-          structure_path: template_path(:scenarios),
+          structure_path: template_path(:time_series_values),
           locations_reference: true,
           button_text: 'Upload or update scenario time series' %>
       </div>
