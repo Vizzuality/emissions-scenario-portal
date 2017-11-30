@@ -29,9 +29,9 @@ spec:
           - name: AWS_REGION
             value: eu-west-1
           - name: RACK_ENV
-            value: production
+            value: staging
           - name: RAILS_ENV
-            value: production
+            value: staging
           - name: RAILS_LOG_TO_STDOUT
             value: true
           - name: PORT
@@ -83,9 +83,9 @@ spec:
           - name: AWS_REGION
             value: eu-west-1
           - name: RACK_ENV
-            value: production
+            value: staging
           - name: RAILS_ENV
-            value: production
+            value: staging
           - name: PORT
             value: "3000"
           - name: RAILS_SERVE_STATIC_FILES
