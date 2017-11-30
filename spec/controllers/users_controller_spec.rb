@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe TeamUsersController, type: :controller do
+RSpec.describe UsersController, type: :controller do
   let(:team) { create(:team) }
 
   context 'when admin' do

@@ -1,4 +1,4 @@
-class TeamUsersController < ApplicationController
+class UsersController < ApplicationController
   def create
     @team = Team.find(params[:team_id])
     authorize(@team, :update?)

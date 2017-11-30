@@ -7,7 +7,7 @@ class Indicator < ApplicationRecord
 
   has_many :time_series_values, dependent: :destroy
   belongs_to :category
-  belongs_to :subcategory, class_name: 'Category', optional: true
+  belongs_to :subcategory, class_name: 'Category'
 
   validates :composite_name, uniqueness: true
   before_validation :ignore_blank_array_values

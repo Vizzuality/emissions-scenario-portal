@@ -40,6 +40,8 @@ class ScenariosController < ApplicationController
   end
 
   def destroy
+    @model = Model.find(params[:model_id])
+    @scenario = @model.scenarios.find(params[:id])
     @scenario.destroy
     authorize(@scenario)
     redirect_to(

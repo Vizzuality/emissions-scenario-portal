@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
       format.html do
         redirect_to(
           root_url,
-          alert: "You're not authorized to perform this action"
+          alert: "You are not authorized to perform this action"
         )
       end
     end

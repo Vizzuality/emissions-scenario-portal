@@ -59,7 +59,7 @@ class ModelsData
     @user = user
     @encoding = encoding
     @headers = ModelsHeaders.new(@path, @encoding)
-    @template_url = url_helpers.upload_template_models_path
+    @template_url = url_helpers.template_models_path
     initialize_stats
   end
 

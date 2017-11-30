@@ -53,8 +53,8 @@ class ModelsController < ApplicationController
     authorize(@model)
     @scenarios = @model.scenarios.limit(5)
     @indicators = Indicator.
-      includes(:category, :subcategory).
-      order('categories.name, subcategories_indicators.name, indicators.name')
+                    includes(:category, :subcategory).
+                    order('categories.name, subcategories_indicators.name, indicators.name')
   end
 
   def destroy
@@ -64,33 +64,42 @@ class ModelsController < ApplicationController
     redirect_to models_path, notice: 'Model successfully destroyed.'
   end
 
-  # def upload_meta_data
-  #   handle_io_upload(:models_file, models_path) do
-  #     CsvUpload.create(
-  #       user: current_user,
-  #       model: nil,
-  #       service_type: 'UploadModels',
-  #       data: @uploaded_io
-  #     )
-  #   end
-  # end
+  # GET /models/template.csv
+  def template
+    csv_template = ModelsUploadTemplate.new
+    send_data(
+      csv_template.export,
+      type: 'text/csv; charset=utf-8; header=present',
+      disposition: 'attachment; filename=models_upload_template.csv'
+    )
+  end
 
-  # def upload_template
-  #   csv_template = ModelsUploadTemplate.new
-  #   send_data(
-  #     csv_template.export,
-  #     type: 'text/csv; charset=utf-8; header=present',
-  #     disposition: 'attachment; filename=models_upload_template.csv'
-  #   )
-  # end
+  # POST /models/metadata
+  def metadata
+    csv_upload = CsvUpload.create(
+      user: current_user,
+      model: nil,
+      service_type: 'UploadModels',
+      data: params[:models_file]
+    )
+    if csv_upload.save
+      job = CsvUploadJob.perform_later(csv_upload.id)
+      csv_upload.update!(job_id: job.job_id)
+      redirect_to(
+        models_path(csv_upload_id: csv_upload.id),
+        notice: 'File has been queued for processing. Please refresh.'
+      )
+    else
+      redirect_to(
+        models_path,
+        alert: csv_upload.errors.full_messages.join(', ')
+      )
+    end
+  end
 
   private
 
   def model_params
     params.require(:model).permit(*Model.attribute_symbols_for_strong_params)
-  end
-
-  def redirect_after_upload_path(csv_upload = nil)
-    models_path(csv_upload_id: csv_upload.try(:id))
   end
 end

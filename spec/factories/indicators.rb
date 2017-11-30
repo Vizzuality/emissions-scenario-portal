@@ -4,6 +4,6 @@ FactoryBot.define do
     association :subcategory, factory: :category, name: 'Emissions by sector'
     name 'Industry'
     unit 'Gt CO2e/yr'
-    sequence(:composite_name) { |n| [category&.name, subcategory&.name, name, n].join('|') }
+    sequence(:composite_name) { |n| [category&.name, subcategory&.name, "#{name}-#{n}"].join('|') }
   end
 end

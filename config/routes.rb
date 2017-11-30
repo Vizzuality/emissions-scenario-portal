@@ -6,8 +6,8 @@ Rails.application.routes.draw do
 
   resources :models, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
     collection do
-      post :upload_meta_data
-      get :upload_template
+      post :metadata
+      get :template
     end
 
     resources :scenarios, only: [:index, :show, :edit, :update, :destroy] do
