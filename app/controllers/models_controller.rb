@@ -66,7 +66,7 @@ class ModelsController < ApplicationController
 
   # POST /models/metadata
   def metadata
-    csv_upload = CsvUpload.create(
+    csv_upload = CsvUpload.new(
       user: current_user,
       model: nil,
       service_type: 'UploadModels',

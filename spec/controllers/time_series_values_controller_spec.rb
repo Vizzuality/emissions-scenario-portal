@@ -14,7 +14,7 @@ RSpec.describe TimeSeriesValuesController, type: :controller do
           model_id: team_model.id
         }
         expect(response).to redirect_to(model_scenarios_url(team_model))
-        expect(flash[:alert]).to match(/upload file/)
+        expect(flash[:alert]).to match(/Data can't be blank/)
       end
 
       it 'redirects with notice when file queued' do

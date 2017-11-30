@@ -1,7 +1,7 @@
 class CsvUpload < ApplicationRecord
-  UPLOAD_SERVICES = %w(
+  UPLOAD_SERVICES = %w[
     UploadModels UploadIndicators UploadScenarios UploadTimeSeriesValues
-  ).freeze
+  ].freeze
 
   belongs_to :user
   belongs_to :model, optional: true

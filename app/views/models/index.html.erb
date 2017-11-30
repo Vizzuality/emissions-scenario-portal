@@ -4,11 +4,13 @@
     <div class="row">
       <div class="small-12 columns">
         <%= render 'shared/components/c_upload_card',
-                   form_path: metadata_models_path,
-                   input_id: 'models_file',
-                   structure_path: template_path(:models),
-                   xls_structure_path: '/Meta_Model.xlsm',
-                   button_text: 'Upload or update model meta information' %>
+              form_path: metadata_models_path,
+              input_id: 'models_file',
+              structure_path: template_path(:models),
+              xls_structure_path: '/Meta_Model.xlsm',
+              button_text: 'Upload or update model meta information',
+              service_type: 'UploadModels',
+              return_path: models_path %>
       </div>
     </div>
   </div>

@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resource :profile, only: %i[edit update]
   resource :dashboard, only: %i[show]
   resources :templates, only: %i[show]
+  resources :csv_uploads, only: %i[create]
 
   resources :models do
     collection do

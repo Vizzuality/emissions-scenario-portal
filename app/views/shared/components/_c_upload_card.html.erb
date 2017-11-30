@@ -1,9 +1,12 @@
 <% locations_reference ||= nil %>
 <% xls_structure_path ||= nil %>
 <% sample_path ||= nil %>
+<% service_type ||= nil %>
+<% return_path ||= nil %>
 <div class="c-upload-card">
-  <%= form_tag(form_path, method: :post, multipart: true) do %>
-    <%= file_field_tag input_id, class: 'js-upload-card' %>
+  <%= form_for CsvUpload.new, multipart: true, url: csv_uploads_path(return_path: return_path) do |form| %>
+    <%= form.hidden_field :service_type, value: service_type %>
+    <%= form.file_field :data, class: 'js-upload-card' %>
   <% end %>
   <div class="c-button"><span><%= button_text %></span></div>
   <div class="f-ff1-s">
