@@ -26,23 +26,17 @@ module Api
         end
 
         if param_list(:scenario)
-          indicator_ids = Scenario.where(id: param_list(:scenario)).
-            includes(:time_series_values).
-            flat_map(&:time_series_values).
-            map(&:indicator_id).
-            uniq
+          indicator_ids = TimeSeriesValue.select(:indicator_id).
+            where(scenario_id: param_list(:scenario)).distinct
 
-          indicators = indicators.where(id: indicator_ids)
+          indicators = indicators.where(id: indicator_ids.map(&:indicator_id))
         end
 
         if param_list(:location)
-          indicator_ids = Location.where(id: param_list(:location)).
-            includes(:time_series_values).
-            flat_map(&:time_series_values).
-            map(&:indicator_id).
-            uniq
+          indicator_ids = TimeSeriesValue.select(:indicator_id).
+            where(location_id: param_list(:location)).distinct
 
-          indicators = indicators.where(id: indicator_ids)
+          indicators = indicators.where(id: indicator_ids.map(&:indicator_id))
         end
 
         indicators = indicators.order(:name)
