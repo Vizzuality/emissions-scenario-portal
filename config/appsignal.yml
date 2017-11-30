@@ -28,4 +28,4 @@ staging:
 production:
   <<: *defaults
   active: true
-  
+
