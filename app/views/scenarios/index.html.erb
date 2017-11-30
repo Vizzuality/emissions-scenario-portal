@@ -7,7 +7,7 @@
         <%= render 'shared/components/c_upload_card',
           form_path: upload_meta_data_model_scenarios_path(@model),
           input_id: 'scenarios_file',
-          structure_path: upload_template_model_scenarios_path(@model),
+          structure_path: template_path(:scenarios),
           xls_structure_path: '/Meta_Scenario.xlsm',
           button_text: 'Upload or update scenario meta information' %>
       </div>
@@ -15,7 +15,7 @@
         <%= render 'shared/components/c_upload_card',
           form_path: upload_time_series_model_scenarios_path(@model),
           input_id: 'time_series_values_file',
-          structure_path: upload_time_series_template_model_scenarios_path(@model),
+          structure_path: template_path(:scenarios),
           locations_reference: true,
           button_text: 'Upload or update scenario time series' %>
       </div>

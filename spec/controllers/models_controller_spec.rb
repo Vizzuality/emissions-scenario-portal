@@ -183,16 +183,6 @@ RSpec.describe ModelsController, type: :controller do
       end
     end
 
-    describe 'GET template' do
-      it 'returns a template file' do
-        get :template
-        expect(response.content_type).to eq('text/csv')
-        expect(response.headers['Content-Disposition']).to eq(
-          'attachment; filename=models_upload_template.csv'
-        )
-      end
-    end
-
     it 'filters parameters correctly for update' do
       model_params = {
         abbreviation: 'ABC',

@@ -10,6 +10,15 @@ class ScenariosController < ApplicationController
         call(policy_scope(@model.scenarios))
   end
 
+  def show
+    @model = Model.find(params[:model_id])
+    @scenario = @model.scenarios.find(params[:id])
+    authorize(@scenario)
+    @indicators = FilterIndicators.
+      new(@filter_params).
+      call(@scenario.indicators)
+  end
+
   def edit
     @model = Model.find(params[:model_id])
     @scenario = @model.scenarios.find(params[:id])
@@ -28,15 +37,6 @@ class ScenariosController < ApplicationController
         'We could not update the scenario. Please check the inputs in red'
       render action: :edit
     end
-  end
-
-  def show
-    @model = Model.find(params[:model_id])
-    @scenario = @model.scenarios.find(params[:id])
-    authorize(@scenario)
-    @indicators = FilterIndicators.
-      new(@filter_params).
-      call(@scenario.indicators)
   end
 
   def destroy
@@ -60,16 +60,6 @@ class ScenariosController < ApplicationController
   #       data: @uploaded_io
   #     )
   #   end
-  # end
-
-  # def upload_template
-  #   @model = Model.find(params[:model_id])
-  #   csv_template = ScenariosUploadTemplate.new
-  #   send_data(
-  #     csv_template.export,
-  #     type: 'text/csv; charset=utf-8; header=present',
-  #     disposition: 'attachment; filename=scenarios_upload_template.csv'
-  #   )
   # end
 
   # def download_time_series

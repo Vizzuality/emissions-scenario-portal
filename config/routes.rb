@@ -1,21 +1,19 @@
 Rails.application.routes.draw do
   devise_for :users
 
-  resource :profile, only: [:edit, :update]
+  resource :profile, only: %i[edit update]
   resource :dashboard, only: %i[show]
+  resources :templates, only: %i[show]
 
-  resources :models, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
+  resources :models do
     collection do
       post :metadata
-      get :template
     end
 
-    resources :scenarios, only: [:index, :show, :edit, :update, :destroy] do
+    resources :scenarios, only: %i[index show edit update destroy] do
       collection do
         post :upload_meta_data
         post :upload_time_series, to: 'time_series_values#upload', as: :upload_time_series
-        get :upload_time_series_template, to: 'time_series_values#upload_template', as: :upload_time_series_template
-        get :upload_template
       end
       member do
         get :download_time_series
@@ -24,7 +22,6 @@ Rails.application.routes.draw do
 
     resources :indicators do
       collection do
-        get :upload_template
         post :upload_meta_data
       end
       member do
@@ -35,7 +32,6 @@ Rails.application.routes.draw do
 
   resources :indicators, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
     collection do
-      get :upload_template
       post :upload_meta_data
     end
     member do

@@ -440,18 +440,6 @@ RSpec.describe IndicatorsController, type: :controller do
       end
     end
 
-    describe 'GET upload_template' do
-      it 'returns a template file' do
-        get :upload_template, params: {
-          model_id: team_model.id
-        }
-        expect(response.content_type).to eq('text/csv')
-        expect(response.headers['Content-Disposition']).to eq(
-          'attachment; filename=indicators_upload_template.csv'
-        )
-      end
-    end
-
     describe 'GET download_time_series' do
       it 'returns indicator time series file' do
         create(:time_series_value, indicator: team_indicator)

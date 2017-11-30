@@ -35,13 +35,8 @@ class IndicatorsHeaders
     initialize_headers(path)
     @model = model
     @fus = FileUploadStatus.new(:headers, @headers.length, 0)
-    upload_template_path =
-      if @model
-        url_helpers.upload_template_model_indicators_path(@model)
-      else
-        url_helpers.upload_template_indicators_path
-      end
-    parse_headers(upload_template_path)
+    template_path = url_helpers.template_path(:indicators)
+    parse_headers(template_path)
   end
 
   def parse_headers(template_url)

@@ -36,7 +36,7 @@ class TimeSeriesValuesHeaders
     @model = model
     @fus = FileUploadStatus.new(:headers, @headers.length, 0)
     parse_headers(
-      url_helpers.upload_time_series_template_model_scenarios_path(@model)
+      url_helpers.template_path(:scenarios)
     )
   end
 

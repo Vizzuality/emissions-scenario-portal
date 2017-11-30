@@ -64,16 +64,6 @@ class ModelsController < ApplicationController
     redirect_to models_path, notice: 'Model successfully destroyed.'
   end
 
-  # GET /models/template.csv
-  def template
-    csv_template = ModelsUploadTemplate.new
-    send_data(
-      csv_template.export,
-      type: 'text/csv; charset=utf-8; header=present',
-      disposition: 'attachment; filename=models_upload_template.csv'
-    )
-  end
-
   # POST /models/metadata
   def metadata
     csv_upload = CsvUpload.create(

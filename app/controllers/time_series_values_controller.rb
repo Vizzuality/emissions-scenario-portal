@@ -11,15 +11,6 @@ class TimeSeriesValuesController < ApplicationController
     end
   end
 
-  def upload_template
-    csv_template = TimeSeriesValuesUploadTemplate.new
-    send_data(
-      csv_template.export,
-      type: 'text/csv; charset=utf-8; header=present',
-      disposition: 'attachment; filename=time_series_values_upload_template.csv'
-    )
-  end
-
   private
 
   def redirect_after_upload_url(csv_upload = nil)
