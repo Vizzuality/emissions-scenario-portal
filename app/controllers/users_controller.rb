@@ -13,12 +13,13 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @team = Team.find(params[:team_id])
-    authorize(@team, :update?)
-    @user.team_id = nil
-    @user.save(validate: false)
+    team = Team.find(params[:team_id])
+    authorize(team, :update?)
+    user = team.users.find(params[:id])
+    user.team_id = nil
+    user.save(validate: false)
     redirect_to(
-      edit_team_path(@team),
+      edit_team_path(team),
       notice: 'User successfully removed from team.'
     )
   end

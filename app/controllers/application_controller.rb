@@ -33,31 +33,6 @@ class ApplicationController < ActionController::Base
     ]
   end
 
-  def handle_io_upload(file_name, redirect_url)
-    @uploaded_io = params[file_name]
-    unless @uploaded_io.present?
-      redirect_to(
-        redirect_url, alert: 'Please provide an upload file'
-      ) and return true
-    end
-    csv_upload = yield
-    unless csv_upload.save
-      redirect_to(
-        redirect_url, alert: 'Please provide a .csv file'
-      ) and return true
-    end
-    handle_io_upload_in_background(csv_upload)
-  end
-
-  def handle_io_upload_in_background(csv_upload)
-    job = CsvUploadJob.perform_later(csv_upload.id)
-    csv_upload.update_attribute(:job_id, job.job_id)
-    redirect_to(
-      redirect_after_upload_url(csv_upload),
-      notice: 'File has been queued for processing. Please refresh.'
-    )
-  end
-
   def set_upload_errors
     return true unless params[:csv_upload_id].present?
     csv_upload = CsvUpload.find(params[:csv_upload_id])
