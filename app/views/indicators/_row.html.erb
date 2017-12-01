@@ -5,16 +5,13 @@
         <%= link_to indicator.composite_name, indicator_path(indicator) %>
       </div>
     </div>
-    <div class="small-1 columns">
+    <div class="small-2 columns">
       <div class="c-table-list-item__text f-ff1-m"><%= indicator.unit %></div>
     </div>
-    <div class="small-3 columns">
+    <div class="small-4 columns">
       <div class="c-table-list-item__text f-ff1-m">
         <%= indicator.definition && truncate(indicator.definition, length: 120) %>
       </div>
-    </div>
-    <div class="small-2 columns">
-      -
     </div>
     <div class="small-2 columns">
       <div class="c-table-list-item__actions">
