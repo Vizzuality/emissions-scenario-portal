@@ -20,7 +20,7 @@ Rails.application.routes.draw do
       resources :time_series_values, only: %w[index]
     end
 
-    resources :indicators do
+    resources :indicators, only: %i[index show] do
       resources :time_series_values, only: %w[index]
     end
   end

@@ -1,8 +1,6 @@
 class IndicatorsController < ApplicationController
-  before_action :set_nav_links, only: [:index, :show, :edit]
-  before_action :set_upload_errors, only: [:index]
-
   def index
+    @model = Model.find_by(id: params[:model_id])
     @indicators =
       FilterIndicators.
         new(@filter_params).
@@ -10,6 +8,7 @@ class IndicatorsController < ApplicationController
   end
 
   def show
+    @model = Model.find_by(id: params[:model_id])
     @indicator = Indicator.find(params[:id])
     authorize(@indicator)
     @time_series_values_pivot =
@@ -25,12 +24,13 @@ class IndicatorsController < ApplicationController
   end
 
   def create
-    @model = Model.find_by(id: params[:model_id])
     @indicator = Indicator.new(indicator_params)
     authorize(@indicator)
     if @indicator.save
-      redirect_to polymorphic_path([@model, @indicator]),
-                  notice: 'Indicator was successfully created.'
+      redirect_to(
+        indicator_path(@indicator),
+        notice: 'Indicator was successfully created.'
+      )
     else
       flash[:alert] =
         'We could not create the indicator. Please check the inputs in red'
@@ -39,18 +39,18 @@ class IndicatorsController < ApplicationController
   end
 
   def edit
-    @model = Model.find_by(id: params[:model_id])
     @indicator = Indicator.find(params[:id])
     authorize(@indicator)
   end
 
   def update
-    @model = Model.find_by(id: params[:model_id])
     @indicator = Indicator.find(params[:id])
     authorize(@indicator)
     if @indicator.update_attributes(indicator_params)
-      redirect_to polymorphic_path([@model, @indicator]),
-                  notice: 'Indicator was successfully updated.'
+      redirect_to(
+        indicator_path(@indicator),
+        notice: 'Indicator was successfully updated.'
+      )
     else
       flash[:alert] =
         'We could not update the indicator. Please check the inputs in red'
@@ -59,12 +59,11 @@ class IndicatorsController < ApplicationController
   end
 
   def destroy
-    @model = Model.find_by(id: params[:model_id])
     @indicator = Indicator.find(params[:id])
     authorize(@indicator)
     @indicator.destroy
     redirect_to(
-      polymorphic_path([@model, :indicators]),
+      indicators_path,
       notice: 'Indicator successfully destroyed'
     )
   end

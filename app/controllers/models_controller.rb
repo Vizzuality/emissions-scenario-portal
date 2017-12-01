@@ -1,7 +1,4 @@
 class ModelsController < ApplicationController
-  before_action :set_nav_links, only: [:index, :show, :edit]
-  before_action :set_upload_errors, only: [:index]
-
   def index
     @models = policy_scope(Model).all
     @team = current_user.team

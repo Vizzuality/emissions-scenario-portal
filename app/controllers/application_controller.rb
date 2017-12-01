@@ -18,21 +18,6 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def set_nav_links
-    return unless @model.present?
-    @nav_links = [
-      {name: 'Overview', path: model_url(@model), key: 'models'},
-      {
-        name: 'Indicators',
-        path: model_indicators_url(@model), key: 'indicators'
-      },
-      {
-        name: 'Scenarios',
-        path: model_scenarios_url(@model), key: 'scenarios'
-      }
-    ]
-  end
-
   def set_upload_errors
     return true unless params[:csv_upload_id].present?
     csv_upload = CsvUpload.find(params[:csv_upload_id])

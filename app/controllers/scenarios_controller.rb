@@ -1,7 +1,4 @@
 class ScenariosController < ApplicationController
-  before_action :set_nav_links, only: [:index, :show, :edit]
-  before_action :set_upload_errors, only: [:index]
-
   def index
     @model = Model.find(params[:model_id])
     @scenarios =
