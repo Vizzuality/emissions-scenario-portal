@@ -36,7 +36,7 @@
       </div>
       <div class="small-2 columns">
         <% if policy(@indicator).edit? %>
-          <%= link_to [:edit, @model, @indicator] do %>
+          <%= link_to edit_indicator_path(@indicator) do %>
             <div class="c-edit-button">
               <div class="c-edit-button__bubble">
                 <svg class="icon"><use xlink:href="#icon-edit"></use></svg>

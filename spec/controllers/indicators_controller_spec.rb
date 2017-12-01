@@ -25,10 +25,8 @@ RSpec.describe IndicatorsController, type: :controller do
 
     describe 'DELETE destroy' do
       it 'redirects to index for indicator' do
-        delete :destroy, params: {
-          model_id: team_model.id, id: indicator.id
-        }
-        expect(response).to redirect_to(model_indicators_url(team_model))
+        delete :destroy, params: {id: indicator.id}
+        expect(response).to redirect_to(indicators_url)
       end
     end
 
@@ -48,7 +46,6 @@ RSpec.describe IndicatorsController, type: :controller do
         post(
           :create,
           params: {
-            model_id: team_model.id,
             indicator: {
               category_id: category.id,
               subcategory_id: subcategory.id
@@ -56,9 +53,7 @@ RSpec.describe IndicatorsController, type: :controller do
           }
         )
 
-        expect(response).to redirect_to(
-          model_indicator_url(team_model, assigns(:indicator))
-        )
+        expect(response).to redirect_to(indicator_url(assigns(:indicator)))
       end
     end
 
@@ -74,16 +69,13 @@ RSpec.describe IndicatorsController, type: :controller do
         put(
           :update,
           params: {
-            model_id: team_model.id,
             id: indicator.id,
             indicator: {
               category_id: category.id
             }
           }
         )
-        expect(response).to redirect_to(
-          model_indicator_url(team_model, assigns(:indicator))
-        )
+        expect(response).to redirect_to(indicator_url(assigns(:indicator)))
       end
     end
   end

@@ -38,7 +38,6 @@ class ModelsController < ApplicationController
     if @model.update_attributes(model_params)
       redirect_to model_path(@model), notice: 'Model was successfully updated.'
     else
-      set_nav_links
       flash[:alert] =
         'We could not update the model. Please check the inputs in red'
       render action: :edit
