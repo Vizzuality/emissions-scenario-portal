@@ -5,7 +5,7 @@
   <div class="l-scenarios-overview__data-block">
     <div class="row align-right">
       <div class="small-3 columns">
-        <%= link_to download_time_series_model_scenario_path(@model, @scenario), class: 'l-scenarios__download' do %>
+        <%= link_to [@model, @scenario, :time_series_values], class: 'l-scenarios__download' do %>
           <div class="c-button"><span>Download time series</span></div>
         <% end %>
       </div>

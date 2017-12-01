@@ -7,15 +7,7 @@
   <div class="l-indicators-overview__data-block">
     <div class="row align-right">
       <div class="small-3 columns">
-        <%
-          download_time_series_path =
-            if defined? @model
-              download_time_series_model_indicator_path(@model, @indicator)
-            else
-              download_time_series_indicator_path(@indicator)
-            end
-        %>
-        <%= link_to download_time_series_path, class: 'l-indicators__download' do %>
+        <%= link_to [@model, @indicator, :time_series_values], class: 'l-indicators__download' do %>
           <div class="c-hollow-button"><span>Download time series</span></div>
         <% end %>
       </div>

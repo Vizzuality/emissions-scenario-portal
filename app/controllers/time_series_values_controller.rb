@@ -1,26 +1,20 @@
 class TimeSeriesValuesController < ApplicationController
-  def upload
-    model = Model.find(params[:model_id])
-    authorize(TimeSeriesValue, :create?)
-    csv_upload = CsvUpload.new(
-      user: current_user,
-      model: model,
-      service_type: 'UploadTimeSeriesValues',
-      data: params[:time_series_values_file]
-    )
+  def index
+    parent =
+      Scenario.find_by(id: params[:scenario_id]) ||
+      Indicator.find_by(id: params[:indicator_id])
 
-    if csv_upload.save
-      job = CsvUploadJob.perform_later(csv_upload.id)
-      csv_upload.update!(job_id: job.job_id)
-      redirect_to(
-        model_scenarios_url(model, csv_upload_id: csv_upload.id),
-        notice: 'File has been queued for processing. Please refresh.'
-      )
-    else
-      redirect_to(
-        model_scenarios_url(model),
-        alert: csv_upload.errors.full_messages.join(', ')
-      )
-    end
+    raise ActiveRecord::RecordNotFound if parent.blank?
+
+    csv_download =
+      DownloadTimeSeriesValues.
+        new(current_user).
+        call(parent.time_series_values)
+
+    send_data(
+      csv_download.export,
+      type: 'text/csv; charset=utf-8; header=present',
+      disposition: "attachment; filename=#{parent.class.name.downcase}_time_series_data.csv"
+    )
   end
 end

@@ -7,18 +7,17 @@ Rails.application.routes.draw do
   resources :csv_uploads, only: %i[create]
 
   resources :models do
-
     resources :scenarios, only: %i[index show edit update destroy] do
-      get :download_time_series, on: :member
+      resources :time_series_values, only: %w[index]
     end
 
     resources :indicators do
-      get :download_time_series, on: :member
+      resources :time_series_values, only: %w[index]
     end
   end
 
   resources :indicators, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
-    get :download_time_series, on: :member
+    resources :time_series_values, only: %w[index]
   end
 
   resources :teams, except: [:show] do
