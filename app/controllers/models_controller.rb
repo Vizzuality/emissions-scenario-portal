@@ -64,29 +64,6 @@ class ModelsController < ApplicationController
     redirect_to models_path, notice: 'Model successfully destroyed.'
   end
 
-  # POST /models/metadata
-  def metadata
-    csv_upload = CsvUpload.new(
-      user: current_user,
-      model: nil,
-      service_type: 'UploadModels',
-      data: params[:models_file]
-    )
-    if csv_upload.save
-      job = CsvUploadJob.perform_later(csv_upload.id)
-      csv_upload.update!(job_id: job.job_id)
-      redirect_to(
-        models_path(csv_upload_id: csv_upload.id),
-        notice: 'File has been queued for processing. Please refresh.'
-      )
-    else
-      redirect_to(
-        models_path,
-        alert: csv_upload.errors.full_messages.join(', ')
-      )
-    end
-  end
-
   private
 
   def model_params

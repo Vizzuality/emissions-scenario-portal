@@ -50,18 +50,6 @@ class ScenariosController < ApplicationController
     )
   end
 
-  # def upload_meta_data
-  #   @model = Model.find(params[:model_id])
-  #   handle_io_upload(:scenarios_file, model_scenarios_path(@model)) do
-  #     CsvUpload.create(
-  #       user: current_user,
-  #       model: @model,
-  #       service_type: 'UploadScenarios',
-  #       data: @uploaded_io
-  #     )
-  #   end
-  # end
-
   # def download_time_series
   #   @model = Model.find(params[:model_id])
   #   @scenario = @model.scenarios.find(params[:id])
@@ -81,10 +69,6 @@ class ScenariosController < ApplicationController
     params.require(:scenario).permit(
       *Scenario.attribute_symbols_for_strong_params
     )
-  end
-
-  def redirect_after_upload_path(csv_upload = nil)
-    model_scenarios_path(@model, csv_upload_id: csv_upload.try(:id))
   end
 
   def filter_params

@@ -65,17 +65,6 @@ class IndicatorsController < ApplicationController
     )
   end
 
-  # def upload_meta_data
-  #   handle_io_upload(:indicators_file, model_indicators_path(@model)) do
-  #     CsvUpload.create(
-  #       user: current_user,
-  #       model: @model,
-  #       service_type: 'UploadIndicators',
-  #       data: @uploaded_io
-  #     )
-  #   end
-  # end
-
   # def download_time_series
   #   @indicator = Indicator.find(params[:id])
   #   csv_download = DownloadTimeSeriesValues.new(current_user).call(
@@ -94,10 +83,6 @@ class IndicatorsController < ApplicationController
     params.require(:indicator).permit(
       *Indicator.attribute_symbols_for_strong_params
     )
-  end
-
-  def redirect_after_upload_path(csv_upload = nil)
-    model_indicators_path(@model, csv_upload_id: csv_upload.try(:id))
   end
 
   def filter_params
