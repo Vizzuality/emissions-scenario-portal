@@ -299,25 +299,6 @@ RSpec.describe IndicatorsController, type: :controller do
       end
     end
 
-    describe 'GET fork' do
-      it 'renders edit for master indicator' do
-        get :fork, params: {model_id: team_model.id, id: master_indicator.id}
-        expect(response).to render_template(:edit)
-      end
-
-      it 'renders edit for other team\'s indicator' do
-        get :fork, params: {model_id: team_model.id, id: some_indicator.id}
-        expect(response).to render_template(:edit)
-      end
-
-      it 'redirects to edit to own team\'s indicator' do
-        get :fork, params: {model_id: team_model.id, id: team_indicator.id}
-        expect(response).to redirect_to(
-          edit_model_indicator_url(team_model, team_indicator)
-        )
-      end
-    end
-
     describe 'PUT update' do
       it 'renders edit when validation errors present' do
         put :update, params: {
