@@ -2,14 +2,10 @@ require 'rails_helper'
 
 RSpec.describe UploadIndicators, upload: :s3 do
   let(:user) { create(:user) }
-  let(:model) {
-    create(:model, abbreviation: 'Model A', team: user.team)
-  }
   let(:csv_upload) {
     create(
       :csv_upload,
       user: user,
-      model: model,
       service_type: 'UploadIndicators',
       data: file
     )
@@ -20,51 +16,18 @@ RSpec.describe UploadIndicators, upload: :s3 do
   context 'when file correct' do
     let(:file) {
       Rack::Test::UploadedFile.new(
-        File.join(
-          Rails.root,
-          'spec',
-          'fixtures',
-          'indicators-correct.csv'
-        )
+        Rails.root.join('spec', 'fixtures', 'indicators-correct.csv')
       )
     }
-    context 'when admin' do
-      let(:user) { create(:user, admin: true) }
-      it 'should have saved all indicators' do
-        expect { subject }.to change { Indicator.count }.by(3)
-      end
-      it 'should report all rows saved' do
-        expect(subject.number_of_records_saved).to eq(2)
-      end
-      it 'should report no rows failed' do
-        expect(subject.number_of_records_failed).to eq(1)
-      end
+    let(:user) { create(:user, admin: true) }
+    it 'should have saved all indicators' do
+      expect { subject }.to change { Indicator.count }.by(3)
     end
-    context 'when researcher' do
-      it 'should have saved all non-system indicators' do
-        expect { subject }.to change { Indicator.count }.by(2)
-      end
-      it 'should report non-system indicators rows saved' do
-        expect(subject.number_of_records_saved).to eq(1)
-      end
-      it 'should report system indicator rows failed' do
-        expect(subject.number_of_records_failed).to eq(2)
-      end
+    it 'should report all rows saved' do
+      expect(subject.number_of_records_saved).to eq(2)
     end
-    context 'when researcher from another team' do
-      let(:user) { create(:user) }
-      let(:model) {
-        create(:model, abbreviation: 'Model A')
-      }
-      it 'should not have saved any indicators' do
-        expect { subject }.to change { Indicator.count }.by(0)
-      end
-      it 'should report no rows saved' do
-        expect(subject.number_of_records_saved).to eq(0)
-      end
-      it 'should report all rows failed' do
-        expect(subject.number_of_records_failed).to eq(3)
-      end
+    it 'should report no rows failed' do
+      expect(subject.number_of_records_failed).to eq(1)
     end
   end
 
@@ -95,28 +58,16 @@ RSpec.describe UploadIndicators, upload: :s3 do
         unit: 'Mt CO2e/yr'
       )
     end
-    context 'when admin' do
-      let(:user) { create(:user, admin: true) }
-      it 'should have saved new rows' do
-        expect { subject }.to change { Indicator.count }.by(2)
-      end
-      it 'should report all rows saved' do
-        expect(subject.number_of_records_saved).to eq(2)
-      end
-      it 'should report no rows failed' do
-        expect(subject.number_of_records_failed).to eq(1)
-      end
+
+    let(:user) { create(:user, admin: true) }
+    it 'should have saved new rows' do
+      expect { subject }.to change { Indicator.count }.by(2)
     end
-    context 'when researcher' do
-      it 'should have saved new rows' do
-        expect { subject }.to change { Indicator.count }.by(1)
-      end
-      it 'should report all rows saved' do
-        expect(subject.number_of_records_saved).to eq(1)
-      end
-      it 'should report no rows failed' do
-        expect(subject.number_of_records_failed).to eq(2)
-      end
+    it 'should report all rows saved' do
+      expect(subject.number_of_records_saved).to eq(2)
+    end
+    it 'should report no rows failed' do
+      expect(subject.number_of_records_failed).to eq(1)
     end
   end
 
@@ -131,48 +82,25 @@ RSpec.describe UploadIndicators, upload: :s3 do
         )
       )
     }
-    context 'when admin' do
-      let(:user) { create(:user, admin: true) }
-      it 'should have saved new rows' do
-        expect { subject }.to change { Indicator.count }.by(3)
-      end
-      it 'should have created a system indicator' do
-        expect { subject }.to change {
-          Indicator.where(parent_id: nil).count
-        }.by(1)
-      end
-      it 'should have created 2 variations' do
-        subject
-        system_indicator = Indicator.where(parent_id: nil).first
-        expect(system_indicator.variations.count).to eq(2)
-      end
-      it 'should report all rows saved' do
-        expect(subject.number_of_records_saved).to eq(2)
-      end
-      it 'should report no rows failed' do
-        expect(subject.number_of_records_failed).to eq(0)
-      end
+    let(:user) { create(:user, admin: true) }
+    it 'should have saved new rows' do
+      expect { subject }.to change { Indicator.count }.by(3)
     end
-    context 'when researcher' do
-      it 'should have saved new rows' do
-        expect { subject }.to change { Indicator.count }.by(3)
-      end
-      it 'should have created a team indicator' do
-        expect { subject }.to change {
-          Indicator.where(parent_id: nil).where('model_id IS NOT NULL').count
-        }.by(1)
-      end
-      it 'should have created 2 variations' do
-        subject
-        system_indicator = Indicator.where(parent_id: nil).first
-        expect(system_indicator.variations.count).to eq(2)
-      end
-      it 'should report all rows saved' do
-        expect(subject.number_of_records_saved).to eq(2)
-      end
-      it 'should report no rows failed' do
-        expect(subject.number_of_records_failed).to eq(0)
-      end
+    it 'should have created a system indicator' do
+      expect { subject }.to change {
+        Indicator.where(parent_id: nil).count
+      }.by(1)
+    end
+    it 'should have created 2 variations' do
+      subject
+      system_indicator = Indicator.where(parent_id: nil).first
+      expect(system_indicator.variations.count).to eq(2)
+    end
+    it 'should report all rows saved' do
+      expect(subject.number_of_records_saved).to eq(2)
+    end
+    it 'should report no rows failed' do
+      expect(subject.number_of_records_failed).to eq(0)
     end
   end
 
