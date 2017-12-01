@@ -26,10 +26,11 @@ class CsvUploadsController < ApplicationController
   def return_path(csv_upload_id: nil)
     uri = URI.parse(params[:return_path])
     if csv_upload_id.present?
-      new_query = URI.decode_www_form(uri.query.to_s)
-      new_query += [["csv_upload_id", csv_upload_id]]
-      uri.query = URI.encode_www_form(new_query)
+      query = URI.decode_www_form(uri.query.to_s)
+      uri.query = URI.encode_www_form(query + [["csv_upload_id", csv_upload_id]])
     end
     uri.to_s
+  rescue URI::InvalidURIError
+    root_path(csv_upload_id: csv_upload_id)
   end
 end
