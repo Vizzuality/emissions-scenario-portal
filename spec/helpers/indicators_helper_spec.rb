@@ -11,7 +11,7 @@ RSpec.describe IndicatorsHelper, type: :helper do
     create(:category, name: 'Transportation')
   }
   let!(:indicator) {
-    create(:indicator, category: category, subcategory: nil)
+    create(:indicator, category: category, subcategory: another_category)
   }
 
   describe :categories_for_select do

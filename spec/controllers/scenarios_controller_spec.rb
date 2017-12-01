@@ -77,12 +77,6 @@ RSpec.describe ScenariosController, type: :controller do
         get :index, params: {model_id: team_model.id}
         expect(response).to render_template(:index)
       end
-
-      it 'prevents unauthorized access' do
-        get :index, params: {model_id: some_model.id}
-        expect(response).to redirect_to(root_url)
-        expect(flash[:alert]).to match(/You are not authorized/)
-      end
     end
 
     describe 'GET show' do

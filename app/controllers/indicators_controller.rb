@@ -25,10 +25,11 @@ class IndicatorsController < ApplicationController
   end
 
   def create
+    @model = Model.find_by(id: params[:model_id])
     @indicator = Indicator.new(indicator_params)
     authorize(@indicator)
     if @indicator.save
-      redirect_to model_indicator_path(@model, @indicator),
+      redirect_to polymorphic_path([@model, @indicator]),
                   notice: 'Indicator was successfully created.'
     else
       flash[:alert] =
@@ -38,15 +39,17 @@ class IndicatorsController < ApplicationController
   end
 
   def edit
+    @model = Model.find_by(id: params[:model_id])
     @indicator = Indicator.find(params[:id])
     authorize(@indicator)
   end
 
   def update
+    @model = Model.find_by(id: params[:model_id])
     @indicator = Indicator.find(params[:id])
     authorize(@indicator)
     if @indicator.update_attributes(indicator_params)
-      redirect_to model_indicator_path(@model, @indicator),
+      redirect_to polymorphic_path([@model, @indicator]),
                   notice: 'Indicator was successfully updated.'
     else
       flash[:alert] =
@@ -56,11 +59,12 @@ class IndicatorsController < ApplicationController
   end
 
   def destroy
+    @model = Model.find_by(id: params[:model_id])
     @indicator = Indicator.find(params[:id])
     authorize(@indicator)
     @indicator.destroy
     redirect_to(
-      model_indicators_path(@model),
+      polymorphic_path([@model, :indicators]),
       notice: 'Indicator successfully destroyed'
     )
   end

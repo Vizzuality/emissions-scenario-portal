@@ -7,7 +7,7 @@ RSpec.describe ApplicationController, type: :controller do
       it 'goes to admin root' do
         expect(
           controller.send(:after_sign_in_path_for, admin)
-        ).to eq(admin_root_path)
+        ).to eq(root_path)
       end
     end
 
