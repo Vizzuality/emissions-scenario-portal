@@ -9,6 +9,15 @@ class IndicatorsController < ApplicationController
         call(policy_scope(Indicator))
   end
 
+  def show
+    @indicator = Indicator.find(params[:id])
+    authorize(@indicator)
+    @time_series_values_pivot =
+      @indicator.
+        time_series_values.
+        time_series_values_pivot
+  end
+
   def new
     @indicator = Indicator.new
     authorize(@indicator)
@@ -44,15 +53,6 @@ class IndicatorsController < ApplicationController
         'We could not update the indicator. Please check the inputs in red'
       render action: :edit
     end
-  end
-
-  def show
-    @indicator = Indicator.find(params[:id])
-    authorize(@indicator)
-    @time_series_values_pivot =
-      @indicator.
-        time_series_values.
-        time_series_values_pivot
   end
 
   def destroy

@@ -5,7 +5,16 @@ Rails.application.routes.draw do
   resource :dashboard, only: %i[show]
   resources :templates, only: %i[show]
   resources :csv_uploads, only: %i[create]
-
+  resources :locations, only: %i[index new create edit update destroy]
+  resources :categories, only: %i[index new create edit update destroy] do
+    resources :subcategories, only: %i[create destroy]
+  end
+  resources :teams, only: %i[index new create edit update destroy] do
+    resources :users, only: %i[create destroy]
+  end
+  resources :indicators do
+    resources :time_series_values, only: %w[index]
+  end
   resources :models do
     resources :scenarios, only: %i[index show edit update destroy] do
       resources :time_series_values, only: %w[index]
@@ -16,30 +25,16 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :indicators, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
-    resources :time_series_values, only: %w[index]
-  end
-
-  resources :teams, except: [:show] do
-    resources :users, only: [:create, :destroy]
-  end
-
-  resources :locations, only: [:index, :new, :create, :edit, :update, :destroy]
-
-  resources :categories, only: [:index, :new, :create, :edit, :update, :destroy] do
-    resources :subcategories, only: [:create, :destroy]
+  namespace :api do
+    namespace :v1 do
+      resources :models, only: %i[index show]
+      resources :scenarios, only: %i[index show]
+      resources :indicators, only: %i[index show]
+      resources :time_series_values, only: %i[index]
+      resources :locations, only: %i[index]
+      resources :categories, only: %i[index]
+    end
   end
 
   root to: "models#index"
-
-  namespace :api do
-    namespace :v1 do
-      resources :models, only: [:index, :show]
-      resources :scenarios, only: [:index, :show]
-      resources :indicators, only: [:index, :show]
-      resources :time_series_values, only: [:index]
-      resources :locations, only: [:index]
-      resources :categories, only: [:index]
-    end
-  end
 end

@@ -13,12 +13,6 @@ class TeamsController < ApplicationController
     render :edit
   end
 
-  def edit
-    @team = Team.find(params[:id])
-    authorize(@team)
-    @models = Model.team(@team)
-  end
-
   def create
     @team = Team.new(team_params)
     authorize(@team)
@@ -30,6 +24,12 @@ class TeamsController < ApplicationController
         'We could not create the team. Please check the inputs in red'
       render :edit
     end
+  end
+
+  def edit
+    @team = Team.find(params[:id])
+    authorize(@team)
+    @models = Model.team(@team)
   end
 
   def update

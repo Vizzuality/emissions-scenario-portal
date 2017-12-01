@@ -12,11 +12,6 @@ class LocationsController < ApplicationController
     render :edit
   end
 
-  def edit
-    @location = Location.find(params[:id])
-    authorize(@location)
-  end
-
   def create
     @location = Location.new(location_params)
     authorize(@location)
@@ -28,6 +23,11 @@ class LocationsController < ApplicationController
         'We could not create the country. Please check the inputs in red'
       render :edit
     end
+  end
+
+  def edit
+    @location = Location.find(params[:id])
+    authorize(@location)
   end
 
   def update

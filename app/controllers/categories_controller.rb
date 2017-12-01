@@ -17,12 +17,6 @@ class CategoriesController < ApplicationController
     render :edit
   end
 
-  def edit
-    @category = Category.find(params[:id])
-    authorize(@category)
-    @parent_categories = Category.where(parent_id: nil)
-  end
-
   def create
     @category = Category.new(category_params)
     authorize(@category)
@@ -34,6 +28,12 @@ class CategoriesController < ApplicationController
         'We could not create the category. Please check the inputs in red'
       render :edit
     end
+  end
+
+  def edit
+    @category = Category.find(params[:id])
+    authorize(@category)
+    @parent_categories = Category.where(parent_id: nil)
   end
 
   def update
