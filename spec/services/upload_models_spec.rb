@@ -15,14 +15,7 @@ RSpec.describe UploadModels, upload: :s3 do
 
   context 'when file correct' do
     let(:file) {
-      Rack::Test::UploadedFile.new(
-        File.join(
-          Rails.root,
-          'spec',
-          'fixtures',
-          'models-correct.csv'
-        )
-      )
+      fixture_file_upload('files/models-correct.csv')
     }
     it 'should have saved all rows' do
       expect { subject }.to change { Model.count }.by(2)
@@ -37,14 +30,7 @@ RSpec.describe UploadModels, upload: :s3 do
 
   context 'when file correct and overwrites old data' do
     let(:file) {
-      Rack::Test::UploadedFile.new(
-        File.join(
-          Rails.root,
-          'spec',
-          'fixtures',
-          'models-correct.csv'
-        )
-      )
+      fixture_file_upload('files/models-correct.csv')
     }
     before(:each) do
       create(
@@ -64,14 +50,7 @@ RSpec.describe UploadModels, upload: :s3 do
 
   context 'when file with invalid column' do
     let(:file) {
-      Rack::Test::UploadedFile.new(
-        File.join(
-          Rails.root,
-          'spec',
-          'fixtures',
-          'models-invalid_column.csv'
-        )
-      )
+      fixture_file_upload('files/models-invalid_column.csv')
     }
 
     it 'should not have saved any rows' do
@@ -87,14 +66,7 @@ RSpec.describe UploadModels, upload: :s3 do
 
   context 'when missing abreviation' do
     let(:file) {
-      Rack::Test::UploadedFile.new(
-        File.join(
-          Rails.root,
-          'spec',
-          'fixtures',
-          'models-missing_abbreviation.csv'
-        )
-      )
+      fixture_file_upload('files/models-missing_abbreviation.csv')
     }
 
     it 'should not have saved any rows' do
@@ -110,14 +82,7 @@ RSpec.describe UploadModels, upload: :s3 do
 
   context 'when invalid property' do
     let(:file) {
-      Rack::Test::UploadedFile.new(
-        File.join(
-          Rails.root,
-          'spec',
-          'fixtures',
-          'models-invalid_property.csv'
-        )
-      )
+      fixture_file_upload('files/models-invalid_property.csv')
     }
 
     it 'should not have saved any rows' do
@@ -133,14 +98,7 @@ RSpec.describe UploadModels, upload: :s3 do
 
   context 'when user without permissions tries to update a row' do
     let(:file) {
-      Rack::Test::UploadedFile.new(
-        File.join(
-          Rails.root,
-          'spec',
-          'fixtures',
-          'models-correct.csv'
-        )
-      )
+      fixture_file_upload('files/models-correct.csv')
     }
     let(:csv_upload) {
       create(

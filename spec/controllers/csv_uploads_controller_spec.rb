@@ -21,16 +21,15 @@ RSpec.describe CsvUploadsController, type: :controller do
       end
 
       it 'redirects with notice when models file queued' do
-        file_name = 'models-invalid_column.csv'
-        file_path = Rails.root.join('spec', 'fixtures', file_name)
+        file = file_fixture('models-invalid_column.csv')
 
         attachment_adapter = instance_double(
           'Paperclip::AttachmentAdapter',
-          path: file_path,
+          path: file,
           assignment?: true,
-          original_filename: file_name,
+          original_filename: file.basename.to_s,
           content_type: 'text/csv',
-          size: File.size?(file_path)
+          size: File.size?(file)
         )
         allow_any_instance_of(
           Paperclip::AdapterRegistry
@@ -41,7 +40,7 @@ RSpec.describe CsvUploadsController, type: :controller do
           params: {
             return_path: models_path,
             csv_upload: {
-              data: fixture_file_upload(file_name, 'text/csv'),
+              data: fixture_file_upload(file, 'text/csv'),
               service_type: 'UploadModels'
             }
           }
@@ -52,16 +51,15 @@ RSpec.describe CsvUploadsController, type: :controller do
       end
 
       it 'redirects with notice when indicators file queued' do
-        file_name = 'indicators-missing_column.csv'
-        file_path = Rails.root.join('spec', 'fixtures', file_name)
+        file = file_fixture('indicators-missing_column.csv')
 
         attachment_adapter = instance_double(
           'Paperclip::AttachmentAdapter',
-          path: file_path,
+          path: file,
           assignment?: true,
-          original_filename: file_name,
+          original_filename: file.basename.to_s,
           content_type: 'text/csv',
-          size: File.size?(file_path)
+          size: File.size?(file)
         )
         allow_any_instance_of(
           Paperclip::AdapterRegistry
@@ -74,7 +72,7 @@ RSpec.describe CsvUploadsController, type: :controller do
             csv_upload: {
               model_id: team_model.id,
               service_type: 'UploadIndicators',
-              data: fixture_file_upload(file_name, 'text/csv')
+              data: fixture_file_upload(file, 'text/csv')
             }
           }
         )
@@ -86,16 +84,15 @@ RSpec.describe CsvUploadsController, type: :controller do
 
 
       it 'redirects with notice when scenario file queued' do
-        file_name = 'scenarios-correct.csv'
-        file_path = Rails.root.join('spec', 'fixtures', file_name)
+        file = file_fixture('scenarios-correct.csv')
 
         attachment_adapter = instance_double(
           'Paperclip::AttachmentAdapter',
-          path: file_path,
+          path: file,
           assignment?: true,
-          original_filename: file_name,
+          original_filename: file.basename.to_s,
           content_type: 'text/csv',
-          size: File.size?(file_path)
+          size: File.size?(file)
         )
         allow_any_instance_of(
           Paperclip::AdapterRegistry
@@ -106,7 +103,7 @@ RSpec.describe CsvUploadsController, type: :controller do
           params: {
             return_path: model_scenarios_path(team_model),
             csv_upload: {
-              data: fixture_file_upload(file_name, 'text/csv'),
+              data: fixture_file_upload(file, 'text/csv'),
               model_id: team_model.id,
               service_type: 'UploadScenarios'
             }
@@ -120,16 +117,15 @@ RSpec.describe CsvUploadsController, type: :controller do
       end
 
       it 'redirects with notice when time series values file queued' do
-        file_name = 'time_series_values-correct.csv'
-        file_path = Rails.root.join('spec', 'fixtures', file_name)
+        file = file_fixture('time_series_values-correct.csv')
 
         attachment_adapter = instance_double(
           'Paperclip::AttachmentAdapter',
-          path: file_path,
+          path: file,
           assignment?: true,
-          original_filename: file_name,
+          original_filename: file.basename.to_s,
           content_type: 'text/csv',
-          size: File.size?(file_path)
+          size: File.size?(file)
         )
         allow_any_instance_of(
           Paperclip::AdapterRegistry
@@ -140,7 +136,7 @@ RSpec.describe CsvUploadsController, type: :controller do
           params: {
             return_path: model_scenarios_path(team_model),
             csv_upload: {
-              data: fixture_file_upload(file_name, 'text/csv'),
+              data: fixture_file_upload(file, 'text/csv'),
               model_id: team_model.id,
               service_type: 'UploadTimeSeriesValues'
             }

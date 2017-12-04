@@ -19,14 +19,7 @@ RSpec.describe UploadScenarios, upload: :s3 do
 
   context 'when file correct' do
     let(:file) {
-      Rack::Test::UploadedFile.new(
-        File.join(
-          Rails.root,
-          'spec',
-          'fixtures',
-          'scenarios-correct.csv'
-        )
-      )
+      fixture_file_upload('files/scenarios-correct.csv')
     }
     it 'should have saved all rows' do
       expect { subject }.to change { Scenario.count }.by(1)
@@ -41,14 +34,7 @@ RSpec.describe UploadScenarios, upload: :s3 do
 
   context 'when file correct and overwrites old data' do
     let(:file) {
-      Rack::Test::UploadedFile.new(
-        File.join(
-          Rails.root,
-          'spec',
-          'fixtures',
-          'scenarios-correct.csv'
-        )
-      )
+      fixture_file_upload('files/scenarios-correct.csv')
     }
     before(:each) do
       create(
@@ -70,14 +56,7 @@ RSpec.describe UploadScenarios, upload: :s3 do
 
   context 'when file with invalid column' do
     let(:file) {
-      Rack::Test::UploadedFile.new(
-        File.join(
-          Rails.root,
-          'spec',
-          'fixtures',
-          'scenarios-invalid_column.csv'
-        )
-      )
+      fixture_file_upload('files/scenarios-invalid_column.csv')
     }
 
     it 'should not have saved any rows' do
@@ -93,14 +72,7 @@ RSpec.describe UploadScenarios, upload: :s3 do
 
   context 'when file with unrecognised model' do
     let(:file) {
-      Rack::Test::UploadedFile.new(
-        File.join(
-          Rails.root,
-          'spec',
-          'fixtures',
-          'scenarios-unrecognised_model.csv'
-        )
-      )
+      fixture_file_upload('files/scenarios-unrecognised_model.csv')
     }
 
     it 'should not have saved any rows' do
@@ -116,14 +88,7 @@ RSpec.describe UploadScenarios, upload: :s3 do
 
   context 'when missing name' do
     let(:file) {
-      Rack::Test::UploadedFile.new(
-        File.join(
-          Rails.root,
-          'spec',
-          'fixtures',
-          'scenarios-missing_name.csv'
-        )
-      )
+      fixture_file_upload('files/scenarios-missing_name.csv')
     }
 
     it 'should not have saved any rows' do
@@ -139,14 +104,7 @@ RSpec.describe UploadScenarios, upload: :s3 do
 
   context 'when invalid property' do
     let(:file) {
-      Rack::Test::UploadedFile.new(
-        File.join(
-          Rails.root,
-          'spec',
-          'fixtures',
-          'scenarios-invalid_property.csv'
-        )
-      )
+      fixture_file_upload('files/scenarios-invalid_property.csv')
     }
 
     it 'should not have saved any rows' do
@@ -162,14 +120,7 @@ RSpec.describe UploadScenarios, upload: :s3 do
 
   context 'when user without permissions' do
     let(:file) {
-      Rack::Test::UploadedFile.new(
-        File.join(
-          Rails.root,
-          'spec',
-          'fixtures',
-          'scenarios-correct.csv'
-        )
-      )
+      fixture_file_upload('files/scenarios-correct.csv')
     }
     let(:csv_upload) {
       create(
