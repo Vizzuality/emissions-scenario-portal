@@ -38,7 +38,8 @@ class IndicatorsData
       return nil
     end
 
-    id_attributes = Indicator.slug_to_hash(slug)
+    id_attributes = %i[category subcategory name].zip(slug.split('|', 3)).to_h
+
     stackable_subcategory_raw = value_for(row, :stackable_subcategory)
     stackable_subcategory = stackable_subcategory_raw &&
       stackable_subcategory_raw.casecmp?('yes')

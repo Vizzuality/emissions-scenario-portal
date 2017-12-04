@@ -40,29 +40,6 @@ RSpec.describe Indicator, type: :model do
     end
   end
 
-  describe :slug_to_hash do
-    it 'parses a 3-part slug' do
-      expect(
-        Indicator.slug_to_hash('A|B|C')
-      ).to eq(category: 'A', subcategory: 'B', name: 'C')
-    end
-    it 'parses a 3-part slug with blank subcategory' do
-      expect(
-        Indicator.slug_to_hash('A||B')
-      ).to eq(category: 'A', subcategory: nil, name: 'B')
-    end
-    it 'parses a 2-part slug' do
-      expect(
-        Indicator.slug_to_hash('A|B')
-      ).to eq(category: 'A', subcategory: 'B')
-    end
-    it 'parses a long slug' do
-      expect(
-        Indicator.slug_to_hash('A|B|C|D')
-      ).to eq(category: 'A', subcategory: 'B', name: 'C|D')
-    end
-  end
-
   describe :time_series_data? do
     let!(:indicator) { create(:indicator) }
     it 'returns false when no time series data present' do

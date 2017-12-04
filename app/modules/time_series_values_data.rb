@@ -114,9 +114,7 @@ class TimeSeriesValuesData
   end
 
   def indicator_or_auto_generated_variation(indicator, model, row_no)
-    if indicator && (
-      indicator.system? || indicator.team? && indicator.model_id != model.id
-    )
+    if indicator
       # if all we have managed to match on is a system indicator
       # or another model's team indicator
       # fork a variation
