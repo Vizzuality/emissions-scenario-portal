@@ -18,10 +18,10 @@ class TimeSeriesValuesHeaders
       display_name: 'ESP Indicator Name',
       property_name: :indicator_name
     },
-    # {
-    #   display_name: 'Unit of Entry',
-    #   property_name: :unit_of_entry
-    # }
+    {
+      display_name: 'Unit of Entry',
+      property_name: :unit_of_entry
+    }
   ].freeze
 
   EXPECTED_PROPERTIES = Hash[

@@ -108,7 +108,7 @@ ORDER BY \"#{order_type}\" #{order_direction}"
     def column_aliases
       TimeSeriesValuesHeaders::EXPECTED_HEADERS.map do |eh|
         eh[:property_name]
-      end
+      end - [:unit_of_entry]
     end
 
     def column_headers

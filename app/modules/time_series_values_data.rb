@@ -104,40 +104,12 @@ class TimeSeriesValuesData
     identification = "indicator: #{indicator_name}"
 
     indicator = matching_object(
-      Indicator.best_effort_matches(indicator_name, model),
+      Indicator.where(composite_name: indicator_name),
       'indicator',
       identification,
       row_no,
       url_helpers.model_indicators_path(model)
     )
-    indicator_or_auto_generated_variation(indicator, model, row_no)
-  end
-
-  def indicator_or_auto_generated_variation(indicator, model, row_no)
-    if indicator
-      # if all we have managed to match on is a system indicator
-      # or another model's team indicator
-      # fork a variation
-      variation = indicator.fork_variation(
-        composite_name: "#{model.abbreviation} #{indicator.composite_name}", model_id: model.id
-      )
-
-      variation.save!
-      message = "A model variation of system indicator #{indicator.composite_name} was \
-automatically created."
-      suggestion = 'Please review the [list of indicators] added by your team'
-      link_options = {
-        url: url_helpers.model_indicators_path(
-          model, type: "team-#{@user.team_id}"
-        ), placeholder: 'list of indicators'
-      }
-      @fus.add_warning(
-        row_no, 'indicator',
-        format_error(message, suggestion, link_options)
-      )
-      indicator = variation
-    end
-    indicator
   end
 
   def location(row, row_no)
