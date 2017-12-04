@@ -212,29 +212,6 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
     end
   end
 
-  context 'when duplicated indicator' do
-    let(:file) {
-      fixture_file_upload('files/time_series_values-correct.csv')
-    }
-    before(:each) {
-      create(
-        :indicator,
-        category: indicator.category,
-        subcategory: indicator.subcategory,
-        name: indicator.name
-      )
-    }
-    it 'should not have saved any rows' do
-      expect { subject }.not_to(change { TimeSeriesValue.count })
-    end
-    it 'should report no rows saved' do
-      expect(subject.number_of_records_saved).to eq(0)
-    end
-    it 'should report all rows failed' do
-      expect(subject.number_of_records_failed).to eq(1)
-    end
-  end
-
   context 'when csv with lower cased indicators given' do
     let!(:ieo) { create(:model, full_name: 'IEO', team: user.team) }
 
