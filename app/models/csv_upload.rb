@@ -24,4 +24,6 @@ class CsvUpload < ApplicationRecord
       message: 'must be one of ' + UPLOAD_SERVICES.join(', ')
     }
   )
+
+  scope :finished, -> { where.not(finished_at: nil) }
 end

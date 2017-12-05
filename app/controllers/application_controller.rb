@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   include Pundit
 
   protect_from_forgery with: :exception
-  before_action :authenticate_user!
+  before_action :authenticate_user!, :fetch_upload_errors
 
   rescue_from Pundit::NotAuthorizedError do |exception|
     respond_to do |format|
@@ -18,14 +18,14 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def set_upload_errors
-    return true unless params[:csv_upload_id].present?
-    csv_upload = CsvUpload.find(params[:csv_upload_id])
-    return true unless csv_upload.finished_at.present?
+  def fetch_upload_errors
+    return if params[:csv_upload_id].blank?
+    csv_upload = CsvUpload.finished.find(params[:csv_upload_id])
     if csv_upload.success
-      redirect_to redirect_after_upload_url, notice: csv_upload.message
+      redirect_to(redirect_after_upload_url, notice: csv_upload.message)
     else
       @upload_errors = csv_upload.errors_and_warnings
     end
+  rescue ActiveRecord::RecordNotFound
   end
 end

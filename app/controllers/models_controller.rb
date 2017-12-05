@@ -8,7 +8,7 @@ class ModelsController < ApplicationController
     @model = Model.new
     @model.team = current_user.team unless current_user.admin?
     authorize(@model)
-    render action: :edit
+    render "edit"
   end
 
   def create
@@ -23,7 +23,7 @@ class ModelsController < ApplicationController
     else
       flash[:alert] =
         'We could not create the model. Please check the inputs in red'
-      render action: :edit
+      render "edit"
     end
   end
 
@@ -40,7 +40,7 @@ class ModelsController < ApplicationController
     else
       flash[:alert] =
         'We could not update the model. Please check the inputs in red'
-      render action: :edit
+      render "edit"
     end
   end
 
