@@ -26,6 +26,15 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
       unit: 'Mt CO2e/yr',
     )
   }
+  let!(:note) {
+    create(
+      :note,
+      model: model,
+      indicator: indicator,
+      unit_of_entry: "Mt CH4/yr",
+      conversion_factor: 25
+    )
+  }
   let!(:location1) {
     create(:location, name: 'Poland', iso_code: 'PL')
   }
@@ -79,7 +88,7 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
     it 'should have saved correct amounts' do
       expect { subject }.to change {
         indicator.time_series_values.sum(:value)
-      }.by(-70)
+      }.by(650)
     end
     it 'should report all rows saved' do
       expect(subject.number_of_records_saved).to eq(1) # 1 row with 2 values

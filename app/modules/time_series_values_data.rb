@@ -34,13 +34,18 @@ class TimeSeriesValuesData
     return [] if @fus.errors_for_key?(row_no, 'indicator')
     location = location(row, row_no)
     return [] if @fus.errors_for_key?(row_no, 'location')
-    unit_of_entry = unit_of_entry(model, indicator, row, row_no)
+    unit_of_entry, conversion_factor =
+      unit_of_entry(model, indicator, row, row_no)
     return [] if @fus.errors_for_key?(row_no, 'unit_of_entry')
 
     year_values = @headers.year_headers.map do |h|
       year = h[:display_name].to_i
       value = row[@headers.actual_index_of_year(h[:display_name])]
-      value.blank? ? nil : [year, value]
+      begin
+        value.blank? ? nil : [year, value.to_d * conversion_factor]
+      rescue ArgumentError
+        [year, value]
+      end
     end.compact
 
     year_values.map do |year, value|
@@ -54,7 +59,6 @@ class TimeSeriesValuesData
 
       if existing_tsv
         existing_tsv.value = value
-        existing_tsv.unit_of_entry = unit_of_entry
         existing_tsv.indicator = indicator
         existing_tsv
       else
@@ -63,8 +67,7 @@ class TimeSeriesValuesData
           indicator: indicator,
           location: location,
           year: year,
-          value: value,
-          unit_of_entry: unit_of_entry
+          value: value
         )
       end
     end
@@ -104,7 +107,7 @@ class TimeSeriesValuesData
     identification = "indicator: #{indicator_name}"
 
     indicator = matching_object(
-      Indicator.where(composite_name: indicator_name),
+      Indicator.where('lower(composite_name) = ?', indicator_name.to_s.downcase),
       'indicator',
       identification,
       row_no,
@@ -132,22 +135,28 @@ class TimeSeriesValuesData
   def unit_of_entry(model, indicator, row, row_no)
     return nil if indicator.nil?
     unit_of_entry = value_for(row, :unit_of_entry)
+    conversion_factor = 1
     return nil if unit_of_entry.nil?
+    note = Note.find_by(indicator_id: indicator.id, model_id: model.id)
     if unit_of_entry != indicator.unit
-      message = "Conversion factor unavailable for unit of entry \
-#{unit_of_entry}."
-      suggestion = "Please ensure unit of entry is compatible with [indicator]\
+      if unit_of_entry == note&.unit_of_entry
+        conversion_factor = note.conversion_factor
+      else
+        message = "Conversion factor unavailable for unit of entry \
+        #{unit_of_entry}."
+        suggestion = "Please ensure unit of entry is compatible with [indicator]\
  standardized unit"
-      link_options = {
-        url: url_helpers.model_indicator_path(model, indicator),
-        placeholder: 'indicator'
-      }
-      @fus.add_error(
-        row_no, 'unit_of_entry',
-        format_error(message, suggestion, link_options)
-      )
+        link_options = {
+          url: url_helpers.model_indicator_path(model, indicator),
+          placeholder: 'indicator'
+        }
+        @fus.add_error(
+          row_no, 'unit_of_entry',
+          format_error(message, suggestion, link_options)
+        )
+      end
     end
-    unit_of_entry
+    [unit_of_entry, conversion_factor]
   end
 
   def process_other_errors(row_or_col_no, object_errors, year)

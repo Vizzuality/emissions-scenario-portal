@@ -4,7 +4,6 @@ module Api
       attribute :id
       attribute :year
       attribute :value
-      attribute :unit_of_entry
       attribute :scenario_id
       attribute :indicator_id
       attribute :location_id
