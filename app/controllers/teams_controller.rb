@@ -20,7 +20,7 @@ class TeamsController < ApplicationController
       redirect_to edit_team_path(@team), notice: 'Team was successfully created.'
     else
       @models = Model.team(@team)
-      flash[:alert] =
+      flash.now[:alert] =
         'We could not create the team. Please check the inputs in red'
       render :edit
     end
@@ -39,7 +39,7 @@ class TeamsController < ApplicationController
       redirect_to edit_team_path(@team), notice: 'Team was successfully updated.'
     else
       @models = Model.team(@team)
-      flash[:alert] =
+      flash.now[:alert] =
         'We could not update the team. Please check the inputs in red'
       render :edit
     end

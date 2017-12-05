@@ -30,7 +30,7 @@ class ScenariosController < ApplicationController
       redirect_to model_scenario_path(@model, @scenario),
                   notice: 'Scenario was successfully updated.'
     else
-      flash[:alert] =
+      flash.now[:alert] =
         'We could not update the scenario. Please check the inputs in red'
       render action: :edit
     end

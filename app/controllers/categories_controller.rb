@@ -24,7 +24,7 @@ class CategoriesController < ApplicationController
       redirect_to edit_category_path(@category),
                   notice: 'Category was successfully created.'
     else
-      flash[:alert] =
+      flash.now[:alert] =
         'We could not create the category. Please check the inputs in red'
       render :edit
     end
@@ -43,7 +43,7 @@ class CategoriesController < ApplicationController
       redirect_to edit_category_path(@category),
                   notice: 'Category was successfully updated.'
     else
-      flash[:alert] =
+      flash.now[:alert] =
         'We could not update the category. Please check the inputs in red'
       render :edit
     end

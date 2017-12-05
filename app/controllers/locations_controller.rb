@@ -19,7 +19,7 @@ class LocationsController < ApplicationController
       redirect_to edit_location_path(@location),
                   notice: 'Country was successfully created.'
     else
-      flash[:alert] =
+      flash.now[:alert] =
         'We could not create the country. Please check the inputs in red'
       render :edit
     end
@@ -39,7 +39,7 @@ class LocationsController < ApplicationController
         notice: 'Country was successfully updated.'
       )
     else
-      flash[:alert] =
+      flash.now[:alert] =
         'We could not update the country. Please check the inputs in red'
       render :edit
     end

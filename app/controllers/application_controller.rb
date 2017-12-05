@@ -22,10 +22,11 @@ class ApplicationController < ActionController::Base
     return if params[:csv_upload_id].blank?
     csv_upload = CsvUpload.finished.find(params[:csv_upload_id])
     if csv_upload.success
-      redirect_to(redirect_after_upload_url, notice: csv_upload.message)
+      flash[:notice] = csv_upload.message
     else
-      @upload_errors = csv_upload.errors_and_warnings
+      flash[:upload_errors] = csv_upload.errors_and_warnings
     end
+    redirect_to(url_for)
   rescue ActiveRecord::RecordNotFound
   end
 end

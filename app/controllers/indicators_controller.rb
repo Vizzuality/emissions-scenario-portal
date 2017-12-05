@@ -32,7 +32,7 @@ class IndicatorsController < ApplicationController
         notice: 'Indicator was successfully created.'
       )
     else
-      flash[:alert] =
+      flash.now[:alert] =
         'We could not create the indicator. Please check the inputs in red'
       render action: :edit
     end
@@ -52,7 +52,7 @@ class IndicatorsController < ApplicationController
         notice: 'Indicator was successfully updated.'
       )
     else
-      flash[:alert] =
+      flash.now[:alert] =
         'We could not update the indicator. Please check the inputs in red'
       render action: :edit
     end

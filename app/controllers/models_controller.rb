@@ -21,7 +21,7 @@ class ModelsController < ApplicationController
         notice: 'Model was successfully created.'
       )
     else
-      flash[:alert] =
+      flash.now[:alert] =
         'We could not create the model. Please check the inputs in red'
       render "edit"
     end
@@ -38,7 +38,7 @@ class ModelsController < ApplicationController
     if @model.update_attributes(model_params)
       redirect_to model_path(@model), notice: 'Model was successfully updated.'
     else
-      flash[:alert] =
+      flash.now[:alert] =
         'We could not update the model. Please check the inputs in red'
       render "edit"
     end
