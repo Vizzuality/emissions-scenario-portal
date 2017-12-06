@@ -1,4 +1,4 @@
-<% if defined? @model %>
+<% if @model %>
   <%= render 'shared/components/c_landing_header', title: @model.full_name %>
 <% else %>
   <%= render 'shared/components/c_landing_header', no_nav: true %>
