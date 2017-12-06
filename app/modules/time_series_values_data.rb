@@ -34,8 +34,7 @@ class TimeSeriesValuesData
     return [] if @fus.errors_for_key?(row_no, 'indicator')
     location = location(row, row_no)
     return [] if @fus.errors_for_key?(row_no, 'location')
-    unit_of_entry, conversion_factor =
-      unit_of_entry(model, indicator, row, row_no)
+    conversion_factor = conversion_factor(model, indicator, row, row_no)
     return [] if @fus.errors_for_key?(row_no, 'unit_of_entry')
 
     year_values = @headers.year_headers.map do |h|
@@ -132,7 +131,7 @@ class TimeSeriesValuesData
     )
   end
 
-  def unit_of_entry(model, indicator, row, row_no)
+  def conversion_factor(model, indicator, row, row_no)
     return nil if indicator.nil?
     unit_of_entry = value_for(row, :unit_of_entry)
     conversion_factor = 1
@@ -156,7 +155,7 @@ class TimeSeriesValuesData
         )
       end
     end
-    [unit_of_entry, conversion_factor]
+    conversion_factor
   end
 
   def process_other_errors(row_or_col_no, object_errors, year)
