@@ -7,12 +7,14 @@
   <div class="l-indicators__upload-block">
     <div class="row">
       <div class="small-12 columns">
-        <%= render 'shared/components/c_upload_card',
-                   structure_path: template_path(:indicators),
-                   sample_path: '/System_Indicator_Master_List.csv',
-                   button_text: 'Upload or update indicators',
-                   service_type: 'UploadTimeSeriesValues',
-                   return_path: polymorphic_path([@model, :indicators]) %>
+        <% if policy(Indicator).create? %>
+          <%= render 'shared/components/c_upload_card',
+                     structure_path: template_path(:indicators),
+                     sample_path: '/System_Indicator_Master_List.csv',
+                     button_text: 'Upload or update indicators',
+                     service_type: 'UploadTimeSeriesValues',
+                     return_path: polymorphic_path([@model, :indicators]) %>
+        <% end %>
       </div>
     </div>
   </div>
