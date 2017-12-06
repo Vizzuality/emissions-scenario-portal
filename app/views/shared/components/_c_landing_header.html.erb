@@ -18,6 +18,13 @@
     <div class="small-5 columns">
       <div class="c-landing-header__buttons">
         <% if user.present? %>
+          <% if user.admin? %>
+            <%= link_to dashboard_path do %>
+              <div class="c-dashboard-button">
+                <div class="f-ff1-s">Admin Dashboard</div>
+              </div>
+            <% end %>
+          <% end %>
           <%= link_to edit_profile_path do %>
             <div class="c-user-button">
               <svg class="icon"><use xlink:href="#icon-avatar"></use></svg>
