@@ -11,7 +11,7 @@ module Api
                      end
 
         indicators = indicators.
-          includes(:category, :subcategory, :model)
+          includes(:category, :subcategory)
 
         if param_list(:category)
           indicators = indicators.where(

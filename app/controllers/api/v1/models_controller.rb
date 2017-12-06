@@ -11,7 +11,7 @@ module Api
 
         models = models.
           filtered_by_locations(location_ids) if location_ids.present?
-        models = models.with_scenarios_and_indicators
+        models = models.includes(:scenarios)
         models = models.order(:full_name)
 
         render json: models

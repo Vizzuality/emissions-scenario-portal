@@ -18,7 +18,7 @@ module Api
           end
 
         scenarios = scenarios.where(model_id: params[:model]) if params[:model]
-        scenarios = scenarios.includes(model: :indicators).order(:name)
+        scenarios = scenarios.includes(:model).order(:name)
 
         render json: scenarios
       end
