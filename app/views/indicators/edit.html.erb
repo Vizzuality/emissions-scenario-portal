@@ -1,5 +1,5 @@
-<%= render 'shared/components/c_landing_header',
-  title: @indicator.name %>
+<%= render 'shared/components/c_landing_header', title: @indicator.name,
+  no_nav: true %>
 
 <script>
   App.Data.categories = <%= raw(@categories) %>;
