@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :location do
-    name 'Poland'
-    iso_code 'PL'
+    sequence(:name) { |n| "Country #{n}" }
+    sequence(:iso_code) { |n| ('AA'..'ZZ').to_a[n] }
     region false
   end
 end

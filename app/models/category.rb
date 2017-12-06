@@ -1,12 +1,31 @@
 class Category < ApplicationRecord
-  belongs_to :parent, class_name: 'Category', foreign_key: 'parent_id',
-             optional: true
-  has_many :subcategories, class_name: 'Category', foreign_key: 'parent_id',
-           dependent: :restrict_with_error
-  has_many :category_indicators, class_name: 'Indicator',
-           dependent: :restrict_with_error
-  has_many :subcategory_indicators, class_name: 'Indicator',
-           foreign_key: 'subcategory_id', dependent: :restrict_with_error
+  belongs_to(
+    :parent,
+    class_name: 'Category',
+    foreign_key: 'parent_id',
+    optional: true
+  )
+
+  has_many(
+    :subcategories,
+    -> { order(:name) },
+    class_name: 'Category',
+    foreign_key: 'parent_id',
+    dependent: :restrict_with_error
+  )
+
+  has_many(
+    :category_indicators,
+    class_name: 'Indicator',
+    dependent: :restrict_with_error
+  )
+
+  has_many(
+    :subcategory_indicators,
+    class_name: 'Indicator',
+    foreign_key: 'subcategory_id',
+    dependent: :restrict_with_error
+  )
 
   accepts_nested_attributes_for :subcategories
 

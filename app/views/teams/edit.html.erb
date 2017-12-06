@@ -50,6 +50,17 @@
                 <%= f.collection_select :model_ids, @models, :id, :abbreviation, {}, {multiple: true, class: 'js-form-input js-multiple-select'} %>
               </div>
             </div>
+            <div class="c-form-item
+              <% if f.object['image'].present? %>-highlighted<% end %>
+              <% if @team.errors.messages[:image].present? %>-error<% end %>
+            ">
+              <%= label :image, 'Team Picture', class: 'f-ff1-m' %>
+              <div>
+                <%= f.file_field :image %>
+                <%= image_tag @team.image.url(:thumb) unless @team.image_file_name.nil? %>
+              </div>
+              <span class="f-ff1-s">Accepted formats: jpg, png. File size must be below 500kb.</span>
+            </div>
           </div>
         </div>
 

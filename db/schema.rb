@@ -62,6 +62,8 @@ ActiveRecord::Schema.define(version: 20171128124113) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "iso_code"
+    t.index ["iso_code"], name: "index_locations_on_iso_code", unique: true
+    t.index ["name"], name: "index_locations_on_name", unique: true
   end
 
   create_table "models", id: :serial, force: :cascade do |t|
@@ -174,6 +176,10 @@ ActiveRecord::Schema.define(version: 20171128124113) do
     t.text "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "image_file_name"
+    t.string "image_content_type"
+    t.integer "image_file_size"
+    t.datetime "image_updated_at"
   end
 
   create_table "time_series_values", id: :serial, force: :cascade do |t|

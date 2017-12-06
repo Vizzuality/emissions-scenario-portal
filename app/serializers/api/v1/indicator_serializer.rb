@@ -7,6 +7,7 @@ module Api
       attribute :unit
       attribute :composite_name
 
+      belongs_to :model, serializer: Api::V1::ModelShortSerializer
       belongs_to :category
       belongs_to :subcategory
     end

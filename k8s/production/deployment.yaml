@@ -18,8 +18,6 @@ spec:
         resources:
           requests:
             memory: "128Mi"
-          limits:
-            memory: "512Mi"
         env:
           - name: MAILER_DEFAULT_FROM
             value: no-reply@emissionspathways.org
@@ -31,6 +29,8 @@ spec:
             value: production
           - name: RAILS_ENV
             value: production
+          - name: RAILS_LOG_TO_STDOUT
+            value: "true"
           - name: PORT
             value: "3000"
           - name: RAILS_SERVE_STATIC_FILES
@@ -75,7 +75,7 @@ spec:
           requests:
             memory: "64Mi"
           limits:
-            memory: "256Mi"
+            memory: "512Mi"
         command: ["bundle", "exec", "sidekiq"]
         env:
           - name: MAILER_DEFAULT_FROM

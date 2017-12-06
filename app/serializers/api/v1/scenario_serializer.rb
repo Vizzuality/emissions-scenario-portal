@@ -2,6 +2,7 @@ module Api
   module V1
     class ScenarioSerializer < ActiveModel::Serializer
       attribute :id
+      attribute :model_id
       attribute :name
       attribute :model_abbreviation
       attribute :category
