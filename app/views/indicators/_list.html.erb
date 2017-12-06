@@ -57,5 +57,5 @@
   </div>
 </div>
 <% @indicators.each do |indicator| %>
-  <%= render partial: 'row', locals: {indicator: indicator, variation: nil} %>
+  <%= render 'indicators/row', indicator: indicator %>
 <% end %>
