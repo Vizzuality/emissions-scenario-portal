@@ -4,7 +4,7 @@ module Api
       def index
         models =
           if params[:time_series]
-            Model.have_time_series
+            Model.having_time_series
           else
             Model.all
           end

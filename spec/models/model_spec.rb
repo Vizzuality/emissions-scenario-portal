@@ -64,4 +64,20 @@ RSpec.describe Model, type: :model do
       ).to eq('models.platform.definition')
     end
   end
+
+  describe :having_time_series do
+    it 'should return only models having time series values' do
+      with1 = create(:model)
+      scenario1 = create(:scenario, model: with1)
+      create(:time_series_value, scenario: scenario1)
+      with2 = create(:model)
+      scenario2 = create(:scenario, model: with2)
+      create(:time_series_value, scenario: scenario2)
+      scenario2 = create(:scenario, model: with2)
+      create(:time_series_value, scenario: scenario2)
+      without = create(:model)
+
+      expect(Model.having_time_series).to contain_exactly(with1, with2)
+    end
+  end
 end
