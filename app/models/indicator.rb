@@ -18,6 +18,8 @@ class Indicator < ApplicationRecord
 
   pg_search_scope :search_for, against: %i[name composite_name]
 
+  scope :having_time_series, -> { where.not(time_series_values_count: 0) }
+
   def scenarios
     Scenario.joins(
       "JOIN (

@@ -4,15 +4,7 @@ module Api
       def index
         scenarios =
           if params[:time_series]
-            # FIXME: it seems to be a very inefficient way - it may
-            # generate very long queries. It would be better to use
-            # GROUP BY and HAVING clauses instead.
-            scenarios_ids =
-              TimeSeriesValue.
-                select(:scenario_id).
-                distinct.
-                pluck(:scenario_id)
-            Scenario.where(id: scenarios_ids)
+            Scenario.having_time_series
           else
             Scenario.all
           end

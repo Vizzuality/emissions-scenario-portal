@@ -13,6 +13,8 @@ class Scenario < ApplicationRecord
 
   delegate :abbreviation, to: :model, prefix: :model
 
+  scope :having_time_series, -> { where.not(time_series_values_count: 0) }
+
   def indicators
     Indicator.joins(
       "JOIN (
