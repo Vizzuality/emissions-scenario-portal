@@ -2,9 +2,7 @@ class IndicatorsController < ApplicationController
   def index
     @model = Model.find_by(id: params[:model_id])
     @indicators =
-      FilterIndicators.
-        new(@filter_params).
-        call(policy_scope(Indicator))
+      FilterIndicators.new(@filter_params).call(policy_scope(Indicator))
   end
 
   def show

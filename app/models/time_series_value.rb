@@ -1,6 +1,6 @@
 class TimeSeriesValue < ApplicationRecord
-  belongs_to :scenario
-  belongs_to :indicator
+  belongs_to :scenario, counter_cache: true
+  belongs_to :indicator, counter_cache: true
   belongs_to :location
 
   validates(

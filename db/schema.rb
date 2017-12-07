@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171128124113) do
+ActiveRecord::Schema.define(version: 20171207080607) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 20171128124113) do
     t.text "composite_name"
     t.bigint "category_id"
     t.bigint "subcategory_id"
+    t.integer "time_series_values_count", default: 0
     t.index ["category_id"], name: "index_indicators_on_category_id"
     t.index ["composite_name"], name: "index_indicators_on_composite_name", unique: true
     t.index ["subcategory_id"], name: "index_indicators_on_subcategory_id"
@@ -169,6 +170,7 @@ ActiveRecord::Schema.define(version: 20171128124113) do
     t.text "other_target_type"
     t.text "other_target"
     t.text "burden_sharing"
+    t.integer "time_series_values_count", default: 0
     t.index ["model_id"], name: "index_scenarios_on_model_id"
   end
 

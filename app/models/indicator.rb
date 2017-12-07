@@ -29,7 +29,7 @@ class Indicator < ApplicationRecord
   end
 
   def time_series_data?
-    time_series_values.any?
+    time_series_values_count > 0
   end
 
   private
