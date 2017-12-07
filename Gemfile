@@ -32,7 +32,7 @@ gem 'pg_csv'
 gem 'pg_search'
 gem 'pundit'
 gem 'sidekiq'
-gem 'sparkpost_rails', github: 'the-refinery/sparkpost_rails'
+gem 'sparkpost_rails'
 
 group :development, :test do
   gem 'byebug', platform: :mri
