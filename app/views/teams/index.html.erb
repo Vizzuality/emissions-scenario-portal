@@ -16,10 +16,12 @@
       </div>
     </div>
     <div class="small-3 columns">
-      <%= link_to new_team_path do %>
-        <div class="c-button">
-          <span>Create new team</span>
-        </div>
+      <% if policy(Team).new? %>
+        <%= link_to new_team_path do %>
+          <div class="c-button">
+            <span>Create new team</span>
+          </div>
+        <% end %>
       <% end %>
     </div>
   </div>
@@ -66,18 +68,22 @@
         </div>
         <div class="small-1 columns">
           <div class="c-table-list-item__actions">
-            <%= link_to team_path(team), method: :delete, data: { confirm: 'Are you sure?' } do %>
-              <div class="c-delete-button">
-                <svg class="icon"><use xlink:href="#icon-delete"></use></svg>
-              </div>
-            <% end %>
-            <%= link_to edit_team_path(team) do %>
-              <div class="c-edit-button">
-                <div class="c-edit-button__bubble">
-                  <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+            <% if policy(team).destroy? %>
+              <%= link_to team_path(team), method: :delete, data: { confirm: 'Are you sure?' } do %>
+                <div class="c-delete-button">
+                  <svg class="icon"><use xlink:href="#icon-delete"></use></svg>
                 </div>
-                <div class="f-ff1-s">Edit</div>
-              </div>
+              <% end %>
+            <% end %>
+            <% if policy(team).edit? %>
+              <%= link_to edit_team_path(team) do %>
+                <div class="c-edit-button">
+                  <div class="c-edit-button__bubble">
+                    <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+                  </div>
+                  <div class="f-ff1-s">Edit</div>
+                </div>
+              <% end %>
             <% end %>
           </div>
         </div>

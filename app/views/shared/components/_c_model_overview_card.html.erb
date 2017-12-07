@@ -22,7 +22,7 @@
           if item.is_a?(Model)
             name = item.abbreviation
           elsif item.is_a?(Indicator)
-            name = item.alias
+            name = item.composite_name
           else
             name = item.name
           end
@@ -33,7 +33,7 @@
         <li>&#8230;</li>
       <% end %>
     </ul>
-    <%= link_to button_url do %>
+    <%= link_to button_path do %>
       <div class="c-button"><span><%= button_text %></span></div>
     <% end %>
   <% end %>

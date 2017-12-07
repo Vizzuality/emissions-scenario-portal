@@ -152,47 +152,6 @@ RSpec.describe ModelsController, type: :controller do
       end
     end
 
-    describe 'POST upload_meta_data', upload: :s3 do
-      let(:file_name) { 'models-invalid_column.csv' }
-      let(:file_path) { Rails.root.join('spec', 'fixtures', file_name) }
-      it 'redirects with error when file not given' do
-        post :upload_meta_data
-        expect(response).to redirect_to(models_url)
-        expect(flash[:alert]).to match(/upload file/)
-      end
-
-      it 'redirects with notice when file queued' do
-        attachment_adapter = instance_double(
-          'Paperclip::AttachmentAdapter',
-          path: file_path,
-          assignment?: true,
-          original_filename: file_name,
-          content_type: 'text/csv',
-          size: File.size?(file_path)
-        )
-        allow_any_instance_of(
-          Paperclip::AdapterRegistry
-        ).to receive(:for).and_return(attachment_adapter)
-        post :upload_meta_data, params: {
-          models_file: fixture_file_upload(
-            file_name, 'text/csv'
-          )
-        }
-        expect(response).to redirect_to(/#{models_url}\?csv_upload_id/)
-        expect(flash[:notice]).to match(/queued/)
-      end
-    end
-
-    describe 'GET upload_template' do
-      it 'returns a template file' do
-        get :upload_template
-        expect(response.content_type).to eq('text/csv')
-        expect(response.headers['Content-Disposition']).to eq(
-          'attachment; filename=models_upload_template.csv'
-        )
-      end
-    end
-
     it 'filters parameters correctly for update' do
       model_params = {
         abbreviation: 'ABC',

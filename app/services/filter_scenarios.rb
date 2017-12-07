@@ -1,6 +1,6 @@
 class FilterScenarios
   cattr_reader :order_columns do
-    %w[name updated_at time_series indicators].freeze
+    %w[name updated_at time_series_values_count indicators].freeze
   end
 
   include ActiveModel::Model
@@ -31,9 +31,10 @@ class FilterScenarios
 
     case order_type
     when 'indicators'
-      scenarios.time_series.order("count(indicator_id) #{order_direction}")
-    when 'time_series'
-      scenarios.time_series_order(order_direction)
+      scenarios.
+        left_outer_joins(:time_series_values).
+        group('scenarios.id').
+        order("count(indicator_id) #{order_direction}")
     else
       scenarios.order(order_type => order_direction, name: :asc)
     end

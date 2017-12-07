@@ -3,19 +3,23 @@
   <div class="l-models__upload-block">
     <div class="row">
       <div class="small-12 columns">
-        <%= render 'shared/components/c_upload_card',
-                   form_url: upload_meta_data_models_url,
-                   input_id: 'models_file',
-                   structure_url: upload_template_models_url,
-                   xls_structure_url: '/Meta_Model.xlsm',
-                   button_text: 'Upload or update model meta information' %>
+        <% if policy(Model).create? %>
+          <%= render 'shared/components/c_upload_card',
+                structure_path: template_path(:models),
+                xls_structure_path: '/Meta_Model.xlsm',
+                button_text: 'Upload or update model meta information',
+                service_type: 'UploadModels',
+                return_path: models_path %>
+        <% end %>
       </div>
     </div>
   </div>
   <div class="row align-right">
     <div class="small-3 columns">
-      <%= link_to new_model_url, class: 'l-models__new-model' do %>
-        <div class="c-hollow-button"><span>Create new model</span></div>
+      <% if policy(Model).new? %>
+        <%= link_to new_model_path, class: 'l-models__new-model' do %>
+          <div class="c-hollow-button"><span>Create new model</span></div>
+        <% end %>
       <% end %>
     </div>
   </div>
@@ -36,7 +40,7 @@
         <%= render 'shared/components/c_model_card',
           title: "#{model.abbreviation}. #{model.full_name}",
           description: "Last updated on #{model.updated_at.to_formatted_s(:short)}",
-          button_url: model_url(model) %>
+          button_path: model_path(model) %>
       </div>
     <% end %>
   </div>
@@ -44,7 +48,7 @@
     <div class="small-12 columns">
       <%= render 'shared/components/c_columns_table',
                  title: 'Team',
-                 edit_url: edit_team_path(@team),
+                 edit_path: edit_team_path(@team),
                  columns: [
                    {
                      title: 'Name',

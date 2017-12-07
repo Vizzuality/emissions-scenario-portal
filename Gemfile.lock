@@ -69,7 +69,6 @@ GEM
     bindex (0.5.0)
     builder (3.2.3)
     byebug (9.1.0)
-    cancancan (1.17.0)
     case_transform (0.2)
       activesupport
     charlock_holmes (0.7.5)
@@ -181,6 +180,8 @@ GEM
       pry (>= 0.10.4)
     public_suffix (3.0.0)
     puma (3.10.0)
+    pundit (1.1.0)
+      activesupport (>= 3.0.0)
     rack (2.0.3)
     rack-protection (2.0.0)
       rack
@@ -327,7 +328,6 @@ DEPENDENCIES
   appsignal
   aws-sdk (~> 2)
   byebug
-  cancancan (~> 1.10)
   charlock_holmes
   coffee-rails
   devise
@@ -347,6 +347,7 @@ DEPENDENCIES
   pry-byebug
   pry-rails
   puma
+  pundit
   rails (~> 5.1.4)
   rails-assets-URIjs!
   rails-assets-backbone!

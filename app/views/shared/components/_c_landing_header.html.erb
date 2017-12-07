@@ -4,7 +4,7 @@
   no_nav ||= false
 %>
 <%= render 'shared/components/c_wri_header' %>
-<div class="c-landing-header <% if no_nav || !@nav_links.present? %>-no-nav<% end %>">
+<div class="c-landing-header <% if no_nav || @model.new_record? %>-no-nav<% end %>">
   <div class="row">
     <div class="small-7 columns">
       <div class="f-ff2-xl-extralight c-landing-header__title">
@@ -18,13 +18,20 @@
     <div class="small-5 columns">
       <div class="c-landing-header__buttons">
         <% if user.present? %>
+          <% if user.admin? %>
+            <%= link_to dashboard_path do %>
+              <div class="c-dashboard-button">
+                <div class="f-ff1-s">Admin Dashboard</div>
+              </div>
+            <% end %>
+          <% end %>
           <%= link_to edit_profile_path do %>
             <div class="c-user-button">
               <svg class="icon"><use xlink:href="#icon-avatar"></use></svg>
               <div class="f-ff1-s"><%= user.name || user.email %></div>
             </div>
           <% end %>
-          <%= link_to destroy_user_session_url, method: :delete  do %>
+          <%= link_to destroy_user_session_path, method: :delete  do %>
             <div class="c-signout-button">
               <svg class="icon"><use xlink:href="#icon-signout"></use></svg>
               <div class="f-ff1-s">Sign out</div>
@@ -33,10 +40,10 @@
         <% end %>
       </div>
     </div>
-    <% if !no_nav && @nav_links.present? %>
+    <% if !no_nav && @model.persisted? %>
       <div class="small-12 columns">
         <ul class="c-landing-nav f-ff1-xs">
-          <% @nav_links.each do |link| %>
+          <% nav_links.each do |link| %>
             <li class="<%= (controller_name == link[:key] ? '-selected' : '')%>">
               <%= link_to link[:name], link[:path] %>
             </li>

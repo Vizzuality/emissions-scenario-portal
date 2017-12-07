@@ -59,7 +59,7 @@ class ModelsData
     @user = user
     @encoding = encoding
     @headers = ModelsHeaders.new(@path, @encoding)
-    @template_url = url_helpers.upload_template_models_path
+    @template_url = url_helpers.template_path(:models)
     initialize_stats
   end
 
@@ -82,7 +82,7 @@ class ModelsData
       abbreviation: model_attributes[:abbreviation]
     ).first
 
-    if model && @user.cannot?(:manage, model)
+    if model && !@user.admin? && @user.team != model.team
       message = "Access denied to manage model (#{model.abbreviation})."
       suggestion = 'Please verify your team\'s permissions [here].'
       link_options = {

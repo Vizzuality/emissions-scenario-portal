@@ -9,4 +9,8 @@ class Location < ApplicationRecord
   )
 
   has_many :time_series_values
+
+  def self.having_time_series
+    distinct.joins(:time_series_values)
+  end
 end

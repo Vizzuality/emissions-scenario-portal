@@ -4,20 +4,24 @@
   <div class="l-scenarios__upload-block">
     <div class="row">
       <div class="small-6 columns">
-        <%= render 'shared/components/c_upload_card',
-          form_url: upload_meta_data_model_scenarios_url(@model),
-          input_id: 'scenarios_file',
-          structure_url: upload_template_model_scenarios_url(@model),
-          xls_structure_url: '/Meta_Scenario.xlsm',
-          button_text: 'Upload or update scenario meta information' %>
+        <% if policy(Scenario).create? %>
+          <%= render 'shared/components/c_upload_card',
+            structure_path: template_path(:scenarios),
+            xls_structure_path: '/Meta_Scenario.xlsm',
+            button_text: 'Upload or update scenario meta information',
+            service_type: 'UploadScenarios',
+            return_path: model_scenarios_path(@model) %>
+        <% end %>
       </div>
       <div class="small-6 columns">
-        <%= render 'shared/components/c_upload_card',
-          form_url: upload_time_series_model_scenarios_url(@model),
-          input_id: 'time_series_values_file',
-          structure_url: upload_time_series_template_model_scenarios_url(@model),
-          locations_reference: true,
-          button_text: 'Upload or update scenario time series' %>
+        <% if policy(TimeSeriesValue).create? %>
+          <%= render 'shared/components/c_upload_card',
+            structure_path: template_path(:time_series_values),
+            locations_reference: true,
+            button_text: 'Upload or update scenario time series',
+            service_type: 'UploadTimeSeriesValues',
+            return_path: model_scenarios_path(@model) %>
+        <% end %>
       </div>
     </div>
   </div>
@@ -53,7 +57,7 @@
       <div class="small-2 columns">
         <%= render 'shared/components/c_order_filter_button',
           text: 'Time series',
-          column_key: 'time_series' %>
+          column_key: 'time_series_values_count' %>
       </div>
       <div class="small-2 columns">
         <%= render 'shared/components/c_order_filter_button',
@@ -67,7 +71,7 @@
     <div class="c-table-list-item -center">
       <div class="row">
         <div class="small-4 columns">
-          <div class="c-table-list-item__text f-ff1-m-bold"><%= link_to scenario.name, model_scenario_url(@model, scenario) %></div>
+          <div class="c-table-list-item__text f-ff1-m-bold"><%= link_to scenario.name, model_scenario_path(@model, scenario) %></div>
         </div>
         <div class="small-3 columns">
           <div class="c-table-list-item__text f-ff1-m"><%= scenario.updated_at.strftime("%b %d %Y") %></div>
@@ -80,16 +84,16 @@
           <% end %>
         </div>
         <div class="small-2 columns">
-          <div class="c-table-list-item__text f-ff1-m"><%= scenario.indicators.for_model(@model).count %></div>
+          <div class="c-table-list-item__text f-ff1-m"><%= scenario.indicators.count %></div>
         </div>
         <div class="small-1 columns">
           <div class="c-table-list-item__actions">
-            <%= link_to model_scenario_url(@model, scenario), method: :delete, data: {confirm: destroy_confirmation_message(scenario)} do %>
+            <%= link_to model_scenario_path(@model, scenario), method: :delete, data: {confirm: destroy_confirmation_message(scenario)} do %>
               <div class="c-delete-button">
                 <svg class="icon"><use xlink:href="#icon-delete"></use></svg>
               </div>
             <% end %>
-            <%= link_to edit_model_scenario_url(@model, scenario) do %>
+            <%= link_to edit_model_scenario_path(@model, scenario) do %>
               <div class="c-edit-button">
                 <div class="c-edit-button__bubble">
                   <svg class="icon"><use xlink:href="#icon-edit"></use></svg>

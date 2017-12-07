@@ -1,6 +1,4 @@
-FileUploadError = Struct.new(
-  :message, :suggestion, :link_options
-) do
+FileUploadError = Struct.new(:message, :suggestion, :link_options) do
   def suggestion_with_link
     if link_options
       url = link_options[:url]

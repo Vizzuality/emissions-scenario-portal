@@ -1,32 +1,20 @@
-<% if defined? @model %>
+<% if @model %>
   <%= render 'shared/components/c_landing_header', title: @model.full_name %>
 <% else %>
-  <%= render 'shared/components/c_landing_header', no_nav: true%>
+  <%= render 'shared/components/c_landing_header', no_nav: true %>
 <% end %>
 <div class="l-indicators">
   <div class="l-indicators__upload-block">
     <div class="row">
       <div class="small-12 columns">
-        <%
-          upload_meta_data_url =
-            if defined? @model
-              upload_meta_data_model_indicators_url(@model)
-            else
-              upload_meta_data_indicators_url
-            end
-          upload_template_url =
-            if defined? @model
-              upload_template_model_indicators_url(@model)
-            else
-              upload_template_indicators_url
-            end
-        %>
-        <%= render 'shared/components/c_upload_card',
-                   form_url: upload_meta_data_url,
-                   input_id: 'indicators_file',
-                   structure_url: upload_template_url,
-                   sample_url: '/System_Indicator_Master_List.csv',
-                   button_text: 'Upload or update indicators' %>
+        <% if policy(Indicator).create? %>
+          <%= render 'shared/components/c_upload_card',
+                     structure_path: template_path(:indicators),
+                     sample_path: '/System_Indicator_Master_List.csv',
+                     button_text: 'Upload or update indicators',
+                     service_type: 'UploadTimeSeriesValues',
+                     return_path: polymorphic_path([@model, :indicators]) %>
+        <% end %>
       </div>
     </div>
   </div>

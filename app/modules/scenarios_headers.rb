@@ -7,6 +7,6 @@ class ScenariosHeaders
     initialize_headers(path)
     @model = model
     @fus = FileUploadStatus.new(:headers, @headers.length, 0)
-    parse_headers(url_helpers.upload_template_model_scenarios_path(@model))
+    parse_headers(url_helpers.template_path(:scenarios))
   end
 end

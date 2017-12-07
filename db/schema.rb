@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171123120735) do
+ActiveRecord::Schema.define(version: 20171207080607) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,18 +48,12 @@ ActiveRecord::Schema.define(version: 20171123120735) do
     t.text "unit"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "unit_of_entry"
-    t.decimal "conversion_factor"
-    t.integer "parent_id"
-    t.text "alias"
-    t.boolean "auto_generated", default: false
-    t.integer "model_id"
+    t.text "composite_name"
     t.bigint "category_id"
     t.bigint "subcategory_id"
+    t.integer "time_series_values_count", default: 0
     t.index ["category_id"], name: "index_indicators_on_category_id"
-    t.index ["model_id", "parent_id", "alias"], name: "index_indicators_on_model_id_and_parent_id_and_alias", unique: true
-    t.index ["model_id"], name: "index_indicators_on_model_id"
-    t.index ["parent_id"], name: "index_indicators_on_parent_id"
+    t.index ["composite_name"], name: "index_indicators_on_composite_name", unique: true
     t.index ["subcategory_id"], name: "index_indicators_on_subcategory_id"
   end
 
@@ -126,6 +120,19 @@ ActiveRecord::Schema.define(version: 20171123120735) do
     t.index ["team_id"], name: "index_models_on_team_id"
   end
 
+  create_table "notes", force: :cascade do |t|
+    t.text "description"
+    t.text "unit_of_entry"
+    t.decimal "conversion_factor"
+    t.bigint "indicator_id", null: false
+    t.bigint "model_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["indicator_id", "model_id"], name: "index_notes_on_indicator_id_and_model_id", unique: true
+    t.index ["indicator_id"], name: "index_notes_on_indicator_id"
+    t.index ["model_id"], name: "index_notes_on_model_id"
+  end
+
   create_table "scenarios", id: :serial, force: :cascade do |t|
     t.text "name", null: false
     t.integer "model_id"
@@ -163,6 +170,7 @@ ActiveRecord::Schema.define(version: 20171123120735) do
     t.text "other_target_type"
     t.text "other_target"
     t.text "burden_sharing"
+    t.integer "time_series_values_count", default: 0
     t.index ["model_id"], name: "index_scenarios_on_model_id"
   end
 
@@ -184,8 +192,6 @@ ActiveRecord::Schema.define(version: 20171123120735) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "location_id"
-    t.text "unit_of_entry"
-    t.decimal "conversion_factor"
     t.index ["indicator_id"], name: "index_time_series_values_on_indicator_id"
     t.index ["location_id"], name: "index_time_series_values_on_location_id"
     t.index ["scenario_id"], name: "index_time_series_values_on_scenario_id"
@@ -228,9 +234,9 @@ ActiveRecord::Schema.define(version: 20171123120735) do
   add_foreign_key "csv_uploads", "users", on_delete: :cascade
   add_foreign_key "indicators", "categories"
   add_foreign_key "indicators", "categories", column: "subcategory_id"
-  add_foreign_key "indicators", "indicators", column: "parent_id"
-  add_foreign_key "indicators", "models"
   add_foreign_key "models", "teams"
+  add_foreign_key "notes", "indicators"
+  add_foreign_key "notes", "models"
   add_foreign_key "scenarios", "models"
   add_foreign_key "time_series_values", "indicators"
   add_foreign_key "time_series_values", "locations"

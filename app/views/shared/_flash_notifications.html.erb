@@ -1,41 +1,40 @@
 <ul class="c-notifications-list">
-  <% flash.each do |name, msg| %>
-    <%
-      if name == 'alert'
-        notification_class = '-red'
-        notification_icon = 'icon-alert'
-      elsif name == 'notice'
-        notification_class = '-green'
-        notification_icon = 'icon-check'
-      end
-    %>
+  <% if flash[:alert] %>
     <li>
-      <div class="c-notification <%= notification_class %> -show-animation js-notification">
-        <svg class="icon"><use xlink:href="#<%= notification_icon %>"></use></svg>
-        <div class="f-ff1-s"><%= msg %></div>
+      <div class="c-notification -red -show-animation js-notification">
+        <svg class="icon"><use xlink:href="icon-alert"></use></svg>
+        <div class="f-ff1-s"><%= flash[:alert] %></div>
       </div>
     </li>
   <% end %>
-  <% flash.clear %>
+  <% if flash[:notice] %>
+    <li>
+      <div class="c-notification -green -show-animation js-notification">
+        <svg class="icon"><use xlink:href="icon-check"></use></svg>
+        <div class="f-ff1-s"><%= flash[:notice] %></div>
+      </div>
+    </li>
+  <% end %>
 </ul>
-<% if @upload_errors.present? %>
+
+<% if flash[:upload_errors].present? %>
   <div class="c-notifications-modal">
     <div class="c-notifications-modal__background js-notification-modal-close"></div>
     <div class="c-notifications-modal__container">
       <div class="c-notifications-modal__title">
         <svg class="icon icon-alert"><use xlink:href="#icon-alert"></use></svg>
-        <div class="f-ff3-m-bold"><%= @upload_errors['title'] %></div>
+        <div class="f-ff3-m-bold"><%= flash[:upload_errors]['title'] %></div>
         <svg class="icon icon-close js-notification-modal-close"><use xlink:href="#icon-close"></use></svg>
       </div>
       <ul class="c-notifications-modal__errors">
-        <% @upload_errors['errors'].each do |error| %>
+        <% flash[:upload_errors]['errors'].each do |error| %>
           <li class="c-notifications-modal__error">
             <div class="f-ff1-s"><span class="f-ff1-s-bold"><%= error['loc'] %></span> <%= error['message'] %></div>
             <div class="f-ff1-s c-notifications-modal__error-suggestion"><%= error['suggestion'].try(:html_safe) %></div>
           </li>
         <% end %>
-        <% if @upload_errors['warnings'].present? %>
-          <% @upload_errors['warnings'].each do |error| %>
+        <% if flash[:upload_errors]['warnings'].present? %>
+          <% flash[:upload_errors]['warnings'].each do |error| %>
             <li class="c-notifications-modal__error">
               <div class="f-ff1-s"><span class="f-ff1-s-bold"><%= error['loc'] %></span> <%= error['message'] %></div>
               <div class="f-ff1-s c-notifications-modal__error-suggestion"><%= error['suggestion'].try(:html_safe) %></div>

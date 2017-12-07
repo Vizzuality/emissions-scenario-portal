@@ -46,6 +46,10 @@ Metrics/ModuleLength:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
+# Checks if uses of quotes match the configured preference.
+Style/StringLiterals:
+  Enabled: false
+
 Style/PercentLiteralDelimiters:
   Enabled: false
 

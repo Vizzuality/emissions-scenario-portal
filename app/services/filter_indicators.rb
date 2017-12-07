@@ -1,6 +1,6 @@
 class FilterIndicators
   cattr_reader :order_columns do
-    %w[esp_name definition unit model_name added_by type].freeze
+    %w[esp_name definition unit].freeze
   end
 
   include ActiveModel::Model
@@ -12,14 +12,13 @@ class FilterIndicators
     scope.
       merge(search_scope).
       merge(order_scope).
-      merge(type_scope).
       merge(category_scope)
   end
 
   private
 
   def indicators
-    Indicator.with_variations
+    Indicator.all
   end
 
   def search_scope
@@ -37,20 +36,6 @@ class FilterIndicators
       order(order_clause)
   end
 
-  def type_scope
-    case type
-    when 'system'
-      indicators.
-        where(model_id: nil).
-        where('variations_models.id' => nil)
-    when /team-(\d+)/
-      indicators.
-        where('models.team_id = :team_id', team_id: Regexp.last_match[1].to_i)
-    else
-      indicators
-    end
-  end
-
   def category_scope
     return indicators if category.blank?
 
@@ -63,35 +48,10 @@ class FilterIndicators
     query.where('categories.id IN (?) OR subcategories_indicators.id IN (?)', ids, ids)
   end
 
-  def model_name_order_clause(direction)
-    sql = <<~END_OF_SQL
-      CASE
-        WHEN indicators.model_id IS NOT NULL AND
-             indicators.parent_id IS NOT NULL THEN indicators.alias
-        ELSE ''
-      END
-    END_OF_SQL
-    [sql, direction].join(' ')
-  end
-
   def esp_name_order_clause(direction)
     %w(categories.name subcategories_indicators.name indicators.name).map do |column|
       [column, direction].join(' ')
     end.join(', ')
-  end
-
-  def added_by_order_clause(direction)
-    sql = <<~END_OF_SQL
-      CASE
-        WHEN indicators.model_id IS NOT NULL THEN teams.name
-        ELSE 'System'
-      END,
-      CASE
-        WHEN indicators.model_id IS NOT NULL THEN indicators.created_at
-        ELSE NULL
-      END
-    END_OF_SQL
-    [sql, direction].join(' ')
   end
 
   def type_order_clause(direction)

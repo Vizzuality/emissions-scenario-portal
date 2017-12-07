@@ -1,6 +1,6 @@
 class TimeSeriesValue < ApplicationRecord
-  belongs_to :scenario
-  belongs_to :indicator
+  belongs_to :scenario, counter_cache: true
+  belongs_to :indicator, counter_cache: true
   belongs_to :location
 
   validates(
@@ -10,15 +10,6 @@ class TimeSeriesValue < ApplicationRecord
     inclusion: {in: 1900..3000, allow_nil: true}
   )
   validates :value, presence: true, numericality: {allow_nil: true}
-  validate :unit_compatible_with_indicator, if: proc { |v| v.indicator }
-
-  def unit_compatible_with_indicator
-    if unit_of_entry.present? &&
-        unit_of_entry != indicator.unit &&
-        unit_of_entry != indicator.unit_of_entry
-      errors[:unit_of_entry] << 'Unit of entry incompatible with indicator.'
-    end
-  end
 
   def self.time_series_values_pivot
     pivot = TimeSeriesYearPivotQuery.new(self)
@@ -35,5 +26,9 @@ class TimeSeriesValue < ApplicationRecord
         }
       end
     }
+  end
+
+  def note
+    Note.find_by(model_id: scenario.model_id, indicator_id: indicator.id)
   end
 end

@@ -19,8 +19,7 @@ ON locations_pivot.id = time_series_values.location_id"
       ).
       select(TimeSeriesYearPivotQuery.column_names).
       order(
-        'scenarios_pivot.name', 'indicators_pivot.alias',
-        'locations_pivot.name', 'time_series_values.unit_of_entry'
+        'scenarios_pivot.name', 'indicators_pivot.composite_name',
       )
     @years_query = original_query.select(:year).except(:order).order(:year).
       distinct
@@ -69,7 +68,6 @@ ORDER BY \"#{order_type}\" #{order_direction}"
       'scenario_name text',
       'location_name text',
       'indicator_name text',
-      'unit_of_entry text'
     ] + years_output_column_names
     sql = "SELECT * FROM crosstab(?, ?) AS ct(#{output_column_names.join(',')})"
     ActiveRecord::Base.send(
@@ -88,7 +86,6 @@ ORDER BY \"#{order_type}\" #{order_direction}"
         'indicators_pivot.name',
         'scenarios_pivot.name',
         'locations_pivot.name',
-        'time_series_values.unit_of_entry'
       ]
       column_names = [
         "ARRAY[#{grouping_columns.join(',')}]::TEXT[] AS row_no"
@@ -101,7 +98,7 @@ ORDER BY \"#{order_type}\" #{order_direction}"
       ] = 'scenarios_pivot.name AS scenario_name'
       column_names[
         column_names.index(:indicator_name)
-      ] = 'indicators_pivot.alias AS indicator_name'
+      ] = 'indicators_pivot.composite_name AS indicator_name'
       column_names[
         column_names.index(:location_name)
       ] = 'locations_pivot.name AS region'
@@ -111,7 +108,7 @@ ORDER BY \"#{order_type}\" #{order_direction}"
     def column_aliases
       TimeSeriesValuesHeaders::EXPECTED_HEADERS.map do |eh|
         eh[:property_name]
-      end
+      end - [:unit_of_entry]
     end
 
     def column_headers

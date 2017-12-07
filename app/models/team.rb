@@ -17,13 +17,11 @@ class Team < ApplicationRecord
   accepts_nested_attributes_for :users
 
   def self.models
-    joins('LEFT JOIN "models" ON "models"."team_id" = "teams"."id"').
-      group('teams.id')
+    left_outer_joins(:models).group('teams.id')
   end
 
   def self.users
-    joins('LEFT JOIN "users" ON "users"."team_id" = "teams"."id"').
-      group('teams.id')
+    left_outer_joins(:users).group('teams.id')
   end
 
   def members_list_for_display
