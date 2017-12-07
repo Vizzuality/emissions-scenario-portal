@@ -12,7 +12,7 @@ class ScenariosController < ApplicationController
     @scenario = @model.scenarios.find(params[:id])
     authorize(@scenario)
     @indicators = FilterIndicators.
-      new(@filter_params).
+      new(filter_params).
       call(@scenario.indicators)
   end
 
