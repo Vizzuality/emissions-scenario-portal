@@ -32,7 +32,7 @@ class FilterCategories
     if order_type == "subcategories"
       categories.
         select('categories.*, count(subcategories.id) AS subcategories_count').
-        joins("LEFT JOIN categories AS subcategories on categories.id = subcategories.parent_id").
+        left_outer_joins(:subcategories).
         group('categories.id').
         order("subcategories_count #{order_direction}")
     else

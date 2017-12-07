@@ -10,9 +10,11 @@ class Indicator < ApplicationRecord
   belongs_to :subcategory, class_name: 'Category'
 
   validates :composite_name, uniqueness: true
-  before_validation :ignore_blank_array_values
-  before_validation :strip_whitespace
-  before_validation :generate_composite_name
+  before_validation(
+    :ignore_blank_array_values,
+    :strip_whitespace,
+    :generate_composite_name
+  )
 
   pg_search_scope :search_for, against: %i[name composite_name]
 
