@@ -11,15 +11,15 @@ class UploadNotes
   end
 
   def call
-    tap do
-      validate_number_of_headers
-      validate_headers
+    validate_number_of_headers
+    validate_headers
 
-      ActiveRecord::Base.transaction do
-        notes = create_notes
-        update_csv_upload(notes)
-      end
+    ActiveRecord::Base.transaction do
+      notes = create_notes
+      update_csv_upload(notes)
     end
+
+    self
   end
 
   private
@@ -46,28 +46,36 @@ class UploadNotes
   def validate_headers
     remaining_headers = HEADERS.dup
 
-    HEADERS.each do |header|
+    csv.headers.each do |header|
       next if remaining_headers.delete(normalize_header(header))
-      errors.add(:headers, 'Invalid header')
+      errors.add(:headers, "Invalid header: #{header}")
     end
 
     remaining_headers.each do |header|
-      errors.add(:base, 'Missing header')
+      errors.add(:headers, "Missing header: #{header.titleize}")
     end
   end
 
   def create_note(attributes)
-    model =
-      Pundit.
-        policy_scope(csv_upload.user, Model).
-        find_by_name(attributes['model_name'])
-
-    indicator =
-      Indicator.
-        find_by_name(attributes['esp_indicator_name'])
-
-    Note.find_or_initialize_by(model: model, indicator: indicator).tap do |note|
+    Note.find_or_initialize_by(
+      model: Pundit.policy_scope(csv_upload.user, Model).find_by_name(name),
+      indicator: Indicator.find_by_name(name)
+    ).tap do |note|
       note.update(attributes.except('model_name', 'esp_indicator_name'))
+    end
+  end
+
+  def copy_errors(note)
+    note.errors.messages.each do |attribute, _|
+      note.errors.full_messages_for(attribute).each.with_index do |message, i|
+        errors.add(
+          :notes,
+          message,
+          row: line,
+          column: attribute,
+          **note.errors.details[attribute][i]
+        )
+      end
     end
   end
 
@@ -78,30 +86,14 @@ class UploadNotes
 
       next if attributes.all?(&:blank?)
 
-      create_note(attributes).tap do |note|
-        next if note.valid?
-        note.errors.messages.each do |attribute, _|
-          note.errors.full_messages_for(attribute).each.with_index do |message, i|
-            errors.add(
-              :notes,
-              message,
-              row: line,
-              column: attribute,
-              **note.errors.details[attribute][i]
-            )
-          end
-        end
-      end
+      create_note(attributes).tap { |note| copy_errors(note) if note.invalid? }
     end
   end
 
   def update_csv_upload(notes)
-    saved = notes.select(&:persisted?).size
-    total = notes.size
-
     csv_upload.update(
       success: errors.present?,
-      message: "#{saved} of #{total} rows saved.",
+      message: "#{notes.select(&:valid?).size} of #{notes.size} rows saved.",
       finished_at: Time.current,
       errors_and_warnings: {
         errors: errors.details
