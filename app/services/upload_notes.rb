@@ -21,13 +21,11 @@ class UploadNotes
 
   private
 
-  def path
-    @path ||= Paperclip.io_adapters.for(csv_upload.data).path
-  end
-
   def csv
-    encoding = CharlockHolmes::EncodingDetector.detect(File.read(path))[:encoding]
-    @csv ||= CSV.open(path, 'r', headers: true, encoding: encoding).read
+    return @csv if defined?(@csv)
+    file = Paperclip.io_adapters.for(csv_upload.data)
+    encoding = CharlockHolmes::EncodingDetector.detect(file.read)[:encoding]
+    @csv = CSV.open(file.path, 'r', headers: true, encoding: encoding).read
   end
 
   def number_of_headers
@@ -35,7 +33,7 @@ class UploadNotes
     errors.add(
       :csv_upload,
       :invalid,
-      msg: 'Invalid number of columns',
+      msg: "Invalid number of columns (expected #{HEADERS.size}, found #{csv.headers.size})",
       row: 1,
       type: :header
     )
@@ -54,7 +52,7 @@ class UploadNotes
       errors.add(
         :csv_upload,
         :invalid,
-        msg: "Invalid header: #{header}",
+        msg: "Unrecognized header: #{header}",
         row: 1,
         type: :header
       )
@@ -114,7 +112,7 @@ class UploadNotes
 
   def update_csv_upload(notes)
     csv_upload.update(
-      success: errors.present?,
+      success: errors.blank?,
       message: "#{notes.select(&:valid?).size} of #{csv.size} rows saved.",
       finished_at: Time.current,
       errors_and_warnings: {errors: errors.details[:csv_upload]}

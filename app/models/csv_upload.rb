@@ -27,4 +27,8 @@ class CsvUpload < ApplicationRecord
   )
 
   scope :finished, -> { where.not(finished_at: nil) }
+
+  def version
+    service_type == 'UploadNotes' ? 'v2': 'v1'
+  end
 end
