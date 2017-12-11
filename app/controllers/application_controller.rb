@@ -30,7 +30,6 @@ class ApplicationController < ActionController::Base
     elsif flash[:csv_upload_id].present?
       @csv_upload = CsvUpload.finished.find(flash[:csv_upload_id])
     end
-    @csv_upload = CsvUpload.last
   rescue ActiveRecord::RecordNotFound
   end
 end
