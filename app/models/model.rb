@@ -44,4 +44,8 @@ class Model < ApplicationRecord
       where(indicators: {time_series_values: {location_id: location_ids}}).
       distinct
   end
+
+  def self.find_by_name(name)
+    where('lower(full_name) = ?', name.to_s.downcase).first
+  end
 end

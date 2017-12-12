@@ -4,7 +4,8 @@ class TemplatesController < ApplicationController
       "indicators" => IndicatorsUploadTemplate,
       "models" => ModelsUploadTemplate,
       "scenarios" => ScenariosUploadTemplate,
-      "time_series_values" => TimeSeriesValuesUploadTemplate
+      "time_series_values" => TimeSeriesValuesUploadTemplate,
+      "notes" => NotesUploadTemplate
     }
 
     template = available_templates[params[:id]].try(:new)

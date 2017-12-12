@@ -1,6 +1,6 @@
 class Note < ApplicationRecord
-  belongs_to :model, required: true
-  belongs_to :indicator, required: true
+  belongs_to :model
+  belongs_to :indicator
 
   validates :indicator_id, uniqueness: {scope: [:model_id]}
   validates(
