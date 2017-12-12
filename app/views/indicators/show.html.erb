@@ -47,6 +47,20 @@
         <% end %>
       </div>
     </div>
+    <% if @note.present? %>
+      <br>
+      <div class="row">
+        <div class="small-4 columns"></div>
+        <div class="small-1 columns">
+          <div class="f-ff1-m-bold">Model unit</div>
+          <div class="f-ff1-m l-indicators-overview__data"><%= @note.unit_of_entry %></div>
+        </div>
+        <div class="small-4 columns">
+          <div class="f-ff1-m-bold">Model note</div>
+          <div class="f-ff1-m l-indicators-overview__data"><%= @note.description %></div>
+        </div>
+      </div>
+    <% end %>
   </div>
 
   <div class="row">
