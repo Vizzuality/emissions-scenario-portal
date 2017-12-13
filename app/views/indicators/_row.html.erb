@@ -18,10 +18,8 @@
         <% if @model.present? %>
           <% indicator.notes.find { |note| note.model_id == @model.id }&.tap do |note| %>
             <%= link_to [@model, indicator] do %>
-              <svg class="icon">
-                <use xlink:href="#icon-info">
-                  <title>This indicator has a model specific note, click to see more</title>
-                </use>
+              <svg class="icon icon-info js-tooltip" data-tooltip-text="This indicator has a model specific note, click to see more" style="display: block">
+                <use xlink:href="#icon-info"></use>
               </svg>
             <% end %>
           <% end %>
