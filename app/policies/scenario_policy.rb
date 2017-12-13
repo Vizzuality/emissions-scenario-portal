@@ -9,6 +9,14 @@ class ScenarioPolicy < ApplicationPolicy
     end
   end
 
+  def permitted_attributes
+    if user.admin?
+      Scenario.attribute_symbols_for_strong_params + %i[published]
+    else
+      Scenario.attribute_symbols_for_strong_params
+    end
+  end
+
   def create?
     true
   end

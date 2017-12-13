@@ -26,9 +26,11 @@ class ScenariosController < ApplicationController
     @model = Model.find(params[:model_id])
     @scenario = @model.scenarios.find(params[:id])
     authorize(@scenario)
-    if @scenario.update_attributes(scenario_params)
-      redirect_to model_scenario_path(@model, @scenario),
-                  notice: 'Scenario was successfully updated.'
+    if @scenario.update(scenario_params)
+      redirect_to(
+        model_scenario_path(@model, @scenario),
+        notice: 'Scenario was successfully updated.'
+      )
     else
       flash.now[:alert] =
         'We could not update the scenario. Please check the inputs in red'
@@ -50,9 +52,11 @@ class ScenariosController < ApplicationController
   private
 
   def scenario_params
-    params.require(:scenario).permit(
-      *Scenario.attribute_symbols_for_strong_params
-    )
+    params.require(:scenario).permit(*policy(@scenario).permitted_attributes)
+  end
+
+  def admin_scenario_params
+    scenario_params.permit(:published)
   end
 
   def filter_params

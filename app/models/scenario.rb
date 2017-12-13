@@ -9,6 +9,7 @@ class Scenario < ApplicationRecord
 
   validates :name, presence: true
   validates :model, presence: true
+  validates :published, inclusion: {in: [false, true]}
   before_validation :ignore_blank_array_values
 
   delegate :abbreviation, to: :model, prefix: :model
