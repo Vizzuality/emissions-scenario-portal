@@ -9,18 +9,23 @@ module Api
             Model.all
           end
 
-        models = models.
-          filtered_by_locations(location_ids) if location_ids.present?
-        models = models.includes(:scenarios)
-        models = models.order(:full_name)
+        models =
+          models.
+            having_published_scenarios.
+            includes(:scenarios).
+            order(:full_name)
+
+        models = models.filtered_by_locations(location_ids) if location_ids.present?
 
         render json: models
       end
 
       def show
-        model = Model.
-          includes(:scenarios).
-          find_by!(id: params[:id])
+        model =
+          Model.
+            having_published_scenarios.
+            includes(:scenarios).
+            find_by!(id: params[:id])
 
         render json: model
       end

@@ -39,6 +39,10 @@ class Model < ApplicationRecord
     distinct.joins(:scenarios).where.not(scenarios: {time_series_values_count: 0})
   end
 
+  def self.having_published_scenarios
+    distinct.joins(:scenarios).where(scenarios: {published: true})
+  end
+
   def self.filtered_by_locations(location_ids)
     joins({indicators: {time_series_values: :location}}, :scenarios).
       where(indicators: {time_series_values: {location_id: location_ids}}).
