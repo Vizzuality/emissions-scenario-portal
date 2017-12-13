@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171207080607) do
+ActiveRecord::Schema.define(version: 20171213082751) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -171,6 +171,7 @@ ActiveRecord::Schema.define(version: 20171207080607) do
     t.text "other_target"
     t.text "burden_sharing"
     t.integer "time_series_values_count", default: 0
+    t.boolean "published", default: false, null: false
     t.index ["model_id"], name: "index_scenarios_on_model_id"
   end
 
