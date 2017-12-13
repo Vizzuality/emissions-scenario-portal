@@ -5,8 +5,8 @@ RSpec.describe ScenariosController, type: :controller do
     login_admin
     let(:team_model) { create(:model, team: @user.team) }
     let(:some_model) { create(:model) }
-    let!(:team_scenario) { create(:scenario, model: team_model) }
-    let!(:some_scenario) { create(:scenario, model: some_model) }
+    let!(:team_scenario) { create(:scenario, model: team_model, published: false) }
+    let!(:some_scenario) { create(:scenario, model: some_model, published: false) }
 
     describe 'GET index' do
       it 'renders index' do
@@ -37,6 +37,16 @@ RSpec.describe ScenariosController, type: :controller do
         expect(response).to redirect_to(
           model_scenario_url(some_model, some_scenario)
         )
+      end
+
+      it 'allows to publish scenarios' do
+        put :update, params: {
+          model_id: some_model.id, id: some_scenario.id, scenario: {published: true}
+        }
+        expect(response).to redirect_to(
+          model_scenario_url(some_model, some_scenario)
+        )
+        expect(some_scenario.reload.published).to be(true)
       end
     end
 
@@ -69,8 +79,8 @@ RSpec.describe ScenariosController, type: :controller do
     login_user
     let(:team_model) { create(:model, team: @user.team) }
     let(:some_model) { create(:model) }
-    let!(:team_scenario) { create(:scenario, model: team_model) }
-    let!(:some_scenario) { create(:scenario, model: some_model) }
+    let!(:team_scenario) { create(:scenario, model: team_model, published: false) }
+    let!(:some_scenario) { create(:scenario, model: some_model, published: false) }
 
     describe 'GET index' do
       it 'renders index' do
@@ -129,6 +139,21 @@ RSpec.describe ScenariosController, type: :controller do
         expect(response).to redirect_to(root_url)
         expect(flash[:alert]).to match(/You are not authorized/)
       end
+
+      it 'does not allow to publish scenarios' do
+        put(
+          :update,
+          params: {
+            model_id: team_model.id,
+            id: team_scenario.id,
+            scenario: {name: 'ABC', published: true}
+          }
+        )
+        expect(response).to redirect_to(
+          model_scenario_url(team_model, team_scenario)
+        )
+        expect(team_scenario.reload.published).to be(false)
+      end
     end
 
     describe 'DELETE destroy' do
@@ -150,7 +175,7 @@ RSpec.describe ScenariosController, type: :controller do
         technology_coverage: ['', 'A', 'B'],
         category: ['', 'cat1']
       }
-      expect_any_instance_of(Scenario).to receive(:update_attributes).
+      expect_any_instance_of(Scenario).to receive(:update).
         with(ActionController::Parameters.new(scenario_params).permit!)
       put :update, params: {
         model_id: team_model.id,
