@@ -2,12 +2,15 @@ class IndicatorsController < ApplicationController
   def index
     @model = Model.find_by(id: params[:model_id])
     @indicators =
-      FilterIndicators.new(filter_params).call(policy_scope(Indicator))
+      FilterIndicators.
+        new(filter_params).
+        call(policy_scope(Indicator).includes(:notes))
   end
 
   def show
     @model = Model.find_by(id: params[:model_id])
     @indicator = Indicator.find(params[:id])
+    @note = Note.find_by(indicator: @indicator, model: @model)
     authorize(@indicator)
     @time_series_values_pivot =
       @indicator.

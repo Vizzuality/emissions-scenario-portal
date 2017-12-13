@@ -8,9 +8,22 @@
     <div class="small-2 columns">
       <div class="c-table-list-item__text f-ff1-m"><%= indicator.unit %></div>
     </div>
-    <div class="small-4 columns">
+    <div class="small-3 columns">
       <div class="c-table-list-item__text f-ff1-m">
         <%= indicator.definition && truncate(indicator.definition, length: 120) %>
+      </div>
+    </div>
+    <div class="small-1 columns">
+      <div class="c-table-list-item__text f-ff1-m">
+        <% if @model.present? %>
+          <% indicator.notes.find { |note| note.model_id == @model.id }&.tap do |note| %>
+            <%= link_to [@model, indicator] do %>
+              <svg class="icon icon-info js-tooltip" data-tooltip-text="This indicator has a model specific note, click to see more" style="display: block">
+                <use xlink:href="#icon-info"></use>
+              </svg>
+            <% end %>
+          <% end %>
+        <% end %>
       </div>
     </div>
     <div class="small-2 columns">

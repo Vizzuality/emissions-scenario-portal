@@ -48,11 +48,16 @@
                  other_class: '-no-wrap',
                  column_key: 'unit' %>
     </div>
-    <div class="small-4 columns">
+    <div class="small-3 columns">
       <%= render 'shared/components/c_order_filter_button',
                  text: 'Description',
                  other_class: '-no-wrap',
                  column_key: 'definition' %>
+    </div>
+    <div class="small-1 columns">
+      <% if @model.present? %>
+        <strong>Note</strong>
+      <% end %>
     </div>
   </div>
 </div>

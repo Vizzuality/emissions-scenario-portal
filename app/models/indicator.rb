@@ -6,6 +6,7 @@ class Indicator < ApplicationRecord
   include PgSearch
 
   has_many :time_series_values, dependent: :destroy
+  has_many :notes, dependent: :destroy
   belongs_to :category
   belongs_to :subcategory, class_name: 'Category'
 
