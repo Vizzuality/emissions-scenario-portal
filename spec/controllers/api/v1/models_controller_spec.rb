@@ -28,7 +28,7 @@ describe Api::V1::ModelsController, type: :controller do
       end
 
       it 'does not list models without published scenarios' do
-        model = create(:model)
+        create(:model)
         get :index
         parsed_body = JSON.parse(response.body)
         expect(parsed_body.length).to eq(1)

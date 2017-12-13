@@ -87,9 +87,9 @@ RSpec.describe Model, type: :model do
       scenario1 = create(:scenario, model: with_published1, published: true)
       with_published2 = create(:model)
       scenario2 = create(:scenario, model: with_published2, published: true)
-      without = create(:model)
+      create(:model)
       with_unpublished = create(:model)
-      scenario2 = create(:scenario, model: with_unpublished, published: false)
+      create(:scenario, model: with_unpublished, published: false)
 
       expect(Model.having_published_scenarios).
         to contain_exactly(with_published1, with_published2)
