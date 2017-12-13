@@ -31,6 +31,13 @@ describe Api::V1::ScenariosController, type: :controller do
         parsed_body = JSON.parse(response.body)
         expect(parsed_body.length).to eq(1)
       end
+
+      it 'does not list unpublished scenarios' do
+        create(:scenario, published: false)
+        get :index
+        parsed_body = JSON.parse(response.body)
+        expect(parsed_body.length).to eq(3)
+      end
     end
 
     describe 'GET show' do
@@ -41,6 +48,12 @@ describe Api::V1::ScenariosController, type: :controller do
 
       it 'returns a 404 not found' do
         get :show, params: {id: -1}
+        expect(response).to be_not_found
+      end
+
+      it 'returns a 404 not found if scenario is unpublished' do
+        scenario = create(:scenario, published: false)
+        get :show, params: {id: scenario.id}
         expect(response).to be_not_found
       end
 

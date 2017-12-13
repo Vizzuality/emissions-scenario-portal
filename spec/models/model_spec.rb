@@ -80,4 +80,19 @@ RSpec.describe Model, type: :model do
       expect(Model.having_time_series).to contain_exactly(with1, with2)
     end
   end
+
+  describe :having_published_scenarios do
+    it 'should return only models having published scenarios' do
+      with_published1 = create(:model)
+      create(:scenario, model: with_published1, published: true)
+      with_published2 = create(:model)
+      create(:scenario, model: with_published2, published: true)
+      create(:model)
+      with_unpublished = create(:model)
+      create(:scenario, model: with_unpublished, published: false)
+
+      expect(Model.having_published_scenarios).
+        to contain_exactly(with_published1, with_published2)
+    end
+  end
 end

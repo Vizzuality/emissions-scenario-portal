@@ -9,6 +9,7 @@ module Api
             Scenario.all
           end
 
+        scenarios = scenarios.where(published: true)
         scenarios = scenarios.where(model_id: params[:model]) if params[:model]
         scenarios = scenarios.includes(:model).order(:name)
 
@@ -16,7 +17,7 @@ module Api
       end
 
       def show
-        scenario = Scenario.find_by!(id: params[:id])
+        scenario = Scenario.find_by!(published: true, id: params[:id])
 
         render json: scenario
       end
