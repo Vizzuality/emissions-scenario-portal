@@ -84,9 +84,9 @@ RSpec.describe Model, type: :model do
   describe :having_published_scenarios do
     it 'should return only models having published scenarios' do
       with_published1 = create(:model)
-      scenario1 = create(:scenario, model: with_published1, published: true)
+      create(:scenario, model: with_published1, published: true)
       with_published2 = create(:model)
-      scenario2 = create(:scenario, model: with_published2, published: true)
+      create(:scenario, model: with_published2, published: true)
       create(:model)
       with_unpublished = create(:model)
       create(:scenario, model: with_unpublished, published: false)
