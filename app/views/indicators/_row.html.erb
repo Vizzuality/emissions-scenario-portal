@@ -17,8 +17,12 @@
       <div class="c-table-list-item__text f-ff1-m">
         <% if @model.present? %>
           <% indicator.notes.find { |note| note.model_id == @model.id }&.tap do |note| %>
-            <%= link_to [@model, indicator], title: 'This indicator has a model specific note, click to see more' do %>
-              <svg class="icon"><use xlink:href="#icon-info"></use></svg>
+            <%= link_to [@model, indicator] do %>
+              <svg class="icon">
+                <use xlink:href="#icon-info">
+                  <title>This indicator has a model specific note, click to see more</title>
+                </use>
+              </svg>
             <% end %>
           <% end %>
         <% end %>
