@@ -42,6 +42,8 @@ module Api
       def indicators_relation
         object.model.indicators
       end
+
+      belongs_to :model
     end
   end
 end
