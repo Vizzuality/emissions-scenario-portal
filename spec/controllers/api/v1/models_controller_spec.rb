@@ -46,6 +46,12 @@ describe Api::V1::ModelsController, type: :controller do
         expect(response).to be_not_found
       end
 
+      it 'returns a 404 not found if model has no published scenarios' do
+        model = create(:model)
+        get :show, params: {id: model.id}
+        expect(response).to be_not_found
+      end
+
       it 'shows one model' do
         get :show, params: {id: model.id}
         parsed_body = JSON.parse(response.body)
