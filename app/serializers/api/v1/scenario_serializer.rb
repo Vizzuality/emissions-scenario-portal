@@ -36,6 +36,8 @@ module Api
       attribute :other_target_type
       attribute :other_target
       attribute :burden_sharing
+
+      belongs_to :model
     end
   end
 end
