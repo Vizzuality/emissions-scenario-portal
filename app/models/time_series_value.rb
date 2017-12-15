@@ -37,7 +37,6 @@ class TimeSeriesValue < ApplicationRecord
       find_by_sql(query_sql).
       group_by { |tsv| [tsv['model_abbreviation'], tsv['scenario_name']] }.
       transform_values do |value|
-        value.each {|v| puts v['model_id'].inspect }
         years = value.inject([]) do |result, v|
           result + pivot.years.select { |y| v[y].present? }
         end
