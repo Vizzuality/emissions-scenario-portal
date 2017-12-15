@@ -52,7 +52,7 @@ class UploadNotes
       )
     end
 
-    remaining_headers.each do |key, value|
+    remaining_headers.each_value do |value|
       errors.add(
         :csv_upload,
         :invalid,
@@ -64,14 +64,15 @@ class UploadNotes
   end
 
   def create_note(attributes)
-    model = Pundit.
+    model =
+      Pundit.
         policy_scope(csv_upload.user, Model).
         find_by_name(attributes[:model_name])
 
     indicator = Indicator.find_by_name(attributes[:indicator_name])
 
     Note.find_or_initialize_by(model: model, indicator: indicator).tap do |note|
-      note.update(attributes.except(*%i[model_name indicator_name]))
+      note.update(attributes.except(:model_name, :indicator_name))
     end
   end
 
