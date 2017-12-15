@@ -63,13 +63,21 @@
     <% end %>
   </div>
 
-  <div class="row">
-    <div class="small-12 columns">
-      <div class="l-indicators-overview__table-title f-ff3-m-bold">Time Series <span>(<%= @time_series_values_pivot[:data].length %>)</span></div>
+  <% if @time_series_values_pivot.present? %>
+    <div class="row">
+      <div class="small-12 columns">
+        <div class="l-indicators-overview__table-title f-ff3-m-bold">
+          Time Series <span>(<%= @time_series_values_pivot[:data].length %>)</span>
+        </div>
+      </div>
     </div>
-  </div>
-  <%= render 'shared/components/c_table',
-             indicators: @time_series_values_pivot[:years],
-             rows: @time_series_values_pivot[:data],
-             type: 'time_series' %>
+    <%= render 'shared/components/c_table',
+               indicators: @time_series_values_pivot[:years],
+               rows: @time_series_values_pivot[:data],
+               type: 'time_series' %>
+  <% end %>
+
+  <% if @time_series_values_summary.present? %>
+    <%= render 'summary' %>
+  <% end %>
 </div>

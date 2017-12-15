@@ -15,6 +15,7 @@ class TimeSeriesValue < ApplicationRecord
     pivot = TimeSeriesYearPivotQuery.new(self)
     query_sql = pivot.query_with_order(nil, nil)
     result = TimeSeriesValue.find_by_sql(query_sql)
+
     {
       years: pivot.years,
       data: result.map do |tsv|
@@ -26,6 +27,26 @@ class TimeSeriesValue < ApplicationRecord
         }
       end
     }
+  end
+
+  def self.time_series_values_summary
+    pivot = TimeSeriesYearPivotQuery.new(self)
+    query_sql = pivot.query_with_order(nil, nil)
+
+    TimeSeriesValue.
+      find_by_sql(query_sql).
+      group_by { |tsv| [tsv['model_abbreviation'], tsv['scenario_name']] }.
+      transform_values do |value|
+        value.each {|v| puts v['model_id'].inspect }
+        years = value.inject([]) do |result, v|
+          result + pivot.years.select { |y| v[y].present? }
+        end
+        {
+          locations: value.map { |v| v['location_name'] },
+          years: [years.first, years.last]
+        }
+      end.
+      map { |key, value| {model: key.first, scenario: key.second}.merge(value) }
   end
 
   def note
