@@ -27,29 +27,35 @@ class MoveIndicatorsToNotes < ActiveRecord::Migration[5.1]
         attributes[:description] = indicator.definition
       end
 
-      if indicator.unit_of_entry.present? && indicator.unit_of_entry != parent.unit
-        if indicator.unit == parent.unit
-          attributes[:unit_of_entry] = indicator.unit_of_entry
-          attributes[:conversion_factor] = indicator.conversion_factor
+      indicator.unit ||= parent.unit
+      indicator.unit_of_entry ||= indicator.unit
+      indicator.conversion_factor ||= 1
 
-          raise MissingConversionFactor if attributes[:conversion_factor].blank?
-        else
-          attributes[:unit_of_entry] = indicator.unit_of_entry
-          attributes[:conversion_factor] =
-            AddMissingConversionFactors::CONVERSION_FACTORS[
-              [attributes[:unit_of_entry], parent.unit].join('->')
-            ]
+      if indicator.unit == parent.unit
+        attributes[:unit_of_entry] = indicator.unit_of_entry
+        attributes[:conversion_factor] = indicator.conversion_factor
 
-          if attributes[:conversion_factor].blank?
-            unit = UNIT_RESOLUTIONS[[indicator.unit, parent.unit].join('->')]
+        raise MissingConversionFactor if attributes[:conversion_factor].blank?
+      else
+        attributes[:unit_of_entry] = indicator.unit_of_entry
+        attributes[:conversion_factor] =
+          AddMissingConversionFactors::CONVERSION_FACTORS[
+            [attributes[:unit_of_entry], parent.unit].join('->')
+          ]
 
-            if unit
-              indicator.update!(unit: unit)
-              redo
-            else
-              puts "unable to create note for indicator.id: #{indicator.id}, parent.unit: #{parent.unit}, indicator.unit_of_entry: #{indicator.unit_of_entry}"
-              raise IncompatibleUnits
-            end
+        if indicator.unit_of_entry == parent.unit
+          attributes[:conversion_factor] = 1
+        end
+
+        if attributes[:conversion_factor].blank?
+          unit = UNIT_RESOLUTIONS[[indicator.unit, parent.unit].join('->')]
+
+          if unit
+            indicator.update!(unit: unit)
+            redo
+          else
+            puts "unable to create note for indicator.id: #{indicator.id}, parent.unit: #{parent.unit}, indicator.unit_of_entry: #{indicator.unit_of_entry}"
+            raise IncompatibleUnits
           end
         end
       end

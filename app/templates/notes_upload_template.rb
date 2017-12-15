@@ -9,6 +9,6 @@ class NotesUploadTemplate
   private
 
   def headers
-    UploadNotes::HEADERS.map(&:titleize)
+    UploadNotes::HEADERS.values
   end
 end

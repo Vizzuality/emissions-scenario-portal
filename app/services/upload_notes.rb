@@ -1,12 +1,16 @@
 class UploadNotes
   include ActiveModel::Model
 
-  HEADERS = %w[
-    model_name esp_indicator_name unit_of_entry conversion_factor description
-  ].freeze
+  HEADERS = {
+    model_name: 'Model Name',
+    indicator_name: 'ESP Indicator Name',
+    unit_of_entry: 'Unit of Entry',
+    conversion_factor: 'Conversion Factor',
+    description: 'Note'
+  }.freeze
 
   attr_reader :csv_upload
-  validate :number_of_headers, :existence_of_headers
+  validate :existence_of_headers
 
   def initialize(csv_upload)
     @csv_upload = csv_upload
@@ -28,27 +32,17 @@ class UploadNotes
     @csv = CSV.open(file.path, 'r', headers: true, encoding: encoding).read
   end
 
-  def number_of_headers
-    return if HEADERS.size == csv.headers.size
-    errors.add(
-      :csv_upload,
-      :invalid,
-      msg: "Invalid number of columns (expected #{HEADERS.size}, found #{csv.headers.size})",
-      row: 1,
-      type: :header
-    )
-  end
-
-  def normalize_header(header)
-    normalized = header.to_s.downcase.strip.gsub(/\s+/, '_')
-    normalized if HEADERS.include?(normalized)
+  def match_header(header)
+    HEADERS.
+      transform_values(&:downcase).
+      key(header.to_s.downcase.gsub(/\s+/, ' ').strip)
   end
 
   def existence_of_headers
     remaining_headers = HEADERS.dup
 
     csv.headers.each do |header|
-      next if remaining_headers.delete(normalize_header(header))
+      next if remaining_headers.delete(match_header(header))
       errors.add(
         :csv_upload,
         :invalid,
@@ -58,11 +52,11 @@ class UploadNotes
       )
     end
 
-    remaining_headers.each do |header|
+    remaining_headers.each do |key, value|
       errors.add(
         :csv_upload,
         :invalid,
-        msg: "Missing header: #{header.titleize}",
+        msg: "Missing header: #{value}",
         row: 1,
         type: :header
       )
@@ -72,12 +66,12 @@ class UploadNotes
   def create_note(attributes)
     model = Pundit.
         policy_scope(csv_upload.user, Model).
-        find_by_name(attributes['model_name'])
+        find_by_name(attributes[:model_name])
 
-    indicator = Indicator.find_by_name(attributes['esp_indicator_name'])
+    indicator = Indicator.find_by_name(attributes[:indicator_name])
 
     Note.find_or_initialize_by(model: model, indicator: indicator).tap do |note|
-      note.update(attributes.except('model_name', 'esp_indicator_name'))
+      note.update(attributes.except(*%i[model_name indicator_name]))
     end
   end
 
@@ -99,8 +93,7 @@ class UploadNotes
 
   def create_notes
     csv.map.with_index(2) do |row, line_number|
-      attributes =
-        row.map { |header, value| [normalize_header(header), value] }.to_h
+      attributes = row.map { |header, value| [match_header(header), value] }.to_h
 
       next if attributes.all?(&:blank?)
 
