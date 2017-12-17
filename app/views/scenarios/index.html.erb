@@ -7,7 +7,7 @@
         <% if policy(Scenario).create? %>
           <%= render 'shared/components/c_upload_card',
             structure_path: template_path(:scenarios),
-            xls_structure_path: '/Meta_Scenario.xlsm',
+            xls_structure_path: asset_path('Meta_Scenario.xlsm'),
             button_text: 'Upload or update scenario meta information',
             service_type: 'UploadScenarios',
             return_path: model_scenarios_path(@model) %>

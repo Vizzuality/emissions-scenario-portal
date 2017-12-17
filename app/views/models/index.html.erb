@@ -6,7 +6,7 @@
         <% if policy(Model).create? %>
           <%= render 'shared/components/c_upload_card',
                 structure_path: template_path(:models),
-                xls_structure_path: '/Meta_Model.xlsm',
+                xls_structure_path: asset_path('Meta_Model.xlsm'),
                 button_text: 'Upload or update model meta information',
                 service_type: 'UploadModels',
                 return_path: models_path %>

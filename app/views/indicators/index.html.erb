@@ -10,7 +10,7 @@
         <% if policy(Indicator).create? %>
           <%= render 'shared/components/c_upload_card',
                      structure_path: template_path(:indicators),
-                     sample_path: '/System_Indicator_Master_List.csv',
+                     sample_path: asset_path('System_Indicator_Master_List.csv'),
                      button_text: 'Upload or update indicators',
                      service_type: 'UploadIndicators',
                      return_path: polymorphic_path([@model, :indicators]) %>
