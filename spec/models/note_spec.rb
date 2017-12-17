@@ -27,22 +27,9 @@ RSpec.describe Note, type: :model do
       ).to have(1).errors_on(:indicator_id)
     end
 
-    it "is invalid when unit_of_entry is equal to indicator's unit" do
-      indicator = create(:indicator)
+    it "is invalid when conversion_factor is blank" do
       expect(
-        build(:note, unit_of_entry: indicator.unit, indicator: indicator)
-      ).to have(1).errors_on(:unit_of_entry)
-    end
-
-    it "is invalid when conversion_factor is present but no unit_of_entry given" do
-      expect(
-        build(:note, unit_of_entry: nil, conversion_factor: 0.1)
-      ).to have(1).errors_on(:conversion_factor)
-    end
-
-    it "is invalid when conversion_factor is blank but unit_of_entry given" do
-      expect(
-        build(:note, unit_of_entry: "units", conversion_factor: nil)
+        build(:note, conversion_factor: nil)
       ).to have(1).errors_on(:conversion_factor)
     end
 
@@ -52,9 +39,9 @@ RSpec.describe Note, type: :model do
       ).to have(1).errors_on(:conversion_factor)
     end
 
-    it "is invalid without unit_of_entry when no description given" do
+    it "is invalid without unit_of_entry" do
       expect(
-        build(:note, unit_of_entry: nil, description: nil)
+        build(:note, unit_of_entry: nil)
       ).to have(1).errors_on(:unit_of_entry)
     end
   end
