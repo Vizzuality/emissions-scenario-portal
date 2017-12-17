@@ -12,10 +12,17 @@ class IndicatorsController < ApplicationController
     @indicator = Indicator.find(params[:id])
     @note = Note.find_by(indicator: @indicator, model: @model)
     authorize(@indicator)
-    @time_series_values_pivot =
-      @indicator.
-        time_series_values.
-        time_series_values_pivot
+    if @model.present?
+      @time_series_values_pivot =
+        @indicator.
+          time_series_values.
+          time_series_values_pivot
+    else
+      @time_series_values_summary =
+        @indicator.
+          time_series_values.
+          time_series_values_summary
+    end
   end
 
   def new
