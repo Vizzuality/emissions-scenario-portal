@@ -2,7 +2,6 @@ module Api
   module V1
     class ScenarioSerializer < ActiveModel::Serializer
       attribute :id
-      attribute :model_id
       attribute :name
       attribute :model_abbreviation
       attribute :category
@@ -38,6 +37,13 @@ module Api
       attribute :burden_sharing
 
       belongs_to :model
+
+      def model
+        {
+          id: object.model.id,
+          name: object.model.full_name
+        }
+      end
     end
   end
 end
