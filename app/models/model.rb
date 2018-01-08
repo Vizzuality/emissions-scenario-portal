@@ -49,7 +49,7 @@ class Model < ApplicationRecord
       where(scenarios: {time_series_values: {location_id: location_ids}})
   end
 
-  def self.find_by_name(name)
-    where('lower(full_name) = ?', name.to_s.downcase).first
+  def self.find_by_abbreviation(abbreviation)
+    where('lower(abbreviation) = ?', abbreviation.to_s.downcase).first
   end
 end

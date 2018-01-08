@@ -2,7 +2,7 @@ class UploadNotes
   include ActiveModel::Model
 
   HEADERS = {
-    model_name: 'Model Name',
+    model_abbreviation: 'Model Name',
     indicator_name: 'ESP Indicator Name',
     unit_of_entry: 'Unit of Entry',
     conversion_factor: 'Conversion Factor',
@@ -67,12 +67,12 @@ class UploadNotes
     model =
       Pundit.
         policy_scope(csv_upload.user, Model).
-        find_by_name(attributes[:model_name])
+        find_by_abbreviation(attributes[:model_abbreviation])
 
     indicator = Indicator.find_by_name(attributes[:indicator_name])
 
     Note.find_or_initialize_by(model: model, indicator: indicator).tap do |note|
-      note.update(attributes.except(:model_name, :indicator_name))
+      note.update(attributes.except(:model_abbreviation, :indicator_name))
     end
   end
 

@@ -12,7 +12,7 @@ RSpec.describe UploadNotes, upload: :s3 do
   end
   let!(:user) { create(:user, admin: true) }
   let!(:model) do
-    create(:model, full_name: "Annual Energy Outlook 2017")
+    create(:model, abbreviation: "GCAM")
   end
   let!(:electricity) { create(:category, name: "Electricity") }
   let!(:additions) do
