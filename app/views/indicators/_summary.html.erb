@@ -1,0 +1,45 @@
+<div class="row">
+  <div class="small-12 columns">
+    <div class="l-indicators-overview__table-title f-ff3-m-bold">
+      Scenarios <span>(<%= @time_series_values_summary.length %>)</span>
+    </div>
+  </div>
+</div>
+
+<br>
+
+<div>
+  <div class="row">
+    <div class="small-2 columns">
+      <strong>Model</strong>
+    </div>
+    <div class="small-3 columns">
+      <strong>Scenario</strong>
+    </div>
+    <div class="small-6 columns">
+      <strong>Locations</strong>
+    </div>
+    <div class="small-1 columns">
+      <strong>Years</strong>
+    </div>
+  </div>
+</div>
+
+<% @time_series_values_summary.each do |row| %>
+  <div class="c-table-list-item">
+    <div class="row">
+      <div class="small-2 columns">
+        <%= row[:model] %>
+      </div>
+      <div class="small-3 columns">
+        <%= row[:scenario] %>
+      </div>
+      <div class="small-6 columns">
+        <%= row[:locations].join(', ') %>
+      </div>
+      <div class="small-1 columns">
+        <%= row[:years].join('-') %>
+      </div>
+    </div>
+  </div>
+<% end %>

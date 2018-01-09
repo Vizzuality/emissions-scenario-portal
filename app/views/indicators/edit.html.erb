@@ -1,25 +1,17 @@
-<%= render 'shared/components/c_landing_header',
-  title: @indicator.name %>
+<%= render 'shared/components/c_landing_header', title: @indicator.name,
+  no_nav: true %>
 
 <script>
   App.Data.categories = <%= raw(@categories) %>;
 </script>
 
-<%= form_for [@model, @indicator] do |f| %>
+<%= form_for @indicator do |f| %>
   <div class="l-indicator-edit">
     <div class="row">
       <div class="small-12 columns">
         <div class="row align-right">
           <div class="small-2 columns">
-            <%
-              indicators_url =
-                if defined? @model
-                  model_indicators_url(@model)
-                else
-                  indicators_url
-                end
-            %>
-            <%= link_to indicators_url, class: 'l-indicator-edit__form-action' do %>
+            <%= link_to indicators_path, class: 'l-indicator-edit__form-action' do %>
               <%= render 'shared/components/c_flying_button' %>
             <% end %>
           </div>

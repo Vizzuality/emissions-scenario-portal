@@ -21,8 +21,13 @@
     'teams': 'Teams#index',
     'teams/:id/edit': 'Teams#edit',
     'teams/:id': 'Teams#edit',
-    'locations': 'Teams#index',
-    'locations/:id/edit': 'Teams#edit',
+    'admin/teams': 'Teams#index',
+    'admin/teams/:id/edit': 'Teams#edit',
+    'admin/teams/:id': 'Teams#edit',
+    'admin/locations': 'Teams#index',
+    'admin/locations/:id/edit': 'Teams#edit',
+    'admin/categories': 'Categories#index',
+    'admin/categories/:id/edit': 'Categories#edit',
     '*notFound': 'Error#index'
   };
 

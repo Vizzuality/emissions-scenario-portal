@@ -102,4 +102,23 @@ module ApplicationHelper
                        'js-multisingle-select'
                      end}"
   end
+
+  def nav_links
+    return [] if @model.blank?
+    [
+      {
+        name: 'Overview',
+        path: model_url(@model),
+        key: 'models'
+      }, {
+        name: 'Indicators',
+        path: model_indicators_url(@model),
+        key: 'indicators'
+      }, {
+        name: 'Scenarios',
+        path: model_scenarios_url(@model),
+        key: 'scenarios'
+      }
+    ]
+  end
 end

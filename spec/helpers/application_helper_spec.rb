@@ -39,18 +39,6 @@ RSpec.describe ApplicationHelper, type: :helper do
         ).to match('select')
       end
     end
-    context :indicators do
-      let(:indicator) { create(:indicator) }
-      let(:form) {
-        ActionView::Helpers::FormBuilder.new(:indicator, indicator, self, {})
-      }
-      it 'returns a select input for parent_id' do
-        assign(:model, model)
-        expect(
-          helper.attribute_input(indicator, form, :parent_id)
-        ).to match('select')
-      end
-    end
   end
 
   describe :attribute_name do

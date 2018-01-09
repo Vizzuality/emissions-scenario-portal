@@ -1,10 +1,12 @@
 class ProfilesController < ApplicationController
   def edit
     @user = current_user
+    authorize(@user)
   end
 
   def update
     @user = User.find(current_user.id)
+    authorize(@user)
     if params[:user][:password].present?
       update_with_password
     else

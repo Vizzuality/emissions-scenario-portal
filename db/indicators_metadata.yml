@@ -1,7 +1,4 @@
-- name: :parent_id
-  reference: 'parent.alias'
-  size: 'large'
-- name: :alias
+- name: :composite_name
   size: 'large'
 - name: :name
   size: 'small'
@@ -15,11 +12,6 @@
     include_blank: 'None'
 - name: :unit
   picklist: true
-  size: 'small'
-- name: :unit_of_entry
-  picklist: true
-  size: 'small'
-- name: :conversion_factor
   size: 'small'
 - name: :definition
   size: 'large'

@@ -41,14 +41,14 @@ RSpec.describe FilterScenarios do
       ).to eq([without, with2, with3])
     end
 
-    it 'orders by time series' do
+    it 'orders by time series values count' do
       with2 = create(:scenario, name: 'with 2')
       create_list(:time_series_value, 2, scenario: with2)
       without = create(:scenario, name: 'without')
 
       expect(
         FilterScenarios.
-          new(order_type: 'time_series', order_direction: 'asc').
+          new(order_type: 'time_series_values_count', order_direction: 'asc').
           call(Scenario.all)
       ).to eq([without, with2])
     end

@@ -1,31 +1,20 @@
-require 'time_series_values_upload_template'
-
 class TimeSeriesValuesController < ApplicationController
-  load_and_authorize_resource :model
+  def index
+    parent =
+      Scenario.find_by(id: params[:scenario_id]) ||
+      Indicator.find_by(id: params[:indicator_id])
 
-  def upload
-    handle_io_upload(:time_series_values_file, model_scenarios_url(@model)) do
-      CsvUpload.create(
-        user: current_user,
-        model: @model,
-        service_type: 'UploadTimeSeriesValues',
-        data: @uploaded_io
-      )
-    end
-  end
+    raise ActiveRecord::RecordNotFound if parent.blank?
 
-  def upload_template
-    csv_template = TimeSeriesValuesUploadTemplate.new
+    csv_download =
+      DownloadTimeSeriesValues.
+        new(current_user).
+        call(parent.time_series_values)
+
     send_data(
-      csv_template.export,
+      csv_download.export,
       type: 'text/csv; charset=utf-8; header=present',
-      disposition: 'attachment; filename=time_series_values_upload_template.csv'
+      disposition: "attachment; filename=#{parent.class.name.downcase}_time_series_data.csv"
     )
-  end
-
-  private
-
-  def redirect_after_upload_url(csv_upload = nil)
-    model_scenarios_url(@model, csv_upload_id: csv_upload.try(:id))
   end
 end

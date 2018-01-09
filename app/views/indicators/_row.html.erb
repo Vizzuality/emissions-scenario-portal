@@ -1,20 +1,11 @@
 <div class="c-table-list-item">
   <div class="row">
+    <div class="small-4 columns">
+      <div class="c-table-list-item__text f-ff1-m-bold">
+        <%= link_to indicator.composite_name, [@model, indicator] %>
+      </div>
+    </div>
     <div class="small-2 columns">
-      <div class="c-table-list-item__text f-ff1-m-bold">
-        <% (indicator.parent || indicator).tap do |system_indicator| %>
-          <%= link_to system_indicator.build_alias, model_indicator_url(@model, system_indicator) %>
-        <% end %>
-      </div>
-    </div>
-    <div class="small-3 columns">
-      <div class="c-table-list-item__text f-ff1-m-bold">
-        <% if indicator.variation? %>
-          <%= link_to indicator.alias, model_indicator_url(@model, indicator) %>
-        <% end %>
-      </div>
-    </div>
-    <div class="small-1 columns">
       <div class="c-table-list-item__text f-ff1-m"><%= indicator.unit %></div>
     </div>
     <div class="small-3 columns">
@@ -23,18 +14,22 @@
       </div>
     </div>
     <div class="small-1 columns">
-      <div class="c-table-list-item__text f-ff1-m-bold">
-        <% if indicator.team? || indicator.variation? %>
-          <%= indicator.model.team.try(:name) %>
-        <% else %>
-          System
+      <div class="c-table-list-item__text f-ff1-m">
+        <% if @model.present? %>
+          <% indicator.notes.find { |note| note.model_id == @model.id }&.tap do |note| %>
+            <%= link_to [@model, indicator] do %>
+              <svg class="icon icon-info js-tooltip" data-tooltip-text="This indicator has a model specific note, click to see more" style="display: block">
+                <use xlink:href="#icon-info"></use>
+              </svg>
+            <% end %>
+          <% end %>
         <% end %>
       </div>
     </div>
     <div class="small-2 columns">
       <div class="c-table-list-item__actions">
-        <% if current_user.can?(:destroy, indicator) %>
-          <%= link_to model_indicator_url(@model, indicator),
+        <% if policy(indicator).destroy? %>
+          <%= link_to indicator_path(indicator),
             method: :delete,
             data: {confirm: destroy_confirmation_message(indicator)} do %>
             <div class="c-remove-button">
@@ -43,23 +38,13 @@
             </div>
           <% end %>
         <% end %>
-        <% if current_user.can?(:manage, indicator) %>
-          <%= link_to edit_model_indicator_url(@model, indicator) do %>
+        <% if policy(indicator).edit? %>
+          <%= link_to edit_indicator_path(indicator) do %>
             <div class="c-edit-button">
               <div class="c-edit-button__bubble">
                 <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
               </div>
               <div class="f-ff1-s">Edit</div>
-            </div>
-          <% end %>
-        <% end %>
-        <% if indicator.system? && current_user.can?(:create, Indicator.new(model_id: @model.id)) %>
-          <%= link_to fork_model_indicator_url(@model, indicator) do %>
-            <div class="c-edit-button">
-              <div class="c-edit-button__bubble">
-                <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
-              </div>
-              <div class="f-ff1-s">Fork</div>
             </div>
           <% end %>
         <% end %>

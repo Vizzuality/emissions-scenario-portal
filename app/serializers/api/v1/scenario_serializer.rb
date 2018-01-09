@@ -2,7 +2,6 @@ module Api
   module V1
     class ScenarioSerializer < ActiveModel::Serializer
       attribute :id
-      attribute :model_id
       attribute :name
       attribute :model_abbreviation
       attribute :category
@@ -37,10 +36,13 @@ module Api
       attribute :other_target
       attribute :burden_sharing
 
-      has_many :indicators_relation, key: :indicators
+      belongs_to :model
 
-      def indicators_relation
-        object.model.indicators
+      def model
+        {
+          id: object.model.id,
+          name: object.model.full_name
+        }
       end
 
       belongs_to :model
