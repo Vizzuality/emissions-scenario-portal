@@ -2,7 +2,7 @@ class TimeSeriesYearPivotQuery
   def initialize(original_query)
     @main_query = original_query.
       joins(
-       "INNER JOIN indicators indicators_pivot
+        "INNER JOIN indicators indicators_pivot
 ON indicators_pivot.id = time_series_values.indicator_id"
       ).
       joins(
