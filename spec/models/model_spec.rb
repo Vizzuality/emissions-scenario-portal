@@ -64,4 +64,35 @@ RSpec.describe Model, type: :model do
       ).to eq('models.platform.definition')
     end
   end
+
+  describe :having_time_series do
+    it 'should return only models having time series values' do
+      with1 = create(:model)
+      scenario1 = create(:scenario, model: with1)
+      create(:time_series_value, scenario: scenario1)
+      with2 = create(:model)
+      scenario2 = create(:scenario, model: with2)
+      create(:time_series_value, scenario: scenario2)
+      scenario2 = create(:scenario, model: with2)
+      create(:time_series_value, scenario: scenario2)
+      without = create(:model)
+
+      expect(Model.having_time_series).to contain_exactly(with1, with2)
+    end
+  end
+
+  describe :having_published_scenarios do
+    it 'should return only models having published scenarios' do
+      with_published1 = create(:model)
+      create(:scenario, model: with_published1, published: true)
+      with_published2 = create(:model)
+      create(:scenario, model: with_published2, published: true)
+      create(:model)
+      with_unpublished = create(:model)
+      create(:scenario, model: with_unpublished, published: false)
+
+      expect(Model.having_published_scenarios).
+        to contain_exactly(with_published1, with_published2)
+    end
+  end
 end

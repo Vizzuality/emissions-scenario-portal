@@ -21,20 +21,18 @@ gem 'jbuilder'
 
 gem 'dotenv-rails' # required by Devise
 
-gem 'cancancan', '~> 1.10'
+gem 'active_model_serializers'
+gem 'appsignal'
+gem 'aws-sdk', '~> 2'
+gem 'charlock_holmes'
 gem 'devise'
 gem 'devise_invitable'
+gem 'paperclip'
 gem 'pg_csv'
 gem 'pg_search'
-gem 'charlock_holmes'
-gem 'paperclip'
-gem 'aws-sdk', '~> 2'
+gem 'pundit'
 gem 'sidekiq'
-gem 'active_model_serializers'
-
-gem 'sparkpost_rails', github: 'the-refinery/sparkpost_rails'
-
-gem 'appsignal'
+gem 'sparkpost_rails'
 
 group :development, :test do
   gem 'byebug', platform: :mri

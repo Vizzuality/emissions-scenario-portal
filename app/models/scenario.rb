@@ -9,9 +9,12 @@ class Scenario < ApplicationRecord
 
   validates :name, presence: true
   validates :model, presence: true
+  validates :published, inclusion: {in: [false, true]}
   before_validation :ignore_blank_array_values
 
   delegate :abbreviation, to: :model, prefix: :model
+
+  scope :having_time_series, -> { where.not(time_series_values_count: 0) }
 
   def indicators
     Indicator.joins(
@@ -22,18 +25,6 @@ class Scenario < ApplicationRecord
   end
 
   def time_series_data?
-    time_series_values.any?
-  end
-
-  def self.time_series
-    joins('LEFT JOIN "time_series_values"
-      ON "time_series_values"."scenario_id" = "scenarios"."id"').
-      group('scenarios.id')
-  end
-
-  def self.time_series_order(order_direction)
-    select('scenarios.*, COUNT(time_series_values.id) AS time_series_count').
-      time_series.
-      order("time_series_count #{order_direction}")
+    time_series_values_count > 0
   end
 end

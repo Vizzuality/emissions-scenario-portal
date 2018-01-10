@@ -1,0 +1,3 @@
+Model Name,ESP Indicator Name,Conversion Factor,Note
+GCAM,Electricity|Capacity additions by technology|Coal w/o CCS,1.0,"Cumulative additions after December 31, 2016…"
+GCAM,Electricity|Capacity additions by technology|Gas w/o CCS,1.0,"Cumulative additions after December 31, 2016."

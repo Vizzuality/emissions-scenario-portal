@@ -1,85 +1,65 @@
-require 'scenarios_upload_template'
-
 class ScenariosController < ApplicationController
-  load_and_authorize_resource :model
-  load_and_authorize_resource through: :model, except: [:index]
-  authorize_resource only: [:index]
-
-  before_action :set_nav_links, only: [:index, :show, :edit]
-  before_action :set_filter_params, only: [:index, :show]
-  before_action :set_upload_errors, only: [:index]
-
   def index
-    @scenarios = FilterScenarios.new(@filter_params).call(@model.scenarios)
+    @model = Model.find(params[:model_id])
+    @scenarios =
+      FilterScenarios.
+        new(filter_params).
+        call(policy_scope(@model.scenarios))
   end
 
-  def edit; end
+  def show
+    @model = Model.find(params[:model_id])
+    @scenario = @model.scenarios.find(params[:id])
+    authorize(@scenario)
+    @indicators = FilterIndicators.
+      new(filter_params).
+      call(@scenario.indicators)
+  end
+
+  def edit
+    @model = Model.find(params[:model_id])
+    @scenario = @model.scenarios.find(params[:id])
+    authorize(@scenario)
+  end
 
   def update
-    if @scenario.update_attributes(scenario_params)
-      redirect_to model_scenario_url(@model, @scenario),
-                  notice: 'Scenario was successfully updated.'
+    @model = Model.find(params[:model_id])
+    @scenario = @model.scenarios.find(params[:id])
+    authorize(@scenario)
+    if @scenario.update(scenario_params)
+      redirect_to(
+        model_scenario_path(@model, @scenario),
+        notice: 'Scenario was successfully updated.'
+      )
     else
-      flash[:alert] =
+      flash.now[:alert] =
         'We could not update the scenario. Please check the inputs in red'
       render action: :edit
     end
   end
 
-  def show
-    @indicators = FilterIndicators.
-      new(@filter_params).
-      call(@scenario.indicators.for_model(@model))
-  end
-
   def destroy
+    @model = Model.find(params[:model_id])
+    @scenario = @model.scenarios.find(params[:id])
     @scenario.destroy
+    authorize(@scenario)
     redirect_to(
-      model_scenarios_url(@model),
+      model_scenarios_path(@model),
       notice: 'Scenario successfully destroyed.'
-    )
-  end
-
-  def upload_meta_data
-    handle_io_upload(:scenarios_file, model_scenarios_url(@model)) do
-      CsvUpload.create(
-        user: current_user,
-        model: @model,
-        service_type: 'UploadScenarios',
-        data: @uploaded_io
-      )
-    end
-  end
-
-  def upload_template
-    csv_template = ScenariosUploadTemplate.new
-    send_data(
-      csv_template.export,
-      type: 'text/csv; charset=utf-8; header=present',
-      disposition: 'attachment; filename=scenarios_upload_template.csv'
-    )
-  end
-
-  def download_time_series
-    csv_download = DownloadTimeSeriesValues.new(current_user).call(
-      @scenario.time_series_values
-    )
-    send_data(
-      csv_download.export,
-      type: 'text/csv; charset=utf-8; header=present',
-      disposition: 'attachment; filename=scenario_time_series_data.csv'
     )
   end
 
   private
 
   def scenario_params
-    params.require(:scenario).permit(
-      *Scenario.attribute_symbols_for_strong_params
-    )
+    params.require(:scenario).permit(*policy(@scenario).permitted_attributes)
   end
 
-  def redirect_after_upload_url(csv_upload = nil)
-    model_scenarios_url(@model, csv_upload_id: csv_upload.try(:id))
+  def admin_scenario_params
+    scenario_params.permit(:published)
+  end
+
+  def filter_params
+    params.permit(:search, :order_type, :order_direction)
   end
 end

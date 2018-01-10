@@ -1,4 +1,4 @@
-<% if defined? @model %>
+<% if @model %>
   <%= render 'shared/components/c_landing_header', title: @model.full_name %>
 <% else %>
   <%= render 'shared/components/c_landing_header', no_nav: true%>
@@ -7,22 +7,14 @@
   <div class="l-indicators-overview__data-block">
     <div class="row align-right">
       <div class="small-3 columns">
-        <%
-          download_time_series_url =
-            if defined? @model
-              download_time_series_model_indicator_url(@model, @indicator)
-            else
-              download_time_series_indicator_url(@indicator)
-            end
-        %>
-        <%= link_to download_time_series_url, class: 'l-indicators__download' do %>
+        <%= link_to [@model, @indicator, :time_series_values], class: 'l-indicators__download' do %>
           <div class="c-hollow-button"><span>Download time series</span></div>
         <% end %>
       </div>
     </div>
     <div class="row">
       <div class="small-12 columns">
-        <div class="l-indicators-overview__title f-ff3-m-bold"><%= @indicator.alias %></div>
+        <div class="l-indicators-overview__title f-ff3-m-bold"><%= @indicator.composite_name %></div>
       </div>
     </div>
     <div class="row">
@@ -43,16 +35,8 @@
         <div class="f-ff1-m l-indicators-overview__data"><%= @indicator.definition %></div>
       </div>
       <div class="small-2 columns">
-        <% if current_user.can?(:manage, @indicator) %>
-          <%
-            edit_indicator_url =
-              if defined? @model
-                edit_model_indicator_url(@model, @indicator)
-              else
-                edit_indicator_url(@indicator)
-              end
-          %>
-          <%= link_to edit_indicator_url do %>
+        <% if policy(@indicator).edit? %>
+          <%= link_to edit_indicator_path(@indicator) do %>
             <div class="c-edit-button">
               <div class="c-edit-button__bubble">
                 <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
@@ -62,62 +46,38 @@
           <% end %>
         <% end %>
       </div>
-      <div class="small-1 columns">
-        <% if @indicator.system? && @model && current_user.can?(:fork, @indicator) %>
-          <%= link_to fork_model_indicator_url(@model, @indicator) do %>
-            <div class="c-edit-button">
-              <div class="c-edit-button__bubble">
-                <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
-              </div>
-              <div class="f-ff1-s">Fork</div>
-            </div>
-          <% end %>
-        <% end %>
-      </div>
     </div>
+    <% if @note.present? %>
+      <br>
+      <div class="row">
+        <div class="small-4 columns"></div>
+        <div class="small-1 columns">
+          <div class="f-ff1-m-bold">Model unit</div>
+          <div class="f-ff1-m l-indicators-overview__data"><%= @note.unit_of_entry %></div>
+        </div>
+        <div class="small-4 columns">
+          <div class="f-ff1-m-bold">Model note</div>
+          <div class="f-ff1-m l-indicators-overview__data"><%= @note.description %></div>
+        </div>
+      </div>
+    <% end %>
   </div>
 
-  <div class="row">
-    <div class="small-9 columns">
-      <div class="l-indicators-overview__hierarchy_info">
-        <% if @indicator.system? %>
-          <p>This is a <span class="f-ff1-m-bold">system indicator</span>.</p>
-        <% elsif @indicator.team? %>
-          <p>This is a <span class="f-ff1-m-bold">team indicator</span>.</p>
-        <% else %>
-          <p>This is a <span class="f-ff1-m-bold">variation of <%= link_to @indicator.parent.alias, model_indicator_url(@indicator.model, @indicator.parent) %></span></p>
-        <% end %>
-        <% if @indicator.model.present? %>
-          <p>
-            <span class="f-ff1-m-bold">Model:</span>
-            <%= link_to @indicator.model.abbreviation, model_url(@indicator.model) %>
-          </p>
-          <% if @indicator.model.team.present? && current_user.admin? %>
-            <p>
-              <span class="f-ff1-m-bold">Team:</span>
-              <%= link_to @indicator.model.team.name, edit_team_url(@indicator.model.team) %>
-            </p>
-          <% end %>
-        <% end %>
-        <% if (@indicator.system? || @indicator.team?) && @indicator.variations.any? %>
-          <p>The following variations exist:</p>
-          <% @indicator.variations.each do |variation| %>
-            <p class="f-ff1-m-bold">
-              <%= link_to variation.alias, model_indicator_url(variation.model, variation) %>
-            </p>
-          <% end %>
-        <% end %>
+  <% if @time_series_values_pivot.present? %>
+    <div class="row">
+      <div class="small-12 columns">
+        <div class="l-indicators-overview__table-title f-ff3-m-bold">
+          Time Series <span>(<%= @time_series_values_pivot[:data].length %>)</span>
+        </div>
       </div>
     </div>
-  </div>
+    <%= render 'shared/components/c_table',
+               indicators: @time_series_values_pivot[:years],
+               rows: @time_series_values_pivot[:data],
+               type: 'time_series' %>
+  <% end %>
 
-  <div class="row">
-    <div class="small-12 columns">
-      <div class="l-indicators-overview__table-title f-ff3-m-bold">Time Series <span>(<%= @time_series_values_pivot[:data].length %>)</span></div>
-    </div>
-  </div>
-  <%= render 'shared/components/c_table',
-             indicators: @time_series_values_pivot[:years],
-             rows: @time_series_values_pivot[:data],
-             type: 'time_series' %>
+  <% if @time_series_values_summary.present? %>
+    <%= render 'summary' %>
+  <% end %>
 </div>

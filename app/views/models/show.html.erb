@@ -6,14 +6,14 @@
       <%= render 'shared/components/c_model_overview_card',
         title: 'Indicators',
         values: @indicators,
-        button_url: model_indicators_url(@model)
+        button_path: model_indicators_path(@model)
       %>
     </div>
     <div class="small-6 columns">
       <%= render 'shared/components/c_model_overview_card',
         title: 'Scenarios',
         values: @scenarios,
-        button_url: model_scenarios_url(@model)
+        button_path: model_scenarios_path(@model)
       %>
     </div>
   </div>
@@ -21,8 +21,8 @@
     <div class="small-12 columns">
       <%= render 'shared/components/c_columns_table',
                  title: 'Metadata',
-                 edit_url: edit_model_url(@model),
-                 destroy_url: model_url(@model),
+                 edit_path: edit_model_path(@model),
+                 destroy_path: model_path(@model),
                  destroy_message: model_destroy_confirmation_message(@model),
                  columns: [
                    {

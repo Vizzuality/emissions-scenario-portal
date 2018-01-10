@@ -132,10 +132,9 @@ RSpec.describe TeamsController, type: :controller do
     login_user
 
     describe 'GET #index' do
-      it 'prevents unauthorized access' do
+      it 'assigns user team as @teams' do
         get :index
-        expect(response).to redirect_to(root_url)
-        expect(flash[:alert]).to match(/You are not authorized/)
+        expect(assigns(:teams)).to eq([@user.team])
       end
     end
 

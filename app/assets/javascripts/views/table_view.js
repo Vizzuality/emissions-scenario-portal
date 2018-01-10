@@ -63,7 +63,7 @@
       var rows = this.$el.data('rows');
       var defaults = {cellClass: 'f-ff1-m-bold', pinned: true};
 
-      _.each(["Country", "Scenario", "Unit"], function (name) {
+      _.each(["Country", "Scenario"], function (name) {
         this.columns.push(
           _.extend(
             {},
@@ -86,8 +86,7 @@
         this.rows.push(
           _.extend({
             country: row.location_name,
-            scenario: row.scenario_name,
-            unit: row.unit_of_entry
+            scenario: row.scenario_name
           }, yearValues)
         );
       }.bind(this));

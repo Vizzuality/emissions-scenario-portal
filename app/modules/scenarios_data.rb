@@ -48,7 +48,7 @@ class ScenariosData
     @model = model
     @encoding = encoding
     @headers = ScenariosHeaders.new(@path, @model, @encoding)
-    @template_url = url_helpers.upload_template_model_scenarios_path(@model)
+    @template_url = url_helpers.template_path(:scenarios)
     initialize_stats
   end
 

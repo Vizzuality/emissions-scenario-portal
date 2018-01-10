@@ -7,7 +7,7 @@
       <div class="small-12 columns">
         <div class="row align-right">
           <div class="small-2 columns">
-            <%= link_to model_scenarios_url(@model), class: 'l-scenarios-edit__form-action' do %>
+            <%= link_to model_scenarios_path(@model), class: 'l-scenarios-edit__form-action' do %>
                 <div class="c-flying-button"><span>Cancel</span></div>
             <% end %>
           </div>
@@ -19,6 +19,19 @@
     </div>
     <div class="l-scenarios-edit__fields row">
       <div class="small-12 columns">
+
+        <% if current_user.admin? %>
+          <div class="c-form">
+            <div class="c-form-items">
+              <legend><strong>Administration</strong></legend>
+              <div class="c-form-item">
+                <%= f.check_box :published %>
+                <%= f.label :published, "Published?" %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+
         <%= render 'shared/components/form/c_form',
           object: @scenario,
           f: f,

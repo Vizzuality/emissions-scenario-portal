@@ -6,7 +6,6 @@ class Model < ApplicationRecord
 
   belongs_to :team, optional: true
   has_many :scenarios, dependent: :destroy
-  has_many :indicators, dependent: :destroy
 
   validates :abbreviation, presence: true, uniqueness: true
   validates :full_name, presence: true
@@ -28,24 +27,29 @@ class Model < ApplicationRecord
   validates :team, team_reassignment: true
   before_validation :ignore_blank_array_values
 
-  scope :with_scenarios_and_indicators, -> { includes(:scenarios, :indicators) }
+  def self.team(team)
+    where(team_id: [nil, team.respond_to?(:id) ? team.id : team].uniq)
+  end
 
   def scenarios?
     scenarios.any?
   end
 
-  class << self
-    def have_time_series
-      models_ids = TimeSeriesValue.joins(:scenario).
-        select(:model_id).distinct
+  def self.having_time_series
+    distinct.joins(:scenarios).where.not(scenarios: {time_series_values_count: 0})
+  end
 
-      where(id: models_ids.map(&:model_id))
-    end
+  def self.having_published_scenarios
+    distinct.joins(:scenarios).where(scenarios: {published: true})
+  end
 
-    def filtered_by_locations(location_ids)
-      models_ids = TimeSeriesValue.where(location_id: location_ids).joins(:scenario).
-        select(:model_id).distinct
-      where(id: models_ids.map(&:model_id))
-    end
+  def self.filtered_by_locations(location_ids)
+    distinct.
+      joins(scenarios: {time_series_values: :location}).
+      where(scenarios: {time_series_values: {location_id: location_ids}})
+  end
+
+  def self.find_by_abbreviation(abbreviation)
+    where('lower(abbreviation) = ?', abbreviation.to_s.downcase).first
   end
 end

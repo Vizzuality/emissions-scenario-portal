@@ -1,17 +1,6 @@
 <div class="row">
-  <div class="small-4 columns">
+  <div class="small-6 columns">
     <div class="l-indicators__title f-ff3-m-bold">Indicators <span>(<%= @indicators.count %>)</span></div>
-  </div>
-  <div class="small-2 columns">
-    <div class="c-form-item js-table-filter" data-filter-type="select" data-filter-key="type">
-      <label class="f-ff1-m">Filter by "Added by"</label>
-      <div class="c-select">
-        <%= select_tag 'filters[type]',
-                      types_for_select,
-                      class: 'js-form-input js-select',
-                      prompt: 'Select any type' %>
-      </div>
-    </div>
   </div>
   <div class="small-2 columns">
     <div class="c-form-item js-table-filter" data-filter-type="multiselect" data-filter-key="category">
@@ -38,26 +27,22 @@
     </div>
   </div>
   <div class="small-2 columns">
-    <%= link_to new_model_indicator_url(@model) do %>
-      <div class="c-button l-indicators__add-new"><span>Add new indicator</span></div>
+    <% if policy(Indicator).new? %>
+      <%= link_to new_indicator_path do %>
+        <div class="c-button l-indicators__add-new"><span>Add new indicator</span></div>
+      <% end %>
     <% end %>
   </div>
 </div>
 <div class="l-indicators__table-shorts js-table-filter" data-filter-type="order">
   <div class="row">
-    <div class="small-2 columns">
+    <div class="small-4 columns">
       <%= render 'shared/components/c_order_filter_button',
                  text: 'ESP Indicator Name',
                  other_class: '-no-wrap',
                  column_key: 'esp_name' %>
     </div>
-    <div class="small-3 columns">
-      <%= render 'shared/components/c_order_filter_button',
-                 text: 'Model Indicator Name',
-                 other_class: '-no-wrap',
-                 column_key: 'model_name' %>
-    </div>
-    <div class="small-1 columns">
+    <div class="small-2 columns">
       <%= render 'shared/components/c_order_filter_button',
                  text: 'Unit',
                  other_class: '-no-wrap',
@@ -70,14 +55,12 @@
                  column_key: 'definition' %>
     </div>
     <div class="small-1 columns">
-      <%= render 'shared/components/c_order_filter_button',
-                 text: 'Added by',
-                 other_class: '-no-wrap',
-                 column_key: 'added_by' %>
+      <% if @model.present? %>
+        <strong>Note</strong>
+      <% end %>
     </div>
   </div>
 </div>
-
 <% @indicators.each do |indicator| %>
-  <%= render partial: 'indicators/row', locals: {indicator: indicator} %>
+  <%= render 'indicators/row', indicator: indicator %>
 <% end %>

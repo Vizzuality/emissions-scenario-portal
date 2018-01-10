@@ -103,4 +103,6 @@ RSpec.configure do |config|
     allow_any_instance_of(Paperclip::Attachment).to receive(:save).
       and_return(true)
   end
+
+  config.include ActionDispatch::TestProcess::FixtureFile
 end
