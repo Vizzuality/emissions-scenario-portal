@@ -35,7 +35,7 @@ RSpec.describe TimeSeriesValuesController, type: :controller do
 
       it 'returns model specific indicator time series file' do
         create(:time_series_value, indicator: indicator, scenario: team_scenario)
-        create(:time_series_value, indicator: indicator, scenario: create(:scenario))
+        create(:time_series_value, indicator: indicator)
 
         get(
           :index,
