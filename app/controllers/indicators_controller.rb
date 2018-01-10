@@ -16,6 +16,8 @@ class IndicatorsController < ApplicationController
       @time_series_values_pivot =
         @indicator.
           time_series_values.
+          joins(:scenario).
+          where(scenarios: {model_id: @model.id}).
           time_series_values_pivot
     else
       @time_series_values_summary =

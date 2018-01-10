@@ -9,12 +9,12 @@ class TimeSeriesValuesController < ApplicationController
 
     time_series_values = parent.time_series_values
 
-    # if model.present?
-    #   time_series_values =
-    #     time_series_values.
-    #       joins(:scenario).
-    #       where(scenarios: {model_id: model})
-    # end
+    if model.present?
+      time_series_values =
+        time_series_values.
+          joins(:scenario).
+          where(scenarios: {model_id: model})
+    end
 
     csv_download =
       DownloadTimeSeriesValues.
