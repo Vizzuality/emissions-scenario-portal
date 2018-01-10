@@ -11,7 +11,7 @@
     <% attributes.each do |attribute_info| %>
       <div class="c-form-item
         <% if f.object[attribute_info.name.to_s].present? || attribute_info.reference? %>-highlighted<% end %>
-        <% if object.errors.messages[attribute_info.name].present? %>-error<% end %>
+        <% if object.errors.messages[attribute_info.name.to_s.sub(/_id$/, '').to_sym].present? %>-error<% end %>
       ">
         <label class="f-ff1-m"><%= attribute_name(object, attribute_info.name) %></label>
         <svg class="icon icon-info js-tooltip" data-tooltip-text="<%= attribute_definition(object, attribute_info.name) %>"><use xlink:href="#icon-info"></use></svg>

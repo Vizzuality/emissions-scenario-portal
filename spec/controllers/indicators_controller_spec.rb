@@ -47,13 +47,15 @@ RSpec.describe IndicatorsController, type: :controller do
           :create,
           params: {
             indicator: {
+              name: "My Indicator",
               category_id: category.id,
-              subcategory_id: subcategory.id
+              subcategory_id: subcategory.id,
+              unit: ["number"]
             }
           }
         )
 
-        expect(response).to redirect_to(indicator_url(assigns(:indicator)))
+        expect(response).to redirect_to(indicator_path(assigns(:indicator)))
       end
     end
 

@@ -28,7 +28,7 @@ class IndicatorsController < ApplicationController
   def new
     @indicator = Indicator.new
     authorize(@indicator)
-    render action: :edit
+    render :edit
   end
 
   def create
@@ -42,7 +42,7 @@ class IndicatorsController < ApplicationController
     else
       flash.now[:alert] =
         'We could not create the indicator. Please check the inputs in red'
-      render action: :edit
+      render "edit"
     end
   end
 
@@ -62,7 +62,7 @@ class IndicatorsController < ApplicationController
     else
       flash.now[:alert] =
         'We could not update the indicator. Please check the inputs in red'
-      render action: :edit
+      render :edit
     end
   end
 
