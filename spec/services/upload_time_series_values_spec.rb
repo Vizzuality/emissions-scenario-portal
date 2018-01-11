@@ -184,7 +184,7 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
     }
 
     it 'should not have saved any rows' do
-      expect { subject }.to(change { TimeSeriesValue.count }.by(1))
+      expect { subject }.not_to(change { TimeSeriesValue.count })
     end
     it 'should report no rows saved' do
       expect(subject.number_of_records_saved).to eq(0)

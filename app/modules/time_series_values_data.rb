@@ -41,7 +41,7 @@ class TimeSeriesValuesData
       year = h[:display_name].to_i
       value = row[@headers.actual_index_of_year(h[:display_name])]
       begin
-        value.blank? ? nil : [year, value.to_d * conversion_factor]
+        value.blank? ? nil : [year, BigDecimal(value) * conversion_factor]
       rescue ArgumentError
         [year, value]
       end

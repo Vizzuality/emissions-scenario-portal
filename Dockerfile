@@ -1,4 +1,4 @@
-FROM ruby:2.4.2
+FROM ruby:2.5.0
 MAINTAINER simao <simao.belchior@vizzuality.com>
 
 ENV NAME emission-scenario-portal
