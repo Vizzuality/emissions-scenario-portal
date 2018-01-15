@@ -27,6 +27,18 @@ describe Api::V1::IndicatorsController, type: :controller do
         parsed_body = JSON.parse(response.body)
         expect(parsed_body.length).to eq(1)
       end
+
+      it 'returns all indicators with model associated if model given' do
+        model_indicator = create(:indicator)
+        scenario = create(:scenario)
+        create(:time_series_value, scenario: scenario, indicator: model_indicator)
+
+        get :index, params: {model: scenario.model_id}
+
+        parsed_body = JSON.parse(response.body)
+        expect(parsed_body.length).to eq(1)
+        expect(parsed_body.dig(0, "id")).to eq(model_indicator.id)
+      end
     end
 
     describe 'GET show' do
