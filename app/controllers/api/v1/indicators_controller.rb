@@ -39,6 +39,13 @@ module Api
           indicators = indicators.where(id: indicator_ids.map(&:indicator_id))
         end
 
+        if param_list(:model)
+          indicators =
+            indicators.
+              joins(time_series_values: :scenario).
+              where(time_series_values: {scenarios: {model_id: param_list(:model)}})
+        end
+
         indicators = indicators.order(:name)
 
         render json: indicators
