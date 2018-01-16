@@ -7,9 +7,9 @@ class Indicator < ApplicationRecord
 
   has_many :time_series_values, dependent: :destroy
   has_many :notes, dependent: :destroy
-  belongs_to :category
   belongs_to :subcategory, class_name: 'Category'
 
+  validate :subcategory_has_parent, if: :subcategory_id?
   validates :composite_name, uniqueness: true
   before_validation(
     :ignore_blank_array_values,
@@ -20,6 +20,10 @@ class Indicator < ApplicationRecord
   pg_search_scope :search_for, against: %i[name composite_name]
 
   scope :having_time_series, -> { where.not(time_series_values_count: 0) }
+
+  def category
+    subcategory&.parent
+  end
 
   def self.find_by_name(name)
     where('lower(composite_name) = ?', name.to_s.downcase).first
@@ -43,12 +47,16 @@ class Indicator < ApplicationRecord
 
   private
 
+  def subcategory_has_parent
+    errors.add(:subcategory, :invalid) unless subcategory.subcategory?
+  end
+
   def strip_whitespace
     self.name = name.try(:strip)
     self.unit = unit.try(:strip)
   end
 
   def generate_composite_name
-    self.composite_name ||= [category&.name, subcategory&.name, name].join('|').chomp('|')
+    self.composite_name ||= [category&.name, subcategory&.name, name].join('|')
   end
 end
