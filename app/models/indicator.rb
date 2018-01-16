@@ -10,12 +10,10 @@ class Indicator < ApplicationRecord
   belongs_to :subcategory, class_name: 'Category'
 
   validate :subcategory_has_parent, if: :subcategory_id?
-  validates :composite_name, uniqueness: true
-  before_validation(
-    :ignore_blank_array_values,
-    :strip_whitespace,
-    :generate_composite_name
-  )
+  validates :name, uniqueness: {scope: :subcategory_id}
+
+  before_validation :ignore_blank_array_values, :strip_whitespace
+  before_save :generate_composite_name
 
   pg_search_scope :search_for, against: %i[name composite_name]
 
@@ -23,6 +21,10 @@ class Indicator < ApplicationRecord
 
   def category
     subcategory&.parent
+  end
+
+  def category_id
+    category&.id
   end
 
   def self.find_by_name(name)
@@ -52,8 +54,8 @@ class Indicator < ApplicationRecord
   end
 
   def strip_whitespace
-    self.name = name.try(:strip)
-    self.unit = unit.try(:strip)
+    self.name = name.gsub(/\s+/, ' ').strip if name.present?
+    self.unit = unit.gsub(/\s+/, ' ').strip if unit.present?
   end
 
   def generate_composite_name
