@@ -4,6 +4,10 @@ describe Api::V1::ScenariosController, type: :controller do
   context do
     let!(:some_model) { create(:model) }
 
+    let!(:some_indicator) {
+      create(:indicator)
+    }
+
     let!(:some_scenarios) {
       create_list(:scenario, 2, model: some_model)
     }
@@ -12,6 +16,12 @@ describe Api::V1::ScenariosController, type: :controller do
       my_scenario = create(:scenario, model: some_model)
       create(:time_series_value, scenario_id: my_scenario.id)
       my_scenario
+    }
+
+    let!(:scenario_with_indicator) {
+      some_scenario = create(:scenario)
+      create(:time_series_value, scenario: some_scenario, indicator_id: some_indicator.id)
+      some_scenario
     }
 
     describe 'GET index' do
@@ -23,20 +33,20 @@ describe Api::V1::ScenariosController, type: :controller do
       it 'lists all scenarios that belong to one model' do
         get :index, params: {model_id: some_model.id}
         parsed_body = JSON.parse(response.body)
-        expect(parsed_body.length).to eq(3)
+        expect(parsed_body.length).to eq(4)
       end
 
       it 'lists all scenarios that have time_series_values associated' do
         get :index, params: {time_series: true}
         parsed_body = JSON.parse(response.body)
-        expect(parsed_body.length).to eq(1)
+        expect(parsed_body.length).to eq(2)
       end
 
       it 'does not list unpublished scenarios' do
         create(:scenario, published: false)
         get :index
         parsed_body = JSON.parse(response.body)
-        expect(parsed_body.length).to eq(3)
+        expect(parsed_body.length).to eq(4)
       end
     end
 
@@ -61,6 +71,13 @@ describe Api::V1::ScenariosController, type: :controller do
         get :show, params: {id: some_scenarios[0].id}
         parsed_body = JSON.parse(response.body)
         expect(parsed_body).to_not be_nil
+      end
+
+      it 'returns a list of indicator ids' do
+        get :show, params: {id: scenario_with_indicator.id}
+        parsed_body = JSON.parse(response.body)
+        p parsed_body["indicators"]
+        expect(parsed_body["indicators"]).to eq([some_indicator.id])
       end
     end
   end
