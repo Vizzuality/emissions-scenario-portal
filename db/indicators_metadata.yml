@@ -1,5 +1,3 @@
-- name: :composite_name
-  size: 'large'
 - name: :name
   size: 'small'
 - name: :category_id
