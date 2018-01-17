@@ -17,11 +17,7 @@ class Scenario < ApplicationRecord
   scope :having_time_series, -> { where.not(time_series_values_count: 0) }
 
   def indicators
-    Indicator.joins(
-      "JOIN (
-        #{time_series_values.select(:indicator_id).group(:indicator_id).to_sql}
-      ) s ON indicators.id = s.indicator_id"
-    )
+    Indicator.joins(:time_series_values).distinct(:id)
   end
 
   def time_series_data?
