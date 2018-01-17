@@ -95,4 +95,24 @@ RSpec.describe Model, type: :model do
         to contain_exactly(with_published1, with_published2)
     end
   end
+
+  describe :indicators do
+    it "should return indicators having time series associated to the model's scenarios" do
+      model = create(:model)
+      indicator = create(:indicator)
+      create(
+        :time_series_value,
+        scenario: create(:scenario, model: model),
+        indicator: indicator
+      )
+      create(
+        :time_series_value,
+        scenario: create(:scenario, model: model),
+        indicator: indicator
+      )
+      create(:indicator)
+
+      expect(model.indicators).to eq([indicator])
+    end
+  end
 end

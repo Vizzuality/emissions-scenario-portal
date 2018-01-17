@@ -38,6 +38,7 @@ module Api
       attribute :indicators
 
       belongs_to :model
+      has_many :indicator_ids
 
       def model
         {
@@ -46,8 +47,8 @@ module Api
         }
       end
 
-      def indicators
-        object.indicators.map(&:id)
+      def indicator_ids
+        object.indicators.pluck(:id)
       end
     end
   end

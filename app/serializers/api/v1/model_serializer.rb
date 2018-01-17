@@ -21,6 +21,11 @@ module Api
       attribute :sectoral_coverage
 
       has_many :scenarios
+      has_many :indicator_ids
+
+      def indicator_ids
+        object.indicators.pluck(:id)
+      end
     end
   end
 end
