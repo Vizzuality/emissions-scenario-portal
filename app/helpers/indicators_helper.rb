@@ -6,10 +6,12 @@ module IndicatorsHelper
   end
 
   def values_for_indicator_category_dropdown(indicator)
-    select_values = Category.
-      select(:id, :name).
-      order(name: :asc).
-      pluck(:name, :id)
+    select_values =
+      Category.
+        parent_categories.
+        select(:id, :name).
+        order(name: :asc).
+        pluck(:name, :id)
 
     selection = indicator.category
 
@@ -17,12 +19,14 @@ module IndicatorsHelper
   end
 
   def values_for_indicator_subcategory_dropdown(indicator)
-    select_values = Category.
-      select(:id, :name).
-      order(name: :asc).
-      pluck(:name, :stackable, :id).map do |name, stackable, id|
-        [stackable ? "#{name} (stackable)" : name, id]
-      end
+    select_values =
+      Category.
+        subcategories.
+        select(:id, :name).
+        order(name: :asc).
+        pluck(:name, :stackable, :id).map do |name, stackable, id|
+      [stackable ? "#{name} (stackable)" : name, id]
+    end
 
     selection = indicator.subcategory
 
