@@ -33,6 +33,9 @@ class Category < ApplicationRecord
   validate :parent_categories_cannot_be_stackable,
            :cannot_have_subcategory_as_parent
 
+  scope :parent_categories, -> { where(parent_id: nil) }
+  scope :subcategories, -> { where.not(parent_id: nil) }
+
   def self.case_insensitive_find_or_create(attributes)
     category = Category.where('lower(name) = lower(?)', attributes[:name])
 
