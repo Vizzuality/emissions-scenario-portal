@@ -35,6 +35,7 @@ module Api
       attribute :other_target_type
       attribute :other_target
       attribute :burden_sharing
+      attribute :indicators
 
       belongs_to :model
       has_many :indicators
@@ -46,7 +47,9 @@ module Api
         }
       end
 
-      belongs_to :model
+      def indicators
+        object.indicators.map(&:id)
+      end
     end
   end
 end
