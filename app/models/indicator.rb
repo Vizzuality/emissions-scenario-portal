@@ -59,6 +59,6 @@ class Indicator < ApplicationRecord
   end
 
   def generate_composite_name
-    self.composite_name ||= [category&.name, subcategory&.name, name].join('|')
+    self.composite_name = [category&.name, subcategory&.name, name].join('|').chomp('|')
   end
 end
