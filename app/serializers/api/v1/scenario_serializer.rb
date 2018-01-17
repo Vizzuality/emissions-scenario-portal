@@ -37,6 +37,7 @@ module Api
       attribute :burden_sharing
 
       belongs_to :model
+      has_many :indicators
 
       def model
         {

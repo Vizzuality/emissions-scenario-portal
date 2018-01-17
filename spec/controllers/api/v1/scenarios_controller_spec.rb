@@ -62,6 +62,12 @@ describe Api::V1::ScenariosController, type: :controller do
         parsed_body = JSON.parse(response.body)
         expect(parsed_body).to_not be_nil
       end
+
+      it 'returns associated indicators' do
+        get :show, params: {id: scenario_with_time_series.id}
+        parsed_body = JSON.parse(response.body)
+        expect(parsed_body.dig('indicators', 0, 'id')).to eq(scenario_with_time_series.indicators.first.id)
+      end
     end
   end
 end
