@@ -48,7 +48,7 @@ module Api
       end
 
       def indicators
-        object.indicators.map(&:id)
+        object.indicators.pluck(:id)
       end
     end
   end
