@@ -57,6 +57,12 @@ describe Api::V1::ModelsController, type: :controller do
         parsed_body = JSON.parse(response.body)
         expect(parsed_body).to_not be_nil
       end
+
+      it 'returns associated indicators' do
+        get :show, params: {id: model.id}
+        parsed_body = JSON.parse(response.body)
+        expect(parsed_body.dig('indicators', 0, 'id')).to eq(model.indicators.first.id)
+      end
     end
   end
 end

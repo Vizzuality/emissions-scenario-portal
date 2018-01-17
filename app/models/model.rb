@@ -35,6 +35,13 @@ class Model < ApplicationRecord
     scenarios.any?
   end
 
+  def indicators
+    Indicator.
+      distinct(:id).
+      joins(time_series_values: :scenario).
+      where(scenarios: {model_id: id})
+  end
+
   def self.having_time_series
     distinct.joins(:scenarios).where.not(scenarios: {time_series_values_count: 0})
   end

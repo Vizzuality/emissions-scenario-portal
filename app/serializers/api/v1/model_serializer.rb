@@ -21,6 +21,7 @@ module Api
       attribute :sectoral_coverage
 
       has_many :scenarios
+      has_many :indicators
     end
   end
 end
