@@ -19,6 +19,7 @@ module Api
       attribute :time_step
       attribute :time_horizon
       attribute :sectoral_coverage
+      attribute :geographic_coverage
 
       has_many :scenarios
       has_many :indicator_ids
