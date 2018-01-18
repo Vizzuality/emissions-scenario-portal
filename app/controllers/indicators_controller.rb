@@ -82,7 +82,7 @@ class IndicatorsController < ApplicationController
 
   def indicator_params
     params.require(:indicator).permit(
-      *Indicator.attribute_symbols_for_strong_params
+      *Indicator.attribute_symbols_for_strong_params - %w[category_id]
     )
   end
 

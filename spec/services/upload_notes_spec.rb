@@ -25,7 +25,6 @@ RSpec.describe UploadNotes, upload: :s3 do
   let!(:coal) do
     create(
       :indicator,
-      category: electricity,
       subcategory: additions,
       name: "Coal w/o CCS"
     )
@@ -33,7 +32,6 @@ RSpec.describe UploadNotes, upload: :s3 do
   let!(:gas) do
     create(
       :indicator,
-      category: electricity,
       subcategory: additions,
       name: "Gas w/o CCS"
     )
