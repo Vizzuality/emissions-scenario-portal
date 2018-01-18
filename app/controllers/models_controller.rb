@@ -49,8 +49,8 @@ class ModelsController < ApplicationController
     authorize(@model)
     @scenarios = @model.scenarios.limit(5)
     @indicators = Indicator.
-                    includes(:category, :subcategory).
-                    order('categories.name, subcategories_indicators.name, indicators.name')
+                    includes(subcategory: :parent).
+                    order('categories.name, indicators.name')
   end
 
   def destroy
