@@ -9,6 +9,11 @@ module Api
 
       belongs_to :category
       belongs_to :subcategory
+
+      def category
+        category = object.subcategory.parent
+        {id: category&.id, name: category&.name}
+      end
     end
   end
 end
