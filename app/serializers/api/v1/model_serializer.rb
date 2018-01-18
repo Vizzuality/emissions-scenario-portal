@@ -22,11 +22,15 @@ module Api
       attribute :geographic_coverage
       attribute :url
 
-      has_many :scenarios
+      has_many :scenario_ids
       has_many :indicator_ids
 
       def indicator_ids
         object.indicators.pluck(:id)
+      end
+
+      def scenario_ids
+        object.scenarios.pluck(:id)
       end
     end
   end
