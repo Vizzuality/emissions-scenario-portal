@@ -2,10 +2,10 @@ require 'rails_helper'
 
 RSpec.describe Indicator, type: :model do
   context 'validations' do
-    it 'should be invalid when subcategory not present' do
+    it 'should be invalid when category not present' do
       expect(
-        build(:indicator, subcategory: nil)
-      ).to have(1).errors_on(:subcategory)
+        build(:indicator, category: nil)
+      ).to have(1).errors_on(:category)
     end
   end
 

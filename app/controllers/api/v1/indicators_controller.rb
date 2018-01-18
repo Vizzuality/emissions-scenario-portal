@@ -10,13 +10,13 @@ module Api
             Indicator.all
           end
 
-        indicators = indicators.includes(subcategory: :parent)
+        indicators = indicators.
+          includes(:category, :subcategory)
 
         if param_list(:category)
-          indicators =
-            indicators.
-              joins(:subcategory).
-              where(subcategories: {parent_id: param_list(:category)})
+          indicators = indicators.where(
+            category_id: param_list(:category)
+          )
         end
 
         if param_list(:subcategory)
@@ -53,7 +53,7 @@ module Api
 
       def show
         indicator = Indicator.
-          includes(subcategory: :parent).
+          includes(category: :parent).
           find_by!(id: params[:id])
 
         render json: indicator

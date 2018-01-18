@@ -52,10 +52,7 @@ class IndicatorsData
 
     id_attributes, common_attributes =
         indicator_attributes(id_attributes, common_attributes)
-    indicator =
-      Indicator.
-        joins(:subcategory).
-        where(categories: {parent_id: id_attributes[:category]})
+    indicator = Indicator.where(category: id_attributes[:category])
     [:subcategory, :name].each do |name_part|
       indicator =
         if id_attributes[name_part].blank?
@@ -94,7 +91,7 @@ class IndicatorsData
     [
       id_attributes.
         except(:category, :subcategory).
-        merge(subcategory: subcategory),
+        merge(category: category, subcategory: subcategory),
       common_attributes.
         except(:stackable_subcategory)
     ]

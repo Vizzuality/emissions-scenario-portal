@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180116131950) do
+ActiveRecord::Schema.define(version: 20171214111442) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,9 +49,11 @@ ActiveRecord::Schema.define(version: 20180116131950) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "composite_name"
+    t.bigint "category_id"
     t.bigint "subcategory_id"
     t.integer "time_series_values_count", default: 0
     t.index "lower(composite_name)", name: "index_indicators_on_LOWER_composite_name", unique: true
+    t.index ["category_id"], name: "index_indicators_on_category_id"
     t.index ["subcategory_id"], name: "index_indicators_on_subcategory_id"
   end
 
@@ -231,6 +233,7 @@ ActiveRecord::Schema.define(version: 20180116131950) do
   add_foreign_key "categories", "categories", column: "parent_id", on_delete: :cascade
   add_foreign_key "csv_uploads", "models", on_delete: :cascade
   add_foreign_key "csv_uploads", "users", on_delete: :cascade
+  add_foreign_key "indicators", "categories"
   add_foreign_key "indicators", "categories", column: "subcategory_id"
   add_foreign_key "models", "teams"
   add_foreign_key "notes", "indicators"

@@ -46,6 +46,7 @@ RSpec.describe UploadIndicators, upload: :s3 do
       )
       create(
         :indicator,
+        category: category,
         subcategory: subcategory,
         name: 'industry',
         unit: 'Mt CO2e/yr'

@@ -1,10 +1,7 @@
 FactoryBot.define do
   factory :indicator do
-    association(
-      :subcategory,
-      factory: [:category, :subcategory],
-      name: 'Emissions by sector'
-    )
+    association :category, factory: :category, name: 'Emissions'
+    association :subcategory, factory: :category, name: 'Emissions by sector'
     sequence(:name) { |n| "Indicator-#{n}" }
     unit 'Gt CO2e/yr'
   end

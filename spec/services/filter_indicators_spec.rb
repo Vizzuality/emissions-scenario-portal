@@ -16,6 +16,7 @@ RSpec.describe FilterIndicators do
   let!(:biomass) do
     create(
       :indicator,
+      category: some_category,
       subcategory: some_subcategory,
       name: 'Biomass'
     )
@@ -23,6 +24,7 @@ RSpec.describe FilterIndicators do
   let!(:coal) do
     create(
       :indicator,
+      category: another_category,
       subcategory: another_subcategory,
       name: 'Coal'
     )
@@ -32,7 +34,7 @@ RSpec.describe FilterIndicators do
     it 'filters by category' do
       expect(
         FilterIndicators.
-          new(category: some_category.id.to_s).
+        new('category' => some_category.id.to_s).
           call(Indicator.all)
       ).to match_array([biomass])
     end
@@ -42,7 +44,7 @@ RSpec.describe FilterIndicators do
     it 'searches by category' do
       expect(
         FilterIndicators.
-          new(search: 'Energy').
+          new('search' => 'Energy').
           call(Indicator.all)
       ).to match_array([biomass])
     end
@@ -50,7 +52,7 @@ RSpec.describe FilterIndicators do
     it 'searches by slug' do
       expect(
         FilterIndicators.
-          new(search: 'Energy|Energy use by fuel|Biomass').
+          new('search' => 'Energy|Energy use by fuel|Biomass').
           call(Indicator.all)
       ).to match_array([biomass])
     end

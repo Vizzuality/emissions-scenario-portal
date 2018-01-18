@@ -32,22 +32,26 @@ class FilterIndicators
 
     order_clause = send("#{order_type}_order_clause", order_direction)
     indicators.
-      joins(:subcategory).
+      joins(:category, :subcategory).
       order(order_clause)
   end
 
   def category_scope
     return indicators if category.blank?
 
+    query = indicators.
+      includes(:category, :subcategory).
+      references(:category, :subcategory)
+
     ids = category.split(',').map(&:to_i)
 
-    indicators.
-      joins(:subcategory).
-      where('categories.parent_id IN (?) OR categories.id IN (?)', ids, ids)
+    query.where('categories.id IN (?) OR subcategories_indicators.id IN (?)', ids, ids)
   end
 
   def esp_name_order_clause(direction)
-    ["indicators.composite_name", direction].join(' ')
+    %w(categories.name subcategories_indicators.name indicators.name).map do |column|
+      [column, direction].join(' ')
+    end.join(', ')
   end
 
   def type_order_clause(direction)
