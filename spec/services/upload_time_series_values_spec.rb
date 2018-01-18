@@ -20,7 +20,6 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
   let!(:indicator) {
     create(
       :indicator,
-      category: category,
       subcategory: subcategory,
       name: 'CH4',
       unit: 'Mt CO2e/yr',
