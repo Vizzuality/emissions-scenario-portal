@@ -11,9 +11,10 @@ class ScenariosController < ApplicationController
     @model = Model.find(params[:model_id])
     @scenario = @model.scenarios.find(params[:id])
     authorize(@scenario)
-    @indicators = FilterIndicators.
-      new(filter_params).
-      call(@scenario.indicators)
+    @indicators =
+      FilterIndicators.
+        new(filter_params).
+        call(@scenario.indicators)
   end
 
   def edit
