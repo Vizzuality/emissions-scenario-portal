@@ -17,44 +17,34 @@ ON models_pivot.id = scenarios_pivot.model_id"
         "INNER JOIN locations locations_pivot
 ON locations_pivot.id = time_series_values.location_id"
       ).
-      select(TimeSeriesYearPivotQuery.column_names).
-      order(
-        'scenarios_pivot.name', 'indicators_pivot.composite_name',
+      select(column_names).
+      reorder(
+        'models_pivot.abbreviation',
+        'scenarios_pivot.name',
+        'indicators_pivot.composite_name',
+        'locations_pivot.name'
       )
-    @years_query = original_query.select(:year).except(:order).order(:year).
-      distinct
+
+    @years_query = original_query.select(:year).reorder(:year).distinct
   end
 
   def query
     "SELECT #{all_column_aliases.join(',')} FROM (#{crosstab_query}) s"
   end
 
-  def query_with_order(order_type, order_direction)
-    order_direction = 'asc' unless order_direction &&
-        %w(asc desc).include?(order_direction)
-    if TimeSeriesYearPivotQuery.column_aliases.map(&:to_s).
-        include?(order_type) ||
-        years.map(&:to_s).include?(order_type)
-      "SELECT #{all_column_aliases.join(',')} FROM (#{crosstab_query}) s
-ORDER BY \"#{order_type}\" #{order_direction}"
-    else
-      query
-    end
-  end
-
   def years
     @years_query.pluck(:year)
   end
 
-  def all_column_aliases
-    TimeSeriesYearPivotQuery.column_aliases + year_column_headers
-  end
-
   def all_column_headers
-    TimeSeriesYearPivotQuery.column_headers + year_column_headers
+    column_headers + year_column_headers
   end
 
   private
+
+  def all_column_aliases
+    column_aliases + year_column_headers
+  end
 
   def year_column_headers
     years.map { |y| "\"#{y}\"" }
@@ -80,41 +70,41 @@ ORDER BY \"#{order_type}\" #{order_direction}"
     )
   end
 
-  class << self
-    def column_names
-      grouping_columns = [
-        'indicators_pivot.name',
-        'scenarios_pivot.name',
-        'locations_pivot.name',
-      ]
-      column_names = [
-        "ARRAY[#{grouping_columns.join(',')}]::TEXT[] AS row_no"
-      ] + column_aliases + [:year, :value]
-      column_names[
-        column_names.index(:model_abbreviation)
-      ] = 'models_pivot.abbreviation'
-      column_names[
-        column_names.index(:scenario_name)
-      ] = 'scenarios_pivot.name AS scenario_name'
-      column_names[
-        column_names.index(:indicator_name)
-      ] = 'indicators_pivot.composite_name AS indicator_name'
-      column_names[
-        column_names.index(:location_name)
-      ] = 'locations_pivot.name AS region'
-      column_names
-    end
+  private
 
-    def column_aliases
-      TimeSeriesValuesHeaders::EXPECTED_HEADERS.map do |eh|
-        eh[:property_name]
-      end - [:unit_of_entry]
-    end
+  def column_names
+    grouping_columns = [
+      'indicators_pivot.name',
+      'scenarios_pivot.name',
+      'locations_pivot.name',
+    ]
+    column_names = [
+      "ARRAY[#{grouping_columns.join(',')}]::TEXT[] AS row_no"
+    ] + column_aliases + [:year, :value]
+    column_names[
+      column_names.index(:model_abbreviation)
+    ] = 'models_pivot.abbreviation'
+    column_names[
+      column_names.index(:scenario_name)
+    ] = 'scenarios_pivot.name AS scenario_name'
+    column_names[
+      column_names.index(:indicator_name)
+    ] = 'indicators_pivot.composite_name AS indicator_name'
+    column_names[
+      column_names.index(:location_name)
+    ] = 'locations_pivot.name AS region'
+    column_names
+  end
 
-    def column_headers
-      TimeSeriesValuesHeaders::EXPECTED_HEADERS.map do |eh|
-        eh[:display_name]
-      end
-    end
+  def column_aliases
+    TimeSeriesValuesHeaders::EXPECTED_HEADERS.map do |eh|
+      eh[:property_name]
+    end - [:unit_of_entry]
+  end
+
+  def column_headers
+    TimeSeriesValuesHeaders::EXPECTED_HEADERS.map do |eh|
+      eh[:display_name]
+    end - ["Unit of Entry"]
   end
 end

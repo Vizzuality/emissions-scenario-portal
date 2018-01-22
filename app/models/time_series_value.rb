@@ -13,8 +13,7 @@ class TimeSeriesValue < ApplicationRecord
 
   def self.time_series_values_pivot
     pivot = TimeSeriesYearPivotQuery.new(self)
-    query_sql = pivot.query_with_order(nil, nil)
-    result = TimeSeriesValue.find_by_sql(query_sql)
+    result = TimeSeriesValue.find_by_sql(pivot.query)
 
     {
       years: pivot.years,
@@ -31,10 +30,9 @@ class TimeSeriesValue < ApplicationRecord
 
   def self.time_series_values_summary
     pivot = TimeSeriesYearPivotQuery.new(self)
-    query_sql = pivot.query_with_order(nil, nil)
 
     TimeSeriesValue.
-      find_by_sql(query_sql).
+      find_by_sql(pivot.query).
       group_by { |tsv| [tsv['model_abbreviation'], tsv['scenario_name']] }.
       transform_values do |value|
         years = value.inject([]) do |result, v|
