@@ -32,6 +32,16 @@ RSpec.describe Model, type: :model do
     end
   end
 
+  describe :destroy do
+    let(:model) { create(:model) }
+
+    it 'is destroyable together with associated notes' do
+      note = create(:note, model: model)
+      expect(model.destroy).to be_truthy
+      expect(Note.where(id: note.id).exists?).to eq(false)
+    end
+  end
+
   describe :scenarios? do
     let(:model) { create(:model) }
     it 'should be true when time series values present' do
