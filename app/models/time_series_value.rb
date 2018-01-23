@@ -12,31 +12,30 @@ class TimeSeriesValue < ApplicationRecord
   validates :value, presence: true, numericality: {allow_nil: true}
 
   def self.time_series_values_pivot
-    pivot = TimeSeriesYearPivotQuery.new(self)
-    result = TimeSeriesValue.find_by_sql(pivot.query)
+    results = TimeSeriesValuesPivotQuery.new(self).call
+    years = Array.wrap(results.column_types.keys[4..-1])
 
     {
-      years: pivot.years,
-      data: result.map do |tsv|
+      years: years,
+      data: results.map do |tsv|
         {
           scenario_name: tsv['scenario_name'],
           location_name: tsv['location_name'],
-          unit_of_entry: tsv['unit_of_entry'],
-          values: pivot.years.map { |y| tsv[y] }
+          values: years.map { |y| tsv[y] }
         }
       end
     }
   end
 
   def self.time_series_values_summary
-    pivot = TimeSeriesYearPivotQuery.new(self)
+    results = TimeSeriesValuesPivotQuery.new(self).call
+    years = Array.wrap(results.column_types.keys[4..-1])
 
-    TimeSeriesValue.
-      find_by_sql(pivot.query).
+    results.
       group_by { |tsv| [tsv['model_abbreviation'], tsv['scenario_name']] }.
       transform_values do |value|
         years = value.inject([]) do |result, v|
-          result + pivot.years.select { |y| v[y].present? }
+          result + years.select { |y| v[y].present? }
         end
         {
           locations: value.map { |v| v['location_name'] },

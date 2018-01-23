@@ -13,13 +13,16 @@ class TimeSeriesValuesController < ApplicationController
       time_series_values = time_series_values.where(scenario_id: model.scenarios.select(:id))
     end
 
-    csv_download =
-      DownloadTimeSeriesValues.
-        new(current_user).
-        call(time_series_values)
+    results = TimeSeriesValuesPivotQuery.new(time_series_values).call
+    years = Array.wrap(results.column_types.keys[4..-1])
+
+    csv_string = CSV.generate do |csv|
+      csv << ["Model", "Scenario", "Region", "ESP Indicator Name"] + years
+      results.each { |result| csv << result.values }
+    end
 
     send_data(
-      csv_download.export,
+      csv_string,
       type: 'text/csv; charset=utf-8; header=present',
       disposition: "attachment; filename=#{parent.class.name.downcase}_time_series_data.csv"
     )
