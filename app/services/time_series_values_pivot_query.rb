@@ -95,7 +95,7 @@ class TimeSeriesValuesPivotQuery
       'model_abbreviation text',
       'scenario_name text',
       'location_name text',
-      'indicator_name text',
+      'indicator_name text'
     ] + years_output_column_names
 
     sql = "SELECT * FROM crosstab(?, ?) AS ct(#{output_columns.join(',')})"
