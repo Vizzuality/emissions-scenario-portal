@@ -14,10 +14,9 @@ class TimeSeriesValuesController < ApplicationController
     end
 
     results = TimeSeriesValuesPivotQuery.new(time_series_values).call
-    years = Array.wrap(results.column_types.keys[4..-1])
 
     csv_string = CSV.generate do |csv|
-      csv << ["Model", "Scenario", "Region", "ESP Indicator Name"] + years
+      csv << ["Model", "Scenario", "Region", "ESP Indicator Name"] + results.years
       results.each { |result| csv << result.values }
     end
 

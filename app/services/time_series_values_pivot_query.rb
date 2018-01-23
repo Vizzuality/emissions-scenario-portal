@@ -6,7 +6,38 @@ class TimeSeriesValuesPivotQuery
   end
 
   def call
-    ActiveRecord::Base.connection.exec_query(sql)
+    ActiveRecord::Base.connection.exec_query(sql).tap do |result|
+      result.define_singleton_method(:years) do
+        Array.wrap(column_types.keys[4..-1])
+      end
+
+      result.define_singleton_method(:to_pivot) do
+        {
+          years: years,
+          data: map do |tsv|
+            {
+              scenario_name: tsv['scenario_name'],
+              location_name: tsv['location_name'],
+              values: years.map { |y| tsv[y] }
+            }
+          end
+        }
+      end
+
+      result.define_singleton_method(:to_summary) do
+        group_by { |tsv| [tsv['model_abbreviation'], tsv['scenario_name']] }.
+          transform_values do |value|
+            available_years = value.inject([]) do |result, v|
+              result + years.select { |y| v[y].present? }
+            end
+            {
+              locations: value.map { |v| v['location_name'] },
+              years: [available_years.first, available_years.last]
+            }
+          end.
+          map { |key, value| {model: key.first, scenario: key.second}.merge(value) }
+      end
+    end
   end
 
   private
