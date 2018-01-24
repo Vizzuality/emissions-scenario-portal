@@ -25,7 +25,6 @@ RSpec.describe TimeSeriesValuesPivotQuery do
   end
 
   it 'should contain correct values' do
-    results = TimeSeriesValuesPivotQuery.new(TimeSeriesValue.all).call
     expect(subject[0]['2010']).to eq('2.0')
     expect(subject[0]['2020']).to eq('4.0')
     expect(subject[1]['2010']).to eq('1.0')
