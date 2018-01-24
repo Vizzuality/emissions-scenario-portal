@@ -32,6 +32,6 @@ RSpec.describe TimeSeriesValuesPivotQuery do
   end
 
   it 'should contain correct years' do
-    expect(subject.years).to eq(['2010', '2020'])
+    expect(subject.years).to eq(%w[2010 2020])
   end
 end
