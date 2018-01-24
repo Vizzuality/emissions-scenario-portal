@@ -156,8 +156,6 @@ GEM
     parser (2.4.0.2)
       ast (~> 2.3)
     pg (0.21.0)
-    pg_csv (0.2)
-      pg (~> 0.17)
     pg_search (2.1.1)
       activerecord (>= 4.2)
       activesupport (>= 4.2)
@@ -336,7 +334,6 @@ DEPENDENCIES
   listen
   paperclip
   pg
-  pg_csv
   pg_search
   pry-byebug
   pry-rails
