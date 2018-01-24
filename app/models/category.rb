@@ -15,13 +15,7 @@ class Category < ApplicationRecord
   )
 
   has_many(
-    :category_indicators,
-    class_name: 'Indicator',
-    dependent: :restrict_with_error
-  )
-
-  has_many(
-    :subcategory_indicators,
+    :indicators,
     class_name: 'Indicator',
     foreign_key: 'subcategory_id',
     dependent: :restrict_with_error
