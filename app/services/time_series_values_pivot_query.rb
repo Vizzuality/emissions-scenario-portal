@@ -1,7 +1,7 @@
 class TimeSeriesValuesPivotQuery
   module Transformations
     def years
-      Array.wrap(column_types.keys[4..-1])
+      Array.wrap(column_types.keys[5..-1])
     end
 
     def to_pivot
@@ -47,7 +47,7 @@ class TimeSeriesValuesPivotQuery
   private
 
   def columns
-    %w[model_abbreviation scenario_name location_name indicator_name] +
+    %w[model_abbreviation scenario_name location_name indicator_name unit_of_entry] +
       years.map { |year| %["#{year}"] }
   end
 
@@ -70,6 +70,7 @@ class TimeSeriesValuesPivotQuery
       'scenarios.name AS scenario_name',
       'locations.name AS region',
       'indicators.composite_name AS indicator_name',
+      'indicators.unit AS unit_of_entry',
       'year',
       'value'
     ]
@@ -95,7 +96,8 @@ class TimeSeriesValuesPivotQuery
       'model_abbreviation text',
       'scenario_name text',
       'location_name text',
-      'indicator_name text'
+      'indicator_name text',
+      'unit_of_entry text'
     ] + years_output_column_names
 
     sql = "SELECT * FROM crosstab(?, ?) AS ct(#{output_columns.join(',')})"
