@@ -14,16 +14,17 @@ class IndicatorsController < ApplicationController
     authorize(@indicator)
     if @model.present?
       @time_series_values_pivot =
-        @indicator.
-          time_series_values.
-          joins(:scenario).
-          where(scenarios: {model_id: @model.id}).
-          time_series_values_pivot
+        TimeSeriesValuesPivotQuery.new(
+          @indicator.
+            time_series_values.
+            joins(:scenario).
+            where(scenarios: {model_id: @model.id})
+        ).call.to_pivot
     else
       @time_series_values_summary =
-        @indicator.
-          time_series_values.
-          time_series_values_summary
+        TimeSeriesValuesPivotQuery.new(
+          @indicator.time_series_values
+        ).call.to_summary
     end
   end
 
