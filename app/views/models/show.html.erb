@@ -31,7 +31,7 @@
                    },
                    {
                      title: 'Regional scope',
-                     data: @model.geographic_coverage
+                     data: @model.geographic_coverage.try(:join, ', ')
                    },
                    {
                      title: 'Sector focus',
