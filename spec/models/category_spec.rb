@@ -19,4 +19,20 @@ RSpec.describe Category, type: :model do
       expect(category).to have(1).errors_on(:parent)
     end
   end
+
+  context 'haveing_time_series_with' do
+    it 'should return categories having time series with given conditions' do
+      category1 = create(:category)
+      subcategory = create(:category, parent: category1)
+      indicator = create(:indicator, subcategory: subcategory)
+      create(:time_series_value, indicator: indicator, value: 1)
+
+      category2 = create(:category)
+      subcategory = create(:category, parent: category2)
+      indicator = create(:indicator, subcategory: subcategory)
+      create(:time_series_value, indicator: indicator, value: 2)
+
+      expect(Category.having_time_series_with(value: 1)).to eq([category1])
+    end
+  end
 end
