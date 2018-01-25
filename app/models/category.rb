@@ -23,7 +23,7 @@ class Category < ApplicationRecord
 
   accepts_nested_attributes_for :subcategories
 
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: {scope: %i[parent_id stackable]}
   validate :parent_categories_cannot_be_stackable,
            :cannot_have_subcategory_as_parent
 

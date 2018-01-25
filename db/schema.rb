@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180116141701) do
+ActiveRecord::Schema.define(version: 20180125102252) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20180116141701) do
     t.text "name"
     t.boolean "stackable"
     t.bigint "parent_id"
+    t.index ["name", "parent_id", "stackable"], name: "index_categories_on_name_and_parent_id_and_stackable", unique: true
     t.index ["parent_id"], name: "index_categories_on_parent_id"
   end
 
