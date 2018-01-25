@@ -3,15 +3,18 @@ module Api
     class TimeSeriesValuesController < ApiController
       # rubocop:disable AbcSize
       def index
-        values = TimeSeriesValue.
-          includes(:indicator).
-          order(:year)
+        values = TimeSeriesValue.includes(:indicator, :scenario).order(:year)
         values = values.where(location_id: location_ids) if location_ids
         values = values.where(scenario_id: scenario_ids) if scenario_ids
         if model_ids
           values = values.joins(:scenario).
             where(scenarios: {model_id: model_ids})
         end
+
+        puts "********************************************************************************"
+        puts values.to_sql
+        puts "********************************************************************************"
+
         values = values.where(indicator_id: indicator_ids) if indicator_ids
 
         render json: values
