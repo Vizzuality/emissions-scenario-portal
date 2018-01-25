@@ -11,10 +11,6 @@ module Api
             where(scenarios: {model_id: model_ids})
         end
 
-        puts "********************************************************************************"
-        puts values.to_sql
-        puts "********************************************************************************"
-
         values = values.where(indicator_id: indicator_ids) if indicator_ids
 
         render json: values
