@@ -7,7 +7,7 @@ class Scenario < ApplicationRecord
   belongs_to :model
   has_many :time_series_values, dependent: :destroy
 
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: {scope: %i[parent_id stackable]}
   validates :model, presence: true
   validates :published, inclusion: {in: [false, true]}
   before_validation :ignore_blank_array_values
