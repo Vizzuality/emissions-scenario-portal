@@ -17,10 +17,10 @@ RSpec.describe ApplicationHelper, type: :helper do
           helper.attribute_input(model, form, :anticipation)
         ).to match('js-multiple-select')
       end
-      it 'returns a single select input for geographic_coverage' do
+      it 'returns a multiple select input for geographic_coverage' do
         expect(
           helper.attribute_input(model, form, :geographic_coverage)
-        ).to match('js-multisingle-select')
+        ).to match('js-multiple-select')
       end
     end
     context :scenarios do

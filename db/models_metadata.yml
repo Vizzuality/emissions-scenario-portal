@@ -99,6 +99,7 @@
   category: 'Coverage'
 - name: :geographic_coverage
   picklist: true
+  multiple: true
   size: 'large'
   category: 'Coverage'
   options: [
