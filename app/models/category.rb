@@ -50,6 +50,16 @@ class Category < ApplicationRecord
     category
   end
 
+  def self.having_time_series_with(conditions)
+    where(
+      id: Category.unscoped.where(
+        id: Indicator.where(
+          id: TimeSeriesValue.where(conditions).select(:indicator_id)
+        ).select(:subcategory_id)
+      ).select(:parent_id)
+    )
+  end
+
   def subcategory?
     parent.present?
   end
