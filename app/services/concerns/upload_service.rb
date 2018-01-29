@@ -16,6 +16,7 @@ module UploadService
         result.failed_instances.each { |record| transcribe_errors(record) }
       end
       update_csv_upload(result)
+      csv_upload
     end
   end
 
@@ -33,30 +34,15 @@ module UploadService
   end
 
   def parsed_csv_headers
-    raw_csv_headers.map { |header| match_header(header) }
-  end
-
-  def match_header(header)
-    headers.
-      transform_values(&:downcase).
-      key(header.to_s.downcase.gsub(/\s+/, ' ').strip)
+    raw_csv_headers.map do |header|
+      headers.
+        transform_values(&:downcase).
+        key(header.to_s.downcase.gsub(/\s+/, ' ').strip) || header
+    end
   end
 
   def existence_of_headers
-    remaining_headers = headers.dup
-
-    raw_csv_headers.each do |header|
-      next if remaining_headers.delete(match_header(header))
-      errors.add(
-        :csv_upload,
-        :invalid,
-        msg: "Unrecognized header: #{header}",
-        row: 1,
-        type: :header
-      )
-    end
-
-    remaining_headers.each_value do |value|
+    (headers.keys - parsed_csv_headers).each do |value|
       errors.add(
         :csv_upload,
         :invalid,
@@ -85,11 +71,17 @@ module UploadService
   end
 
   def update_csv_upload(result)
+    number_of_records_failed = result&.failed_instances&.size.to_i
+    number_of_records_saved = result&.ids&.size.to_i
+    total_number_of_records = number_of_records_failed + number_of_records_saved
+
     csv_upload.update(
       success: errors.blank?,
-      message: "#{result&.ids&.size.to_i} of #{csv.size} records saved.",
+      message: "#{number_of_records_saved} of #{total_number_of_records} records saved.",
       finished_at: Time.current,
-      errors_and_warnings: {errors: errors.details[:csv_upload]}
+      errors_and_warnings: {errors: errors.details[:csv_upload]},
+      number_of_records_failed: number_of_records_failed,
+      number_of_records_saved: number_of_records_saved
     )
   end
 end
