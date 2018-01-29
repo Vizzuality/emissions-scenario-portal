@@ -10,7 +10,7 @@ class UploadTimeSeriesValues
       scenario: 'Scenario',
       location: 'Region',
       indicator: 'ESP Indicator Name',
-      unit_of_entry: 'Unit of Entry'
+      unit: 'Unit of Entry'
     }
   end
 
@@ -21,8 +21,8 @@ class UploadTimeSeriesValues
       model = find_model(attributes[:model])
       scenario = model&.scenarios&.find_by_name(attributes[:scenario])
       indicator = Indicator.find_by_name(attributes[:indicator])
-      location = Location.find_by_name(attributes[:location])
-      unit_of_entry = attributes[:unit_of_entry]
+      location = Location.find_by_name_or_iso_code(attributes[:location])
+      unit = attributes[:unit]
 
       attributes.except(*headers.keys).map do |year, value|
         next if value.nil?
@@ -32,6 +32,7 @@ class UploadTimeSeriesValues
           indicator: indicator,
           location: location,
           year: year,
+          unit: unit,
           value: value
         ) do |time_series_value|
           time_series_value.define_singleton_method(:row) { line_number }
@@ -40,8 +41,11 @@ class UploadTimeSeriesValues
       end
     end
 
+    records = records.flatten.compact # compact! returns nil (weird)
+    records.each { |record| record.run_callbacks(:save) { false } }
+
     TimeSeriesValue.import(
-      records.flatten.compact,
+      records,
       on_duplicate_key_update: {
         conflict_target: %i[scenario_id indicator_id location_id year],
         columns: %i[value]

@@ -3,7 +3,7 @@ FactoryBot.define do
     scenario
     indicator
     location
-    year 2017
+    sequence(:year) { |n| 2000 + n * 5 }
     value 10.0
   end
 end

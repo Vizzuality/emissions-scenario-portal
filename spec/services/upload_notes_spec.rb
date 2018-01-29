@@ -71,7 +71,7 @@ RSpec.describe UploadNotes, upload: :s3 do
     end
     it 'should have correct message' do
       subject
-      expect(csv_upload.message).to eq("0 of 2 records saved.")
+      expect(csv_upload.message).to eq("0 of 0 records saved.")
     end
   end
 
