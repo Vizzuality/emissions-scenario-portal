@@ -48,7 +48,7 @@ RSpec.describe UploadNotes, upload: :s3 do
     end
     it 'should have correct message' do
       subject
-      expect(csv_upload.message).to eq("2 of 2 rows saved.")
+      expect(csv_upload.message).to eq("2 of 2 records saved.")
     end
     it 'overwrites the existing notes' do
       subject
@@ -71,7 +71,7 @@ RSpec.describe UploadNotes, upload: :s3 do
     end
     it 'should have correct message' do
       subject
-      expect(csv_upload.message).to eq("0 of 2 rows saved.")
+      expect(csv_upload.message).to eq("0 of 2 records saved.")
     end
   end
 
@@ -84,7 +84,7 @@ RSpec.describe UploadNotes, upload: :s3 do
     end
     it 'should have correct message' do
       subject
-      expect(csv_upload.message).to eq("1 of 2 rows saved.")
+      expect(csv_upload.message).to eq("1 of 2 records saved.")
     end
   end
 end
