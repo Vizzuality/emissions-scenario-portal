@@ -1,14 +1,8 @@
 class NotesUploadTemplate
   def export
     CSV.generate do |csv|
-      csv << headers
+      csv << UploadNotes.headers.values
       csv << Array.new(headers.size)
     end
-  end
-
-  private
-
-  def headers
-    UploadNotes::HEADERS.values
   end
 end

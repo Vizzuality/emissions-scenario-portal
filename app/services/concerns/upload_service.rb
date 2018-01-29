@@ -35,14 +35,14 @@ module UploadService
 
   def parsed_csv_headers
     raw_csv_headers.map do |header|
-      headers.
+      self.class.headers.
         transform_values(&:downcase).
         key(header.to_s.downcase.gsub(/\s+/, ' ').strip) || header
     end
   end
 
   def existence_of_headers
-    (headers.keys - parsed_csv_headers).each do |value|
+    (self.class.headers.keys - parsed_csv_headers).each do |value|
       errors.add(
         :csv_upload,
         :invalid,

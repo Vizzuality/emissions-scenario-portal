@@ -2,9 +2,7 @@ class UploadNotes
   include ActiveModel::Model
   include UploadService
 
-  private
-
-  def headers
+  def self.headers
     {
       model: 'Model Name',
       indicator: 'ESP Indicator Name',
@@ -13,6 +11,8 @@ class UploadNotes
       description: 'Note'
     }
   end
+
+  private
 
   def import
     records = csv.map.with_index(2) do |row, line_number|

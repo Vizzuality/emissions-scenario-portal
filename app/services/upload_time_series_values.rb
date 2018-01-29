@@ -2,9 +2,7 @@ class UploadTimeSeriesValues
   include ActiveModel::Model
   include UploadService
 
-  private
-
-  def headers
+  def self.headers
     {
       model: 'Model',
       scenario: 'Scenario',
@@ -13,6 +11,8 @@ class UploadTimeSeriesValues
       unit: 'Unit of Entry'
     }
   end
+
+  private
 
   def import
     records = csv.map.with_index(2) do |row, line_number|
@@ -24,7 +24,7 @@ class UploadTimeSeriesValues
       location = Location.find_by_name_or_iso_code(attributes[:location])
       unit = attributes[:unit]
 
-      attributes.except(*headers.keys).map do |year, value|
+      attributes.except(*self.class.headers.keys).map do |year, value|
         next if value.nil?
 
         TimeSeriesValue.new(
