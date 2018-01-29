@@ -18,13 +18,13 @@ class UploadTimeSeriesValues
     records = csv.map.with_index(2) do |row, line_number|
       attributes = parsed_csv_headers.zip(row.fields).to_h
 
-      model = find_model(attributes.delete(:model))
-      scenario = model&.scenarios&.find_by_name(attributes.delete(:scenario))
-      indicator = Indicator.find_by_name(attributes.delete(:indicator))
-      location = Location.find_by_name(attributes.delete(:location))
-      unit_of_entry = attributes.delete(:unit_of_entry)
+      model = find_model(attributes[:model])
+      scenario = model&.scenarios&.find_by_name(attributes[:scenario])
+      indicator = Indicator.find_by_name(attributes[:indicator])
+      location = Location.find_by_name(attributes[:location])
+      unit_of_entry = attributes[:unit_of_entry]
 
-      attributes.map do |year, value|
+      attributes.except(*headers.keys).map do |year, value|
         next if value.nil?
 
         TimeSeriesValue.new(
@@ -41,7 +41,7 @@ class UploadTimeSeriesValues
     end
 
     TimeSeriesValue.import(
-      records.flatten,
+      records.flatten.compact,
       on_duplicate_key_update: {
         conflict_target: %i[scenario_id indicator_id location_id year],
         columns: %i[value]

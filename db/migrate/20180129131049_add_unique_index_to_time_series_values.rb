@@ -7,6 +7,7 @@ class AddUniqueIndexToTimeSeriesValues < ActiveRecord::Migration[5.1]
       group(%i[scenario_id indicator_id location_id year]).
       having('count(*) > 1').
       each do |time_series_value|
+
       conditions = time_series_value.attributes.except('id')
       latest_id = TimeSeriesValue.where(conditions).order(:id).last.id
       TimeSeriesValue.where(conditions).where.not(id: latest_id).destroy_all
