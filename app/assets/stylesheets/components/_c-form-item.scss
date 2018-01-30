@@ -42,7 +42,6 @@
 
       .select2-selection__choice {
         position: relative;
-        display: flex;
         align-items: center;
         padding: 0 rem(25px) 0 rem(3px);
         font-size: 14px;
@@ -56,9 +55,8 @@
       .select2-selection__choice__remove {
         position: absolute;
         right: rem(6px);
-        height: 0;
+        height: rem(20px);
         color: $color-app-2;
-        margin-right: 0;
       }
     }
 
