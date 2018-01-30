@@ -44,7 +44,6 @@
         position: relative;
         display: flex;
         align-items: center;
-        height: rem(20px);
         padding: 0 rem(25px) 0 rem(3px);
         font-size: 14px;
         letter-spacing: 0.2px;
@@ -57,7 +56,7 @@
       .select2-selection__choice__remove {
         position: absolute;
         right: rem(6px);
-        height: rem(20px);
+        height: 0;
         color: $color-app-2;
         margin-right: 0;
       }
@@ -97,7 +96,7 @@
     letter-spacing: 0.2px;
     color: $color-app-2 !important;
     padding: rem(10px);
-    background-color: $color-app-1 !important;
+    background-color: $color-app-1;
   }
 
   .select2-results__option--highlighted {
