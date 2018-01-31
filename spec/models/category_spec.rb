@@ -32,7 +32,7 @@ RSpec.describe Category, type: :model do
       indicator = create(:indicator, subcategory: subcategory)
       create(:time_series_value, indicator: indicator, value: 2)
 
-      expect(Category.having_time_series_with(value: 1)).to eq([category1])
+      expect(Category.top_level_having_time_series_with(value: 1)).to eq([category1])
     end
   end
 end

@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :category do
-    name { Faker::Pokemon.unique.name }
+    sequence(:name) { |n| "Category #{n}" }
 
     trait :subcategory do
       association :parent, factory: :category
