@@ -8,10 +8,10 @@ RSpec.describe IndicatorsHelper, type: :helper do
     create(:category, name: 'Buildings')
   }
   let(:another_category) {
-    create(:category, name: 'Transportation')
+    create(:category, parent: category, name: 'Transportation')
   }
   let!(:indicator) {
-    create(:indicator, category: category, subcategory: another_category)
+    create(:indicator, subcategory: another_category)
   }
 
   describe :categories_for_select do

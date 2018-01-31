@@ -6,6 +6,7 @@ class Model < ApplicationRecord
 
   belongs_to :team, optional: true
   has_many :scenarios, dependent: :destroy
+  has_many :notes, dependent: :destroy
 
   validates :abbreviation, presence: true, uniqueness: true
   validates :full_name, presence: true
@@ -33,6 +34,13 @@ class Model < ApplicationRecord
 
   def scenarios?
     scenarios.any?
+  end
+
+  def indicators
+    Indicator.
+      distinct(:id).
+      joins(time_series_values: :scenario).
+      where(scenarios: {model_id: id})
   end
 
   def self.having_time_series

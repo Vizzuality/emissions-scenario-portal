@@ -113,6 +113,16 @@ RSpec.describe IndicatorsController, type: :controller do
         get :show, params: {model_id: team_model.id, id: indicator.id}
         expect(response).to render_template(:show)
       end
+
+      it 'assigns only model specific time series if  model given' do
+        team_scenario = create(:scenario, model: team_model)
+
+        create(:time_series_value, indicator: indicator, scenario: team_scenario)
+        create(:time_series_value, indicator: indicator)
+
+        get :show, params: {model_id: team_model.id, id: indicator.id}
+        expect(assigns(:time_series_values_pivot)[:data].size).to eq(1)
+      end
     end
 
     describe 'GET new' do

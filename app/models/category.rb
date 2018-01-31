@@ -15,13 +15,7 @@ class Category < ApplicationRecord
   )
 
   has_many(
-    :category_indicators,
-    class_name: 'Indicator',
-    dependent: :restrict_with_error
-  )
-
-  has_many(
-    :subcategory_indicators,
+    :indicators,
     class_name: 'Indicator',
     foreign_key: 'subcategory_id',
     dependent: :restrict_with_error
@@ -29,9 +23,12 @@ class Category < ApplicationRecord
 
   accepts_nested_attributes_for :subcategories
 
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: {scope: %i[parent_id stackable]}
   validate :parent_categories_cannot_be_stackable,
            :cannot_have_subcategory_as_parent
+
+  scope :parent_categories, -> { where(parent_id: nil) }
+  scope :subcategories, -> { where.not(parent_id: nil) }
 
   def self.case_insensitive_find_or_create(attributes)
     category = Category.where('lower(name) = lower(?)', attributes[:name])
@@ -51,6 +48,16 @@ class Category < ApplicationRecord
     end
 
     category
+  end
+
+  def self.having_time_series_with(conditions)
+    where(
+      id: Category.unscoped.where(
+        id: Indicator.where(
+          id: TimeSeriesValue.where(conditions).select(:indicator_id)
+        ).select(:subcategory_id)
+      ).select(:parent_id)
+    )
   end
 
   def subcategory?

@@ -32,6 +32,16 @@ RSpec.describe Model, type: :model do
     end
   end
 
+  describe :destroy do
+    let(:model) { create(:model) }
+
+    it 'is destroyable together with associated notes' do
+      note = create(:note, model: model)
+      expect(model.destroy).to be_truthy
+      expect(Note.where(id: note.id).exists?).to eq(false)
+    end
+  end
+
   describe :scenarios? do
     let(:model) { create(:model) }
     it 'should be true when time series values present' do
@@ -93,6 +103,26 @@ RSpec.describe Model, type: :model do
 
       expect(Model.having_published_scenarios).
         to contain_exactly(with_published1, with_published2)
+    end
+  end
+
+  describe :indicators do
+    it "should return indicators having time series associated to the model's scenarios" do
+      model = create(:model)
+      indicator = create(:indicator)
+      create(
+        :time_series_value,
+        scenario: create(:scenario, model: model),
+        indicator: indicator
+      )
+      create(
+        :time_series_value,
+        scenario: create(:scenario, model: model),
+        indicator: indicator
+      )
+      create(:indicator)
+
+      expect(model.indicators).to eq([indicator])
     end
   end
 end

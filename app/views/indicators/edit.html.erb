@@ -2,7 +2,7 @@
   no_nav: true %>
 
 <script>
-  App.Data.categories = <%= raw(@categories) %>;
+  App.Data.categories = <%= raw(Category.all.to_json) %>;
 </script>
 
 <%= form_for @indicator do |f| %>

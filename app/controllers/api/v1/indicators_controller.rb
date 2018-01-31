@@ -10,13 +10,13 @@ module Api
             Indicator.all
           end
 
-        indicators = indicators.
-          includes(:category, :subcategory)
+        indicators = indicators.includes(subcategory: :parent)
 
         if param_list(:category)
-          indicators = indicators.where(
-            category_id: param_list(:category)
-          )
+          indicators =
+            indicators.
+              joins(:subcategory).
+              where(subcategories: {parent_id: param_list(:category)})
         end
 
         if param_list(:subcategory)
@@ -39,6 +39,13 @@ module Api
           indicators = indicators.where(id: indicator_ids.map(&:indicator_id))
         end
 
+        if param_list(:model)
+          indicators =
+            indicators.
+              joins(time_series_values: :scenario).
+              where(time_series_values: {scenarios: {model_id: param_list(:model)}})
+        end
+
         indicators = indicators.order(:name)
 
         render json: indicators
@@ -46,7 +53,7 @@ module Api
 
       def show
         indicator = Indicator.
-          includes(category: :parent).
+          includes(subcategory: :parent).
           find_by!(id: params[:id])
 
         render json: indicator

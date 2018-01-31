@@ -37,6 +37,7 @@ module Api
       attribute :burden_sharing
 
       belongs_to :model
+      has_many :indicator_ids
 
       def model
         {
@@ -45,7 +46,9 @@ module Api
         }
       end
 
-      belongs_to :model
+      def indicator_ids
+        object.indicators.pluck(:id)
+      end
     end
   end
 end

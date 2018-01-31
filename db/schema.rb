@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171214111442) do
+ActiveRecord::Schema.define(version: 20180125112616) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20171214111442) do
     t.text "name"
     t.boolean "stackable"
     t.bigint "parent_id"
+    t.index ["name", "parent_id", "stackable"], name: "index_categories_on_name_and_parent_id_and_stackable", unique: true
     t.index ["parent_id"], name: "index_categories_on_parent_id"
   end
 
@@ -49,11 +50,9 @@ ActiveRecord::Schema.define(version: 20171214111442) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "composite_name"
-    t.bigint "category_id"
     t.bigint "subcategory_id"
     t.integer "time_series_values_count", default: 0
     t.index "lower(composite_name)", name: "index_indicators_on_LOWER_composite_name", unique: true
-    t.index ["category_id"], name: "index_indicators_on_category_id"
     t.index ["subcategory_id"], name: "index_indicators_on_subcategory_id"
   end
 
@@ -86,7 +85,6 @@ ActiveRecord::Schema.define(version: 20171214111442) do
     t.text "description"
     t.text "key_usage"
     t.text "scenario_coverage_detailed"
-    t.text "geographic_coverage"
     t.text "geographic_coverage_country", default: [], array: true
     t.text "sectoral_coverage", default: [], array: true
     t.text "gas_and_pollutant_coverage", default: [], array: true
@@ -116,6 +114,7 @@ ActiveRecord::Schema.define(version: 20171214111442) do
     t.text "behaviour"
     t.text "land_use"
     t.text "scenario_coverage", default: [], array: true
+    t.text "geographic_coverage", array: true
     t.index ["abbreviation"], name: "index_models_on_abbreviation", unique: true
     t.index ["team_id"], name: "index_models_on_team_id"
   end
@@ -233,7 +232,6 @@ ActiveRecord::Schema.define(version: 20171214111442) do
   add_foreign_key "categories", "categories", column: "parent_id", on_delete: :cascade
   add_foreign_key "csv_uploads", "models", on_delete: :cascade
   add_foreign_key "csv_uploads", "users", on_delete: :cascade
-  add_foreign_key "indicators", "categories"
   add_foreign_key "indicators", "categories", column: "subcategory_id"
   add_foreign_key "models", "teams"
   add_foreign_key "notes", "indicators"

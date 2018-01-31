@@ -29,7 +29,7 @@
         $subcategorySelect.find('option').each(function() {
         if (_.isEmpty(subcategory_ids) && this.value !== '') {
           $(this).attr('disabled', 'disabled');
-        } else if (_.includes(subcategory_ids, this.value) || this.value === '') {
+        } else if (_.includes(subcategory_ids, this.value)) {
           $(this).removeAttr('disabled');
         } else {
           $(this).attr('disabled', 'disabled');

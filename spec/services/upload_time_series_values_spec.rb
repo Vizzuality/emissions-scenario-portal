@@ -20,7 +20,6 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
   let!(:indicator) {
     create(
       :indicator,
-      category: category,
       subcategory: subcategory,
       name: 'CH4',
       unit: 'Mt CO2e/yr',
@@ -228,10 +227,19 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
       create(:scenario, name: 'Reference', model: ieo)
     end
 
+    let!(:energy_related_emissions) do
+      create(
+        :category,
+        name: "Energy Related Emissions",
+        parent: category
+      )
+    end
+
     let!(:electric_power) do
       create(
         :indicator,
-        composite_name: 'Energy Related Emissions|Electric Power',
+        subcategory: energy_related_emissions,
+        name: 'Electric Power',
         unit: 'Mt CO2e/yr'
       )
     end
