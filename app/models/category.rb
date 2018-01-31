@@ -27,8 +27,8 @@ class Category < ApplicationRecord
   validate :parent_categories_cannot_be_stackable,
            :cannot_have_subcategory_as_parent
 
-  scope :parent_categories, -> { where(parent_id: nil) }
-  scope :subcategories, -> { where.not(parent_id: nil) }
+  scope :top_level, -> { where(parent_id: nil) }
+  scope :second_level, -> { where.not(parent_id: nil) }
 
   def self.case_insensitive_find_or_create(attributes)
     category = Category.where('lower(name) = lower(?)', attributes[:name])
@@ -50,13 +50,21 @@ class Category < ApplicationRecord
     category
   end
 
-  def self.having_time_series_with(conditions)
+  def self.top_level_having_time_series_with(conditions)
     where(
       id: Category.unscoped.where(
         id: Indicator.where(
           id: TimeSeriesValue.where(conditions).select(:indicator_id)
         ).select(:subcategory_id)
       ).select(:parent_id)
+    )
+  end
+
+  def self.second_level_having_time_series_with(conditions)
+    where(
+      id: Indicator.where(
+        id: TimeSeriesValue.where(conditions).select(:indicator_id)
+      ).select(:subcategory_id)
     )
   end
 

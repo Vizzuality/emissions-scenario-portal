@@ -8,7 +8,7 @@ module IndicatorsHelper
   def values_for_indicator_category_dropdown(indicator)
     select_values =
       Category.
-        parent_categories.
+        top_level.
         select(:id, :name).
         order(name: :asc).
         pluck(:name, :id)
@@ -21,7 +21,7 @@ module IndicatorsHelper
   def values_for_indicator_subcategory_dropdown(indicator)
     select_values =
       Category.
-        subcategories.
+        second_level.
         select(:id, :name).
         order(name: :asc).
         pluck(:name, :stackable, :id).map do |name, stackable, id|

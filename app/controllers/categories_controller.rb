@@ -5,15 +5,15 @@ class CategoriesController < ApplicationController
         new(filter_params).
         call(
           policy_scope(Category).
-            includes(:subcategories).
-            where(parent_id: nil)
+            top_level.
+            includes(:subcategories)
         )
   end
 
   def new
     @category = Category.new
     authorize(@category)
-    @parent_categories = Category.where(parent_id: nil)
+    @parent_categories = Category.top_level
     render :edit
   end
 
@@ -33,7 +33,7 @@ class CategoriesController < ApplicationController
   def edit
     @category = Category.find(params[:id])
     authorize(@category)
-    @parent_categories = Category.where(parent_id: nil)
+    @parent_categories = Category.top_level
   end
 
   def update
