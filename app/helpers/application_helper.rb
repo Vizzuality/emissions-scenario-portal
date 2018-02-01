@@ -34,10 +34,11 @@ module ApplicationHelper
     picklist_values = values_for_attribute_dropdown(
       object, attr_info
     )
-    options = {prompt: 'Select or add elements'}
+    options = {}
     html_options = {}
     html_options[:multiple] = true
     html_options[:class] = picklist_class(is_multiple)
+    html_options['data-placeholder'] = 'Select or add elements'
 
     content_tag :div, class: "c-select -#{size}" do
       form.select attr_info.name, picklist_values, options, html_options

@@ -5,7 +5,8 @@ module Api
       attribute :name
       attribute :stackable, unless: -> { object.stackable.nil? }
 
-      has_many :subcategories
+      attribute :parent_id, unless: -> { object.parent.nil? }
+      has_many :subcategories, if: -> { object.parent.nil? }
     end
   end
 end

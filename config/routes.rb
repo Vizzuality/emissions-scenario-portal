@@ -35,6 +35,7 @@ Rails.application.routes.draw do
         resources :time_series_values, controller: :location_time_series_values, only: %i[index]
       end
       resources :categories, only: %i[index]
+      resources :subcategories, only: %i[index]
     end
   end
 

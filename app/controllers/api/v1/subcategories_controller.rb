@@ -1,21 +1,20 @@
 module Api
   module V1
-    class CategoriesController < ApiController
+    class SubcategoriesController < ApiController
       def index
         categories =
           Category.
-            top_level.
-            includes(:subcategories).
+            second_level.
             order(:name)
 
         if location_ids.present?
           categories =
-            categories.top_level_having_time_series_with(location_id: location_ids)
+            categories.second_level_having_time_series_with(location_id: location_ids)
         end
 
         if scenario_ids.present?
           categories =
-            categories.top_level_having_time_series_with(scenario_id: scenario_ids)
+            categories.second_level_having_time_series_with(scenario_id: scenario_ids)
         end
 
         render json: categories

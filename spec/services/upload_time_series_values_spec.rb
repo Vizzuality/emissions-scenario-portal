@@ -182,8 +182,8 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
       fixture_file_upload('files/time_series_values-invalid_value.csv')
     }
 
-    it 'should not have saved any records' do
-      expect { subject }.to(change { TimeSeriesValue.count }.by(1))
+    it 'should not have saved any rows' do
+      expect { subject }.not_to(change { TimeSeriesValue.count })
     end
     it 'should report no records saved' do
       expect(subject.number_of_records_saved).to eq(1)
