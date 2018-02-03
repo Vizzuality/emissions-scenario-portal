@@ -1,39 +1,91 @@
 class UploadTimeSeriesValues
   include ActiveModel::Model
-  include UploadService
+  attr_reader :csv_upload
 
-  def self.headers
-    {
-      model: 'Model',
-      scenario: 'Scenario',
-      location: 'Region',
-      indicator: 'ESP Indicator Name',
-      unit: 'Unit of Entry'
-    }
+  HEADERS = {
+    model: 'Model',
+    scenario: 'Scenario',
+    location: 'Region',
+    indicator: 'ESP Indicator Name',
+    unit: 'Unit of Entry'
+  }.freeze
+
+  def initialize(csv_upload)
+    @csv_upload = csv_upload
   end
 
   def call
-    if valid?
+    if valid_headers?(HEADERS)
       rows = parse_rows
+      # remove empty rows
       rows = rows.reject { |row| row.except(:row).values.all?(:blank?) }
+
+      # skip rows with missing associations
       rows = skip_incomplete(rows)
-      rows = remove_duplicate(rows)
-      rows = fetch_conversion_factors(rows)
-      attributes_list = parse_years(rows)
-      attributes_list = attributes_list.select { |attributes| attributes[:value].present? }
-      attributes_list = convert_values(attributes_list)
-      records = attributes_list.map { |attributes| TimeSeriesValue.new(attributes.slice(:scenario, :indicator, :location, :year, :value)) }
+
+      # prevent overwriting the same records more than once
+      rows = skip_duplicate(rows)
+
+      # inject proper conversion factors if necessary
+      rows = inject_conversion_factors(rows)
+
+      # convert rows to attrs
+      attrs_list = parse_years(rows)
+
+      # remove attrs with blank values
+      attrs_list = attrs_list.reject { |attrs| attrs[:value].blank? }
+
+      # convert units using injected conversion factors
+      attrs_list = convert_values(attrs_list)
+
+      records = attrs_list.map do |attrs|
+        TimeSeriesValue.new(
+          attrs.slice(:scenario, :indicator, :location, :year, :value)
+        )
+      end
     end
 
     ActiveRecord::Base.transaction do
       result = import(records || [])
-      update_csv_upload(result)
+
+      csv_upload.update!(
+        success: errors.blank?,
+        finished_at: Time.current,
+        errors_and_warnings: {errors: errors.details[:base]},
+        number_of_records_saved: result.ids.size
+      )
     end
 
     csv_upload
   end
 
   private
+
+  def csv
+    return @csv if defined?(@csv)
+    file = Paperclip.io_adapters.for(csv_upload.data)
+    encoding = CharlockHolmes::EncodingDetector.detect(file.read)[:encoding]
+    @csv = CSV.open(file.path, 'r', headers: true, encoding: encoding).read
+  end
+
+  def parse_headers(headers)
+    csv.headers.map do |header|
+      HEADERS.
+        transform_values(&:downcase).
+        key(header.to_s.downcase.gsub(/\s+/, ' ').strip) || header
+    end
+  end
+
+  def valid_headers?(headers)
+    (headers.keys - parse_headers(headers)).each do |value|
+      errors.add(:base, :missing_header, msg: "Missing header #{value}", row: 1)
+    end
+  end
+
+  def add_error(type, message, attrs = {})
+    errors.add(:base, type, msg: message, **attrs)
+    false
+  end
 
   def models
     @models ||= Hash.new do |hash, model_abbreviation|
@@ -74,7 +126,7 @@ class UploadTimeSeriesValues
 
   def parse_rows
     csv.map.with_index(2) do |csv_row, line_number|
-      parsed_csv_headers.zip(csv_row.fields).to_h.tap do |row|
+      parse_headers(HEADERS).zip(csv_row.fields).to_h.tap do |row|
         if models[row[:model]].present?
           row[:model] = models[row[:model]]
           row[:scenario] = scenarios[[row[:model], row[:scenario]]] || row[:scenario]
@@ -89,69 +141,57 @@ class UploadTimeSeriesValues
   def skip_incomplete(rows)
     rows.select do |row|
       unless row[:model].is_a?(Model)
-        error = errors.add(
-          :csv_upload,
-          :invalid,
-          msg: "Model does not exist #{row[:model]}",
-          row: row[:row],
-          type: :record
+        error = add_error(
+          :model_not_found,
+          "Model does not exist #{row[:model]}",
+          row.slice(:row)
         )
       end
 
       unless row[:scenario].is_a?(Scenario)
-        error = errors.add(
-          :csv_upload,
-          :invalid,
-          msg: "Scenario does not exist #{row[:scenario]}",
-          row: row[:row],
-          type: :record
+        error = add_error(
+          :scenario_not_found,
+          "Scenario does not exist #{row[:scenario]}",
+          row.slice(:row)
         )
       end
 
       unless row[:indicator].is_a?(Indicator)
-        error = errors.add(
-          :csv_upload,
-          :invalid,
-          msg: "Indicator does not exist #{row[:indicator]}",
-          row: row[:row],
-          type: :record
+        error = add_error(
+          :indicator_not_found,
+          "Indicator does not exist #{row[:indicator]}",
+          row.slice(:row)
         )
-        false
       end
 
       unless row[:location].is_a?(Location)
-        error = errors.add(
-          :csv_upload,
-          :invalid,
-          msg: "Location does not exist #{row[:location]}",
-          row: row[:row],
-          type: :record
+        error = add_error(
+          :location_not_found,
+          "Location does not exist #{row[:location]}",
+          row.slice(:row)
         )
-        false
       end
 
       error.nil?
     end
   end
 
-  def remove_duplicate(rows)
+  def skip_duplicate(rows)
     set = Set.new
     rows.select do |row|
-      unless set.add?(row.values_at(:scenario, :indicator, :location))
-        error = errors.add(
-          :csv_upload,
-          :invalid,
-          msg: "Unable to import rows overwriting already imported records",
-          row: row[:row],
-          type: :record
+      if set.add?(row.values_at(:scenario, :indicator, :location))
+        true
+      else
+        add_error(
+          :duplicate_row,
+          "Unable to import rows overwriting already imported records",
+          row.slice(:row)
         )
       end
-
-      error.nil?
     end
   end
 
-  def fetch_conversion_factors(rows)
+  def inject_conversion_factors(rows)
     rows.select do |row|
       if row[:unit] == row[:indicator].unit
         row[:conversion_factor] = 1.0
@@ -161,12 +201,10 @@ class UploadTimeSeriesValues
         if row[:unit] == note&.unit_of_entry
           row[:conversion_factor] = note.conversion_factor
         else
-          error = errors.add(
-            :csv_upload,
-            :invalid,
-            msg: "Inconvertible unit #{row[:unit]}",
-            row: row[:row],
-            type: :record
+          error = add_error(
+            :inconvertible_unit,
+            "Inconvertible unit #{row[:unit]}",
+            row.slice(:row)
           )
         end
       end
@@ -177,7 +215,7 @@ class UploadTimeSeriesValues
 
   def parse_years(rows)
     rows.each.with_object([]) do |row, results|
-      row.except(*self.class.headers.keys, *%i[conversion_factor]).each do |year, value|
+      row.except(*HEADERS.keys, *%i[conversion_factor row]).each do |year, value|
         results.push(
           year: year,
           value: value,
@@ -188,18 +226,15 @@ class UploadTimeSeriesValues
     end
   end
 
-  def convert_values(attributes_list)
-    attributes_list.select do |attributes|
-      attributes[:value] =
-        BigDecimal(attributes[:value]) * attributes[:conversion_factor]
+  def convert_values(attrs_list)
+    attrs_list.select do |attrs|
+      attrs[:value] =
+        BigDecimal(attrs[:value]) * attrs[:conversion_factor]
     rescue ArgumentError
-      errors.add(
-        :csv_upload,
-        :invalid,
-        msg: "Unable to parse value #{attributes[:value]}",
-        row: attributes[:row],
-        col: attributes[:col],
-        type: :record
+      add_error(
+        :unparseable_value,
+        "Unable to parse value #{attrs[:value]}",
+        attrs.slice(:row, :col)
       )
       false
     end
@@ -210,7 +245,8 @@ class UploadTimeSeriesValues
       records,
       on_duplicate_key_update: {
         conflict_target: %i[scenario_id indicator_id location_id year],
-        columns: %i[value]
+        columns: %i[value],
+        validate: false
       }
     )
   end

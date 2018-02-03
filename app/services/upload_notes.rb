@@ -12,6 +12,21 @@ class UploadNotes
     }
   end
 
+  def initialize(csv_upload)
+    @csv_upload = csv_upload
+  end
+
+  def call
+    ActiveRecord::Base.transaction do
+      if valid?
+        result = import
+        result.failed_instances.each { |record| transcribe_errors(record) }
+      end
+      update_csv_upload(result)
+      csv_upload
+    end
+  end
+
   private
 
   def import

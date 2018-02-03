@@ -39,7 +39,6 @@ ActiveRecord::Schema.define(version: 20180129131049) do
     t.string "data_content_type"
     t.integer "data_file_size"
     t.datetime "data_updated_at"
-    t.integer "number_of_records_failed", default: 0
     t.integer "number_of_records_saved", default: 0
     t.index ["model_id"], name: "index_csv_uploads_on_model_id"
     t.index ["user_id"], name: "index_csv_uploads_on_user_id"

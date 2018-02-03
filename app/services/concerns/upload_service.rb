@@ -5,21 +5,6 @@ module UploadService
     base.validate(:existence_of_headers)
   end
 
-  def initialize(csv_upload)
-    @csv_upload = csv_upload
-  end
-
-  def call
-    ActiveRecord::Base.transaction do
-      if valid?
-        result = import
-        result.failed_instances.each { |record| transcribe_errors(record) }
-      end
-      update_csv_upload(result)
-      csv_upload
-    end
-  end
-
   private
 
   def csv
@@ -44,26 +29,34 @@ module UploadService
   def existence_of_headers
     (self.class.headers.keys - parsed_csv_headers).each do |value|
       errors.add(
-        :csv_upload,
+        :base,
         :invalid,
         msg: "Missing header: #{value}",
-        row: 1,
-        type: :header
+        row: 1
       )
     end
+  end
+
+  def add_error(type, message, attrs = {})
+    errors.add(
+      :base,
+      type,
+      msg: message,
+      **attrs
+    )
+    false
   end
 
   def transcribe_errors(record)
     record.errors.messages.each do |attribute, _|
       record.errors.full_messages_for(attribute).each.with_index do |message, i|
         errors.add(
-          :csv_upload,
+          :base,
           message,
           row: record.row,
           col: record.respond_to?(:col) ?
             record.col : parsed_csv_headers.index(attribute) + 1,
           msg: message,
-          type: :record,
           **record.errors.details[attribute][i]
         )
       end
@@ -79,7 +72,7 @@ module UploadService
       success: errors.blank?,
       message: "#{number_of_records_saved} of #{total_number_of_records} records saved.",
       finished_at: Time.current,
-      errors_and_warnings: {errors: errors.details[:csv_upload]},
+      errors_and_warnings: {errors: errors.details[:base]},
       number_of_records_failed: number_of_records_failed,
       number_of_records_saved: number_of_records_saved
     )

@@ -62,9 +62,6 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
     it 'should report all records saved' do
       expect(subject.number_of_records_saved).to eq(2)
     end
-    it 'should report no records failed' do
-      expect(subject.number_of_records_failed).to eq(0)
-    end
   end
 
   context 'when file correct and overwrites old data' do
@@ -92,9 +89,6 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
     it 'should report all records saved' do
       expect(subject.number_of_records_saved).to eq(2)
     end
-    it 'should report no records failed' do
-      expect(subject.number_of_records_failed).to eq(0)
-    end
   end
 
   context 'when file with invalid column name' do
@@ -107,9 +101,6 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
     end
     it 'should report no records saved' do
       expect(subject.number_of_records_saved).to eq(0)
-    end
-    it 'should report all records failed' do
-      expect(subject.number_of_records_failed).to eq(0)
     end
   end
 
@@ -124,9 +115,6 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
     it 'should report no records saved' do
       expect(subject.number_of_records_saved).to eq(0)
     end
-    it 'should report all records failed' do
-      expect(subject.number_of_records_failed).to eq(2)
-    end
   end
 
   context 'when file with missing indicator' do
@@ -139,9 +127,6 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
     end
     it 'should report no records saved' do
       expect(subject.number_of_records_saved).to eq(0)
-    end
-    it 'should report all records failed' do
-      expect(subject.number_of_records_failed).to eq(2)
     end
   end
 
@@ -156,9 +141,6 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
     it 'should report no records saved' do
       expect(subject.number_of_records_saved).to eq(0)
     end
-    it 'should report all records failed' do
-      expect(subject.number_of_records_failed).to eq(2)
-    end
   end
 
   context 'when file with incompatible unit' do
@@ -172,9 +154,6 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
     it 'should report no records saved' do
       expect(subject.number_of_records_saved).to eq(0)
     end
-    it 'should report all records failed' do
-      expect(subject.number_of_records_failed).to eq(2)
-    end
   end
 
   context 'when file with invalid value' do
@@ -186,10 +165,7 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
       expect { subject }.not_to(change { TimeSeriesValue.count })
     end
     it 'should report no records saved' do
-      expect(subject.number_of_records_saved).to eq(1)
-    end
-    it 'should report all records failed' do
-      expect(subject.number_of_records_failed).to eq(1)
+      expect(subject.number_of_records_saved).to eq(0)
     end
   end
 
@@ -214,9 +190,6 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
     end
     it 'should report no records saved' do
       expect(subject.number_of_records_saved).to eq(0)
-    end
-    it 'should report all records failed' do
-      expect(subject.number_of_records_failed).to eq(2)
     end
   end
 
