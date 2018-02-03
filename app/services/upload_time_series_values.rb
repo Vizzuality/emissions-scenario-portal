@@ -1,5 +1,6 @@
 class UploadTimeSeriesValues
   include ActiveModel::Model
+  include CsvParsingHelpers
   attr_reader :csv_upload
 
   HEADERS = {
@@ -21,10 +22,13 @@ class UploadTimeSeriesValues
       rows = rows.reject { |row| row.except(:row).values.all?(:blank?) }
 
       # skip rows with missing associations
-      rows = skip_incomplete(rows)
+      rows = skip_incomplete(rows, :model)
+      rows = skip_incomplete(rows, :scenario)
+      rows = skip_incomplete(rows, :indicator)
+      rows = skip_incomplete(rows, :location)
 
       # prevent overwriting the same records more than once
-      rows = skip_duplicate(rows)
+      rows = skip_duplicate(rows, %i[model scenario indicator location])
 
       # inject proper conversion factors if necessary
       rows = inject_conversion_factors(rows)
@@ -61,69 +65,6 @@ class UploadTimeSeriesValues
 
   private
 
-  def csv
-    return @csv if defined?(@csv)
-    file = Paperclip.io_adapters.for(csv_upload.data)
-    encoding = CharlockHolmes::EncodingDetector.detect(file.read)[:encoding]
-    @csv = CSV.open(file.path, 'r', headers: true, encoding: encoding).read
-  end
-
-  def parse_headers(headers)
-    csv.headers.map do |header|
-      HEADERS.
-        transform_values(&:downcase).
-        key(header.to_s.downcase.gsub(/\s+/, ' ').strip) || header
-    end
-  end
-
-  def valid_headers?(headers)
-    (headers.keys - parse_headers(headers)).each do |value|
-      errors.add(:base, :missing_header, msg: "Missing header #{value}", row: 1)
-    end
-  end
-
-  def add_error(type, message, attrs = {})
-    errors.add(:base, type, msg: message, **attrs)
-    false
-  end
-
-  def models
-    @models ||= Hash.new do |hash, model_abbreviation|
-      hash[model_abbreviation] =
-        Pundit.
-          policy_scope(csv_upload.user, Model).
-          find_by_abbreviation(model_abbreviation)
-    end
-  end
-
-  def scenarios
-    @scenarios ||= Hash.new do |hash, (model, scenario_name)|
-      hash[[model, scenario_name]] =
-        model&.scenarios&.find_by_name(scenario_name)
-    end
-  end
-
-  def indicators
-    @indicators ||= Hash.new do |hash, indicator_name|
-      hash[indicator_name] =
-        Indicator.find_by_name(indicator_name)
-    end
-  end
-
-  def locations
-    @locations ||= Hash.new do |hash, location_name|
-      hash[location_name] =
-        Location.find_by_name_or_iso_code(location_name)
-    end
-  end
-
-  def notes
-    @notes ||= Hash.new do |hash, (model, indicator)|
-      hash[[model, indicator]] =
-        Note.find_by(model: model, indicator: indicator)
-    end
-  end
-
   def parse_rows
     csv.map.with_index(2) do |csv_row, line_number|
       parse_headers(HEADERS).zip(csv_row.fields).to_h.tap do |row|
@@ -134,59 +75,6 @@ class UploadTimeSeriesValues
         row[:indicator] = indicators[row[:indicator]] || row[:indicator]
         row[:location] = locations[row[:location]] || row[:location]
         row[:row] = line_number
-      end
-    end
-  end
-
-  def skip_incomplete(rows)
-    rows.select do |row|
-      unless row[:model].is_a?(Model)
-        error = add_error(
-          :model_not_found,
-          "Model does not exist #{row[:model]}",
-          row.slice(:row)
-        )
-      end
-
-      unless row[:scenario].is_a?(Scenario)
-        error = add_error(
-          :scenario_not_found,
-          "Scenario does not exist #{row[:scenario]}",
-          row.slice(:row)
-        )
-      end
-
-      unless row[:indicator].is_a?(Indicator)
-        error = add_error(
-          :indicator_not_found,
-          "Indicator does not exist #{row[:indicator]}",
-          row.slice(:row)
-        )
-      end
-
-      unless row[:location].is_a?(Location)
-        error = add_error(
-          :location_not_found,
-          "Location does not exist #{row[:location]}",
-          row.slice(:row)
-        )
-      end
-
-      error.nil?
-    end
-  end
-
-  def skip_duplicate(rows)
-    set = Set.new
-    rows.select do |row|
-      if set.add?(row.values_at(:scenario, :indicator, :location))
-        true
-      else
-        add_error(
-          :duplicate_row,
-          "Unable to import rows overwriting already imported records",
-          row.slice(:row)
-        )
       end
     end
   end
