@@ -1,7 +1,7 @@
 module IndicatorsHelper
   def categories_for_select
     options_for_select(
-      Category.order(:name).pluck(:name, :id)
+      Category.top_level.order(:name).pluck(:name, :id)
     )
   end
 
