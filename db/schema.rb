@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180129131049) do
+ActiveRecord::Schema.define(version: 20180205134212) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 20180129131049) do
     t.bigint "subcategory_id"
     t.integer "time_series_values_count", default: 0
     t.index "lower(composite_name)", name: "index_indicators_on_LOWER_composite_name", unique: true
+    t.index ["subcategory_id", "name"], name: "index_indicators_on_subcategory_id_and_name", unique: true
     t.index ["subcategory_id"], name: "index_indicators_on_subcategory_id"
   end
 

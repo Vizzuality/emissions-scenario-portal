@@ -19,7 +19,7 @@ class UploadTimeSeriesValues
     if valid_headers?(HEADERS)
       rows = parse_rows
       # remove empty rows
-      rows = rows.reject { |row| row.except(:row).values.all?(:blank?) }
+      rows = rows.reject { |row| row.except(:row).values.all?(&:blank?) }
 
       # skip rows with missing associations
       rows = skip_incomplete(rows, :model)

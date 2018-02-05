@@ -64,6 +64,23 @@ module CsvParsingHelpers
     end
   end
 
+  def categories
+    @categories ||= Hash.new do |hash, category_name|
+      hash[category_name] =
+        Category.find_by_name(category_name)
+    end
+  end
+
+  def subcategories
+    @subcategories ||= Hash.new do |hash, (category, subcategory_name, stackable)|
+      hash[[category, subcategory_name, stackable]] =
+        category&.
+          subcategories&.
+          where(stackable: stackable)&.
+          find_by_name(subcategory_name)
+    end
+  end
+
   def skip_incomplete(rows, column)
     rows.select do |row|
       row[column].kind_of?(ApplicationRecord) || add_error(

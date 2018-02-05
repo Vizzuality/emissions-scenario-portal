@@ -21,7 +21,7 @@ class UploadNotes
       rows = parse_rows
 
       # skip rows with missing associations
-      rows = rows.reject { |row| row.except(:row).values.all?(:blank?) }
+      rows = rows.reject { |row| row.except(:row).values.all?(&:blank?) }
 
       # skip rows with missing associations
       rows = skip_incomplete(rows, :model)

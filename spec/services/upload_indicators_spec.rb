@@ -10,6 +10,8 @@ RSpec.describe UploadIndicators, upload: :s3 do
       data: file
     )
   }
+  let!(:category) { create(:category, name: "Emissions", parent: nil) }
+  let!(:subcategory) { create(:category, name: "CO2 by sector", parent: category, stackable: true) }
 
   subject { UploadIndicators.new(csv_upload).call }
 
@@ -25,9 +27,6 @@ RSpec.describe UploadIndicators, upload: :s3 do
     it 'should report all rows saved' do
       expect(subject.number_of_records_saved).to eq(2)
     end
-    it 'should report no rows failed' do
-      expect(subject.number_of_records_failed).to eq(1)
-    end
   end
 
   context 'when file correct and overwrites old data' do
@@ -36,14 +35,7 @@ RSpec.describe UploadIndicators, upload: :s3 do
         file_fixture('indicators-correct.csv')
       )
     }
-    before(:each) do
-      category = create(:category, name: 'Emissions')
-      subcategory = create(
-        :category,
-        name: 'CO2 by sector',
-        parent: category,
-        stackable: true
-      )
+    let(:indicator) do
       create(
         :indicator,
         subcategory: subcategory,
@@ -58,9 +50,6 @@ RSpec.describe UploadIndicators, upload: :s3 do
     it 'should report all rows saved' do
       expect(subject.number_of_records_saved).to eq(2)
     end
-    it 'should report no rows failed' do
-      expect(subject.number_of_records_failed).to eq(1)
-    end
   end
 
   context 'when not stackable subcategory' do
@@ -69,6 +58,9 @@ RSpec.describe UploadIndicators, upload: :s3 do
         file_fixture('indicators-not_stackable_subcategory.csv')
       )
     }
+    let!(:whatever_subcategory) do
+      create(:category, name: "whatever", parent: category, stackable: false)
+    end
 
     it 'should have saved new rows' do
       expect { subject }.to change { Indicator.count }.by(2)
@@ -104,9 +96,6 @@ RSpec.describe UploadIndicators, upload: :s3 do
     it 'should report no rows saved' do
       expect(subject.number_of_records_saved).to eq(0)
     end
-    it 'should report all rows failed' do
-      expect(subject.number_of_records_failed).to eq(1)
-    end
   end
 
   context 'when missing name' do
@@ -121,9 +110,6 @@ RSpec.describe UploadIndicators, upload: :s3 do
     end
     it 'should report no rows saved' do
       expect(subject.number_of_records_saved).to eq(0)
-    end
-    it 'should report all rows failed' do
-      expect(subject.number_of_records_failed).to eq(1)
     end
   end
 end
