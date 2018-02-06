@@ -39,15 +39,15 @@ class UploadNotes
   end
 
   def sanitize_rows(rows)
-    # skip rows with missing associations
-    rows = rows.reject { |row| row.except(:row).values.all?(&:blank?) }
-
-    # skip rows with missing associations
-    rows = skip_incomplete(rows, :model)
-    rows = skip_incomplete(rows, :indicator)
-
-    # prevent overwriting the same records more than once
-    rows = skip_duplicate(rows, %i[model indicator])
+    set = Set.new
+    rows.select do |row|
+      row.except(:row).values.any?(&:present?) &&
+        # skip rows with missing associations
+        skip_incomplete(row, :model) &&
+        skip_incomplete(row, :indicator) &&
+        # prevent overwriting the same records more than once
+        skip_duplicate(set, row, %i[model indicator])
+    end
   end
 
   def build_records(attrs_list)

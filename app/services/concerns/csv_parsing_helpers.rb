@@ -81,24 +81,19 @@ module CsvParsingHelpers
     end
   end
 
-  def skip_incomplete(rows, column)
-    rows.select do |row|
-      row[column].kind_of?(ApplicationRecord) || add_error(
-        :"#{column}_not_found",
-        "#{column.to_s.titleize} does not exist #{row[column]}",
-        row.slice(:row)
-      )
-    end
+  def skip_incomplete(row, column)
+    row[column].kind_of?(ApplicationRecord) || add_error(
+      :"#{column}_not_found",
+      "#{column.to_s.titleize} does not exist #{row[column]}",
+      row.slice(:row)
+    )
   end
 
-  def skip_duplicate(rows, scope)
-    set = Set.new
-    rows.select do |row|
-      set.add?(row.values_at(*scope)) || add_error(
-        :duplicate_row,
-        "Unable to import rows overwriting already imported records",
-        row.slice(:row)
-      )
-    end
+  def skip_duplicate(set, row, scope)
+    set.add?(row.values_at(*scope)) || add_error(
+      :duplicate_row,
+      "Unable to import rows overwriting already imported records",
+      row.slice(:row)
+    )
   end
 end

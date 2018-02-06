@@ -37,60 +37,59 @@ class UploadIndicators
     end
   end
 
-  def parse_stackable(rows)
-    rows.select do |row|
-      case row[:stackable]
-      when /\A(y|yes|true|t|1)\Z/i
-        row[:stackable] = true
-      when /\A(n|no|false|f|0)\Z/i
-        row[:stackable] = false
-        true
-      else
-        add_error(
-          :invalid_stackable,
-          "Invalid stackable value #{row[:stackable]}",
-          row.slice(:row)
-        )
-      end
+  def parse_stackable(row)
+    case row[:stackable]
+    when /\A(y|yes|true|t|1)\Z/i
+      row[:stackable] = true
+    when /\A(n|no|false|f|0)\Z/i
+      row[:stackable] = false
+      true
+    else
+      add_error(
+        :invalid_stackable,
+        "Invalid stackable value #{row[:stackable]}",
+        row.slice(:row)
+      )
     end
   end
 
-  def inject_subcategory_and_name(rows)
-    rows.select do |row|
-      if row[:indicator].kind_of?(ApplicationRecord)
-        row[:subcategory] = row[:indicator].subcategory
-        row[:name] = row[:indicator].name
-        true
-      else
-        category_name, subcategory_name, row[:name] = row[:indicator].to_s.split('|', 3)
-        row[:subcategory] = subcategories[
-          [categories[category_name], subcategory_name, row[:stackable]]
-        ]
-        if row[:name].blank?
-          add_error(
-            :missing_indicator_name,
-            "Indicator name can't be blank",
-            row.slice(:row)
-          )
-        elsif row[:subcategory].blank?
-          msg = "Category, subcategory pair has not been found #{category_name}, #{subcategory_name}"
-          msg += ' (stackable)' if row[:stackable]
-
-          add_error(:invalid_categories, msg, row.slice(:row))
-        else
-          true
-        end
-      end
+  def inject_subcategory_and_name(row)
+    if row[:indicator].kind_of?(ApplicationRecord)
+      row[:subcategory] = row[:indicator].subcategory
+      row[:name] = row[:indicator].name
     end
+
+    category_name, subcategory_name, row[:name] = row[:indicator].to_s.split('|', 3)
+    row[:subcategory] = subcategories[
+      [categories[category_name], subcategory_name, row[:stackable]]
+    ]
+
+    if row[:name].blank?
+      return add_error(
+        :missing_indicator_name,
+        "Indicator name can't be blank",
+        row.slice(:row)
+      )
+    end
+
+    if row[:subcategory].blank?
+      msg = "Category, subcategory pair has not been found #{category_name}, #{subcategory_name}"
+      msg += ' (stackable)' if row[:stackable]
+
+      return add_error(:invalid_categories, msg, row.slice(:row))
+    end
+
+    true
   end
 
   def sanitize_rows(rows)
-    rows = rows.reject { |row| row.except(:row).values.all?(&:blank?) }
-    rows = parse_stackable(rows)
-    rows = inject_subcategory_and_name(rows)
-
-    # prevent overwriting the same records more than once
-    rows = skip_duplicate(rows, %i[subcategory name])
+    set = Set.new
+    rows.select do |row|
+      row.except(:row).values.any?(&:present?) &&
+        parse_stackable(row) &&
+        inject_subcategory_and_name(row) &&
+        skip_duplicate(set, row, %i[subcategory name])
+    end
   end
 
   def build_records(attrs_list)

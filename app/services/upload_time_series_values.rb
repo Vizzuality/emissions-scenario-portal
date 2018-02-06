@@ -43,43 +43,40 @@ class UploadTimeSeriesValues
   end
 
   def sanitize_rows(rows)
-    rows = parse_rows
-    # remove empty rows
-    rows = rows.reject { |row| row.except(:row).values.all?(&:blank?) }
+    set = Set.new
 
-    # skip rows with missing associations
-    rows = skip_incomplete(rows, :model)
-    rows = skip_incomplete(rows, :scenario)
-    rows = skip_incomplete(rows, :indicator)
-    rows = skip_incomplete(rows, :location)
-
-    # prevent overwriting the same records more than once
-    rows = skip_duplicate(rows, %i[model scenario indicator location])
-
-    # inject proper conversion factors if necessary
-    rows = inject_conversion_factors(rows)
+    rows.select do |row|
+      # remove empty rows
+      row.except(:row).values.any?(&:present?) &&
+        # skip rows with missing associations
+        skip_incomplete(row, :model) &&
+        skip_incomplete(row, :scenario) &&
+        skip_incomplete(row, :indicator) &&
+        skip_incomplete(row, :location) &&
+        # prevent overwriting the same records more than once
+        skip_duplicate(set, row, %i[model scenario indicator location]) &&
+        # inject proper conversion factors if necessary
+        inject_conversion_factors(row)
+    end
   end
 
-  def inject_conversion_factors(rows)
-    rows.select do |row|
-      if row[:unit] == row[:indicator].unit
-        row[:conversion_factor] = 1.0
+  def inject_conversion_factors(row)
+    if row[:unit] == row[:indicator].unit
+      row[:conversion_factor] = 1.0
+    else
+      note = notes[[row[:model], row[:indicator]]]
+
+      if row[:unit] == note&.unit_of_entry
+        row[:conversion_factor] = note.conversion_factor
       else
-        note = notes[[row[:model], row[:indicator]]]
-
-        if row[:unit] == note&.unit_of_entry
-          row[:conversion_factor] = note.conversion_factor
-        else
-          error = add_error(
-            :inconvertible_unit,
-            "Inconvertible unit #{row[:unit]}",
-            row.slice(:row)
-          )
-        end
+        return add_error(
+          :inconvertible_unit,
+          "Inconvertible unit #{row[:unit]}",
+          row.slice(:row)
+        )
       end
-
-      error.nil?
     end
+    true
   end
 
   def build_import_attributes(rows)
