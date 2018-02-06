@@ -18,48 +18,11 @@ class UploadTimeSeriesValues
   def call
     if valid_headers?(HEADERS)
       rows = parse_rows
-      # remove empty rows
-      rows = rows.reject { |row| row.except(:row).values.all?(&:blank?) }
-
-      # skip rows with missing associations
-      rows = skip_incomplete(rows, :model)
-      rows = skip_incomplete(rows, :scenario)
-      rows = skip_incomplete(rows, :indicator)
-      rows = skip_incomplete(rows, :location)
-
-      # prevent overwriting the same records more than once
-      rows = skip_duplicate(rows, %i[model scenario indicator location])
-
-      # inject proper conversion factors if necessary
-      rows = inject_conversion_factors(rows)
-
-      # convert rows to attrs
-      attrs_list = parse_years(rows)
-
-      # remove attrs with blank values
-      attrs_list = attrs_list.reject { |attrs| attrs[:value].blank? }
-
-      # convert units using injected conversion factors
-      attrs_list = convert_values(attrs_list)
-
-      records = attrs_list.map do |attrs|
-        TimeSeriesValue.new(
-          attrs.slice(:scenario, :indicator, :location, :year, :value)
-        )
-      end
+      rows = sanitize_rows(rows)
+      attrs = build_import_attributes(rows)
+      records = build_records(attrs)
     end
-
-    ActiveRecord::Base.transaction do
-      result = import(records || [])
-
-      csv_upload.update!(
-        success: errors.blank?,
-        finished_at: Time.current,
-        errors_and_warnings: {errors: errors.details[:base]},
-        number_of_records_saved: result.ids.size
-      )
-    end
-
+    perform_import(records || [])
     csv_upload
   end
 
@@ -77,6 +40,24 @@ class UploadTimeSeriesValues
         row[:row] = line_number
       end
     end
+  end
+
+  def sanitize_rows(rows)
+    rows = parse_rows
+    # remove empty rows
+    rows = rows.reject { |row| row.except(:row).values.all?(&:blank?) }
+
+    # skip rows with missing associations
+    rows = skip_incomplete(rows, :model)
+    rows = skip_incomplete(rows, :scenario)
+    rows = skip_incomplete(rows, :indicator)
+    rows = skip_incomplete(rows, :location)
+
+    # prevent overwriting the same records more than once
+    rows = skip_duplicate(rows, %i[model scenario indicator location])
+
+    # inject proper conversion factors if necessary
+    rows = inject_conversion_factors(rows)
   end
 
   def inject_conversion_factors(rows)
@@ -98,6 +79,25 @@ class UploadTimeSeriesValues
       end
 
       error.nil?
+    end
+  end
+
+  def build_import_attributes(rows)
+    # convert rows to attrs
+    attrs_list = parse_years(rows)
+
+    # remove attrs with blank values
+    attrs_list = attrs_list.reject { |attrs| attrs[:value].blank? }
+
+    # convert units using injected conversion factors
+    attrs_list = convert_values(attrs_list)
+  end
+
+  def build_records(attrs_list)
+    attrs_list.map do |attrs|
+      TimeSeriesValue.new(
+        attrs.slice(:scenario, :indicator, :location, :year, :value)
+      )
     end
   end
 
@@ -128,14 +128,23 @@ class UploadTimeSeriesValues
     end
   end
 
-  def import(records)
-    TimeSeriesValue.import(
-      records,
-      on_duplicate_key_update: {
-        conflict_target: %i[scenario_id indicator_id location_id year],
-        columns: %i[value],
-        validate: false
-      }
-    )
+  def perform_import(records)
+    ActiveRecord::Base.transaction do
+      result = TimeSeriesValue.import(
+        records,
+        on_duplicate_key_update: {
+          conflict_target: %i[scenario_id indicator_id location_id year],
+          columns: %i[value],
+          validate: false
+        }
+      )
+
+      csv_upload.update!(
+        success: errors.blank?,
+        finished_at: Time.current,
+        errors_and_warnings: {errors: errors.details[:base]},
+        number_of_records_saved: result.ids.size
+      )
+    end
   end
 end

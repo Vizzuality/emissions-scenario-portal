@@ -19,31 +19,10 @@ class UploadNotes
   def call
     if valid_headers?(HEADERS)
       rows = parse_rows
-
-      # skip rows with missing associations
-      rows = rows.reject { |row| row.except(:row).values.all?(&:blank?) }
-
-      # skip rows with missing associations
-      rows = skip_incomplete(rows, :model)
-      rows = skip_incomplete(rows, :indicator)
-
-      # prevent overwriting the same records more than once
-      rows = skip_duplicate(rows, %i[model indicator])
-
-      records = rows.map { |row| Note.new(row.slice(*HEADERS.keys)) }
+      rows = sanitize_rows(rows)
+      records = build_records(rows)
     end
-
-    ActiveRecord::Base.transaction do
-      result = import(records)
-
-      csv_upload.update!(
-        success: errors.blank?,
-        finished_at: Time.current,
-        errors_and_warnings: {errors: errors.details[:base]},
-        number_of_records_saved: result.ids.size
-      )
-    end
-
+    perform_import(records || [])
     csv_upload
   end
 
@@ -59,13 +38,38 @@ class UploadNotes
     end
   end
 
-  def import(records)
-    Note.import(
-      records || [],
-      on_duplicate_key_update: {
-        conflict_target: %i[indicator_id model_id],
-        columns: %i[unit_of_entry conversion_factor description]
-      }
-    )
+  def sanitize_rows(rows)
+    # skip rows with missing associations
+    rows = rows.reject { |row| row.except(:row).values.all?(&:blank?) }
+
+    # skip rows with missing associations
+    rows = skip_incomplete(rows, :model)
+    rows = skip_incomplete(rows, :indicator)
+
+    # prevent overwriting the same records more than once
+    rows = skip_duplicate(rows, %i[model indicator])
+  end
+
+  def build_records(attrs_list)
+    attrs_list.map { |attrs| Note.new(attrs.slice(*HEADERS.keys)) }
+  end
+
+  def perform_import(records)
+    ActiveRecord::Base.transaction do
+      result = Note.import(
+        records,
+        on_duplicate_key_update: {
+          conflict_target: %i[indicator_id model_id],
+          columns: %i[unit_of_entry conversion_factor description]
+        }
+      )
+
+      csv_upload.update!(
+        success: errors.blank?,
+        finished_at: Time.current,
+        errors_and_warnings: {errors: errors.details[:base]},
+        number_of_records_saved: result.ids.size
+      )
+    end
   end
 end

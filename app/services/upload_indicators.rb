@@ -18,28 +18,10 @@ class UploadIndicators
   def call
     if valid_headers?(HEADERS)
       rows = parse_rows
-
-      rows = rows.reject { |row| row.except(:row).values.all?(&:blank?) }
-      rows = parse_stackable(rows)
-      rows = inject_subcategory_and_name(rows)
-
-      # prevent overwriting the same records more than once
-      rows = skip_duplicate(rows, %i[subcategory name])
-
-      records = rows.map { |row| Indicator.new(row.slice(*%i[subcategory name unit definition])) }
+      rows = sanitize_rows(rows)
+      records = build_records(rows)
     end
-
-    ActiveRecord::Base.transaction do
-      result = import(records)
-
-      csv_upload.update!(
-        success: errors.blank?,
-        finished_at: Time.current,
-        errors_and_warnings: {errors: errors.details[:base]},
-        number_of_records_saved: result.ids.size
-      )
-    end
-
+    perform_import(records || [])
     csv_upload
   end
 
@@ -102,13 +84,37 @@ class UploadIndicators
     end
   end
 
-  def import(records)
-    Indicator.import(
-      records || [],
-      on_duplicate_key_update: {
-        conflict_target: %i[name subcategory_id],
-        columns: %i[definition unit]
-      }
-    )
+  def sanitize_rows(rows)
+    rows = rows.reject { |row| row.except(:row).values.all?(&:blank?) }
+    rows = parse_stackable(rows)
+    rows = inject_subcategory_and_name(rows)
+
+    # prevent overwriting the same records more than once
+    rows = skip_duplicate(rows, %i[subcategory name])
+  end
+
+  def build_records(attrs_list)
+    attrs_list.map do |attrs|
+      Indicator.new(attrs.slice(*%i[subcategory name unit definition]))
+    end
+  end
+
+  def perform_import(records)
+    ActiveRecord::Base.transaction do
+      result = Indicator.import(
+        records,
+        on_duplicate_key_update: {
+          conflict_target: %i[name subcategory_id],
+          columns: %i[definition unit]
+        }
+      )
+
+      csv_upload.update!(
+        success: errors.blank?,
+        finished_at: Time.current,
+        errors_and_warnings: {errors: errors.details[:base]},
+        number_of_records_saved: result.ids.size
+      )
+    end
   end
 end
