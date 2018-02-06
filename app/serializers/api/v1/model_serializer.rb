@@ -4,6 +4,7 @@ module Api
       attribute :id
       attribute :full_name
       attribute :description
+      attribute :citation
       attribute :key_usage
       attribute :abbreviation
       attribute :current_version
@@ -16,11 +17,39 @@ module Api
       attribute :expertise_detailed
       attribute :platform_detailed
       attribute :purpose_or_objective
+      attribute :base_year
       attribute :time_step
       attribute :time_horizon
       attribute :sectoral_coverage
       attribute :geographic_coverage
+      attribute :geographic_coverage_country
       attribute :url
+      attribute :policy_coverage
+      attribute :policy_coverage_detailed
+      attribute :scenario_coverage
+      attribute :scenario_coverage_detailed
+      attribute :gas_and_pollutant_coverage
+      attribute :technology_coverage
+      attribute :technology_coverage_detailed
+      attribute :energy_resource_coverage
+      attribute :equilibrium_type
+      attribute :spatial_resolution
+      attribute :population_assumptions
+      attribute :gdp_assumptions
+      attribute :other_assumptions
+      attribute :input_data
+      attribute :publications_and_notable_projects
+      attribute :point_of_contact
+      attribute :parent_model
+      attribute :descendent_models
+      attribute :concept
+      attribute :solution_method
+      attribute :anticipation
+      attribute :behaviour
+      attribute :land_use
+
+
+
 
       has_many :scenario_ids
       has_many :indicator_ids
