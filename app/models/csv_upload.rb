@@ -34,6 +34,6 @@ class CsvUpload < ApplicationRecord
   end
 
   def version
-    %[UploadNotes UploadTimeSeriesValues].include?(service_type) ? 'v2': 'v1'
+    %[UploadNotes UploadTimeSeriesValues UploadIndicators].include?(service_type) ? 'v2': 'v1'
   end
 end
