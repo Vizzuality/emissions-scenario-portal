@@ -7,14 +7,15 @@ module Api
             second_level.
             order(:name)
 
-        if location_ids.present?
-          categories =
-            categories.second_level_having_time_series_with(location_id: location_ids)
-        end
+        time_series_conditions = {
+          location_id: location_ids,
+          scenario_id: scenario_ids
+        }.compact
 
-        if scenario_ids.present?
+        if time_series_conditions.present?
           categories =
-            categories.second_level_having_time_series_with(scenario_id: scenario_ids)
+            categories.
+              second_level_having_time_series_with(time_series_conditions)
         end
 
         render json: categories
@@ -23,11 +24,11 @@ module Api
       private
 
       def location_ids
-        params[:location].to_s.split(',')
+        params[:location].to_s.split(',').presence
       end
 
       def scenario_ids
-        params[:scenario].to_s.split(',')
+        params[:scenario].to_s.split(',').presence
       end
     end
   end

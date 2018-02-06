@@ -37,6 +37,36 @@ describe Api::V1::CategoriesController, type: :controller do
         expect(parsed_body.length).to eq(1)
         expect(parsed_body.dig(0, "id")).to eq(category_in_scenario.id)
       end
+
+      it 'returns categories filtered by location and scenario' do
+        location = create(:location)
+        scenario = create(:scenario)
+        category = create(:category)
+        subcategory = create(:category, parent: category)
+        indicator = create(:indicator, subcategory: subcategory)
+        create(
+          :time_series_value,
+          scenario: scenario,
+          location: location,
+          indicator: indicator
+        )
+
+        create(
+          :time_series_value,
+          scenario: scenario,
+        )
+
+        create(
+          :time_series_value,
+          location: location,
+        )
+
+        get :index, params: {scenario: scenario.id, location: location.id}
+
+        parsed_body = JSON.parse(response.body)
+        expect(parsed_body.length).to eq(1)
+        expect(parsed_body.dig(0, "id")).to eq(category.id)
+      end
     end
   end
 end
