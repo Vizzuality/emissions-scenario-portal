@@ -39,6 +39,24 @@ describe Api::V1::IndicatorsController, type: :controller do
         expect(parsed_body.length).to eq(1)
         expect(parsed_body.dig(0, "id")).to eq(model_indicator.id)
       end
+
+      it 'returns indicators having time series in given scenario and location' do
+        scenario = create(:scenario)
+        location = create(:location)
+
+        indicator = create(:indicator)
+        create(:time_series_value, scenario: scenario, indicator: indicator)
+        create(:time_series_value, location: location, indicator: indicator)
+
+        matching_indicator = create(:indicator)
+        create(:time_series_value, location: location, scenario: scenario, indicator: matching_indicator)
+
+        get :index, params: {scenario: scenario.id, location: location.id}
+
+        parsed_body = JSON.parse(response.body)
+        expect(parsed_body.length).to eq(1)
+        expect(parsed_body.dig(0, "id")).to eq(matching_indicator.id)
+      end
     end
 
     describe 'GET show' do

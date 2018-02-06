@@ -19,16 +19,20 @@ class Indicator < ApplicationRecord
 
   scope :having_time_series, -> { where.not(time_series_values_count: 0) }
 
+  def self.having_time_series_with(conditions)
+    where(id: TimeSeriesValue.select(:indicator_id).where(conditions))
+  end
+
+  def self.find_by_name(name)
+    where('lower(composite_name) = ?', name.to_s.downcase).first
+  end
+
   def category
     subcategory&.parent
   end
 
   def category_id
     category&.id
-  end
-
-  def self.find_by_name(name)
-    where('lower(composite_name) = ?', name.to_s.downcase).first
   end
 
   def scenarios
