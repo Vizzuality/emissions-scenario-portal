@@ -14,7 +14,7 @@ processing."
       return
     end
     fus = service_class.new(csv_upload).call
-    store_results(csv_upload, fus)
+    store_results(csv_upload, fus) if csv_upload.version == 'v1'
   end
 
   private

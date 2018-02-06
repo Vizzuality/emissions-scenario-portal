@@ -28,7 +28,12 @@ class CsvUpload < ApplicationRecord
 
   scope :finished, -> { where.not(finished_at: nil) }
 
+  def message
+    self[:message] || "#{number_of_records_saved} records saved"
+
+  end
+
   def version
-    service_type == 'UploadNotes' ? 'v2': 'v1'
+    %[UploadNotes UploadTimeSeriesValues].include?(service_type) ? 'v2': 'v1'
   end
 end

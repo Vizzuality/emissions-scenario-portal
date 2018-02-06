@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180125112616) do
+ActiveRecord::Schema.define(version: 20180205134212) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 20180125112616) do
     t.string "data_content_type"
     t.integer "data_file_size"
     t.datetime "data_updated_at"
+    t.integer "number_of_records_saved", default: 0
     t.index ["model_id"], name: "index_csv_uploads_on_model_id"
     t.index ["user_id"], name: "index_csv_uploads_on_user_id"
   end
@@ -53,6 +54,7 @@ ActiveRecord::Schema.define(version: 20180125112616) do
     t.bigint "subcategory_id"
     t.integer "time_series_values_count", default: 0
     t.index "lower(composite_name)", name: "index_indicators_on_LOWER_composite_name", unique: true
+    t.index ["subcategory_id", "name"], name: "index_indicators_on_subcategory_id_and_name", unique: true
     t.index ["subcategory_id"], name: "index_indicators_on_subcategory_id"
   end
 
@@ -194,6 +196,7 @@ ActiveRecord::Schema.define(version: 20180125112616) do
     t.integer "location_id"
     t.index ["indicator_id"], name: "index_time_series_values_on_indicator_id"
     t.index ["location_id"], name: "index_time_series_values_on_location_id"
+    t.index ["scenario_id", "indicator_id", "location_id", "year"], name: "unique_index_time_series_values", unique: true
     t.index ["scenario_id"], name: "index_time_series_values_on_scenario_id"
   end
 

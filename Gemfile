@@ -23,6 +23,7 @@ gem 'jbuilder'
 gem 'dotenv-rails' # required by Devise
 
 gem 'active_model_serializers'
+gem 'activerecord-import'
 gem 'appsignal'
 gem 'aws-sdk', '~> 2'
 gem 'charlock_holmes'

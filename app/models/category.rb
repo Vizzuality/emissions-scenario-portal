@@ -30,6 +30,12 @@ class Category < ApplicationRecord
   scope :top_level, -> { where(parent_id: nil) }
   scope :second_level, -> { where.not(parent_id: nil) }
 
+  def self.find_by_name(name)
+    sanitized_name = name.to_s.downcase.gsub(/\s+/, ' ').strip
+
+    Category.where('lower(name) = ?', sanitized_name).first
+  end
+
   def self.case_insensitive_find_or_create(attributes)
     category = Category.where('lower(name) = lower(?)', attributes[:name])
 

@@ -59,11 +59,8 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
     it 'should have saved all time series values' do
       expect { subject }.to change { TimeSeriesValue.count }.by(2)
     end
-    it 'should report all rows saved' do
-      expect(subject.number_of_records_saved).to eq(1) # 1 row with 2 values
-    end
-    it 'should report no rows failed' do
-      expect(subject.number_of_records_failed).to eq(0)
+    it 'should report all records saved' do
+      expect(subject.number_of_records_saved).to eq(2)
     end
   end
 
@@ -81,7 +78,7 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
         value: 100
       )
     end
-    it 'should only have saved new rows' do
+    it 'should only have saved new records' do
       expect { subject }.to change { TimeSeriesValue.count }.by(1)
     end
     it 'should have saved correct amounts' do
@@ -89,11 +86,8 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
         indicator.time_series_values.sum(:value)
       }.by(650)
     end
-    it 'should report all rows saved' do
-      expect(subject.number_of_records_saved).to eq(1) # 1 row with 2 values
-    end
-    it 'should report no rows failed' do
-      expect(subject.number_of_records_failed).to eq(0)
+    it 'should report all records saved' do
+      expect(subject.number_of_records_saved).to eq(2)
     end
   end
 
@@ -102,14 +96,11 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
       fixture_file_upload('files/time_series_values-invalid_column.csv')
     }
 
-    it 'should not have saved any rows' do
+    it 'should not have saved any records' do
       expect { subject }.not_to(change { TimeSeriesValue.count })
     end
-    it 'should report no rows saved' do
+    it 'should report no records saved' do
       expect(subject.number_of_records_saved).to eq(0)
-    end
-    it 'should report all rows failed' do
-      expect(subject.number_of_records_failed).to eq(1)
     end
   end
 
@@ -118,14 +109,11 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
       fixture_file_upload('files/time_series_values-unrecognised_scenario.csv')
     }
 
-    it 'should not have saved any rows' do
+    it 'should not have saved any records' do
       expect { subject }.not_to(change { TimeSeriesValue.count })
     end
-    it 'should report no rows saved' do
+    it 'should report no records saved' do
       expect(subject.number_of_records_saved).to eq(0)
-    end
-    it 'should report all rows failed' do
-      expect(subject.number_of_records_failed).to eq(1)
     end
   end
 
@@ -134,14 +122,11 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
       fixture_file_upload('files/time_series_values-missing_indicator.csv')
     }
 
-    it 'should not have saved any rows' do
+    it 'should not have saved any records' do
       expect { subject }.not_to(change { TimeSeriesValue.count })
     end
-    it 'should report no rows saved' do
+    it 'should report no records saved' do
       expect(subject.number_of_records_saved).to eq(0)
-    end
-    it 'should report all rows failed' do
-      expect(subject.number_of_records_failed).to eq(1)
     end
   end
 
@@ -150,14 +135,11 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
       fixture_file_upload('files/time_series_values-missing_scenario.csv')
     }
 
-    it 'should not have saved any rows' do
+    it 'should not have saved any records' do
       expect { subject }.not_to(change { TimeSeriesValue.count })
     end
-    it 'should report no rows saved' do
+    it 'should report no records saved' do
       expect(subject.number_of_records_saved).to eq(0)
-    end
-    it 'should report all rows failed' do
-      expect(subject.number_of_records_failed).to eq(1)
     end
   end
 
@@ -166,14 +148,11 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
       fixture_file_upload('files/time_series_values-incompatible_unit.csv')
     }
 
-    it 'should not have saved any rows' do
+    it 'should not have saved any records' do
       expect { subject }.not_to(change { TimeSeriesValue.count })
     end
-    it 'should report no rows saved' do
+    it 'should report no records saved' do
       expect(subject.number_of_records_saved).to eq(0)
-    end
-    it 'should report all rows failed' do
-      expect(subject.number_of_records_failed).to eq(1)
     end
   end
 
@@ -185,11 +164,8 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
     it 'should not have saved any rows' do
       expect { subject }.not_to(change { TimeSeriesValue.count })
     end
-    it 'should report no rows saved' do
+    it 'should report no records saved' do
       expect(subject.number_of_records_saved).to eq(0)
-    end
-    it 'should report all rows failed' do
-      expect(subject.number_of_records_failed).to eq(1)
     end
   end
 
@@ -209,14 +185,11 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
     subject {
       UploadTimeSeriesValues.new(csv_upload).call
     }
-    it 'should not have saved any rows' do
+    it 'should not have saved any records' do
       expect { subject }.not_to(change { TimeSeriesValue.count })
     end
-    it 'should report no rows saved' do
+    it 'should report no records saved' do
       expect(subject.number_of_records_saved).to eq(0)
-    end
-    it 'should report all rows failed' do
-      expect(subject.number_of_records_failed).to eq(1)
     end
   end
 
