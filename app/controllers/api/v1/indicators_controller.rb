@@ -25,18 +25,13 @@ module Api
           )
         end
 
-        if param_list(:scenario)
-          indicator_ids = TimeSeriesValue.select(:indicator_id).
-            where(scenario_id: param_list(:scenario)).distinct
+        time_series_conditions = {
+          scenario_id: param_list(:scenario),
+          location_id: param_list(:location)
+        }.compact
 
-          indicators = indicators.where(id: indicator_ids.map(&:indicator_id))
-        end
-
-        if param_list(:location)
-          indicator_ids = TimeSeriesValue.select(:indicator_id).
-            where(location_id: param_list(:location)).distinct
-
-          indicators = indicators.where(id: indicator_ids.map(&:indicator_id))
+        if time_series_conditions.present?
+          indicators = indicators.having_time_series_with(time_series_conditions)
         end
 
         if param_list(:model)
