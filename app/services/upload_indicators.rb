@@ -38,7 +38,7 @@ class UploadIndicators
   end
 
   def parse_stackable(row)
-    case row[:stackable]
+    case row[:stackable].to_s.strip
     when /\A(y|yes|true|t|1)\Z/i
       row[:stackable] = true
     when /\A(n|no|false|f|0)\Z/i
@@ -57,6 +57,7 @@ class UploadIndicators
     if row[:indicator].kind_of?(ApplicationRecord)
       row[:subcategory] = row[:indicator].subcategory
       row[:name] = row[:indicator].name
+      return true
     end
 
     category_name, subcategory_name, row[:name] = row[:indicator].to_s.split('|', 3)
