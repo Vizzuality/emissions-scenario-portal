@@ -22,7 +22,7 @@ class NotesController < ApplicationController
   private
 
   def fetch_note
-    Note.find_or_create_by(params.permit(*%w[model_id indicator_id])).tap { |a| puts a.inspect }
+    Note.find_or_create_by(params.permit(*%w[model_id indicator_id]))
   end
 
   def note_params
