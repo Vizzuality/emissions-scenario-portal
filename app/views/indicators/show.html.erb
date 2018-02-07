@@ -45,6 +45,16 @@
             </div>
           <% end %>
         <% end %>
+        <% if @model.present? %>
+          <%= link_to edit_model_indicator_note_path(@model, @indicator) do %>
+            <div class="c-edit-button">
+              <div class="c-edit-button__bubble">
+                <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+              </div>
+              <div class="f-ff1-s">Edit note</div>
+            </div>
+          <% end %>
+        <% end %>
       </div>
     </div>
     <% if @note.present? %>
