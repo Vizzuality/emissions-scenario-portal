@@ -14,7 +14,7 @@ RSpec.describe NotesController, type: :controller do
           :edit,
           params: {
             model_id: other_model.id,
-            indicator_id: indicator.id,
+            indicator_id: indicator.id
           }
         )
         expect(response).to be_redirect
@@ -25,7 +25,7 @@ RSpec.describe NotesController, type: :controller do
           :edit,
           params: {
             model_id: team_model.id,
-            indicator_id: indicator.id,
+            indicator_id: indicator.id
           }
         )
         expect(response).to render_template(:edit)
