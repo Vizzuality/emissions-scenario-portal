@@ -125,6 +125,18 @@ class UploadTimeSeriesValues
     end
   end
 
+  def update_indicator_counters
+    indicators.values.compact.each do |indicator|
+      Indicator.reset_counters(indicator.id, :time_series_values)
+    end
+  end
+
+  def update_scenario_counters
+    scenarios.values.compact.each do |scenario|
+      Scenario.reset_counters(scenario.id, :time_series_values)
+    end
+  end
+
   def perform_import(records)
     ActiveRecord::Base.transaction do
       result = TimeSeriesValue.import(
@@ -135,6 +147,9 @@ class UploadTimeSeriesValues
           validate: false
         }
       )
+
+      update_indicator_counters
+      update_scenario_counters
 
       csv_upload.update!(
         success: errors.blank?,

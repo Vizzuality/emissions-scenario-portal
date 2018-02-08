@@ -22,7 +22,7 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
       :indicator,
       subcategory: subcategory,
       name: 'CH4',
-      unit: 'Mt CO2e/yr',
+      unit: 'Mt CO2e/yr'
     )
   }
   let!(:note) {
@@ -88,6 +88,16 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
     end
     it 'should report all records saved' do
       expect(subject.number_of_records_saved).to eq(2)
+    end
+    it 'should update indicator counter cache column' do
+      expect { subject }.to change {
+        indicator.reload.time_series_values_count
+      }.by(1)
+    end
+    it 'should update scenario counter cache column' do
+      expect { subject }.to change {
+        scenario.reload.time_series_values_count
+      }.by(1)
     end
   end
 
