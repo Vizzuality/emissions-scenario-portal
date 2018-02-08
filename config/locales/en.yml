@@ -287,6 +287,17 @@ en:
     policy_cut_off_year_for_baseline:
       name: "Policy Cut-off Year for Baseline"
       definition: "After which year are no new policies or actions included in the baseline scenario?"
+  notes:
+    description:
+      name: "Description"
+      definition: "…"
+    unit_of_entry:
+      name: "Unit of Entry"
+      definition: "…"
+    conversion_factor:
+      name: "Conversion Factor"
+      definition: "…"
+
   errors:
     messages:
       required: "does not exist"

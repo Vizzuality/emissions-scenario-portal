@@ -1,0 +1,7 @@
+- name: :description
+  size: 'large'
+- name: :unit_of_entry
+  picklist: true
+  size: 'small'
+- name: :conversion_factor
+  size: 'small'

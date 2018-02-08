@@ -45,12 +45,26 @@
             </div>
           <% end %>
         <% end %>
+        <% if @model.present? %>
+          <%= link_to edit_model_indicator_note_path(@model, @indicator) do %>
+            <div class="c-edit-button">
+              <div class="c-edit-button__bubble">
+                <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+              </div>
+              <div class="f-ff1-s">Edit note</div>
+            </div>
+          <% end %>
+        <% end %>
       </div>
     </div>
     <% if @note.present? %>
       <br>
       <div class="row">
-        <div class="small-4 columns"></div>
+        <div class="small-2 columns"></div>
+        <div class="small-2 columns">
+          <div class="f-ff1-m-bold">Conversion Factor</div>
+          <div class="f-ff1-m l-indicators-overview__data"><%= @note.conversion_factor %></div>
+        </div>
         <div class="small-1 columns">
           <div class="f-ff1-m-bold">Model unit</div>
           <div class="f-ff1-m l-indicators-overview__data"><%= @note.unit_of_entry %></div>
