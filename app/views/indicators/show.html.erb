@@ -60,7 +60,11 @@
     <% if @note.present? %>
       <br>
       <div class="row">
-        <div class="small-4 columns"></div>
+        <div class="small-2 columns"></div>
+        <div class="small-2 columns">
+          <div class="f-ff1-m-bold">Conversion Factor</div>
+          <div class="f-ff1-m l-indicators-overview__data"><%= @note.conversion_factor %></div>
+        </div>
         <div class="small-1 columns">
           <div class="f-ff1-m-bold">Model unit</div>
           <div class="f-ff1-m l-indicators-overview__data"><%= @note.unit_of_entry %></div>
