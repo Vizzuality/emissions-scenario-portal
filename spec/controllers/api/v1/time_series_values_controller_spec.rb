@@ -74,13 +74,15 @@ describe Api::V1::TimeSeriesValuesController, type: :controller do
     end
 
     describe 'GET index' do
-      it 'returns min and max year' do
-        create(:time_series_value, year: 1900, indicator: indicator)
-        create(:time_series_value, year: 2600, indicator: indicator)
-        get :years, params: {indicator: indicator.id}
+      it 'returns array of years' do
+        my_indicator = create(:indicator)
+        create(:time_series_value, year: 1900, indicator: my_indicator)
+        create(:time_series_value, year: 2600, indicator: my_indicator)
+        create(:time_series_value, year: 2600, indicator: my_indicator)
+        create(:time_series_value, year: 1901, indicator: my_indicator)
+        get :years, params: {indicator: my_indicator.id}
         parsed_body = JSON.parse(response.body)
-        expect(parsed_body["from"]).to eq(1900)
-        expect(parsed_body["to"]).to eq(2600)
+        expect(parsed_body["years"]).to eq([1900, 1901, 2600])
       end
     end
   end

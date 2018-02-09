@@ -7,10 +7,7 @@ module Api
 
       def years
         render(
-          json: {
-            from: time_series_values.minimum(:year),
-            to: time_series_values.maximum(:year)
-          }
+          json: { years: time_series_values.select(:year).pluck(:year).uniq }
         )
       end
 
