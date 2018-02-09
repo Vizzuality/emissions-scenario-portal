@@ -11,7 +11,7 @@ describe Api::V1::TimeSeriesValuesController, type: :controller do
         3,
         location: location,
         indicator: indicator,
-        scenario: scenario,
+        scenario: scenario
       )
     }
     let!(:model_with_time_series) {
