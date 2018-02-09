@@ -22,7 +22,8 @@ describe Api::V1::TimeSeriesValuesController, type: :controller do
         1,
         location: location,
         indicator: indicator,
-        scenario: my_scenario
+        scenario: my_scenario,
+        year: 2502
       )
       model
     }
@@ -56,8 +57,20 @@ describe Api::V1::TimeSeriesValuesController, type: :controller do
         parsed_body = JSON.parse(response.body)
         expect(parsed_body.length).to eq(4)
       end
+
+      it 'filters time_series_values by year_from' do
+        create(:time_series_value, year: 2800)
+        get :index, params: {year_from: 2800}
+        parsed_body = JSON.parse(response.body)
+        expect(parsed_body.length).to eq(1)
+      end
+
+      it 'filters time_series_values by year_to' do
+        create(:time_series_value, year: 1900)
+        get :index, params: {year_to: 1900}
+        parsed_body = JSON.parse(response.body)
+        expect(parsed_body.length).to eq(1)
+      end
     end
   end
 end
-
-

@@ -17,6 +17,15 @@ module Api
             order(:year).
             where(conditions)
 
+        if params[:year_from].present?
+          tsvs = tsvs.where("year >= ?", params[:year_from])
+        end
+
+        if params[:year_to].present?
+          tsvs = tsvs.where("year <= ?", params[:year_to])
+        end
+
+
         render(json: tsvs)
       end
     end
