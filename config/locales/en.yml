@@ -289,7 +289,7 @@ en:
       definition: "After which year are no new policies or actions included in the baseline scenario?"
   notes:
     description:
-      name: "Description"
+      name: "Note"
       definition: "…"
     unit_of_entry:
       name: "Unit of Entry"
