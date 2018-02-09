@@ -8,7 +8,7 @@ module Api
           indicator_id: params[:indicator].to_s.split(',').presence,
           scenarios: {
             model_id: params[:model].to_s.split(',').presence
-          }.compact.presence,
+          }.compact.presence
         }.compact
 
         tsvs =
