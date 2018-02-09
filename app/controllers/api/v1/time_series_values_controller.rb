@@ -26,10 +26,21 @@ module Api
           }.compact.presence
         }.compact
 
-        TimeSeriesValue.
-          includes(:scenario).
-          order(:year).
-          where(conditions)
+        tsvs =
+          TimeSeriesValue.
+            includes(:scenario).
+            order(:year).
+            where(conditions)
+
+        if params[:year_from].present?
+          tsvs = tsvs.where("year >= ?", params[:year_from])
+        end
+
+        if params[:year_to].present?
+          tsvs = tsvs.where("year <= ?", params[:year_to])
+        end
+
+        tsvs
       end
     end
   end
