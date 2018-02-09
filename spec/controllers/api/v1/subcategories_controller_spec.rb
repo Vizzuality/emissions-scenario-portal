@@ -64,6 +64,17 @@ describe Api::V1::SubcategoriesController, type: :controller do
         expect(parsed_body.length).to eq(1)
         expect(parsed_body.dig(0, "id")).to eq(subcategory.id)
       end
+
+      it 'returns categories filtered by parent category' do
+        parent_category = create(:category, parent: nil)
+        subcategory = create(:category, parent: parent_category)
+
+        get :index, params: {category: parent_category.id}
+
+        parsed_body = JSON.parse(response.body)
+        expect(parsed_body.length).to eq(1)
+        expect(parsed_body.dig(0, "id")).to eq(subcategory.id)
+      end
     end
   end
 end
