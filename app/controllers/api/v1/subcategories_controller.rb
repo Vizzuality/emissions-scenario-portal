@@ -7,9 +7,14 @@ module Api
             second_level.
             order(:name)
 
+        categories =
+          categories.where(
+            {parent_id: params[:category].to_s.split(',').presence}.compact
+          )
+
         time_series_conditions = {
-          location_id: location_ids,
-          scenario_id: scenario_ids
+          location_id: params[:location].to_s.split(',').presence,
+          scenario_id: params[:scenario].to_s.split(',').presence
         }.compact
 
         if time_series_conditions.present?
@@ -19,16 +24,6 @@ module Api
         end
 
         render json: categories
-      end
-
-      private
-
-      def location_ids
-        params[:location].to_s.split(',').presence
-      end
-
-      def scenario_ids
-        params[:scenario].to_s.split(',').presence
       end
     end
   end
