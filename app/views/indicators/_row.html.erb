@@ -8,7 +8,7 @@
     <div class="small-2 columns">
       <div class="c-table-list-item__text f-ff1-m"><%= indicator.unit %></div>
     </div>
-    <div class="small-3 columns">
+    <div class="small-2 columns">
       <div class="c-table-list-item__text f-ff1-m">
         <%= indicator.definition && truncate(indicator.definition, length: 120) %>
       </div>
@@ -26,7 +26,7 @@
         <% end %>
       </div>
     </div>
-    <div class="small-2 columns">
+    <div class="small-3 columns">
       <div class="c-table-list-item__actions">
         <% if policy(indicator).destroy? %>
           <%= link_to indicator_path(indicator),
@@ -44,7 +44,17 @@
               <div class="c-edit-button__bubble">
                 <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
               </div>
-              <div class="f-ff1-s">Edit</div>
+              <div class="f-ff1-s">Edit Indicator</div>
+            </div>
+          <% end %>
+        <% end %>
+        <% if @model.present? %>
+          <%= link_to edit_model_indicator_note_path(@model, indicator) do %>
+            <div class="c-edit-button">
+              <div class="c-edit-button__bubble">
+                <svg class="icon"><use xlink:href="#icon-edit"></use></svg>
+              </div>
+              <div class="f-ff1-s">Edit Note</div>
             </div>
           <% end %>
         <% end %>

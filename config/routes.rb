@@ -13,15 +13,16 @@ Rails.application.routes.draw do
     resources :users, only: %i[create destroy]
   end
   resources :indicators do
-    resources :time_series_values, only: %w[index]
+    resources :time_series_values, only: %i[index]
   end
   resources :models do
     resources :scenarios, only: %i[index show edit update destroy] do
-      resources :time_series_values, only: %w[index]
+      resources :time_series_values, only: %i[index]
     end
 
     resources :indicators, only: %i[index show] do
-      resources :time_series_values, only: %w[index]
+      resources :time_series_values, only: %i[index]
+      resource :note, only: %i[edit update]
     end
   end
 

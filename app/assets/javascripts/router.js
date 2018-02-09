@@ -28,6 +28,8 @@
     'admin/locations/:id/edit': 'Teams#edit',
     'admin/categories': 'Categories#index',
     'admin/categories/:id/edit': 'Categories#edit',
+    'models/:modelId/indicators/:id/note': 'Notes#edit',
+    'models/:modelId/indicators/:id/note/edit': 'Notes#edit',
     '*notFound': 'Error#index'
   };
 
