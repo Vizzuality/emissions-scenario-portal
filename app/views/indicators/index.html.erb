@@ -20,7 +20,6 @@
         <% if policy(Note).create? %>
           <%= render 'shared/components/c_upload_card',
                      structure_path: template_path(:notes),
-                     sample_path: asset_path('Add_Notes.csv'),
                      button_text: 'Upload or update notes',
                      service_type: 'UploadNotes',
                      return_path: polymorphic_path([@model, :indicators]) %>
