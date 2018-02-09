@@ -35,6 +35,15 @@ RSpec.describe TemplatesController, type: :controller do
           'attachment; filename=scenarios_upload_template.csv'
         )
       end
+
+      it 'returns notes template file' do
+        create(:indicator)
+        get :show, params: {id: "notes"}
+        expect(response.content_type).to eq('text/csv')
+        expect(response.headers['Content-Disposition']).to eq(
+          'attachment; filename=notes_upload_template.csv'
+        )
+      end
     end
   end
 end
