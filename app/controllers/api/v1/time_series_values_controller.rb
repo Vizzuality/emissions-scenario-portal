@@ -8,7 +8,7 @@ module Api
           indicator_id: params[:indicator].to_s.split(',').presence,
           scenarios: {
             model_id: params[:model].to_s.split(',').presence
-          }.compact.presence
+          }.compact.presence,
         }.compact
 
         tsvs =
@@ -16,6 +16,14 @@ module Api
             includes(:scenario).
             order(:year).
             where(conditions)
+
+        if params[:year_from].present?
+          tsvs = tsvs.where("year >= ?", params[:year_from])
+        end
+
+        if params[:year_to].present?
+          tsvs = tsvs.where("year <= ?", params[:year_to])
+        end
 
         render(json: tsvs)
       end
