@@ -8,9 +8,8 @@ module Api
           scenario = Scenario.find(params[:scenario])
           locations = scenario.locations
         elsif params[:time_series]
-          Location.having_time_series
+          locations = Location.having_time_series
         end
-
         locations = locations.order(:name)
 
         render json: locations
