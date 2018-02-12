@@ -5,7 +5,7 @@ module Api
         locations = Location.order(:name)
         if params[:scenario]
           locations = Location.having_time_series.where(
-            time_series_values: { scenario_id: params[:scenario]}
+            time_series_values: {scenario_id: params[:scenario]}
           )
         elsif params[:time_series]
           locations = Location.having_time_series
