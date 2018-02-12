@@ -25,6 +25,6 @@ class Scenario < ApplicationRecord
   end
 
   def time_series_data?
-    time_series_values_count > 0
+    time_series_values_count.positive?
   end
 end

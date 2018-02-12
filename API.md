@@ -56,6 +56,7 @@ Lists all locations.
 * `time_series` - Filters locations by the presence of time_series_values
 associated with them.
 
+* `scenario` - Filter locations values by the scenario they belong to through time_series.
 
 ## `GET /time_series_values`
 
