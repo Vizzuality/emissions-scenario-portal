@@ -19,7 +19,7 @@
       <div class="small-6 columns">
         <% if policy(Note).create? %>
           <%= render 'shared/components/c_upload_card',
-                     structure_path: model_template_path(@model, :notes),
+                     structure_path: polymorphic_path([@model, :template], id: :notes),
                      button_text: 'Upload or update notes',
                      service_type: 'UploadNotes',
                      return_path: polymorphic_path([@model, :indicators]) %>
