@@ -2,15 +2,14 @@ module Api
   module V1
     class LocationsController < ApiController
       def index
-        locations = Location.all
-
+        locations = Location.order(:name)
         if params[:scenario]
-          scenario = Scenario.find(params[:scenario])
-          locations = scenario.locations
+          locations = Location.having_time_series.where(
+            time_series_values: { scenario_id: params[:scenario]}
+          )
         elsif params[:time_series]
           locations = Location.having_time_series
         end
-        locations = locations.order(:name)
 
         render json: locations
       end

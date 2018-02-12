@@ -6,7 +6,6 @@ class Scenario < ApplicationRecord
 
   belongs_to :model
   has_many :time_series_values, dependent: :destroy
-  has_many :locations, -> { distinct }, through: :time_series_values
 
   validates :name, presence: true
   validates :model, presence: true
