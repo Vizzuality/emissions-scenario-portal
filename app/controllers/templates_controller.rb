@@ -1,5 +1,7 @@
 class TemplatesController < ApplicationController
   def show
+    model = Model.find_by(id: params[:model_id])
+
     available_templates = {
       "indicators" => IndicatorsUploadTemplate,
       "models" => ModelsUploadTemplate,
@@ -9,6 +11,7 @@ class TemplatesController < ApplicationController
     }
 
     template = available_templates[params[:id]].try(:new)
+    template.model = model if template.respond_to?(:model=)
     raise ActiveRecord::RecordNotFound if template.nil?
 
     send_data(

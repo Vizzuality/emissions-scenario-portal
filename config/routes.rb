@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     resources :time_series_values, only: %i[index]
   end
   resources :models do
+    resources :templates, only: %i[show]
     resources :scenarios, only: %i[index show edit update destroy] do
       resources :time_series_values, only: %i[index]
     end
