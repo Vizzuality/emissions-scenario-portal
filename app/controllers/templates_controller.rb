@@ -12,6 +12,7 @@ class TemplatesController < ApplicationController
 
     template = available_templates[params[:id]].try(:new)
     template.model = model if template.respond_to?(:model=)
+    template.user = current_user if template.respond_to?(:user=)
     raise ActiveRecord::RecordNotFound if template.nil?
 
     send_data(
