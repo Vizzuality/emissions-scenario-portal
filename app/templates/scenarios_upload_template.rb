@@ -12,7 +12,7 @@ class ScenariosUploadTemplate
           I18n.t(Scenario.key_for_name(property_name)),
           I18n.t(Scenario.key_for_definition(property_name)),
           attr_info.input_type_for_display,
-          attr_info.options.try(:join, '; '),
+          attr_info.options.try(:join, '; ')
         ] + scenario_attributes(attr_info.name)
       end
     end
@@ -26,12 +26,12 @@ class ScenariosUploadTemplate
       'Picklist options (Data Entry)'
     ]
 
-    if model.present?
-      scenarios_headers =
+    scenarios_headers =
+      if model.present?
         model.scenarios.map.with_index(1) { |_, i| "Scenario #{i}" }
-    else
-      scenarios_headers = ['Scenario 1']
-    end
+      else
+        ['Scenario 1']
+      end
 
     base_headers + scenarios_headers
   end
