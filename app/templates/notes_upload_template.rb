@@ -1,9 +1,18 @@
 class NotesUploadTemplate
+  attr_accessor :model
+
   def export
     CSV.generate do |csv|
       csv << headers
-      Indicator.pluck(:composite_name).each do |name|
-        csv << [name] + [nil] * (headers.size - 1)
+      model&.indicators&.each do |indicator|
+        note = Note.find_by(indicator: indicator, model: model)
+        csv << [
+          indicator.composite_name,
+          model.abbreviation,
+          note&.unit_of_entry,
+          note&.conversion_factor,
+          note&.description
+        ]
       end
     end
   end
