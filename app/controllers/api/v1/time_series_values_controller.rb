@@ -15,6 +15,7 @@ module Api
 
       def time_series_values
         conditions = {
+          year: params[:years].to_s.split(',').presence,
           location_id: params[:location].to_s.split(',').presence,
           scenario_id: params[:scenario].to_s.split(',').presence,
           indicator_id: params[:indicator].to_s.split(',').presence,

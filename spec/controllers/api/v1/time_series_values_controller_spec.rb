@@ -71,6 +71,14 @@ describe Api::V1::TimeSeriesValuesController, type: :controller do
         parsed_body = JSON.parse(response.body)
         expect(parsed_body.length).to eq(1)
       end
+
+      it 'filters time_series_values by years' do
+        create(:time_series_value, year: 1900)
+        create(:time_series_value, year: 1903)
+        get :index, params: {years: '1900,1903'}
+        parsed_body = JSON.parse(response.body)
+        expect(parsed_body.length).to eq(2)
+      end
     end
 
     describe 'GET index' do
