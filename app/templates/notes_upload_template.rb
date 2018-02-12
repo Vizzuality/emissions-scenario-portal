@@ -4,8 +4,11 @@ class NotesUploadTemplate
   def export
     CSV.generate do |csv|
       csv << headers
-      model&.indicators&.each do |indicator|
-        note = Note.find_by(indicator: indicator, model: model)
+      Indicator.find_each do |indicator|
+        if model.present?
+          note = Note.find_by(indicator: indicator, model: model)
+        end
+
         csv << [
           indicator.composite_name,
           model.abbreviation,
