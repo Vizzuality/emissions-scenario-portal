@@ -51,8 +51,8 @@ module Api
 
 
 
-      has_many :scenario_ids
-      has_many :indicator_ids
+      attribute :scenario_ids
+      attribute :indicator_ids
 
       def indicator_ids
         object.indicators.pluck(:id)
