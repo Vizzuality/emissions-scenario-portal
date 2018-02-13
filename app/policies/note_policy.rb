@@ -2,7 +2,7 @@ class NotePolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       if user.admin?
-        scope
+        scope.all
       else
         scope.joins(:model).where(models: {team_id: user.team_id})
       end
