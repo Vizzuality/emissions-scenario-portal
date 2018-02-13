@@ -53,7 +53,7 @@ class Model < ApplicationRecord
 
   def self.filtered_by_locations(location_ids)
     distinct.
-      joins(scenarios: {time_series_values: :location}).
+      joins(scenarios: :time_series_values).
       where(scenarios: {time_series_values: {location_id: location_ids}})
   end
 
