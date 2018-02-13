@@ -27,7 +27,7 @@ class ModelsUploadTemplate
   def headers
     base_headers = [
       'Category', 'Indicator', 'Definition/Input Explanation', 'Data Type',
-      'Picklist options (Data Entry)', 'Model 1'
+      'Picklist options (Data Entry)'
     ]
 
     models_headers =
