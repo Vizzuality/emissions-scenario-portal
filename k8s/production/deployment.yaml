@@ -59,6 +59,8 @@ spec:
                 secretKeyRef:
                   name: dbsecrets
                   key: EMISSIONS_POSTGRES_URL
+          - name: RAILS_MAX_THREADS
+            value: 10
           - name: APPSIGNAL_PUSH_API_KEY
             valueFrom:
               secretKeyRef:
