@@ -39,7 +39,7 @@ class ScenariosUploadTemplate
   def scenario_attributes(attribute_name)
     if model.present?
       model.scenarios.map do |scenario|
-        result = scenario[attribute_name]
+        result = scenario.send(attribute_name)
         result.respond_to?(:join) ? result.join('; ') : result
       end
     else
