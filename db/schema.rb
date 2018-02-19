@@ -124,7 +124,7 @@ ActiveRecord::Schema.define(version: 20180219104539) do
   create_table "notes", force: :cascade do |t|
     t.text "description"
     t.text "unit_of_entry"
-    t.decimal "conversion_factor"
+    t.decimal "conversion_factor", default: "1.0"
     t.bigint "indicator_id", null: false
     t.bigint "model_id", null: false
     t.datetime "created_at", null: false

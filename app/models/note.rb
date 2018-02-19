@@ -8,8 +8,14 @@ class Note < ApplicationRecord
   belongs_to :indicator
 
   validates :indicator_id, uniqueness: {scope: [:model_id]}
-  validates :unit_of_entry, presence: true
+  validates :unit_of_entry, presence: {if: :unit_of_entry_required?}
   validates :conversion_factor, numericality: {other_than: 0}
 
   before_validation :ignore_blank_array_values
+
+  private
+
+  def unit_of_entry_required?
+    conversion_factor.present? && conversion_factor != 1
+  end
 end
