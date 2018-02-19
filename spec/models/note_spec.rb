@@ -39,10 +39,16 @@ RSpec.describe Note, type: :model do
       ).to have(1).errors_on(:conversion_factor)
     end
 
-    it "is invalid without unit_of_entry" do
+    it "is invalid without unit_of_entry when conversion_factor given" do
       expect(
-        build(:note, unit_of_entry: nil)
+        build(:note, unit_of_entry: nil, conversion_factor: 2)
       ).to have(1).errors_on(:unit_of_entry)
+    end
+
+    it "is valid without unit_of_entry when conversion_factor 1" do
+      expect(
+        build(:note, unit_of_entry: nil, conversion_factor: 1)
+      ).to be_valid
     end
   end
 end
