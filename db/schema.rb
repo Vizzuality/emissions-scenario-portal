@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180205134212) do
+ActiveRecord::Schema.define(version: 20180219104539) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,9 +18,7 @@ ActiveRecord::Schema.define(version: 20180205134212) do
 
   create_table "categories", force: :cascade do |t|
     t.text "name"
-    t.boolean "stackable"
     t.bigint "parent_id"
-    t.index ["name", "parent_id", "stackable"], name: "index_categories_on_name_and_parent_id_and_stackable", unique: true
     t.index ["parent_id"], name: "index_categories_on_parent_id"
   end
 
@@ -53,6 +51,7 @@ ActiveRecord::Schema.define(version: 20180205134212) do
     t.text "composite_name"
     t.bigint "subcategory_id"
     t.integer "time_series_values_count", default: 0
+    t.boolean "stackable", default: false
     t.index "lower(composite_name)", name: "index_indicators_on_LOWER_composite_name", unique: true
     t.index ["subcategory_id", "name"], name: "index_indicators_on_subcategory_id_and_name", unique: true
     t.index ["subcategory_id"], name: "index_indicators_on_subcategory_id"
