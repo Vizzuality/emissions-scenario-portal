@@ -12,10 +12,10 @@ RSpec.describe UploadTimeSeriesValues, upload: :s3 do
     create(:category, name: 'Emissions')
   }
   let(:subcategory) {
-    create(:category, name: 'GHG Emissions by gas', parent: category, stackable: true)
+    create(:category, name: 'GHG Emissions by gas', parent: category)
   }
   let(:another_subcategory) {
-    create(:category, name: 'GHG Emissions', parent: category, stackable: true)
+    create(:category, name: 'GHG Emissions', parent: category)
   }
   let!(:indicator) {
     create(

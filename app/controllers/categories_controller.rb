@@ -63,9 +63,8 @@ class CategoriesController < ApplicationController
 
   def category_params
     params.require(:category).permit(
-      :name, subcategories_attributes: [
-        :id, :name, :stackable
-      ])
+      :name, subcategories_attributes: %i[id name]
+    )
   end
 
   def filter_params

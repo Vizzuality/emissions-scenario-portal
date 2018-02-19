@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20180219104539) do
   create_table "categories", force: :cascade do |t|
     t.text "name"
     t.bigint "parent_id"
+    t.index ["name", "parent_id"], name: "index_categories_on_name_and_parent_id", unique: true
     t.index ["parent_id"], name: "index_categories_on_parent_id"
   end
 

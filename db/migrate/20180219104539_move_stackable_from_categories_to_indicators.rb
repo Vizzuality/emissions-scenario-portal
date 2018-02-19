@@ -20,5 +20,6 @@ class MoveStackableFromCategoriesToIndicators < ActiveRecord::Migration[5.1]
     end
     Category.where(stackable: true).destroy_all
     remove_column :categories, :stackable, :boolean
+    add_index :categories, [:name, :parent_id], unique: true
   end
 end
