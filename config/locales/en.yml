@@ -187,6 +187,9 @@ en:
     conversion_factor:
       name: "Conversion factor"
       definition: "Conversion factor between the unit of entry and the standardized unit ( = (standardized unit)/(unit of entry)), if the conversion can be expressed as a constant factor. If the conversion cannot be expressed with a constant factor consider adding a new indicator to the system."
+    stackable:
+      name: "Stackable?"
+      definition: "Is the indicator stackable?"
   scenarios:
     model_abbreviation:
       name: "Model Abbreviation"

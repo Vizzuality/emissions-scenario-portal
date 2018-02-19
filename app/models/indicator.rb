@@ -18,6 +18,8 @@ class Indicator < ApplicationRecord
   pg_search_scope :search_for, against: %i[name composite_name]
 
   scope :having_time_series, -> { where.not(time_series_values_count: 0) }
+  scope :stackable, -> { where(stackable: true) }
+  scope :non_stackable, -> { where(stackable: false) }
 
   def self.having_time_series_with(conditions)
     where(id: TimeSeriesValue.select(:indicator_id).where(conditions))

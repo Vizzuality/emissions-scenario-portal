@@ -50,6 +50,9 @@ RSpec.describe UploadIndicators, upload: :s3 do
     it 'should report all rows saved' do
       expect(subject.number_of_records_saved).to eq(2)
     end
+    it 'should save stackable attribute' do
+      expect { subject }.to change { Indicator.stackable.count }.by(2)
+    end
   end
 
   context 'when file with invalid column name' do
