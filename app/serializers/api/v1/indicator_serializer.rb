@@ -6,6 +6,7 @@ module Api
       attribute :definition
       attribute :unit
       attribute :composite_name
+      attribute :stackable
 
       belongs_to :category
       belongs_to :subcategory

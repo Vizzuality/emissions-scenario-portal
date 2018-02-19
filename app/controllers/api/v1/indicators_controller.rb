@@ -12,6 +12,10 @@ module Api
 
         indicators = indicators.includes(subcategory: :parent)
 
+        if params[:stackable]
+          indicators = indicators.where(stackable: params[:stackable])
+        end
+
         if param_list(:category)
           indicators =
             indicators.
