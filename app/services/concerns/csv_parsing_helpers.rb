@@ -72,11 +72,10 @@ module CsvParsingHelpers
   end
 
   def subcategories
-    @subcategories ||= Hash.new do |hash, (category, subcategory_name, stackable)|
-      hash[[category, subcategory_name, stackable]] =
+    @subcategories ||= Hash.new do |hash, (category, subcategory_name)|
+      hash[[category, subcategory_name]] =
         category&.
           subcategories&.
-          where(stackable: stackable)&.
           find_by_name(subcategory_name)
     end
   end

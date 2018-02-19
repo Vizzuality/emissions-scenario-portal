@@ -7,11 +7,6 @@ RSpec.describe Category, type: :model do
       expect(category).to have(1).errors_on(:name)
     end
 
-    it 'when stackable without parent category' do
-      category = build(:category, parent_id: nil, stackable: true)
-      expect(category).to have(1).errors_on(:stackable)
-    end
-
     it 'when parent category is a subcategory' do
       grandparent_category = create(:category)
       parent_category = create(:category, parent: grandparent_category)

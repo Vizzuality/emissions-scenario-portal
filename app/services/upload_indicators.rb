@@ -6,7 +6,7 @@ class UploadIndicators
 
   HEADERS = {
     indicator: 'ESP Indicator Name',
-    stackable: 'Stackable sub-category?',
+    stackable: 'Stackable?',
     unit: 'Standardized Unit',
     definition: 'Definition'
   }.freeze
@@ -61,9 +61,7 @@ class UploadIndicators
     end
 
     category_name, subcategory_name, row[:name] = row[:indicator].to_s.split('|', 3)
-    row[:subcategory] = subcategories[
-      [categories[category_name], subcategory_name, row[:stackable]]
-    ]
+    row[:subcategory] = subcategories[[categories[category_name], subcategory_name]]
 
     if row[:name].blank?
       return add_error(
@@ -75,8 +73,6 @@ class UploadIndicators
 
     if row[:subcategory].blank?
       msg = "Category, subcategory pair has not been found #{category_name}, #{subcategory_name}"
-      msg += ' (stackable)' if row[:stackable]
-
       return add_error(:invalid_categories, msg, row.slice(:row))
     end
 
@@ -95,7 +91,7 @@ class UploadIndicators
 
   def build_records(attrs_list)
     attrs_list.map do |attrs|
-      Indicator.new(attrs.slice(*%i[subcategory name unit definition]))
+      Indicator.new(attrs.slice(*%i[subcategory name unit definition stackable]))
     end
   end
 

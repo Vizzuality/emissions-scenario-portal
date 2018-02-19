@@ -24,9 +24,8 @@ module IndicatorsHelper
         second_level.
         select(:id, :name).
         order(name: :asc).
-        pluck(:name, :stackable, :id).map do |name, stackable, id|
-      [stackable ? "#{name} (stackable)" : name, id]
-    end
+        pluck(:name, :id).
+        map { |name, id| [name, id] }
 
     selection = indicator.subcategory
 

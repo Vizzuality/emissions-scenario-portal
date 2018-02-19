@@ -13,3 +13,6 @@
   size: 'small'
 - name: :definition
   size: 'large'
+- name: :stackable
+  checkbox: true
+  size: 'small'

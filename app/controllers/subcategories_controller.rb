@@ -31,6 +31,6 @@ class SubcategoriesController < ApplicationController
   private
 
   def subcategory_params
-    params.require(:category).permit(:name, :stackable)
+    params.require(:category).permit(:name)
   end
 end

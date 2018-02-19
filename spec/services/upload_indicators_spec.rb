@@ -11,7 +11,7 @@ RSpec.describe UploadIndicators, upload: :s3 do
     )
   }
   let!(:category) { create(:category, name: "Emissions", parent: nil) }
-  let!(:subcategory) { create(:category, name: "CO2 by sector", parent: category, stackable: true) }
+  let!(:subcategory) { create(:category, name: "CO2 by sector", parent: category) }
 
   subject { UploadIndicators.new(csv_upload).call }
 
@@ -50,36 +50,8 @@ RSpec.describe UploadIndicators, upload: :s3 do
     it 'should report all rows saved' do
       expect(subject.number_of_records_saved).to eq(2)
     end
-  end
-
-  context 'when not stackable subcategory' do
-    let(:file) {
-      Rack::Test::UploadedFile.new(
-        file_fixture('indicators-not_stackable_subcategory.csv')
-      )
-    }
-    let!(:whatever_subcategory) do
-      create(:category, name: "whatever", parent: category, stackable: false)
-    end
-
-    it 'should have saved new rows' do
-      expect { subject }.to change { Indicator.count }.by(2)
-    end
-    it 'should have created one indicator with not stackable subcategory' do
-      expect { subject }.to change {
-        Indicator.
-          includes(:subcategory).
-          references(:subcategory).
-          where(categories: {stackable: false}).count
-      }.by(1)
-    end
-    it 'should have created one indicator with stackable subcategory' do
-      expect { subject }.to change {
-        Indicator.
-          includes(:subcategory).
-          references(:subcategory).
-          where(categories: {stackable: true}).count
-      }.by(1)
+    it 'should save stackable attribute' do
+      expect { subject }.to change { Indicator.stackable.count }.by(2)
     end
   end
 

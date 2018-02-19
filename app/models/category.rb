@@ -23,9 +23,8 @@ class Category < ApplicationRecord
 
   accepts_nested_attributes_for :subcategories
 
-  validates :name, presence: true, uniqueness: {scope: %i[parent_id stackable]}
-  validate :parent_categories_cannot_be_stackable,
-           :cannot_have_subcategory_as_parent
+  validates :name, presence: true, uniqueness: {scope: :parent_id}
+  validate :cannot_have_subcategory_as_parent
 
   scope :top_level, -> { where(parent_id: nil) }
   scope :second_level, -> { where.not(parent_id: nil) }
@@ -41,10 +40,6 @@ class Category < ApplicationRecord
 
     if attributes[:parent]
       category = category.where(parent: attributes[:parent])
-    end
-
-    if attributes[:stackable]
-      category = category.where(stackable: attributes[:stackable])
     end
 
     category = category.first
@@ -76,12 +71,6 @@ class Category < ApplicationRecord
 
   def subcategory?
     parent.present?
-  end
-
-  def parent_categories_cannot_be_stackable
-    if stackable && !subcategory?
-      errors.add(:stackable, "can't be set on parent categories")
-    end
   end
 
   def cannot_have_subcategory_as_parent

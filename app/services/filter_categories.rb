@@ -1,6 +1,6 @@
 class FilterCategories
   cattr_reader :order_columns do
-    %w[name parent stackable subcategories].freeze
+    %w[name parent subcategories].freeze
   end
 
   include ActiveModel::Model

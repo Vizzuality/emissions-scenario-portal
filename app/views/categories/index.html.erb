@@ -37,8 +37,6 @@
                    text: 'Subcategory Count',
                    column_key: 'subcategories' %>
       </div>
-      <div class="small-1 columns">
-      </div>
     </div>
   </div>
   <% @categories.each do |category| %>
@@ -50,16 +48,7 @@
         <div class="small-2 columns">
           <div class="c-table-list-item__text f-ff1-m-bold"><%= category.subcategories.length %></div>
         </div>
-        <div class="small-1 columns">
-          <div class="c-table-list-item__text f-ff1-m">
-            <% if category.stackable? %>
-              <svg class="icon icon-check"><use xlink:href="#icon-check"></use></svg>
-            <% else %>
-              <div class="icon icon-cancel"></div>
-            <% end %>
-          </div>
-        </div>
-        <div class="small-1 columns">
+        <div class="small-2 columns">
           <div class="c-table-list-item__actions">
             <% if policy(category).destroy? %>
               <%= link_to category_path(category), method: :delete, data: { confirm: 'Are you sure?' } do %>

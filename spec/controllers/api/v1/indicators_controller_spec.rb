@@ -21,6 +21,21 @@ describe Api::V1::IndicatorsController, type: :controller do
         expect(parsed_body.length).to eq(2)
       end
 
+      it 'list all stackable indicators' do
+        create(:indicator, stackable: true)
+        get :index, params: {stackable: true}
+
+        parsed_body = JSON.parse(response.body)
+        expect(parsed_body.length).to eq(1)
+      end
+
+      it 'list all stackable indicators' do
+        get :index, params: {stackable: false}
+
+        parsed_body = JSON.parse(response.body)
+        expect(parsed_body.length).to eq(2)
+      end
+
       it 'list all indicators with time_series_values associated' do
         get :index, params: {time_series: true}
 
