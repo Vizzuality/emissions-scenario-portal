@@ -9,7 +9,7 @@ class Note < ApplicationRecord
 
   validates :indicator_id, uniqueness: {scope: [:model_id]}
   validates :unit_of_entry, presence: {if: :unit_of_entry_required?}
-  validates :conversion_factor, numericality: {other_than: 0}
+  validates :conversion_factor, numericality: {other_than: 0, allow_nil: true}
 
   before_validation :ignore_blank_array_values
 

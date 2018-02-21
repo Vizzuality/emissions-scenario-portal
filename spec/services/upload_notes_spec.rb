@@ -62,6 +62,15 @@ RSpec.describe UploadNotes, upload: :s3 do
     end
   end
 
+  context 'when updating description only' do
+    let(:file) do
+      fixture_file_upload('files/notes-description-only.csv')
+    end
+    it 'should have saved all rows' do
+      expect { subject }.to change { Note.count }.by(1)
+    end
+  end
+
   context 'when column is missing' do
     let(:file) do
       fixture_file_upload('files/notes-missing_column.csv')
