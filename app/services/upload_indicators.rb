@@ -60,7 +60,8 @@ class UploadIndicators
       return true
     end
 
-    category_name, subcategory_name, row[:name] = row[:indicator].to_s.split('|', 3)
+    category_name, subcategory_name, row[:name] =
+      row[:indicator].to_s.split('|', 3).map { |name| name.gsub(/\s+/, ' ').strip }
     row[:subcategory] = subcategories[[categories[category_name], subcategory_name]]
 
     if row[:name].blank?
@@ -97,11 +98,13 @@ class UploadIndicators
 
   def perform_import(records)
     ActiveRecord::Base.transaction do
+      records.each { |record| record.run_callbacks(:save) { false } }
+
       result = Indicator.import(
         records,
         on_duplicate_key_update: {
           conflict_target: %i[name subcategory_id],
-          columns: %i[definition unit]
+          columns: %i[definition unit stackable]
         }
       )
 
