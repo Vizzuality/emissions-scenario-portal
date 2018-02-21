@@ -27,6 +27,14 @@ RSpec.describe UploadIndicators, upload: :s3 do
     it 'should report all rows saved' do
       expect(subject.number_of_records_saved).to eq(2)
     end
+    it 'should create an indicator with proper attributes' do
+      subject
+      expect(Indicator.last.name).to eq("industry")
+      expect(Indicator.last.stackable).to be(true)
+      expect(Indicator.last.unit).to eq("Mt CO2e/yr")
+      expect(Indicator.last.definition).to eq("carbon dioxide emissions from the industrial sector, including feedstocks, including agriculture and fishing")
+      expect(Indicator.last.composite_name).to eq("Emissions|CO2 by sector|industry")
+    end
   end
 
   context 'when file correct and overwrites old data' do
@@ -40,8 +48,9 @@ RSpec.describe UploadIndicators, upload: :s3 do
         :indicator,
         subcategory: subcategory,
         name: 'industry',
-        unit: 'Mt CO2e/yr',
-        stackable: false
+        unit: 'old unit',
+        stackable: false,
+        definition: 'old definition'
       )
     end
 
@@ -53,6 +62,14 @@ RSpec.describe UploadIndicators, upload: :s3 do
     end
     it 'should save stackable attribute' do
       expect { subject }.to change { Indicator.stackable.count }.by(2)
+    end
+    it 'should overwrite an indicator with proper attributes' do
+      subject
+      indicator.reload
+      expect(indicator.name).to eq("industry")
+      expect(indicator.stackable).to be(true)
+      expect(indicator.unit).to eq("Mt CO2e/yr")
+      expect(indicator.definition).to eq("carbon dioxide emissions from the industrial sector, including feedstocks, including agriculture and fishing")
     end
   end
 

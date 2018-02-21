@@ -98,6 +98,8 @@ class UploadIndicators
 
   def perform_import(records)
     ActiveRecord::Base.transaction do
+      records.each { |record| record.run_callbacks(:save) { false } }
+
       result = Indicator.import(
         records,
         on_duplicate_key_update: {
