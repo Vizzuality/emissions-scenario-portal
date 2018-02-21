@@ -53,7 +53,7 @@ RSpec.describe NotesController, type: :controller do
           params: {
             model_id: team_model.id,
             indicator_id: indicator.id,
-            note: {conversion_factor: ""}
+            note: {conversion_factor: "invalid"}
           }
         )
         expect(response).to render_template(:edit)
@@ -92,7 +92,7 @@ RSpec.describe NotesController, type: :controller do
           params: {
             model_id: team_model.id,
             indicator_id: indicator.id,
-            note: {conversion_factor: ""}
+            note: {conversion_factor: "invalid"}
           }
         )
         expect(response).to render_template(:edit)

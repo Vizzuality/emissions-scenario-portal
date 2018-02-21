@@ -27,12 +27,6 @@ RSpec.describe Note, type: :model do
       ).to have(1).errors_on(:indicator_id)
     end
 
-    it "is invalid when conversion_factor is blank" do
-      expect(
-        build(:note, conversion_factor: nil)
-      ).to have(1).errors_on(:conversion_factor)
-    end
-
     it "is invalid when conversion_factor is zero" do
       expect(
         build(:note, unit_of_entry: "units", conversion_factor: 0)
