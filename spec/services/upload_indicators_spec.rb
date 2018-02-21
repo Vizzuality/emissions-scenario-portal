@@ -35,17 +35,18 @@ RSpec.describe UploadIndicators, upload: :s3 do
         file_fixture('indicators-correct.csv')
       )
     }
-    let(:indicator) do
+    let!(:indicator) do
       create(
         :indicator,
         subcategory: subcategory,
         name: 'industry',
-        unit: 'Mt CO2e/yr'
+        unit: 'Mt CO2e/yr',
+        stackable: false
       )
     end
 
     it 'should have saved new rows' do
-      expect { subject }.to change { Indicator.count }.by(2)
+      expect { subject }.to change { Indicator.count }.by(1)
     end
     it 'should report all rows saved' do
       expect(subject.number_of_records_saved).to eq(2)
