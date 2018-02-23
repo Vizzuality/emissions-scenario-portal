@@ -2,6 +2,13 @@
   title: @scenario.name %>
 
 <%= form_for [@model, @scenario] do |f| %>
+  <%
+    form_blocks = Hash.new
+    Scenario.attribute_infos.each do |attribute_info|
+      form_blocks[attribute_info.category] ||= Array.new
+      form_blocks[attribute_info.category].push(attribute_info)
+    end
+  %>
   <div class="l-scenarios-edit">
     <div class="row">
       <div class="small-12 columns">
@@ -18,8 +25,11 @@
       </div>
     </div>
     <div class="l-scenarios-edit__fields row">
-      <div class="small-12 columns">
-
+      <div class="small-3 columns">
+        <%= render 'shared/components/form/c_form_vertical_nav',
+          form_blocks: form_blocks %>
+      </div>
+      <div class="small-9 columns">
         <% if current_user.admin? %>
           <div class="c-form">
             <div class="c-form-items">
@@ -32,10 +42,13 @@
           </div>
         <% end %>
 
-        <%= render 'shared/components/form/c_form',
-          object: @scenario,
-          f: f,
-          attributes: Scenario.attribute_infos %>
+        <% form_blocks.each do |block| %>
+          <%= render 'shared/components/form/c_form',
+            object: @scenario,
+            f: f,
+            title: block[0],
+            attributes: block[1] %>
+        <% end %>
       </div>
     </div>
   </div>
