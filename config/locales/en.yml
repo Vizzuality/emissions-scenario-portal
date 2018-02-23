@@ -196,7 +196,10 @@ en:
       definition: "What is the model abbreviation?"
     name:
       name: "Scenario name"
-      definition: "What is the full scenario name?"
+      definition: "What is the scenario name?"
+    year:
+      name: "Scenario year"
+      definition: "In which year was the scenario created?"
     category:
       name: "Category"
       definition: "What category does this scenario fit under?"
@@ -206,90 +209,33 @@ en:
     description:
       name: "Description"
       definition: "What is a description of the scenario?"
-    key_usage:
-      name: "Key Usage"
-      definition: "What is this scenario known for? What topical area(s) is it especially useful for?"
-    project:
-      name: "Project"
-      definition: "If applicable list model comparison or individual project"
-    literature_reference:
-      name: "Literature Reference"
-      definition: "Was the scenario used in a publication? provide literature reference"
-    geographic_coverage_country:
-      name: "Geographic Coverage-Country"
-      definition: "What are the geographic regions and/or countries that are covered by the scenario?"
-    sectoral_coverage:
-      name: "Sectoral Coverage"
-      definition: "What economic sectors are covered by the scenario?"
-    gas_and_pollutant_coverage:
-      name: "Gas & Pollutant Coverage"
-      definition: What greenhouse gases and other pollutants are covered by the scenario?
+    reference:
+      name: "Reference"
+      definition: "Was the scenario used in a publication? provide reference"
+    url:
+      name: "URL"
+      definition: "Is the scenario originally available online? Provide URL "
     policy_coverage:
       name: "Policy Coverage"
-      definition: "What policies are covered by the scenario?"
-    policy_coverage_detailed:
-      name: "Policy Coverage Detailed"
       definition: "What policies are covered by the scenario?"
     technology_coverage:
       name: "Technology Coverage"
       definition: "What technologies are covered by the scenario?"
-    technology_coverage_detailed:
-      name: "Technology Coverage Detailed"
-      definition: "What technologies are covered by the scenario?"
-    energy_resource_coverage:
-      name: "Energy Resource Coverage"
-      definition: "What fuel types are covered by the scenario?"
-    time_horizon:
-      name: "Time Horizon"
-      definition: "How far does the model run into the future?"
-    time_step:
-      name: "Time Step"
-      definition: "What time interval is used for the model output?"
-    climate_target_type:
-      name: "Climate Target Type"
-      definition: "What climate target does this scenario use (e.g., 1.5 DC, 2 DC, 450 ppm, 2.6 W/m2, etc.)?"
-    climate_target_detailed:
-      name: "Climate Target Detailed"
-      definition: "What specific climate targets are included in this scenario (e.g. 450 ppm, 2 DC, etc.)?"
-    climate_target_date:
-      name: "Climate Target Date"
-      definition: "In what date (year) does the target have to be achieved?"
-    overshoot:
-      name: "Overshoot"
-      definition: "Is overshoot of the target end date allowed?"
-    other_target_type:
-      name: "Other Target Type"
-      definition: "Is there another target type included in the scenario? E.g. energy access, poverty alleviation"
+    socioeconomics:
+      name: "Socioeconomics"
+      definition: "Which socio-economic assumptions where used for this scenario? If one of the shared socio-economic pathways (SSP's) was used, please specifiy which one."
+    climate_target:
+      name: "Climate Target"
+      definition: "What climate targets are included in this scenario (e.g. 450 ppm, 2 DC, etc.)? Optional: in what year does the target have to be achieved? Is overshoot allowed?"
     other_target:
       name: "Other Target"
-      definition: "Please describe the target included."
+      definition: "Is there another target type included in the scenario? E.g. energy access, poverty alleviation."
     burden_sharing:
       name: "Burden Sharing"
-      definition: "Which burden sharing regime was assumed for this scenario?"
-    large_scale_bioccs:
-      name: "Large-scale BioCCS"
-      definition: "Does the scenario rely on deployment of large-scale bioenergy with carbon capture and storage for emission mitigation?"
-    technology_assumptions:
-      name: "Technology Assumptions"
-      definition: "What technology assumptions are included in the model (e.g., cost curves, lifetime, efficiency, availability factor and build rates)?"
-    gdp_assumptions:
-      name: "GDP Assumptions"
-      definition: "What assumptions are made for GDP growth?"
-    population_assumptions:
-      name: "Population Assumptions"
-      definition: "What assumptions are made for population growth?"
+      definition: "Which burden sharing regime was assumed for this scenario, if any?"
     discount_rates:
       name: "Discount Rates"
       definition: "What social and private discount rates are used in the model for this scenario?"
-    emission_factors:
-      name: "Emission Factors"
-      definition: "What emission factors are included for technologies of electricity generation and transportation?"
-    global_warming_potentials:
-      name: "Global Warming Potentials"
-      definition: "What global warming potentials (GWP's) are used for different greenhouse gases?"
-    policy_cut_off_year_for_baseline:
-      name: "Policy Cut-off Year for Baseline"
-      definition: "After which year are no new policies or actions included in the baseline scenario?"
   notes:
     description:
       name: "Note"

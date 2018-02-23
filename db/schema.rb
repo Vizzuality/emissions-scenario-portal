@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180219104539) do
+ActiveRecord::Schema.define(version: 20180223182949) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -142,37 +142,20 @@ ActiveRecord::Schema.define(version: 20180219104539) do
     t.text "model_abbreviation"
     t.text "category"
     t.text "description"
-    t.text "geographic_coverage_country", default: [], array: true
-    t.text "sectoral_coverage", default: [], array: true
-    t.text "gas_and_pollutant_coverage", default: [], array: true
     t.text "policy_coverage", default: [], array: true
-    t.text "policy_coverage_detailed"
     t.text "technology_coverage", default: [], array: true
-    t.text "technology_coverage_detailed"
-    t.text "energy_resource_coverage", default: [], array: true
-    t.text "time_horizon"
-    t.text "time_step"
     t.text "climate_target_type"
-    t.text "large_scale_bioccs"
-    t.text "technology_assumptions"
-    t.text "gdp_assumptions"
-    t.text "population_assumptions"
     t.text "discount_rates"
-    t.text "emission_factors"
-    t.text "global_warming_potentials"
-    t.text "policy_cut_off_year_for_baseline"
-    t.text "literature_reference"
+    t.text "reference"
     t.text "purpose_or_objective"
-    t.text "key_usage"
-    t.text "project"
-    t.text "climate_target_detailed"
-    t.text "climate_target_date"
-    t.text "overshoot"
-    t.text "other_target_type"
+    t.text "climate_target"
     t.text "other_target"
     t.text "burden_sharing"
     t.integer "time_series_values_count", default: 0
     t.boolean "published", default: false, null: false
+    t.string "year"
+    t.string "url"
+    t.text "socioeconomics"
     t.index ["model_id"], name: "index_scenarios_on_model_id"
   end
 

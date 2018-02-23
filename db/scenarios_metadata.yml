@@ -1,9 +1,12 @@
 - name: :model_abbreviation
   reference: 'model.abbreviation'
   size: 'small'
-  category: 'Model and provider'
+  category: 'Model'
 - name: :name
   size: 'large'
+  category: 'Scenario context'
+- name: :year
+  size: 'small'
   category: 'Scenario context'
 - name: :category
   picklist: true
@@ -23,48 +26,17 @@
 - name: :description
   size: 'large'
   category: 'Scenario context'
-- name: :key_usage
-  size: 'large'
-  category: 'Scenario context'
-- name: :project
-  size: 'large'
-  category: 'Scenario context'
-- name: :literature_reference
+- name: :reference
   size: 'small'
   category: 'Scenario context'
-- name: :geographic_coverage_country
-  picklist: true
-  multiple: true
-  size: 'small'
-  category: 'Coverage'
-  # options coming from locations table
-- name: :sectoral_coverage
-  picklist: true
-  multiple: true
-  size: 'small'
-  category: 'Coverage'
-  options: [
-    'agriculture', 'buildings (residential and commercial)', 'electricity',
-    'forestry', 'fugitive emissions', 'industry',
-    'industry and industrial processes',
-    'land-use, land-use change, and forestry (LULUCF)', 'services',
-    'transportation', 'waste'
-  ]
-- name: :gas_and_pollutant_coverage
-  picklist: true
-  multiple: true
+- name: :url
   size: 'large'
-  category: 'Coverage'
-  options: [
-    'BC', 'CO', 'CO2', 'CH4', 'F-gases (HFC, PFC, SF6)', 'HFCs', 'Kyoto gases',
-    'not applicable', 'not specified', 'NMVOC', 'Nox', 'N2O', 'OC', 'PFCs',
-    'PM10', 'PM2.5', 'Sox', 'SO2', 'Sulfur', 'sulfur aerosols', 'VOC'
-  ]
+  category: 'Scenario context'
 - name: :policy_coverage
   picklist: true
   multiple: true
   size: 'small'
-  category: 'Coverage'
+  category: 'Inputs'
   options: [
     'accelerated deployment of energy technologies', 'air pollution measures',
     'border tariff', 'cap-and-trade', 'carbon price', 'carbon tax',
@@ -79,14 +51,11 @@
     'technology capacity targets', 'technology switching', 'temperature limit',
     'tradable certificates', 'permits or allowances'
   ]
-- name: :policy_coverage_detailed
-  size: 'large'
-  category: 'Coverage'
 - name: :technology_coverage
   picklist: true
   multiple: true
   size: 'large'
-  category: 'Coverage'
+  category: 'Inputs'
   options: [
     'BECCS', 'BioCCS', 'bioenergy', 'CCS', 'cogeneration',
     'combined heat and power (CHP)', 'distributed generation',
@@ -95,87 +64,18 @@
     'hydraulic power', 'hydrogen', 'hydrogen systems', 'IGCC', 'nuclear',
     'renewables', 'RES', 'storage'
   ]
-- name: :technology_coverage_detailed
-  size: 'small'
-  category: 'Coverage'
-- name: :energy_resource_coverage
-  picklist: true
-  multiple: true
+- name: :socioeconomics
   size: 'large'
-  category: 'Coverage'
-  options: [
-    'biofuels', 'biogas', 'biomass', 'biomass w/ CCS', 'biomass w/o CCS',
-    'coal', 'coal w/ CCS', 'coal w/o CCS', 'electricity', 'fossil',
-    'fossil w/ CCS', 'fossil w/o CCS', 'gas', 'gas unconventional',
-    'gas w/ CCS', 'gas w/o CCS', 'geothermal', 'heat', 'hydro', 'hydrogen',
-    'limestone', 'liquids', 'natural gas', 'non-biomass renewable',
-    'not applicable', 'not specified', 'nuclear', 'ocean', 'oil', 'oil w/ CCS',
-    'oil w/o CCS', 'other renewable energy', 'petroleum',
-    'petroleum and other liquids', 'renewables', 'solar', 'solar CSP',
-    'solar PV', 'tidal', 'uranium', 'waste', 'wave', 'wind', 'wind-offshore',
-    'wind-onshore'
-  ]
-- name: :time_horizon
-  picklist: true
-  size: 'small'
-  category: 'Coverage'
-  options: ['2030', '2040', '2050', '2100', '2150', 'manual']
-- name: :time_step
-  picklist: true
+  category: 'Inputs'
+- name: :climate_target
   size: 'large'
-  category: 'Coverage'
-  options: ['1', '2', '5', '10', '20', 'manual']
-- name: :climate_target_type
-  picklist: true
-  size: 'small'
-  category: 'Targets'
-  options: [
-  'carbon budget', 'emissions concentration target', 'not applicable',
-  'not specified', 'radiative forcing', 'temperature target'
-  ]
-- name: :climate_target_detailed
-  size: 'large'
-  category: 'Targets'
-- name: :climate_target_date
-  size: 'small'
-  category: 'Targets'
-- name: :overshoot
-  picklist: true
-  small: 'size'
-  category: 'Targets'
-  options: ['yes', 'no', 'not specified']
-- name: :other_target_type
-  size: 'small'
-  category: 'Targets'
+  category: 'Inputs'
 - name: :other_target
   size: 'large'
-  category: 'Targets'
+  category: 'Inputs'
 - name: :burden_sharing
-  size: 'small'
-  category: 'Assumptions'
-- name: :large_scale_bioccs
-  picklist: true
-  size: 'small'
-  category: 'Assumptions'
-  options: ['no', 'not applicable', 'not specified', 'yes']
-- name: :technology_assumptions
   size: 'large'
-  category: 'Assumptions'
-- name: :gdp_assumptions
-  size: 'small'
-  category: 'Assumptions'
-- name: :population_assumptions
-  size: 'large'
-  category: 'Assumptions'
+  category: 'Inputs'
 - name: :discount_rates
-  size: 'small'
-  category: 'Assumptions'
-- name: :emission_factors
   size: 'large'
-  category: 'Assumptions'
-- name: :global_warming_potentials
-  size: 'small'
-  category: 'Assumptions'
-- name: :policy_cut_off_year_for_baseline
-  size: 'large'
-  category: 'Assumptions'
+  category: 'Inputs'
