@@ -62,7 +62,7 @@ en:
       definition: "When was the model first developed?"
     license:
       name: "License"
-      definition: "What is the licensing status?"
+      definition: "What is the licensing for using this model?"
     availability:
       name: "Availability"
       definition: "Is the model available for direct use by others?"
@@ -73,7 +73,7 @@ en:
       name: "Expertise Detailed"
       definition: "Describe the skill level required to run different versions of the model."
     platform_detailed:
-      name: "Platform Detailed"
+      name: "Platform"
       definition: "Describe the platform(s) that the model runs on."
     purpose_or_objective:
       name: "Purpose/Objective"
@@ -86,16 +86,16 @@ en:
       definition: "Describe the model concept"
     solution_method:
       name: "Solution Method"
-      definition: "Describe the reasoning for hybrid classification."
+      definition: "What is the solution method?"
     equilibrium_type:
       name: "Equilibrium Type"
-      definition: "How does the model treat market equilibrium?"
+      definition: "What is the equilibrium classification of the model? (partial, general, other, none)"
     anticipation:
       name: "Anticipation"
       definition: "Is all future information known by agents at the beginning of the model run, or updated at each time step?"
     scenario_coverage:
       name: "Scenario Coverage"
-      definition: "What scenarios are covered by the model?"
+      definition: "What kinds of scenarios are available from this model? (e.g. decarbonization, BAU/reference, NDC)"
     scenario_coverage_detailed:
       name: "Scenario Coverage Detailed"
       definition: "What specific scenarios are available from this model?"
