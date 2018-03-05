@@ -57,7 +57,7 @@ class ModelsData
     :solar_power_supply,
     :wind_power_supply,
     :bioenergy_supply,
-    :co2_storage_supply,
+    :co2_storage_supply
   ].freeze
 
   EXPECTED_PROPERTIES = build_properties(PROPERTY_NAMES).freeze
