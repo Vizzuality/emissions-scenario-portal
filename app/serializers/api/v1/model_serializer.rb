@@ -47,9 +47,14 @@ module Api
       attribute :anticipation
       attribute :behaviour
       attribute :land_use
-
-
-
+      attribute :technology_choice
+      attribute :global_warming_potentials
+      attribute :technology_constraints
+      attribute :trade_restrictions
+      attribute :solar_power_supply
+      attribute :wind_power_supply
+      attribute :bioenergy_supply
+      attribute :co2_storage_supply
 
       attribute :scenario_ids
       attribute :indicator_ids
