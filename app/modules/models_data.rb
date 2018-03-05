@@ -16,7 +16,7 @@ class ModelsData
     :license,
     :availability,
     :expertise,
-    :platform_detailed,
+    :platform,
     :publications_and_notable_projects,
     :citation,
     :point_of_contact,
@@ -49,7 +49,15 @@ class ModelsData
     :other_assumptions,
     :input_data,
     :behaviour,
-    :land_use
+    :land_use,
+    :technology_choice,
+    :global_warming_potentials,
+    :technology_constraints,
+    :trade_restrictions,
+    :solar_power_supply,
+    :wind_power_supply,
+    :bioenergy_supply,
+    :co2_storage_supply,
   ].freeze
 
   EXPECTED_PROPERTIES = build_properties(PROPERTY_NAMES).freeze

@@ -72,7 +72,7 @@ en:
     expertise_detailed:
       name: "Expertise Detailed"
       definition: "Describe the skill level required to run different versions of the model."
-    platform_detailed:
+    platform:
       name: "Platform"
       definition: "Describe the platform(s) that the model runs on."
     purpose_or_objective:
@@ -93,6 +93,9 @@ en:
     anticipation:
       name: "Anticipation"
       definition: "Is all future information known by agents at the beginning of the model run, or updated at each time step?"
+    technology_choice:
+      name: "Technology Choice"
+      definition: "What is the model of technology choice? (logit, linear programming, bottom-up optimization, etc.)"
     scenario_coverage:
       name: "Scenario Coverage"
       definition: "What kinds of scenarios are available from this model? (e.g. decarbonization, BAU/reference, NDC)"
@@ -144,6 +147,9 @@ en:
     gdp_assumptions:
       name: "GDP Assumptions"
       definition: "What are the model GDP assumptions?"
+    global_warming_potentials:
+      name: "Global Warming Potentials"
+      definition: "What global warming potentials (GWP's) are used for different greenhouse gases? Name source (for example IPCC AR4 100-yr GWP's) or specify values."
     other_assumptions:
       name: "Other Assumptions"
       definition: "What are the model assumptions other than population and GDP (e.g., discount rate, resource prices)?"
@@ -156,6 +162,24 @@ en:
     land_use:
       name: "Land-use"
       definition: "What are the land-use assumptions?"
+    technology_constraints:
+      name: "Technology Constraints"
+      definition: "What expansion and share constraints were assumed for key technologies (like electrical generation sources)?"
+    trade_restrictions:
+      name: "Trade restrictions"
+      definition: "What trade restrictions were assumed, if any?"
+    solar_power_supply:
+      name: "Solar power supply"
+      definition: "What are the model assumptions on regional solar power supply? (e.g., Regional supply curves, no limits)"
+    wind_power_supply:
+      name: "Wind power supply"
+      definition: "What are the model assumptions on regional wind power supply? (e.g., Regional supply curves, no limits)"
+    bioenergy_supply:
+      name: "Bioenergy"
+      definition: "What are the model assumptions on regional bioenergy supply? (e.g., Regional supply curves, regional production limits, endogenous land competition, no limits)"
+    co2_storage_supply:
+      name: "CO2 storage supplies"
+      definition: "What are the model assumptions on regional supply of CO2 storage opportunities? (e.g., Regional supply curves, not available, no limits)"
   indicators:
     parent_id:
       name: "Parent indicator"

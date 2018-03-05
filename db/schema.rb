@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180223182949) do
+ActiveRecord::Schema.define(version: 20180305160903) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -82,7 +82,7 @@ ActiveRecord::Schema.define(version: 20180223182949) do
     t.text "availability"
     t.text "expertise"
     t.text "expertise_detailed"
-    t.text "platform_detailed"
+    t.text "platform"
     t.text "purpose_or_objective"
     t.text "description"
     t.text "key_usage"
@@ -117,6 +117,14 @@ ActiveRecord::Schema.define(version: 20180223182949) do
     t.text "land_use"
     t.text "scenario_coverage", default: [], array: true
     t.text "geographic_coverage", array: true
+    t.text "technology_choice"
+    t.text "global_warming_potentials"
+    t.text "technology_constraints"
+    t.text "trade_restrictions"
+    t.text "solar_power_supply"
+    t.text "wind_power_supply"
+    t.text "bioenergy_supply"
+    t.text "co2_storage_supply"
     t.index ["abbreviation"], name: "index_models_on_abbreviation", unique: true
     t.index ["team_id"], name: "index_models_on_team_id"
   end

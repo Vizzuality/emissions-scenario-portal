@@ -15,7 +15,7 @@ module Api
       attribute :availability
       attribute :expertise
       attribute :expertise_detailed
-      attribute :platform_detailed
+      attribute :platform
       attribute :purpose_or_objective
       attribute :base_year
       attribute :time_step

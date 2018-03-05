@@ -53,7 +53,7 @@
 - name: :expertise_detailed
   size: 'large'
   category: 'About'
-- name: :platform_detailed
+- name: :platform
   size: 'large'
   category: 'About'
 - name: :purpose_or_objective
@@ -85,6 +85,9 @@
     'extrapolation of present state', 'fully dynamic', 'limited', 'myopic',
     'perfect', 'recursive dynamic', 'static'
   ]
+- name: :technology_choice
+  size: 'large'
+  category: 'Scope and Methods'
 - name: :scenario_coverage
   picklist: true
   multiple: true
@@ -206,19 +209,40 @@
   category: 'Coverage'
 - name: :population_assumptions
   size: 'large'
-  category: 'Assumptions'
+  category: 'Data sources'
 - name: :gdp_assumptions
   size: 'large'
-  category: 'Assumptions'
-- name: :other_assumptions
+  category: 'Data sources'
+- name: :global_warming_potentials
   size: 'large'
-  category: 'Assumptions'
+  category: 'Data sources'
 - name: :input_data
   size: 'large'
-  category: 'Assumptions'
+  category: 'Data sources'
 - name: :behaviour
   size: 'large'
   category: 'Assumptions'
 - name: :land_use
   size: 'large'
   category: 'Assumptions'
+- name: :technology_constraints
+  size: 'large'
+  category: 'Assumptions'
+- name: :trade_restrictions
+  size: 'large'
+  category: 'Assumptions'
+- name: :other_assumptions
+  size: 'large'
+  category: 'Assumptions'
+- name: :solar_power_supply
+  size: 'large'
+  category: 'Regional Resources'
+- name: :wind_power_supply
+  size: 'large'
+  category: 'Regional Resources'
+- name: :bioenergy_supply
+  size: 'large'
+  category: 'Regional Resources'
+- name: :co2_storage_supply
+  size: 'large'
+  category: 'Regional Resources'

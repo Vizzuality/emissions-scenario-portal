@@ -36,7 +36,7 @@ RSpec.describe MetadataAttributes::Info, type: :model do
       Model.attribute_info(:sectoral_coverage)
     }
     let(:not_multiple_attribute_info) {
-      Model.attribute_info(:platform_detailed)
+      Model.attribute_info(:platform)
     }
     it 'should be true when attribute is multiple selection' do
       expect(multiple_attribute_info.multiple?).to be(true)
