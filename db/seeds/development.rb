@@ -31,7 +31,6 @@ ActiveRecord::Migration.say_with_time('Loading development seeds') do
     abbreviation: 'GCAM',
     full_name: 'Global Change Assessment Model',
     current_version: '4',
-    development_year: 2012,
     programming_language: ['Python'],
     maintainer_institute: 'Pacific Northwest National Laboratory (PNNL)',
     license: 'Free and Open Source',

@@ -12,7 +12,6 @@ class ModelsData
     :description,
     :url,
     :programming_language,
-    :development_year,
     :license,
     :expertise,
     :base_year,

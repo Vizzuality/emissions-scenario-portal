@@ -28,9 +28,6 @@
 - name: :programming_language
   size: 'large'
   category: 'About'
-- name: :development_year
-  size: 'small'
-  category: 'About'
 - name: :license
   size: 'large'
   category: 'About'

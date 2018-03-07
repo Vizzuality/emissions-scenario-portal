@@ -8,7 +8,6 @@ module Api
       attribute :key_usage
       attribute :abbreviation
       attribute :current_version
-      attribute :development_year
       attribute :programming_language
       attribute :maintainer_institute
       attribute :license

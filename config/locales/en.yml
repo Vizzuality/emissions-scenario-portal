@@ -51,9 +51,6 @@ en:
     programming_language:
       name: "Programming Language"
       definition: "What programming language is used to write and run the model code?"
-    development_year:
-      name: "Development Year"
-      definition: "When was the model first developed?"
     license:
       name: "License"
       definition: "What is the licensing for using this model?"
@@ -118,10 +115,10 @@ en:
       name: "Time Step"
       definition: "What time interval is used for the model output?"
     population_assumptions:
-      name: "Population Assumptions"
+      name: "Population"
       definition: "What are the model population assumptions?"
     gdp_assumptions:
-      name: "GDP Assumptions"
+      name: "GDP"
       definition: "What are the model GDP assumptions?"
     global_warming_potentials:
       name: "Global Warming Potentials"
@@ -130,7 +127,7 @@ en:
       name: "Other Assumptions"
       definition: "What are the model assumptions other than population and GDP (e.g., discount rate, resource prices)?"
     input_data:
-      name: "Input Data"
+      name: "Other Input Data"
       definition: "What input data sources were used to run this model?"
     behaviour:
       name: "Behaviour"
