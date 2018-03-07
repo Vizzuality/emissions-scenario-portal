@@ -155,7 +155,8 @@ RSpec.describe ModelsController, type: :controller do
     it 'filters parameters correctly for update' do
       model_params = {
         abbreviation: 'ABC',
-        anticipation: ['', 'perfect', 'static']
+        anticipation: ['', 'perfect', 'static'],
+        time_horizon: ['', 'century']
       }
       expect_any_instance_of(Model).to receive(:update_attributes).
         with(ActionController::Parameters.new(model_params).permit!)

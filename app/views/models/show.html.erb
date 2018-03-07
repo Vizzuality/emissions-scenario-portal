@@ -36,6 +36,10 @@
                    {
                      title: 'Sector focus',
                      data: @model.sectoral_coverage.try(:join, ', ')
+                   },
+                   {
+                     title: 'Time horizon',
+                     data: @model.time_horizon
                    }
                  ]
       %>

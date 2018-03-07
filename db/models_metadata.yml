@@ -42,6 +42,9 @@
 - name: :platform
   size: 'large'
   category: 'About'
+- name: :key_usage
+  size: 'large'
+  category: 'About'
 - name: :concept
   size: 'large'
   category: 'Scope and Methods'

@@ -5,6 +5,7 @@ module Api
       attribute :full_name
       attribute :description
       attribute :citation
+      attribute :key_usage
       attribute :abbreviation
       attribute :current_version
       attribute :development_year
@@ -12,6 +13,9 @@ module Api
       attribute :maintainer_institute
       attribute :license
       attribute :expertise
+      attribute :base_year
+      attribute :time_step
+      attribute :time_horizon
       attribute :platform
       attribute :sectoral_coverage
       attribute :geographic_coverage

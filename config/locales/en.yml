@@ -63,6 +63,9 @@ en:
     platform:
       name: "Platform"
       definition: "Describe the platform(s) that the model runs on."
+    key_usage:
+      name: "Key Usage"
+      definition: "What is this model known for? What topical areas/qustions is it especially useful for?"
     purpose_or_objective:
       name: "Purpose/Objective"
       definition: "What was the original purpose or objective of the model? Why was it built?"
@@ -105,6 +108,15 @@ en:
     energy_resource_coverage:
       name: "Energy Resource Coverage"
       definition: "What fuel types are covered by the model?"
+    base_year:
+      name: "Base Year"
+      definition: "What base year was used for the model?"
+    time_horizon:
+      name: "Time Horizon"
+      definition: "How far does the model run into the future?"
+    time_step:
+      name: "Time Step"
+      definition: "What time interval is used for the model output?"
     population_assumptions:
       name: "Population Assumptions"
       definition: "What are the model population assumptions?"
