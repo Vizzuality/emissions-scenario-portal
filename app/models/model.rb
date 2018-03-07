@@ -11,11 +11,6 @@ class Model < ApplicationRecord
   validates :abbreviation, presence: true, uniqueness: true
   validates :full_name, presence: true
   validates(
-    :development_year,
-    numericality: {only_integer: true, allow_nil: true},
-    inclusion: {in: 1900..Date.today.year, allow_nil: true}
-  )
-  validates(
     :base_year,
     numericality: {only_integer: true, allow_nil: true},
     inclusion: {in: 1900..Date.today.year, allow_nil: true}

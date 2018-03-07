@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180223182949) do
+ActiveRecord::Schema.define(version: 20180307085137) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,29 +75,21 @@ ActiveRecord::Schema.define(version: 20180223182949) do
     t.text "abbreviation", null: false
     t.text "full_name", null: false
     t.text "current_version"
-    t.integer "development_year"
     t.text "programming_language"
-    t.text "maintainer_name"
+    t.text "maintainer_institute"
     t.text "license"
-    t.text "availability"
     t.text "expertise"
-    t.text "expertise_detailed"
-    t.text "platform_detailed"
-    t.text "purpose_or_objective"
+    t.text "platform"
     t.text "description"
     t.text "key_usage"
-    t.text "scenario_coverage_detailed"
-    t.text "geographic_coverage_country", default: [], array: true
     t.text "sectoral_coverage", default: [], array: true
     t.text "gas_and_pollutant_coverage", default: [], array: true
     t.text "policy_coverage", default: [], array: true
     t.text "technology_coverage", default: [], array: true
-    t.text "technology_coverage_detailed"
     t.text "energy_resource_coverage", default: [], array: true
     t.text "time_horizon"
     t.text "time_step"
     t.text "equilibrium_type"
-    t.text "spatial_resolution"
     t.text "population_assumptions"
     t.text "gdp_assumptions"
     t.text "other_assumptions"
@@ -107,16 +99,21 @@ ActiveRecord::Schema.define(version: 20180223182949) do
     t.text "citation"
     t.text "url"
     t.text "point_of_contact"
-    t.text "parent_model"
-    t.text "descendent_models"
     t.text "concept"
     t.text "solution_method"
     t.text "anticipation", default: [], array: true
-    t.text "policy_coverage_detailed"
     t.text "behaviour"
     t.text "land_use"
     t.text "scenario_coverage", default: [], array: true
     t.text "geographic_coverage", array: true
+    t.text "technology_choice"
+    t.text "global_warming_potentials"
+    t.text "technology_constraints"
+    t.text "trade_restrictions"
+    t.text "solar_power_supply"
+    t.text "wind_power_supply"
+    t.text "bioenergy_supply"
+    t.text "co2_storage_supply"
     t.index ["abbreviation"], name: "index_models_on_abbreviation", unique: true
     t.index ["team_id"], name: "index_models_on_team_id"
   end

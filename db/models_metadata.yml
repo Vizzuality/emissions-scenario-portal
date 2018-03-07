@@ -7,7 +7,7 @@
 - name: :current_version
   size: 'small'
   category: 'About'
-- name: :maintainer_name
+- name: :maintainer_institute
   size: 'large'
   category: 'About'
 - name: :description
@@ -25,43 +25,23 @@
 - name: :point_of_contact
   size: 'large'
   category: 'About'
-- name: :parent_model
-  size: 'large'
-  category: 'About'
-- name: :descendent_models
-  size: 'large'
-  category: 'About'
 - name: :programming_language
   size: 'large'
-  category: 'About'
-- name: :development_year
-  size: 'small'
   category: 'About'
 - name: :license
   size: 'large'
   category: 'About'
-- name: :availability
-  picklist: true
-  size: 'large'
-  category: 'About'
-  options: ['no', 'yes']
 - name: :expertise
   picklist: true
   size: 'large'
   category: 'About'
   options: ['advanced', 'intermediate', 'beginner']
-- name: :expertise_detailed
+- name: :platform
   size: 'large'
   category: 'About'
-- name: :platform_detailed
-  size: 'large'
-  category: 'About'
-- name: :purpose_or_objective
-  size: 'large'
-  category: 'Scope and Methods'
 - name: :key_usage
   size: 'large'
-  category: 'Scope and Methods'
+  category: 'About'
 - name: :concept
   size: 'large'
   category: 'Scope and Methods'
@@ -85,6 +65,9 @@
     'extrapolation of present state', 'fully dynamic', 'limited', 'myopic',
     'perfect', 'recursive dynamic', 'static'
   ]
+- name: :technology_choice
+  size: 'large'
+  category: 'Scope and Methods'
 - name: :scenario_coverage
   picklist: true
   multiple: true
@@ -94,9 +77,19 @@
     'BAU/reference', 'NDCs', 'NDCs-Conditional', 'NDCs-Unconditional',
     'Decarbonization', 'Development Target', 'Other'
   ]
-- name: :scenario_coverage_detailed
+- name: :base_year
   size: 'large'
-  category: 'Coverage'
+  category: 'Time'
+- name: :time_horizon
+  picklist: true
+  size: 'large'
+  category: 'Time'
+  options: ['2030', '2040', '2050', '2100', '2150', 'manual']
+- name: :time_step
+  picklist: true
+  size: 'large'
+  category: 'Time'
+  options: ['1', '5', '10', '20', 'manual']
 - name: :geographic_coverage
   picklist: true
   multiple: true
@@ -105,12 +98,6 @@
   options: [
     'customizable', 'flexible', 'multi-regional', 'national', 'regional'
   ]
-- name: :geographic_coverage_country
-  picklist: true
-  multiple: true
-  size: 'large'
-  category: 'Coverage'
-  # options coming from locations table
 - name: :sectoral_coverage
   picklist: true
   multiple: true
@@ -153,9 +140,6 @@
     'technology switching', 'temperature limit',
     'tradable certificates, permits, or allowances'
   ]
-- name: :policy_coverage_detailed
-  size: 'large'
-  category: 'Coverage'
 - name: :technology_coverage
   picklist: true
   multiple: true
@@ -169,9 +153,6 @@
     'hydraulic power', 'hydrogen', 'hydrogen systems', 'IGCC', 'nuclear',
     'renewables', 'RES', 'storage'
   ]
-- name: :technology_coverage_detailed
-  size: 'large'
-  category: 'Coverage'
 - name: :energy_resource_coverage
   picklist: true
   multiple: true
@@ -188,37 +169,42 @@
     'renewables', 'solar', 'solar CSP', 'solar PV', 'tidal', 'uranium',
     'waste', 'wave', 'wind', 'wind-offshore', 'wind-onshore'
   ]
-- name: :base_year
-  size: 'large'
-  category: 'Coverage'
-- name: :time_horizon
-  picklist: true
-  size: 'large'
-  category: 'Coverage'
-  options: ['2030', '2040', '2050', '2100', '2150', 'manual']
-- name: :time_step
-  picklist: true
-  size: 'large'
-  category: 'Coverage'
-  options: ['1', '5', '10', '20', 'manual']
-- name: :spatial_resolution
-  size: 'large'
-  category: 'Coverage'
 - name: :population_assumptions
   size: 'large'
-  category: 'Assumptions'
+  category: 'Data sources'
 - name: :gdp_assumptions
   size: 'large'
-  category: 'Assumptions'
-- name: :other_assumptions
+  category: 'Data sources'
+- name: :global_warming_potentials
   size: 'large'
-  category: 'Assumptions'
+  category: 'Data sources'
 - name: :input_data
   size: 'large'
-  category: 'Assumptions'
+  category: 'Data sources'
 - name: :behaviour
   size: 'large'
   category: 'Assumptions'
 - name: :land_use
   size: 'large'
   category: 'Assumptions'
+- name: :technology_constraints
+  size: 'large'
+  category: 'Assumptions'
+- name: :trade_restrictions
+  size: 'large'
+  category: 'Assumptions'
+- name: :other_assumptions
+  size: 'large'
+  category: 'Assumptions'
+- name: :solar_power_supply
+  size: 'large'
+  category: 'Regional Resources'
+- name: :wind_power_supply
+  size: 'large'
+  category: 'Regional Resources'
+- name: :bioenergy_supply
+  size: 'large'
+  category: 'Regional Resources'
+- name: :co2_storage_supply
+  size: 'large'
+  category: 'Regional Resources'

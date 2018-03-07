@@ -30,8 +30,8 @@ en:
     current_version:
       name: "Current Version(s)"
       definition: "What is the most recent version of the model?"
-    maintainer_name:
-      name: "Maintainer Name"
+    maintainer_institute:
+      name: "Maintainer Institute"
       definition: "Who is the institute or enterprise responsible for development of the model?"
     description:
       name: "Description"
@@ -48,63 +48,45 @@ en:
     point_of_contact:
       name: "Point-of-Contact"
       definition: "Who is the point-of-contact for the model?"
-    parent_model:
-      name: "Parent model"
-      definition: "Does this model have a parent model (e.g. GCAM for GCAM-China)?"
-    descendent_models:
-      name: "Descendent models"
-      definition: "Does this model have descendent models (e.g. GCAM-China for GCAM)"
     programming_language:
       name: "Programming Language"
       definition: "What programming language is used to write and run the model code?"
-    development_year:
-      name: "Development Year"
-      definition: "When was the model first developed?"
     license:
       name: "License"
-      definition: "What is the licensing status?"
-    availability:
-      name: "Availability"
-      definition: "Is the model available for direct use by others?"
+      definition: "What is the licensing for using this model?"
     expertise:
       name: "Expertise"
       definition: "What is the skill level required to run the model?"
-    expertise_detailed:
-      name: "Expertise Detailed"
-      definition: "Describe the skill level required to run different versions of the model."
-    platform_detailed:
-      name: "Platform Detailed"
+    platform:
+      name: "Platform"
       definition: "Describe the platform(s) that the model runs on."
+    key_usage:
+      name: "Key Usage"
+      definition: "What is this model known for? What topical areas/qustions is it especially useful for?"
     purpose_or_objective:
       name: "Purpose/Objective"
       definition: "What was the original purpose or objective of the model? Why was it built?"
-    key_usage:
-      name: "Key Usage"
-      definition: "What is this model known for? What topical area(s) is it especially useful for?"
     concept:
       name: "Concept"
       definition: "Describe the model concept"
     solution_method:
       name: "Solution Method"
-      definition: "Describe the reasoning for hybrid classification."
+      definition: "What is the solution method?"
     equilibrium_type:
       name: "Equilibrium Type"
-      definition: "How does the model treat market equilibrium?"
+      definition: "What is the equilibrium classification of the model? (partial, general, other, none)"
     anticipation:
       name: "Anticipation"
       definition: "Is all future information known by agents at the beginning of the model run, or updated at each time step?"
+    technology_choice:
+      name: "Technology Choice"
+      definition: "What is the model of technology choice? (logit, linear programming, bottom-up optimization, etc.)"
     scenario_coverage:
       name: "Scenario Coverage"
-      definition: "What scenarios are covered by the model?"
-    scenario_coverage_detailed:
-      name: "Scenario Coverage Detailed"
-      definition: "What specific scenarios are available from this model?"
+      definition: "What kinds of scenarios are available from this model? (e.g. decarbonization, BAU/reference, NDC)"
     geographic_coverage:
       name: "Geographic Coverage"
       definition: "What is the geographic scope of the model?"
-    geographic_coverage_country:
-      name: "Geographic Coverage-Country"
-      definition: "What are the geographic regions and/or countries that are covered by the model?"
     sectoral_coverage:
       name: "Sectoral Coverage"
       definition: "What economic sectors are covered by the model?"
@@ -120,9 +102,6 @@ en:
     technology_coverage:
       name: "Technology Coverage"
       definition: "What technologies are covered by the model?"
-    technology_coverage_detailed:
-      name: "Technology Coverage Detailed"
-      definition: "What technologies are covered by the model?"
     energy_resource_coverage:
       name: "Energy Resource Coverage"
       definition: "What fuel types are covered by the model?"
@@ -135,20 +114,20 @@ en:
     time_step:
       name: "Time Step"
       definition: "What time interval is used for the model output?"
-    spatial_resolution:
-      name: "Spatial Resolution"
-      definition: "What is the spatial resolution of this model?"
     population_assumptions:
-      name: "Population Assumptions"
+      name: "Population"
       definition: "What are the model population assumptions?"
     gdp_assumptions:
-      name: "GDP Assumptions"
+      name: "GDP"
       definition: "What are the model GDP assumptions?"
+    global_warming_potentials:
+      name: "Global Warming Potentials"
+      definition: "What global warming potentials (GWP's) are used for different greenhouse gases? Name source (for example IPCC AR4 100-yr GWP's) or specify values."
     other_assumptions:
       name: "Other Assumptions"
       definition: "What are the model assumptions other than population and GDP (e.g., discount rate, resource prices)?"
     input_data:
-      name: "Input Data"
+      name: "Other Input Data"
       definition: "What input data sources were used to run this model?"
     behaviour:
       name: "Behaviour"
@@ -156,6 +135,24 @@ en:
     land_use:
       name: "Land-use"
       definition: "What are the land-use assumptions?"
+    technology_constraints:
+      name: "Technology Constraints"
+      definition: "What expansion and share constraints were assumed for key technologies (like electrical generation sources)?"
+    trade_restrictions:
+      name: "Trade restrictions"
+      definition: "What trade restrictions were assumed, if any?"
+    solar_power_supply:
+      name: "Solar power supply"
+      definition: "What are the model assumptions on regional solar power supply? (e.g., Regional supply curves, no limits)"
+    wind_power_supply:
+      name: "Wind power supply"
+      definition: "What are the model assumptions on regional wind power supply? (e.g., Regional supply curves, no limits)"
+    bioenergy_supply:
+      name: "Bioenergy"
+      definition: "What are the model assumptions on regional bioenergy supply? (e.g., Regional supply curves, regional production limits, endogenous land competition, no limits)"
+    co2_storage_supply:
+      name: "CO2 storage supplies"
+      definition: "What are the model assumptions on regional supply of CO2 storage opportunities? (e.g., Regional supply curves, not available, no limits)"
   indicators:
     parent_id:
       name: "Parent indicator"

@@ -21,7 +21,7 @@ RSpec.describe MetadataAttributes::Info, type: :model do
       Model.attribute_info(:expertise)
     }
     let(:not_picklist_attribute_info) {
-      Model.attribute_info(:expertise_detailed)
+      Model.attribute_info(:platform)
     }
     it 'should be true when attribute is a picklist' do
       expect(picklist_attribute_info.picklist?).to be(true)
@@ -36,7 +36,7 @@ RSpec.describe MetadataAttributes::Info, type: :model do
       Model.attribute_info(:sectoral_coverage)
     }
     let(:not_multiple_attribute_info) {
-      Model.attribute_info(:platform_detailed)
+      Model.attribute_info(:platform)
     }
     it 'should be true when attribute is multiple selection' do
       expect(multiple_attribute_info.multiple?).to be(true)
@@ -65,7 +65,7 @@ RSpec.describe MetadataAttributes::Info, type: :model do
 
   describe :size do
     it 'expertise_detailed should have large size' do
-      expect(Model.attribute_info(:expertise_detailed).size).to eq('large')
+      expect(Model.attribute_info(:platform).size).to eq('large')
     end
   end
 
