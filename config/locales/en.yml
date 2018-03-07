@@ -250,3 +250,10 @@ en:
   errors:
     messages:
       required: "does not exist"
+
+  i18n:
+    transliterate:
+      rule:
+        „: '"'
+        “: '"'
+        ”: '"'
