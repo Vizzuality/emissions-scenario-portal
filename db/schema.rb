@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180305160903) do
+ActiveRecord::Schema.define(version: 20180307085137) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,42 +77,28 @@ ActiveRecord::Schema.define(version: 20180305160903) do
     t.text "current_version"
     t.integer "development_year"
     t.text "programming_language"
-    t.text "maintainer_name"
+    t.text "maintainer_institute"
     t.text "license"
-    t.text "availability"
     t.text "expertise"
-    t.text "expertise_detailed"
     t.text "platform"
-    t.text "purpose_or_objective"
     t.text "description"
-    t.text "key_usage"
-    t.text "scenario_coverage_detailed"
-    t.text "geographic_coverage_country", default: [], array: true
     t.text "sectoral_coverage", default: [], array: true
     t.text "gas_and_pollutant_coverage", default: [], array: true
     t.text "policy_coverage", default: [], array: true
     t.text "technology_coverage", default: [], array: true
-    t.text "technology_coverage_detailed"
     t.text "energy_resource_coverage", default: [], array: true
-    t.text "time_horizon"
-    t.text "time_step"
     t.text "equilibrium_type"
-    t.text "spatial_resolution"
     t.text "population_assumptions"
     t.text "gdp_assumptions"
     t.text "other_assumptions"
-    t.integer "base_year"
     t.text "input_data"
     t.text "publications_and_notable_projects"
     t.text "citation"
     t.text "url"
     t.text "point_of_contact"
-    t.text "parent_model"
-    t.text "descendent_models"
     t.text "concept"
     t.text "solution_method"
     t.text "anticipation", default: [], array: true
-    t.text "policy_coverage_detailed"
     t.text "behaviour"
     t.text "land_use"
     t.text "scenario_coverage", default: [], array: true

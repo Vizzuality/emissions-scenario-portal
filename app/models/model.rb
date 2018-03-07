@@ -15,11 +15,6 @@ class Model < ApplicationRecord
     numericality: {only_integer: true, allow_nil: true},
     inclusion: {in: 1900..Date.today.year, allow_nil: true}
   )
-  validates(
-    :base_year,
-    numericality: {only_integer: true, allow_nil: true},
-    inclusion: {in: 1900..Date.today.year, allow_nil: true}
-  )
   validates_format_of(
     :url,
     with: URI.regexp(%w(http https)),

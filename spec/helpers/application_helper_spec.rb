@@ -7,9 +7,9 @@ RSpec.describe ApplicationHelper, type: :helper do
       let(:form) {
         ActionView::Helpers::FormBuilder.new(:model, model, self, {})
       }
-      it 'returns a text input for expertise_detailed' do
+      it 'returns a text input for platform' do
         expect(
-          helper.attribute_input(model, form, :expertise_detailed)
+          helper.attribute_input(model, form, :platform)
         ).to match('input .* type="text"')
       end
       it 'returns a multiple select input for anticipation' do

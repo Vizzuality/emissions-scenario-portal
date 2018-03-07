@@ -25,11 +25,6 @@ RSpec.describe Model, type: :model do
         merge(anticipation: ['', 'perfect', 'static'])
       expect(Model.create(attributes).anticipation.length).to eq(2)
     end
-    it 'ignores blank array values for single selection attributes' do
-      attributes = attributes_for(:model).
-        merge(time_horizon: ['', 'century'])
-      expect(Model.create(attributes).time_horizon).to eq('century')
-    end
   end
 
   describe :destroy do

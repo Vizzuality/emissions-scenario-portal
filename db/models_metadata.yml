@@ -7,7 +7,7 @@
 - name: :current_version
   size: 'small'
   category: 'About'
-- name: :maintainer_name
+- name: :maintainer_institute
   size: 'large'
   category: 'About'
 - name: :description
@@ -25,12 +25,6 @@
 - name: :point_of_contact
   size: 'large'
   category: 'About'
-- name: :parent_model
-  size: 'large'
-  category: 'About'
-- name: :descendent_models
-  size: 'large'
-  category: 'About'
 - name: :programming_language
   size: 'large'
   category: 'About'
@@ -40,28 +34,14 @@
 - name: :license
   size: 'large'
   category: 'About'
-- name: :availability
-  picklist: true
-  size: 'large'
-  category: 'About'
-  options: ['no', 'yes']
 - name: :expertise
   picklist: true
   size: 'large'
   category: 'About'
   options: ['advanced', 'intermediate', 'beginner']
-- name: :expertise_detailed
-  size: 'large'
-  category: 'About'
 - name: :platform
   size: 'large'
   category: 'About'
-- name: :purpose_or_objective
-  size: 'large'
-  category: 'Scope and Methods'
-- name: :key_usage
-  size: 'large'
-  category: 'Scope and Methods'
 - name: :concept
   size: 'large'
   category: 'Scope and Methods'
@@ -97,9 +77,6 @@
     'BAU/reference', 'NDCs', 'NDCs-Conditional', 'NDCs-Unconditional',
     'Decarbonization', 'Development Target', 'Other'
   ]
-- name: :scenario_coverage_detailed
-  size: 'large'
-  category: 'Coverage'
 - name: :geographic_coverage
   picklist: true
   multiple: true
@@ -108,12 +85,6 @@
   options: [
     'customizable', 'flexible', 'multi-regional', 'national', 'regional'
   ]
-- name: :geographic_coverage_country
-  picklist: true
-  multiple: true
-  size: 'large'
-  category: 'Coverage'
-  # options coming from locations table
 - name: :sectoral_coverage
   picklist: true
   multiple: true
@@ -156,9 +127,6 @@
     'technology switching', 'temperature limit',
     'tradable certificates, permits, or allowances'
   ]
-- name: :policy_coverage_detailed
-  size: 'large'
-  category: 'Coverage'
 - name: :technology_coverage
   picklist: true
   multiple: true
@@ -172,9 +140,6 @@
     'hydraulic power', 'hydrogen', 'hydrogen systems', 'IGCC', 'nuclear',
     'renewables', 'RES', 'storage'
   ]
-- name: :technology_coverage_detailed
-  size: 'large'
-  category: 'Coverage'
 - name: :energy_resource_coverage
   picklist: true
   multiple: true
@@ -191,22 +156,6 @@
     'renewables', 'solar', 'solar CSP', 'solar PV', 'tidal', 'uranium',
     'waste', 'wave', 'wind', 'wind-offshore', 'wind-onshore'
   ]
-- name: :base_year
-  size: 'large'
-  category: 'Coverage'
-- name: :time_horizon
-  picklist: true
-  size: 'large'
-  category: 'Coverage'
-  options: ['2030', '2040', '2050', '2100', '2150', 'manual']
-- name: :time_step
-  picklist: true
-  size: 'large'
-  category: 'Coverage'
-  options: ['1', '5', '10', '20', 'manual']
-- name: :spatial_resolution
-  size: 'large'
-  category: 'Coverage'
 - name: :population_assumptions
   size: 'large'
   category: 'Data sources'

@@ -27,7 +27,7 @@
                  columns: [
                    {
                      title: 'Maintainer',
-                     data: @model.maintainer_name
+                     data: @model.maintainer_institute
                    },
                    {
                      title: 'Regional scope',
@@ -36,10 +36,6 @@
                    {
                      title: 'Sector focus',
                      data: @model.sectoral_coverage.try(:join, ', ')
-                   },
-                   {
-                     title: 'Time horizon',
-                     data: @model.time_horizon
                    }
                  ]
       %>
