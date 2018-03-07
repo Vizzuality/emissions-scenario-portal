@@ -16,7 +16,7 @@ class TemplatesController < ApplicationController
     raise ActiveRecord::RecordNotFound if template.nil?
 
     send_data(
-      template.export,
+      ActiveSupport::Inflector.transliterate(template.export, ' '),
       type: 'text/csv; charset=utf-8; header=present',
       disposition: "attachment; filename=#{template.class.name.underscore}.csv"
     )
