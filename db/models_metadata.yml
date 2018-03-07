@@ -79,16 +79,16 @@
   ]
 - name: :base_year
   size: 'large'
-  category: 'Coverage'
+  category: 'Time'
 - name: :time_horizon
   picklist: true
   size: 'large'
-  category: 'Coverage'
+  category: 'Time'
   options: ['2030', '2040', '2050', '2100', '2150', 'manual']
 - name: :time_step
   picklist: true
   size: 'large'
-  category: 'Coverage'
+  category: 'Time'
   options: ['1', '5', '10', '20', 'manual']
 - name: :geographic_coverage
   picklist: true
