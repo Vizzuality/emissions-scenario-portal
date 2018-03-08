@@ -26,6 +26,15 @@ RSpec.describe UsersController, type: :controller do
       end
     end
 
+    describe 'GET #invite' do
+      it 'sends an invite' do
+        user = create(:user, team: team)
+        expect {
+          get :invite, params: {team_id: team.id, id: user.id}
+        }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      end
+    end
+
     describe 'DELETE #destroy' do
       it 'destroys the user' do
         user = create(:user, team: team)

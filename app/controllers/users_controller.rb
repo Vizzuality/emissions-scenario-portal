@@ -12,6 +12,16 @@ class UsersController < ApplicationController
     end
   end
 
+  def invite
+    team = Team.find(params[:team_id])
+    user = team.users.find(params[:id])
+    user.deliver_invitation
+    redirect_to(
+      edit_team_path(team),
+      notice: 'Invitation has been resent.'
+    )
+  end
+
   def destroy
     team = Team.find(params[:team_id])
     authorize(team, :update?)
