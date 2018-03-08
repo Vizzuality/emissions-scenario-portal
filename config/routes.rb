@@ -10,7 +10,9 @@ Rails.application.routes.draw do
     resources :subcategories, only: %i[create destroy]
   end
   resources :teams, only: %i[index new create edit update destroy] do
-    resources :users, only: %i[create destroy]
+    resources :users, only: %i[create destroy] do
+      get :invite, on: :member
+    end
   end
   resources :indicators do
     resources :time_series_values, only: %i[index]

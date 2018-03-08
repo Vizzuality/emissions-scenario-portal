@@ -92,6 +92,11 @@
                           <% end %>
                         </div>
                       <% end %>
+                      <%= link_to invite_team_user_path(@team, ff.object) do %>
+                        <div class="c-remove-button">
+                          <div class="f-ff1-s">Invite</div>
+                        </div>
+                      <% end %>
                       <%= link_to team_user_path(@team, ff.object),
                         method: :delete,
                         data: { confirm: 'Are you sure?' } do %>
