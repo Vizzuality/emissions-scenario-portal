@@ -57,7 +57,7 @@ RSpec.describe FilterIndicators do
   end
 
   context 'when sorting' do
-    it 'orders by ESP name' do
+    it 'orders by Default name' do
       expect(
         FilterIndicators.
           new(order_type: 'esp_name', order_direction: 'ASC').

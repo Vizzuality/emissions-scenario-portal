@@ -17,7 +17,7 @@ class TimeSeriesValuesController < ApplicationController
 
     csv_string = CSV.generate do |csv|
       csv << [
-        "Model", "Scenario", "Region", "ESP Indicator Name", "Unit of Entry"
+        "Model", "Scenario", "Region", "Default Indicator Name", "Unit of Entry"
       ] + results.years
       results.each { |result| csv << result.values }
     end

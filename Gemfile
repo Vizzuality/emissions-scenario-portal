@@ -25,7 +25,7 @@ gem 'dotenv-rails' # required by Devise
 gem 'active_model_serializers'
 gem 'activerecord-import'
 gem 'appsignal'
-gem 'aws-sdk', '~> 2'
+gem 'aws-sdk', '~> 3'
 gem 'charlock_holmes'
 gem 'devise'
 gem 'devise_invitable'

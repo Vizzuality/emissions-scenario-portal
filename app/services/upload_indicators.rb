@@ -5,7 +5,7 @@ class UploadIndicators
   attr_reader :csv_upload
 
   HEADERS = {
-    indicator: 'ESP Indicator Name',
+    indicator: 'Default Indicator Name',
     stackable: 'Stackable?',
     unit: 'Standardized Unit',
     definition: 'Definition'
