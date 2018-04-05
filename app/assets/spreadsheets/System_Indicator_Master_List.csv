@@ -1,4 +1,4 @@
-ESP indicator name,*model* Indicator name,Stackable sub-category?,Standardized Unit,Unit of Entry,Conversion factor,Definition
+Default indicator name,*model* Indicator name,Stackable sub-category?,Standardized Unit,Unit of Entry,Conversion factor,Definition
 "Agriculture, Land Use and Forestry|Land Cover|Cropland",,,million Ha/yr,,,
 "Agriculture, Land Use and Forestry|Land Cover|Energy Crops",,,million Ha/yr,,,
 "Agriculture, Land Use and Forestry|Land Cover|Forest",,,million Ha/yr,,,

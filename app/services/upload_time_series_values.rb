@@ -7,7 +7,7 @@ class UploadTimeSeriesValues
     model: 'Model',
     scenario: 'Scenario',
     location: 'Region',
-    indicator: 'ESP Indicator Name',
+    indicator: 'Default Indicator Name',
     unit: 'Unit of Entry'
   }.freeze
 

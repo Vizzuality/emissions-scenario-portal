@@ -5,7 +5,7 @@ class UploadNotes
   attr_reader :csv_upload
 
   HEADERS = {
-    indicator: 'ESP Indicator Name',
+    indicator: 'Default Indicator Name',
     model: 'Model Name',
     unit_of_entry: 'Unit of Entry',
     conversion_factor: 'Conversion Factor',
