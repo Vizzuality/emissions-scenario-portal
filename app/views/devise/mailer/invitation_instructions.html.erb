@@ -1,5 +1,10 @@
 <p>Pathways Portal</p>
 
-Hi <%= @resource.name %>, you've been invited to manage a model in Pathways Portal.
+<p>Hi <%= @resource.name %>, you've been invited to manage a model in Pathways Portal.</p>
 
-Click the link to set up a password for your account: <%= link_to t("devise.mailer.invitation_instructions.accept"), accept_user_invitation_url(@resource, :invitation_token => @token) %>
+<p>Click the link to set up a password for your account: <%= link_to t("devise.mailer.invitation_instructions.accept"), accept_user_invitation_url(@resource, invitation_token: @token) %>.</p>
+
+
+<p>If the link doesn't work or if the token is shown as not valid, please try copy pasting the following link directly into your browser address bar:</p>
+
+<p><%= accept_user_invitation_url(@resource, invitation_token: @token) %></p>
