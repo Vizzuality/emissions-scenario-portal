@@ -1,5 +1,3 @@
-<p>Pathways Portal</p>
-
 <p>Hi <%= @resource.name %>, you've been invited to manage a model in Pathways Portal.</p>
 
 <p>Click the link to set up a password for your account: <%= link_to t("devise.mailer.invitation_instructions.accept"), accept_user_invitation_url(@resource, invitation_token: @token) %>.</p>
