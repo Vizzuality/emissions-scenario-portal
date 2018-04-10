@@ -1,0 +1,6 @@
+Pathways Portal
+
+Hi <%= @resource.name %>, you've been invited to manage a model in Pathways Portal.
+
+Click or copy the link to set up a password for your account: <%= accept_user_invitation_url(@resource, invitation_token: @token) %>
+

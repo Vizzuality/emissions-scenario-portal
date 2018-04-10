@@ -12,12 +12,12 @@
                 <% if f.object.class.require_password_on_accepting %>
                   <div class="c-form-item">
                     <%= f.label :password, class: "f-ff1-m" %>
-                    <%= f.password_field :password, class: 'c-input-text js-form-input' %>
+                    <%= f.password_field :password, autocomplete: 'off', class: 'c-input-text js-form-input' %>
                   </div>
 
                   <div class="c-form-item">
                     <%= f.label :password_confirmation, class: "f-ff1-m" %>
-                    <%= f.password_field :password_confirmation, class: 'c-input-text js-form-input' %>
+                    <%= f.password_field :password_confirmation, autocomplete: 'off', class: 'c-input-text js-form-input' %>
                   </div>
                 <% end %>
               </div>
