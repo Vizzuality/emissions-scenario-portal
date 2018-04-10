@@ -236,13 +236,13 @@ en:
   notes:
     description:
       name: "Note"
-      definition: "…"
+      definition: "In this optional field, you can enter a note for a particular indicator to explain particular modeling choices for this indicator."
     unit_of_entry:
       name: "Unit of Entry"
-      definition: "…"
+      definition: "In this field, enter the unit (Model Unit) in which the original data is available. If the data is available in the same unit as the standardized unit, enter the standardized unit."
     conversion_factor:
       name: "Conversion Factor"
-      definition: "…"
+      definition: "In this field, enter a factor of conversion which when multiplied by the model unit results in the standardized unit. If the data is available in the same unit as the standardized unit, enter the conversion factor as 1. For example, if the original unit in which energy data is available is “TWh”, the standardized unit is “EJ” and the conversion factor will be 0.0036. For converting non-CO2 greenhouse gases to CO2e please use IPCC AR4 (2007) guidelines for the 100-yr global warming potential; CH4: 25, N2O: 298."
 
   errors:
     messages:
