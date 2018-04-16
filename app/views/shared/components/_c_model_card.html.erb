@@ -1,5 +1,12 @@
 <div class="c-model-card">
-  <div class="f-ff2-m"><%= title %></div>
+  <div class="f-ff2-m">
+    <span class="<%= "title" if model.logo_file_name.present? %>">
+      <%= title %>
+    </span>
+    <% if model.logo_file_name.present? %>
+      <%= image_tag model.logo.url(:thumb), class: "logo" %>
+    <% end %>
+  </div>
   <div class="f-ff1-s"><%= description %></div>
   <%= link_to button_path do %>
     <div class="c-button"><span>Select this model</span></div>

@@ -1,6 +1,6 @@
 class ModelsController < ApplicationController
   def index
-    @models = policy_scope(Model).all
+    @models = policy_scope(Model).order(:abbreviation)
     @team = current_user.team
   end
 
