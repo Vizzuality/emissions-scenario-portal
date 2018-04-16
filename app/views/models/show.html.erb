@@ -38,8 +38,9 @@
                      data: @model.sectoral_coverage.try(:join, ', ')
                    },
                    {
-                     title: 'Time horizon',
-                     data: @model.time_horizon
+                     title: 'Logo',
+                     data: @model.logo_file_name.present? ?
+                      image_tag(@model.logo.url(:thumb), size: "75x75") : '-'
                    }
                  ]
       %>
