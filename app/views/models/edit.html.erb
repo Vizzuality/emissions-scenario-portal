@@ -36,7 +36,7 @@
                 <% if f.object['logo'].present? %>-highlighted<% end %>
                 <% if @model.errors.messages[:logo].present? %>-error<% end %>
                 ">
-                <%= f.label :logo, 'Model Picture', class: 'f-ff1-m' %>
+                <%= f.label :logo, 'Model Logo', class: 'f-ff1-m' %>
                 <div>
                   <%= f.file_field :logo %>
                   <%= image_tag @model.logo.url(:thumb) unless @model.logo_file_name.nil? %>
