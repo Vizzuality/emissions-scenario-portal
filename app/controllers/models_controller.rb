@@ -1,6 +1,6 @@
 class ModelsController < ApplicationController
   def index
-    @models = policy_scope(Model).all
+    @models = policy_scope(Model).order(:abbreviation)
     @team = current_user.team
   end
 
@@ -63,6 +63,7 @@ class ModelsController < ApplicationController
   private
 
   def model_params
-    params.require(:model).permit(*Model.attribute_symbols_for_strong_params)
+    params.require(:model).permit(:logo,
+                                  *Model.attribute_symbols_for_strong_params)
   end
 end

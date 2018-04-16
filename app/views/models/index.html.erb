@@ -38,9 +38,7 @@
     <% @models.each do |model| %>
       <div class="small-4 columns">
         <%= render 'shared/components/c_model_card',
-          title: "#{model.abbreviation}. #{model.full_name}",
-          description: "Last updated on #{model.updated_at.to_formatted_s(:short)}",
-          button_path: model_path(model) %>
+          model: model %>
       </div>
     <% end %>
   </div>

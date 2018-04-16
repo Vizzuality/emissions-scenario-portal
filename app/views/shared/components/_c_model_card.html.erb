@@ -1,7 +1,16 @@
 <div class="c-model-card">
-  <div class="f-ff2-m"><%= title %></div>
-  <div class="f-ff1-s"><%= description %></div>
-  <%= link_to button_path do %>
+  <div class="f-ff2-m">
+    <span class="<%= "title" if model.logo_file_name.present? %>">
+      <%= "#{model.abbreviation}. #{model.full_name}" %>
+    </span>
+    <% if model.logo_file_name.present? %>
+      <%= image_tag model.logo.url(:thumb), class: "logo" %>
+    <% end %>
+  </div>
+  <div class="f-ff1-s">
+    <%= "Last updated on #{model.updated_at.to_formatted_s(:short)}" %>
+  </div>
+  <%= link_to model_path(model) do %>
     <div class="c-button"><span>Select this model</span></div>
   <% end %>
 </div>

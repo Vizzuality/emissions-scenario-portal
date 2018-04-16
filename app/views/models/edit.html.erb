@@ -30,6 +30,21 @@
       </div>
       <div class="small-9 columns">
         <% form_blocks.each do |block| %>
+          <div class="c-form">
+            <div class="c-form-items">
+              <div class="c-form-item
+                <% if f.object['logo'].present? %>-highlighted<% end %>
+                <% if @model.errors.messages[:logo].present? %>-error<% end %>
+                ">
+                <%= f.label :logo, 'Model Picture', class: 'f-ff1-m' %>
+                <div>
+                  <%= f.file_field :logo %>
+                  <%= image_tag @model.logo.url(:thumb) unless @model.logo_file_name.nil? %>
+                </div>
+                <span class="f-ff1-s">Accepted formats: jpg, png. File size must be below 2MB.</span>
+              </div>
+            </div>
+          </div>
           <%= render 'shared/components/form/c_form',
             object: @model,
             f: f,

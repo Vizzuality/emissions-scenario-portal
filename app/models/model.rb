@@ -23,6 +23,16 @@ class Model < ApplicationRecord
   validates :team, team_reassignment: true
   before_validation :ignore_blank_array_values
 
+  has_attached_file :logo, storage: :s3,
+    path: "#{Rails.env}/:class/:id/:filename",
+    styles: {
+      thumb: '300x300>'
+    }
+
+  validates_attachment_content_type :logo,
+                                    content_type: ['image/jpeg', 'image/png']
+  validates_attachment_size :logo, in: 0.kilobytes..2.megabytes
+
   def self.team(team)
     where(team_id: [nil, team.respond_to?(:id) ? team.id : team].uniq)
   end
