@@ -38,7 +38,7 @@
                      data: @model.sectoral_coverage.try(:join, ', ')
                    },
                    {
-                     title: 'Logo',
+                     title: 'Maintainer Institute Logo',
                      data: @model.logo_file_name.present? ?
                       image_tag(@model.logo.url(:thumb), size: "75x75") : '-'
                    }
