@@ -44,5 +44,52 @@ RSpec.describe Note, type: :model do
         build(:note, unit_of_entry: nil, conversion_factor: 1)
       ).to be_valid
     end
+
+  end
+
+  context "after_save callback" do
+
+    let(:note) {
+      create(:note, conversion_factor: 1.0)
+    }
+
+    let!(:time_series_value) {
+      scenario = create(:scenario, model_id: note.model_id)
+      create(:time_series_value, scenario_id: scenario.id,
+             indicator_id: note.indicator_id, value: 1.0)
+    }
+
+    let!(:frozen_time_series_value) {
+      create(:time_series_value, indicator_id: note.indicator_id, value: 1.0)
+    }
+
+    it "triggers after_save callback when note is saved" do
+      expect(note).to receive(:convert_time_series_values)
+      note.save
+    end
+
+    it "updates time_series_values when conversion_factor changes" do
+      note.update_attributes(conversion_factor: 2.0)
+      time_series_value.reload
+      expect(time_series_value.value).to eq(2.0)
+    end
+
+    it "doesn't update time_series_values when conversion_factor not edited" do
+      note.update_attributes(description: 'derp')
+      time_series_value.reload
+      expect(time_series_value.value).to eq(1.0)
+    end
+
+    it "doesn't update time_series_values when conversion_factor doesn't change" do
+      note.update_attributes(conversion_factor: '1.0')
+      time_series_value.reload
+      expect(time_series_value.value).to eq(1.0)
+    end
+
+    it "doesn't update time_series_values when conversion_factor changes to nil" do
+      note.update_attributes(conversion_factor: nil)
+      time_series_value.reload
+      expect(time_series_value.value).to eq(1.0)
+    end
   end
 end
