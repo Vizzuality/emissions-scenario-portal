@@ -48,7 +48,6 @@ RSpec.describe Note, type: :model do
   end
 
   context "after_save callback" do
-
     let(:note) {
       create(:note, conversion_factor: 1.0)
     }
