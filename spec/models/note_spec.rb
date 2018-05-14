@@ -49,7 +49,7 @@ RSpec.describe Note, type: :model do
 
   context "after_save callback" do
     let(:note) {
-      create(:note, conversion_factor: 1.0)
+      create(:note, conversion_factor: 2.0)
     }
 
     let!(:time_series_value) {
@@ -68,9 +68,9 @@ RSpec.describe Note, type: :model do
     end
 
     it "updates time_series_values when conversion_factor changes" do
-      note.update_attributes(conversion_factor: 2.0)
+      note.update_attributes(conversion_factor: 1.0)
       time_series_value.reload
-      expect(time_series_value.value).to eq(2.0)
+      expect(time_series_value.value).to eq(0.5)
     end
 
     it "doesn't update time_series_values when conversion_factor not edited" do
@@ -80,7 +80,7 @@ RSpec.describe Note, type: :model do
     end
 
     it "doesn't update time_series_values when conversion_factor doesn't change" do
-      note.update_attributes(conversion_factor: '1.0')
+      note.update_attributes(conversion_factor: '2.0')
       time_series_value.reload
       expect(time_series_value.value).to eq(1.0)
     end
@@ -88,7 +88,15 @@ RSpec.describe Note, type: :model do
     it "doesn't update time_series_values when conversion_factor changes to nil" do
       note.update_attributes(conversion_factor: nil)
       time_series_value.reload
-      expect(time_series_value.value).to eq(1.0)
+      expect(time_series_value.value).to eq(0.5)
+    end
+
+    it "updates time_series_values when new conversion_factor is created afresh" do
+      create(:note, conversion_factor: 3.0,
+             indicator_id: frozen_time_series_value.indicator_id,
+             model_id: frozen_time_series_value.scenario.model_id)
+      frozen_time_series_value.reload
+      expect(frozen_time_series_value.value).to eq(3.0)
     end
   end
 end
