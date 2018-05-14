@@ -20,11 +20,17 @@ class Note < ApplicationRecord
     conversion_factor.present? && conversion_factor != 1
   end
 
+  # new_value = value / previous_factor * new_factor
+  # makes sure to revert changes to data when the conversion_factor is
+  # updated
   def convert_time_series_values
-    if saved_changes.keys.include?("conversion_factor") && self.conversion_factor
+    if saved_changes.keys.include?("conversion_factor")
+      new_factor = conversion_factor.presence || 1.0
+      previous_factor = saved_changes["conversion_factor"][0] ?
+        saved_changes["conversion_factor"][0] : 1.0
       TimeSeriesValue.joins(scenario: [:model]).
-        where(models: { id: self.model_id}, indicator_id: self.indicator_id).
-        update_all("value = value * #{self.conversion_factor}")
+        where(models: { id: model_id}, indicator_id: indicator_id).
+        update_all("value = value / #{previous_factor} * #{new_factor}")
     end
   end
 end
