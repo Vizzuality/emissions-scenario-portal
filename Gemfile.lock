@@ -609,7 +609,7 @@ GEM
     byebug (10.0.1)
     case_transform (0.2)
       activesupport
-    charlock_holmes (0.7.5)
+    charlock_holmes (0.7.6)
     climate_control (0.2.0)
     coderay (1.1.2)
     coffee-rails (4.2.2)
@@ -866,7 +866,7 @@ DEPENDENCIES
   appsignal
   aws-sdk (~> 3)
   byebug
-  charlock_holmes
+  charlock_holmes (~> 0.7.6)
   coffee-rails
   devise
   devise_invitable
