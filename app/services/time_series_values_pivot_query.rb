@@ -72,7 +72,7 @@ class TimeSeriesValuesPivotQuery
       'indicators.composite_name AS indicator_name',
       'indicators.unit AS unit_of_entry',
       'year',
-      'value'
+      'round(value, 4) AS value'
     ]
   end
 
