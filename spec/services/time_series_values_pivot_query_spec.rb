@@ -25,10 +25,10 @@ RSpec.describe TimeSeriesValuesPivotQuery do
   end
 
   it 'should contain correct values' do
-    expect(subject[0]['2010']).to eq('2.0')
-    expect(subject[0]['2020']).to eq('4.0')
-    expect(subject[1]['2010']).to eq('1.0')
-    expect(subject[1]['2020']).to eq('3.0')
+    expect(subject[0]['2010']).to eq('2.0000')
+    expect(subject[0]['2020']).to eq('4.0000')
+    expect(subject[1]['2010']).to eq('1.0000')
+    expect(subject[1]['2020']).to eq('3.0000')
   end
 
   it 'should contain correct years' do
