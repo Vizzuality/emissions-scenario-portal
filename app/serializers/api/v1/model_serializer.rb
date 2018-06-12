@@ -44,6 +44,7 @@ module Api
       attribute :wind_power_supply
       attribute :bioenergy_supply
       attribute :co2_storage_supply
+      attribute :logo
 
       attribute :scenario_ids
       attribute :indicator_ids
@@ -54,6 +55,12 @@ module Api
 
       def scenario_ids
         object.scenarios.pluck(:id)
+      end
+
+      def logo
+        object.logo_file_name ?
+          object.logo.url(:original) :
+          object.team && object.team.image_file_name && object.team.image.url(:original)
       end
     end
   end
