@@ -23,6 +23,8 @@ gem 'jbuilder'
 gem 'dotenv-rails' # required by Devise
 
 gem 'active_model_serializers'
+gem 'api-pagination'
+gem 'kaminari'
 gem 'activerecord-import'
 gem 'appsignal'
 gem 'aws-sdk', '~> 3'
