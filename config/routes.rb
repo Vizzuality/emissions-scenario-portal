@@ -42,6 +42,13 @@ Rails.application.routes.draw do
       end
       resources :categories, only: %i[index]
       resources :subcategories, only: %i[index]
+
+      namespace :data do
+        resources :emission_pathways, only: [:index] do
+          get :download, on: :collection, defaults: { format: 'csv' }
+          get :meta, on: :collection
+        end
+      end
     end
   end
 
