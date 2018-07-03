@@ -48,6 +48,13 @@ Rails.application.routes.draw do
           get :download, on: :collection, defaults: { format: 'csv' }
           get :meta, on: :collection
         end
+        namespace :emission_pathways do
+          resources :models, only: [:index], defaults: { time_series: true }
+          resources :scenarios, only: [:index], defaults: { time_series: true }
+          resources :indicators, only: [:index], defaults: { time_series: true }
+          resources :categories, only: [:index]
+          resources :locations, only: [:index]
+        end
       end
     end
   end
