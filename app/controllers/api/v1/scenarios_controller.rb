@@ -1,19 +1,10 @@
 module Api
   module V1
     class ScenariosController < ApiController
+      include Api::V1::ScenariosList
+
       def index
-        scenarios =
-          if params[:time_series]
-            Scenario.having_time_series
-          else
-            Scenario.all
-          end
-
-        scenarios = scenarios.where(published: true)
-        scenarios = scenarios.where(model_id: params[:model]) if params[:model]
-        scenarios = scenarios.includes(:model).order(:name)
-
-        render json: scenarios
+        render json: @scenarios
       end
 
       def show

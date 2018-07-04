@@ -42,6 +42,20 @@ Rails.application.routes.draw do
       end
       resources :categories, only: %i[index]
       resources :subcategories, only: %i[index]
+
+      namespace :data do
+        resources :emission_pathways, only: [:index] do
+          get :download, on: :collection, defaults: { format: 'csv' }
+          get :meta, on: :collection
+        end
+        namespace :emission_pathways do
+          resources :models, only: [:index], defaults: { time_series: true }
+          resources :scenarios, only: [:index], defaults: { time_series: true }
+          resources :indicators, only: [:index], defaults: { time_series: true }
+          resources :categories, only: [:index]
+          resources :locations, only: [:index]
+        end
+      end
     end
   end
 

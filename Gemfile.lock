@@ -48,6 +48,7 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
+    api-pagination (4.8.1)
     appsignal (2.5.1)
       rack
     arel (8.0.0)
@@ -663,6 +664,18 @@ GEM
       railties (>= 3.2.16)
     json (2.1.0)
     jsonapi-renderer (0.2.0)
+    kaminari (1.1.1)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.1.1)
+      kaminari-activerecord (= 1.1.1)
+      kaminari-core (= 1.1.1)
+    kaminari-actionview (1.1.1)
+      actionview
+      kaminari-core (= 1.1.1)
+    kaminari-activerecord (1.1.1)
+      activerecord
+      kaminari-core (= 1.1.1)
+    kaminari-core (1.1.1)
     launchy (2.4.3)
       addressable (~> 2.3)
     letter_opener (1.6.0)
@@ -863,6 +876,7 @@ PLATFORMS
 DEPENDENCIES
   active_model_serializers
   activerecord-import
+  api-pagination
   appsignal
   aws-sdk (~> 3)
   byebug
@@ -876,6 +890,7 @@ DEPENDENCIES
   jbuilder
   jquery-rails
   jquery-ui-rails
+  kaminari
   letter_opener
   listen
   paperclip
@@ -912,4 +927,4 @@ RUBY VERSION
    ruby 2.5.0p0
 
 BUNDLED WITH
-   1.16.1
+   1.16.2
