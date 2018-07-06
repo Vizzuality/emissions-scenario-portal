@@ -53,7 +53,7 @@ Rails.application.routes.draw do
           resources :scenarios, only: [:index], defaults: { time_series: true }
           resources :indicators, only: [:index], defaults: { time_series: true }
           resources :categories, only: [:index]
-          resources :locations, only: [:index]
+          resources :locations, only: [:index], defaults: { time_series: true }
         end
       end
     end
