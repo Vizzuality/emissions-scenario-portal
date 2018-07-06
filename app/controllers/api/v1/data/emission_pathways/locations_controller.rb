@@ -6,6 +6,7 @@ module Api
         class LocationsController < ApiController
           def index
             @locations = Location.all
+            @locations = @locations.having_time_series if params[:time_series]
 
             render json: @locations,
                    adapter: :json,
