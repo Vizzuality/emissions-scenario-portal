@@ -5,7 +5,7 @@ module Api
         attr_reader :years
 
         # @param params [Hash]
-        # @option params [Array<String>] :locations
+        # @option params [Array<Integer>] :location_ids
         # @option params [Array<Integer>] :model_ids
         # @option params [Array<Integer>] :scenario_ids
         # @option params [Array<Integer>] :category_ids
@@ -87,6 +87,7 @@ module Api
         def initialize_filters(params)
           # integer arrays
           [
+            :location_ids,
             :model_ids,
             :scenario_ids,
             :indicator_ids,
@@ -97,10 +98,6 @@ module Api
               value = params[param_name].map(&:to_i)
             end
             instance_variable_set(:"@#{param_name}", value)
-          end
-          if params[:locations]
-            @location_ids = Location.where(iso_code: params[:locations]).
-              pluck(:id)
           end
           @start_year = params[:start_year]
           @end_year = params[:end_year]

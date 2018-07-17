@@ -3,7 +3,7 @@
 ## Emission Pathways
 
 ### Parameters
-- locations[] (ISO code 3)
+- location_ids[]
 - model_ids[]
 - scenario_ids[]
 - category_ids[]
@@ -18,7 +18,7 @@
 
 File format:
 
-ID | Iso code 3 | Location | Model | Scenario | Category | Subategory | Indicator| Unit | Definition | year 1 | year 2 | ...
+ID | Iso code 2 | Location | Model | Scenario | Category | Subategory | Indicator| Unit | Definition | year 1 | year 2 | ...
 
 ### JSON API endpoint
 
