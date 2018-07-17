@@ -16,6 +16,7 @@ module Api
       def set_access_control_headers
         headers['Access-Control-Allow-Origin'] = '*'
         headers['Access-Control-Allow-Methods'] = 'GET'
+        headers['Access-Control-Expose-Headers'] = 'Link, Total, Per-Page'
       end
     end
   end
