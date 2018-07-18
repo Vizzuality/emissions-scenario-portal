@@ -21,7 +21,7 @@ describe Api::V1::Data::EmissionPathwaysController, type: :controller do
   describe 'GET index' do
     it 'renders emission pathways' do
       get :index, params: {
-        locations: [spain.iso_code],
+        location_ids: [spain.id],
         model_ids: [model.id],
         scenario_ids: [scenario.id],
         category_ids: [category.id],
