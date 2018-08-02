@@ -13,7 +13,7 @@ module Api
                  each_serializer: Api::V1::Data::EmissionPathwaysSerializer,
                  params: params,
                  root: :data,
-                 meta: {years: @filter.years}
+                 meta: {years: @filter.years, columns: @filter.column_manifest}
         end
 
         def meta
