@@ -75,7 +75,7 @@ module Api
             ['indicators.definition', 'definition'],
             [
               # rubocop:disable Metrics/LineLength
-              "JSON_AGG(JSON_BUILD_OBJECT('year', time_series_values.year, 'value', time_series_values.value))",
+              "JSON_AGG(JSON_BUILD_OBJECT('year', time_series_values.year, 'value', ROUND(time_series_values.value, 2)))",
               # rubocop:enable Metrics/LineLength
               'emissions'
             ]
