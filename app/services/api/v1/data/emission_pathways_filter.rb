@@ -2,6 +2,8 @@ module Api
   module V1
     module Data
       class EmissionPathwaysFilter
+        include Api::V1::Data::SanitisedSorting
+        include Api::V1::Data::ColumnHelpers
         attr_reader :years
 
         # @param params [Hash]
@@ -10,10 +12,13 @@ module Api
         # @option params [Array<Integer>] :scenario_ids
         # @option params [Array<Integer>] :category_ids
         # @option params [Array<Integer>] :indicator_ids
-        # @param start_year [Integer]
-        # @param end_year [Integer]
+        # @option params [Integer] :start_year
+        # @option params [Integer] :end_year
+        # @option params [String] :sort_col
+        # @option params [String] :sort_dir
         def initialize(params)
           initialize_filters(params)
+          initialise_sorting(params[:sort_col], params[:sort_dir])
           @query = TimeSeriesValue.
             joins(:location, {scenario: :model}, :indicator).
             joins(
@@ -31,59 +36,73 @@ module Api
           @years = @query.select(:year).distinct.pluck(:year).sort
           @query.
             select(select_columns).
-            group(group_columns)
+            group(group_columns).
+            order(sanitised_order)
         end
 
-        def column_aliases
-          column_aliases = select_columns_with_aliases.
-            map do |column, column_alias|
-              column_alias || column
-            end
-          column_aliases.pop # pop emissions, this is for csv
-          column_aliases
+        def meta
+          {
+            years: @years
+          }.merge(sorting_manifest).merge(column_manifest)
         end
 
         private
 
-        def select_columns
-          select_columns_with_aliases.map do |column, column_alias|
-            if column_alias
-              [column, 'AS', column_alias].join(' ')
-            else
-              column
-            end
-          end
-        end
-
-        def group_columns
-          columns = select_columns_with_aliases.map(&:first)
-          columns[0..columns.length - 2]
-        end
-
         # rubocop:disable Metrics/MethodLength
-        def select_columns_with_aliases
+        def select_columns_map
           [
-            ['indicators.id', 'id'],
-            ['locations.iso_code', 'iso_code2'],
-            ['locations.name', 'location'],
-            ['models.full_name', 'model'],
-            ['scenarios.name', 'scenario'],
-            ['categories.name', 'category'],
-            ['subcategories.name', 'subcategory'],
-            ['indicators.name', 'indicator'],
-            ['indicators.unit', 'unit'],
-            ['indicators.definition', 'definition'],
-            [
+            {
+              column: 'indicators.id',
+              alias: 'id'
+            },
+            {
+              column: 'locations.iso_code',
+              alias: 'iso_code2'
+            },
+            {
+              column: 'locations.name',
+              alias: 'location'
+            },
+            {
+              column: 'models.full_name',
+              alias: 'model'
+            },
+            {
+              column: 'scenarios.name',
+              alias: 'scenario'
+            },
+            {
+              column: 'categories.name',
+              alias: 'category'
+            },
+            {
+              column: 'subcategories.name',
+              alias: 'subcategory'
+            },
+            {
+              column: 'indicators.name',
+              alias: 'indicator'
+            },
+            {
+              column: 'indicators.unit',
+              alias: 'unit'
+            },
+            {
+              column: 'indicators.definition',
+              alias: 'definition'
+            },
+            {
               # rubocop:disable Metrics/LineLength
-              "JSON_AGG(JSON_BUILD_OBJECT('year', time_series_values.year, 'value', time_series_values.value))",
+              column: "JSON_AGG(JSON_BUILD_OBJECT('year', time_series_values.year, 'value', ROUND(time_series_values.value, 2)))",
               # rubocop:enable Metrics/LineLength
-              'emissions'
-            ]
+              alias: 'emissions',
+              order: false,
+              group: false
+            }
           ]
         end
         # rubocop:enable Metrics/MethodLength
 
-        # rubocop:disable Metrics/MethodLength
         def initialize_filters(params)
           # integer arrays
           [
@@ -102,7 +121,6 @@ module Api
           @start_year = params[:start_year]
           @end_year = params[:end_year]
         end
-        # rubocop:enable Metrics/MethodLength
 
         def apply_filters
           if @model_ids

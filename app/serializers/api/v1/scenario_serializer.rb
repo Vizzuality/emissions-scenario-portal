@@ -20,6 +20,7 @@ module Api
 
       belongs_to :model
       has_many :indicator_ids
+      has_many :category_ids
 
       def model
         {
@@ -30,6 +31,10 @@ module Api
 
       def indicator_ids
         object.indicators.pluck(:id)
+      end
+
+      def category_ids
+        object.categories.pluck(:id)
       end
     end
   end
