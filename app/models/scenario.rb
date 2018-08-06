@@ -24,6 +24,10 @@ class Scenario < ApplicationRecord
     Indicator.where(id: time_series_values.select(:indicator_id))
   end
 
+  def categories
+    indicators.joins(subcategory: :parent)
+  end
+
   def time_series_data?
     time_series_values_count.positive?
   end
