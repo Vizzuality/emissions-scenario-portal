@@ -12,8 +12,8 @@ module Api
         # @option params [Array<Integer>] :scenario_ids
         # @option params [Array<Integer>] :category_ids
         # @option params [Array<Integer>] :indicator_ids
-        # @param start_year [Integer]
-        # @param end_year [Integer]
+        # @option params [Integer] :start_year
+        # @option params [Integer] :end_year
         # @option params [String] :sort_col
         # @option params [String] :sort_dir
         def initialize(params)
@@ -38,6 +38,12 @@ module Api
             select(select_columns).
             group(group_columns).
             order(sanitised_order)
+        end
+
+        def meta
+          {
+            years: @years
+          }.merge(sorting_manifest).merge(column_manifest)
         end
 
         private

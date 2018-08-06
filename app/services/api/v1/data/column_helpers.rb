@@ -10,26 +10,16 @@ module Api
           end
         end
 
-        # rubocop:disable Metrics/MethodLength
         def column_manifest
-          select_columns_map.map do |column_properties|
-            sortable =
-              if column_properties[:order].nil?
-                true
-              else
-                column_properties[:order]
-              end
-            tmp = {
-              name: column_properties[:alias],
-              sortable: sortable
-            }
-            if @sorting_column == column_properties[:column]
-              tmp[:current] = @sorting_direction
+          sortable_columns = select_columns_map.select do |column_properties|
+            if column_properties[:order].nil? || column_properties[:order]
+              true
+            else
+              column_properties[:order]
             end
-            tmp
           end
+          {columns: sortable_columns.map { |cp| cp[:alias] }}
         end
-        # rubocop:enable Metrics/MethodLength
 
         private
 

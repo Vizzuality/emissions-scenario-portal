@@ -10,6 +10,8 @@
 - indicator_ids[]
 - start_year
 - end_year
+- sort_dir (ASC / DESC)
+- sort_col (column name or year - see meta)
 
 ### CSV download endpoint
 
@@ -53,13 +55,16 @@ ID | Iso code 2 | Location | Model | Scenario | Category | Subategory | Indicato
          integer
       ],
       "columns":[
-         {"name":"string", "sortable":boolean, "current":"string"}
-      ]
+         "string"
+      ],
+      "sorting":{
+         "sort_col":"string","sort_dir":"string"
+      }
    }
 }
 ```
 
-Response is paginated. Pagination headers are in place. Meta section is to inform the rendering of data in a tabular form: it lists available years of data (useful when used as headers) and all available data columns together with information on whether they are sortable or not. Column which is currently used for sorting will additionaly have the "current" property set to either "ASC" or "DESC".
+Response is paginated. Pagination headers are in place. Meta section is to inform the rendering of data in a tabular form: it lists available years of data (useful when used as headers) and all available data columns. Current sorting column and direction are also returned.
 
 ```
 Link: <http://localhost:3000/api/v1/data/emission_pathways?page=416>; rel="last", <http://localhost:3000/api/v1/data/emission_pathways?page=2>; rel="next"
