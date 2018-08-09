@@ -26,6 +26,10 @@ describe Api::V1::Data::EmissionPathwaysController, type: :controller do
   let(:indicator_2) {
     FactoryBot.create(:indicator, subcategory: subcategory_2, name: 'persica')
   }
+  let(:indicator_with_null) {
+    FactoryBot.
+      create(:indicator, subcategory: subcategory_2, name: 'with nulls')
+  }
   let!(:indicator_1_value) {
     FactoryBot.create(
       :time_series_value,
@@ -44,6 +48,16 @@ describe Api::V1::Data::EmissionPathwaysController, type: :controller do
       location: spain,
       year: 2030,
       value: 2.0
+    )
+  }
+  let!(:indicator_with_null_value) {
+    FactoryBot.create(
+      :time_series_value,
+      scenario: scenario,
+      indicator: indicator_with_null,
+      location: spain,
+      year: 2020,
+      value: 3.0
     )
   }
 
@@ -90,6 +104,13 @@ describe Api::V1::Data::EmissionPathwaysController, type: :controller do
       expect(response.content_type).to eq('text/csv')
       expect(response.headers['Content-Disposition']).
         to eq('attachment; filename=emission_pathways.csv')
+    end
+
+    it 'Replaces nulls with N/A' do
+      get :download
+      parsed_csv = CSV.parse(response.body)
+      puts parsed_csv
+      expect(parsed_csv.last.last).to eq('N/A')
     end
   end
 

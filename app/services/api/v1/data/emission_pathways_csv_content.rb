@@ -6,8 +6,8 @@ module Api
       class EmissionPathwaysCsvContent
         def initialize(filter)
           @grouped_query = filter.call
-          @headers = filter.column_aliases
-          @headers.shift
+          # FIXME: Should we just remove the columns we don't want by name?
+          @headers = filter.column_aliases[1...-1]
           @years = filter.years
         end
 
@@ -18,7 +18,7 @@ module Api
               ary = @headers.map { |h| record[h] }
               ary += @years.map do |y|
                 emission = record.emissions.find { |e| e['year'] == y }
-                emission && emission['value']
+                (emission && emission['value']) || 'N/A'
               end
               csv << ary
             end
