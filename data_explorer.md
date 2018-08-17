@@ -54,6 +54,9 @@ ID | Iso code 2 | Location | Model | Scenario | Category | Subategory | Indicato
       "years":[
          integer
       ],
+      "header_years":[
+         integer
+      ],
       "columns":[
          "string"
       ],
@@ -64,7 +67,7 @@ ID | Iso code 2 | Location | Model | Scenario | Category | Subategory | Indicato
 }
 ```
 
-Response is paginated. Pagination headers are in place. Meta section is to inform the rendering of data in a tabular form: it lists available years of data (useful when used as headers) and all available data columns. Current sorting column and direction are also returned.
+Response is paginated. Pagination headers are in place. Meta section is to inform the rendering of data in a tabular form: it lists available years of data without year range filter applied (useful when used as dropdowns) and years of data with year range filter applied (useful when used as column headers) and all available data columns. Current sorting column and direction are also returned.
 
 ```
 Link: <http://localhost:3000/api/v1/data/emission_pathways?page=416>; rel="last", <http://localhost:3000/api/v1/data/emission_pathways?page=2>; rel="next"
