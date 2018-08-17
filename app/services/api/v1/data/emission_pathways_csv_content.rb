@@ -6,8 +6,7 @@ module Api
       class EmissionPathwaysCsvContent
         def initialize(filter)
           @grouped_query = filter.call
-          # FIXME: Should we just remove the columns we don't want by name?
-          @headers = filter.column_aliases[1...-1]
+          @headers = filter.column_aliases
           @years = filter.years
         end
 
