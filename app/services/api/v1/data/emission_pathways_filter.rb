@@ -53,7 +53,8 @@ module Api
           [
             {
               column: 'indicators.id',
-              alias: 'id'
+              alias: 'id',
+              visible: false
             },
             {
               column: 'locations.iso_code',
@@ -97,7 +98,8 @@ module Api
               # rubocop:enable Metrics/LineLength
               alias: 'emissions',
               order: false,
-              group: false
+              group: false,
+              visible: false
             }
           ]
         end
