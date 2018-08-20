@@ -4,7 +4,7 @@ module Api
       class EmissionPathwaysFilter
         include Api::V1::Data::SanitisedSorting
         include Api::V1::Data::ColumnHelpers
-        attr_reader :years
+        attr_reader :header_years
 
         # @param params [Hash]
         # @option params [Array<Integer>] :location_ids
@@ -34,6 +34,10 @@ module Api
         def call
           apply_filters
           @years = @query.select(:year).distinct.pluck(:year).sort
+          @header_years = @years.dup
+          @header_years.reject! { |y| y < @start_year } if @start_year
+          @header_years.reject! { |y| y > @end_year } if @end_year
+          apply_year_filter
           @query.
             select(select_columns).
             group(group_columns).
@@ -42,7 +46,8 @@ module Api
 
         def meta
           {
-            years: @years
+            years: @years,
+            header_years: @header_years
           }.merge(sorting_manifest).merge(column_manifest)
         end
 
@@ -120,8 +125,8 @@ module Api
             end
             instance_variable_set(:"@#{param_name}", value)
           end
-          @start_year = params[:start_year]
-          @end_year = params[:end_year]
+          @start_year = params[:start_year]&.to_i
+          @end_year = params[:end_year]&.to_i
         end
 
         def apply_filters
@@ -132,7 +137,6 @@ module Api
           @query = @query.where(indicator_id: @indicator_ids) if @indicator_ids
           @query = @query.where(location_id: @location_ids) if @location_ids
           apply_category_filter
-          apply_year_filter
         end
 
         def apply_category_filter
