@@ -33,6 +33,7 @@ module Api
             )
         end
 
+        # rubocop:disable Metrics/AbcSize
         def call
           apply_minimum_year_from
           apply_filters
@@ -46,6 +47,7 @@ module Api
             group(group_columns).
             order(sanitised_order)
         end
+        # rubocop:enable Metrics/AbcSize
 
         def meta
           {
