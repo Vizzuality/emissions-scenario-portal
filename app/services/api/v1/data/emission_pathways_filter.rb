@@ -72,7 +72,8 @@ module Api
             },
             {
               column: 'locations.name',
-              alias: 'location'
+              alias: 'location',
+              display: 'Country / Region'
             },
             {
               column: 'models.full_name',
@@ -105,6 +106,10 @@ module Api
             {
               column: 'indicators.definition',
               alias: 'definition'
+            },
+            {
+              column: 'indicators.unit',
+              alias: 'unit'
             },
             {
               # rubocop:disable Metrics/LineLength

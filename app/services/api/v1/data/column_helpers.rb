@@ -5,12 +5,14 @@ module Api
         extend ActiveSupport::Concern
 
         def column_aliases
-          visible_columns = select_columns_map.select do |column_properties|
-            column_properties[:visible].nil? ||
-              column_properties[:visible] == true
-          end
           visible_columns.map do |column_properties|
             column_properties[:alias]
+          end
+        end
+
+        def column_display_names
+          visible_columns.map do |column_properties|
+            column_properties[:display] || column_properties[:alias]&.humanize
           end
         end
 
@@ -26,6 +28,14 @@ module Api
         end
 
         private
+
+        # rubocop:disable Metrics/LineLength
+        def visible_columns
+          select_columns_map.select do |column_properties|
+            column_properties[:visible].nil? || column_properties[:visible] == true
+          end
+        end
+        # rubocop:enable Metrics/LineLength
 
         def alias_to_name(column_alias)
           tmp = select_columns_map.find do |column_properties|
