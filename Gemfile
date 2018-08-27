@@ -37,6 +37,7 @@ gem 'devise_invitable'
 gem 'paperclip'
 gem 'pg_search'
 gem 'pundit'
+gem 'rubyzip'
 gem 'sidekiq'
 gem 'sparkpost_rails'
 

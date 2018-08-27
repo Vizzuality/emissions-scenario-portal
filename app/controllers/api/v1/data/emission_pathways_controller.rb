@@ -3,7 +3,9 @@ module Api
   module V1
     module Data
       class EmissionPathwaysController < ApiController
+        include Streamable
         before_action :parametrise_filter, only: [:index, :download]
+        before_action :parametrise_metadata_filter, only: [:download]
 
         def index
           @records = paginate @filter.call
@@ -29,20 +31,41 @@ module Api
           )
         end
 
+        # rubocop:disable Metrics/MethodLength
         def download
-          csv_string = Api::V1::Data::EmissionPathwaysCsvContent.new(@filter).
-            call
-          send_data(
-            csv_string,
-            type: 'text/csv; charset=utf-8; header=present',
-            disposition: 'attachment; filename=emission_pathways.csv'
+          filename = 'emission_pathways'
+          models_filename = 'models.csv'
+          scenarios_filename = 'scenarios.csv'
+          zipped_download = Api::V1::Data::ZippedDownload.new(filename)
+          zipped_download.add_file_content(
+            Api::V1::Data::EmissionPathwaysCsvContent.new(@filter).call,
+            filename + '.csv'
           )
+          zipped_download.add_file_content(
+            Api::V1::Data::ModelsCsvContent.new(@models_filter).call,
+            models_filename
+          )
+          zipped_download.add_file_content(
+            Api::V1::Data::ScenariosCsvContent.new(@scenarios_filter).call,
+            scenarios_filename
+          )
+          stream_file(filename) { zipped_download.call }
         end
+        # rubocop:enable Metrics/MethodLength
 
         private
 
         def parametrise_filter
           @filter = Data::EmissionPathwaysFilter.new(params)
+        end
+
+        def parametrise_metadata_filter
+          @models_filter = Api::V1::Data::ModelsFilter.new(
+            params.slice(:model_ids, :location_ids)
+          )
+          @scenarios_filter = Api::V1::Data::ScenariosFilter.new(
+            params.slice(:model_ids, :scenario_ids, :location_ids)
+          )
         end
 
         # rubocop:disable Naming/AccessorMethodName
