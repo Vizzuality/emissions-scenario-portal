@@ -126,7 +126,6 @@ describe Api::V1::Data::EmissionPathwaysController, type: :controller do
     it 'returns composite name as one of the headers' do
       get :download
       parsed_csv = CSV.parse(response.body)
-      puts parsed_csv
       expect(parsed_csv.first).to include('Composite name')
     end
   end
