@@ -163,7 +163,8 @@ module Api
         end
 
         def apply_default_year_from
-          @query = @query.where('time_series_values.year >= ?', DEFAULT_YEAR_FROM)
+          @query = @query.
+            where('time_series_values.year >= ?', DEFAULT_YEAR_FROM)
         end
         # rubocop:enable Style/GuardClause
       end
