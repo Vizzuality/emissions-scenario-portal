@@ -108,10 +108,6 @@ module Api
               alias: 'definition'
             },
             {
-              column: 'indicators.unit',
-              alias: 'unit'
-            },
-            {
               # rubocop:disable Metrics/LineLength
               column: "JSON_AGG(JSON_BUILD_OBJECT('year', time_series_values.year, 'value', ROUND(time_series_values.value, 2)))",
               # rubocop:enable Metrics/LineLength

@@ -11,7 +11,6 @@ module Api
         attribute(:subcategory) { object['subcategory'] }
         attribute(:indicator) { object['indicator'] }
         attribute(:composite_name) { object['composite_name'] }
-        attribute(:indicator_long_name) { object['indicator_long_name'] }
         attribute(:unit) { object['unit'] }
         attribute(:definition) { object['definition'] }
         attribute(:emissions) { object['emissions'] }
