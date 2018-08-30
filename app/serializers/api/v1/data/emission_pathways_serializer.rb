@@ -10,6 +10,7 @@ module Api
         attribute(:category) { object['category'] }
         attribute(:subcategory) { object['subcategory'] }
         attribute(:indicator) { object['indicator'] }
+        attribute(:composite_name) { object['composite_name'] }
         attribute(:unit) { object['unit'] }
         attribute(:definition) { object['definition'] }
         attribute(:emissions) { object['emissions'] }

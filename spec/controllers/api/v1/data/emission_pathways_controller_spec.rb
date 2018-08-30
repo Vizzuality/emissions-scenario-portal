@@ -61,19 +61,28 @@ describe Api::V1::Data::EmissionPathwaysController, type: :controller do
     )
   }
 
+  let :params_for_get do
+    {
+      location_ids: [spain.id],
+      model_ids: [model.id],
+      scenario_ids: [scenario.id],
+      category_ids: [category_1.id],
+      subcategory_ids: [subcategory_1.id],
+      indicator_ids: [indicator_1.id],
+      start_year: 2020,
+      end_year: 2030
+    }
+  end
+
   describe 'GET index' do
     it 'renders emission pathways' do
-      get :index, params: {
-        location_ids: [spain.id],
-        model_ids: [model.id],
-        scenario_ids: [scenario.id],
-        category_ids: [category_1.id],
-        subcategory_ids: [subcategory_1.id],
-        indicator_ids: [indicator_1.id],
-        start_year: 2020,
-        end_year: 2030
-      }
+      get :index, params: params_for_get
       expect(response).to be_success
+    end
+
+    it 'returns composite_name' do
+      get :index, params: params_for_get
+      expect(response.body).to include('composite_name')
     end
 
     it 'sorts by category ascending' do
@@ -111,6 +120,13 @@ describe Api::V1::Data::EmissionPathwaysController, type: :controller do
       parsed_csv = CSV.parse(response.body)
       puts parsed_csv
       expect(parsed_csv.last.last).to eq('N/A')
+      expect(parsed_csv.second).to include('Canis|lupus|dingo')
+    end
+
+    it 'returns composite name as one of the headers' do
+      get :download
+      parsed_csv = CSV.parse(response.body)
+      expect(parsed_csv.first).to include('Composite name')
     end
   end
 
