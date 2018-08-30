@@ -6,7 +6,7 @@ module Api
         include Api::V1::Data::ColumnHelpers
         attr_reader :header_years
 
-        DEFAULT_YEAR_FROM = 2005
+        MINIMUM_YEAR_FROM = 2005
 
         # @param params [Hash]
         # @option params [Array<Integer>] :location_ids
@@ -34,7 +34,7 @@ module Api
         end
 
         def call
-          apply_default_year_from
+          apply_minimum_year_from
           apply_filters
           @years = @query.select(:year).distinct.pluck(:year).sort
           @header_years = @years.dup
@@ -162,9 +162,9 @@ module Api
           end
         end
 
-        def apply_default_year_from
+        def apply_minimum_year_from
           @query = @query.
-            where('time_series_values.year >= ?', DEFAULT_YEAR_FROM)
+            where('time_series_values.year >= ?', MINIMUM_YEAR_FROM)
         end
         # rubocop:enable Style/GuardClause
       end
