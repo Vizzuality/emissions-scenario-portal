@@ -26,6 +26,19 @@ describe Api::V1::Data::EmissionPathwaysController, type: :controller do
   let(:indicator_2) {
     FactoryBot.create(:indicator, subcategory: subcategory_2, name: 'persica')
   }
+  let(:indicator_1970) {
+    FactoryBot.create(:indicator, subcategory: subcategory_2, name: 'manatu')
+  }
+  let(:indicator_1970_value) {
+    FactoryBot.create(
+      :time_series_value,
+      scenario: scenario,
+      indicator: indicator_1970,
+      location: spain,
+      year: 1970,
+      value: 1.0
+    )
+  }
   let(:indicator_with_null) {
     FactoryBot.
       create(:indicator, subcategory: subcategory_2, name: 'with nulls')
@@ -104,6 +117,13 @@ describe Api::V1::Data::EmissionPathwaysController, type: :controller do
     it 'sets pagination headers' do
       get :index
       expect(@response.headers).to include('Total')
+    end
+
+    it 'does not return years below 2005' do
+      get :index
+      records = JSON.parse(@response.body)['data']
+      expect(records.count).to be(3)
+      expect(records).not_to include(1970)
     end
   end
 
