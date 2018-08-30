@@ -90,6 +90,10 @@ module Api
               alias: 'indicator'
             },
             {
+              column: 'indicators.composite_name',
+              alias: 'composite_name'
+            },
+            {
               column: 'indicators.unit',
               alias: 'unit'
             },
