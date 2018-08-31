@@ -26,6 +26,23 @@ describe Api::V1::Data::EmissionPathwaysController, type: :controller do
   let(:indicator_2) {
     FactoryBot.create(:indicator, subcategory: subcategory_2, name: 'persica')
   }
+  let(:indicator_1970) {
+    FactoryBot.create(:indicator, subcategory: subcategory_2, name: 'manatu')
+  }
+  let(:indicator_1970_value) {
+    FactoryBot.create(
+      :time_series_value,
+      scenario: scenario,
+      indicator: indicator_1970,
+      location: spain,
+      year: 1970,
+      value: 1.0
+    )
+  }
+  let(:indicator_with_null) {
+    FactoryBot.
+      create(:indicator, subcategory: subcategory_2, name: 'with nulls')
+  }
   let!(:indicator_1_value) {
     FactoryBot.create(
       :time_series_value,
@@ -46,20 +63,39 @@ describe Api::V1::Data::EmissionPathwaysController, type: :controller do
       value: 2.0
     )
   }
+  let!(:indicator_with_null_value) {
+    FactoryBot.create(
+      :time_series_value,
+      scenario: scenario,
+      indicator: indicator_with_null,
+      location: spain,
+      year: 2020,
+      value: 3.0
+    )
+  }
+
+  let :params_for_get do
+    {
+      location_ids: [spain.id],
+      model_ids: [model.id],
+      scenario_ids: [scenario.id],
+      category_ids: [category_1.id],
+      subcategory_ids: [subcategory_1.id],
+      indicator_ids: [indicator_1.id],
+      start_year: 2020,
+      end_year: 2030
+    }
+  end
 
   describe 'GET index' do
     it 'renders emission pathways' do
-      get :index, params: {
-        location_ids: [spain.id],
-        model_ids: [model.id],
-        scenario_ids: [scenario.id],
-        category_ids: [category_1.id],
-        subcategory_ids: [subcategory_1.id],
-        indicator_ids: [indicator_1.id],
-        start_year: 2020,
-        end_year: 2030
-      }
+      get :index, params: params_for_get
       expect(response).to be_success
+    end
+
+    it 'returns composite_name' do
+      get :index, params: params_for_get
+      expect(response.body).to include('composite_name')
     end
 
     it 'sorts by category ascending' do
@@ -82,6 +118,13 @@ describe Api::V1::Data::EmissionPathwaysController, type: :controller do
       get :index
       expect(@response.headers).to include('Total')
     end
+
+    it 'does not return years below 2005' do
+      get :index
+      records = JSON.parse(@response.body)['data']
+      expect(records.count).to be(3)
+      expect(records).not_to include(1970)
+    end
   end
 
   describe 'GET download' do
@@ -90,6 +133,20 @@ describe Api::V1::Data::EmissionPathwaysController, type: :controller do
       expect(response.content_type).to eq('text/csv')
       expect(response.headers['Content-Disposition']).
         to eq('attachment; filename=emission_pathways.csv')
+    end
+
+    it 'Replaces nulls with N/A' do
+      get :download
+      parsed_csv = CSV.parse(response.body)
+      puts parsed_csv
+      expect(parsed_csv.last.last).to eq('N/A')
+      expect(parsed_csv.second).to include('Canis|lupus|dingo')
+    end
+
+    it 'returns composite name as one of the headers' do
+      get :download
+      parsed_csv = CSV.parse(response.body)
+      expect(parsed_csv.first).to include('Composite name')
     end
   end
 

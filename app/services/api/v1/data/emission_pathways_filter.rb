@@ -4,7 +4,9 @@ module Api
       class EmissionPathwaysFilter
         include Api::V1::Data::SanitisedSorting
         include Api::V1::Data::ColumnHelpers
-        attr_reader :years
+        attr_reader :header_years
+
+        MINIMUM_YEAR_FROM = 2005
 
         # @param params [Hash]
         # @option params [Array<Integer>] :location_ids
@@ -31,18 +33,26 @@ module Api
             )
         end
 
+        # rubocop:disable Metrics/AbcSize
         def call
+          apply_minimum_year_from
           apply_filters
           @years = @query.select(:year).distinct.pluck(:year).sort
+          @header_years = @years.dup
+          @header_years.reject! { |y| y < @start_year } if @start_year
+          @header_years.reject! { |y| y > @end_year } if @end_year
+          apply_year_filter
           @query.
             select(select_columns).
             group(group_columns).
             order(sanitised_order)
         end
+        # rubocop:enable Metrics/AbcSize
 
         def meta
           {
-            years: @years
+            years: @years,
+            header_years: @header_years
           }.merge(sorting_manifest).merge(column_manifest)
         end
 
@@ -53,7 +63,8 @@ module Api
           [
             {
               column: 'indicators.id',
-              alias: 'id'
+              alias: 'id',
+              visible: false
             },
             {
               column: 'locations.iso_code',
@@ -61,7 +72,8 @@ module Api
             },
             {
               column: 'locations.name',
-              alias: 'location'
+              alias: 'location',
+              display: 'Country / Region'
             },
             {
               column: 'models.full_name',
@@ -84,6 +96,10 @@ module Api
               alias: 'indicator'
             },
             {
+              column: 'indicators.composite_name',
+              alias: 'composite_name'
+            },
+            {
               column: 'indicators.unit',
               alias: 'unit'
             },
@@ -97,7 +113,8 @@ module Api
               # rubocop:enable Metrics/LineLength
               alias: 'emissions',
               order: false,
-              group: false
+              group: false,
+              visible: false
             }
           ]
         end
@@ -118,8 +135,8 @@ module Api
             end
             instance_variable_set(:"@#{param_name}", value)
           end
-          @start_year = params[:start_year]
-          @end_year = params[:end_year]
+          @start_year = params[:start_year]&.to_i
+          @end_year = params[:end_year]&.to_i
         end
 
         def apply_filters
@@ -130,7 +147,6 @@ module Api
           @query = @query.where(indicator_id: @indicator_ids) if @indicator_ids
           @query = @query.where(location_id: @location_ids) if @location_ids
           apply_category_filter
-          apply_year_filter
         end
 
         def apply_category_filter
@@ -151,6 +167,11 @@ module Api
           if @end_year
             @query = @query.where('time_series_values.year <= ?', @end_year)
           end
+        end
+
+        def apply_minimum_year_from
+          @query = @query.
+            where('time_series_values.year >= ?', MINIMUM_YEAR_FROM)
         end
         # rubocop:enable Style/GuardClause
       end
