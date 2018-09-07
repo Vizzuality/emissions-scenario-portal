@@ -27,18 +27,11 @@ module Api
 
           private
 
-          # rubocop:disable Metrics/MethodLength
           def record_properties(record)
             result = []
             @attribute_infos.map do |attribute_info|
-              raw_value = record[attribute_info.name]
-              next if raw_value.blank?
-              value =
-                if attribute_info.multiple?
-                  raw_value.join(', ')
-                else
-                  raw_value
-                end
+              value = record_property_value(record, attribute_info)
+              next if value.blank?
               result << [
                 record.model.abbreviation,
                 record.name,
@@ -48,7 +41,16 @@ module Api
             end
             result
           end
-          # rubocop:enable Metrics/MethodLength
+
+          def record_property_value(record, attribute_info)
+            raw_value = record[attribute_info.name]
+            return nil if raw_value.blank?
+            if attribute_info.multiple?
+              raw_value.join(', ')
+            else
+              raw_value
+            end
+          end
         end
       end
     end
