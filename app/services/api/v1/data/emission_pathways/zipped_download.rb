@@ -17,15 +17,15 @@ module Api
           def call
             zipped_download = Api::V1::Data::ZippedDownload.new(@filename)
             zipped_download.add_file_content(
-              Api::V1::Data::EmissionPathwaysCsvContent.new(@filter).call,
+              Api::V1::Data::EmissionPathways::CsvContent.new(@filter).call,
               @filename + '.csv'
             )
             zipped_download.add_file_content(
-              Api::V1::Data::ModelsCsvContent.new(@models_filter).call,
+              Api::V1::Data::Models::CsvContent.new(@models_filter).call,
               @models_filename
             )
             zipped_download.add_file_content(
-              Api::V1::Data::ScenariosCsvContent.new(@scenarios_filter).call,
+              Api::V1::Data::Scenarios::CsvContent.new(@scenarios_filter).call,
               @scenarios_filename
             )
             zipped_download.call
@@ -34,10 +34,10 @@ module Api
           private
 
           def initialize_metadata_filter(params)
-            @models_filter = Api::V1::Data::ModelsFilter.new(
+            @models_filter = Api::V1::Data::Models::Filter.new(
               params.slice(:model_ids, :location_ids)
             )
-            @scenarios_filter = Api::V1::Data::ScenariosFilter.new(
+            @scenarios_filter = Api::V1::Data::Scenarios::Filter.new(
               params.slice(:model_ids, :scenario_ids, :location_ids)
             )
           end

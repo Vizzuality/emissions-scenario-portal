@@ -30,7 +30,6 @@ module Api
           )
         end
 
-        # rubocop:disable Metrics/MethodLength
         def download
           zipped_download =
             Api::V1::Data::EmissionPathways::ZippedDownload.new(
@@ -39,12 +38,11 @@ module Api
             )
           stream_file(zipped_download.filename) { zipped_download.call }
         end
-        # rubocop:enable Metrics/MethodLength
 
         private
 
         def parametrise_filter
-          @filter = Data::EmissionPathwaysFilter.new(params)
+          @filter = Data::EmissionPathways::Filter.new(params)
         end
 
         # rubocop:disable Naming/AccessorMethodName
