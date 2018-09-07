@@ -45,7 +45,7 @@ module Api
                 alias: 'indicator'
               },
               {
-                column: 'indicators.composite_name',
+                column: "REPLACE(indicators.composite_name, '|', ' | ')",
                 alias: 'composite_name'
               },
               {
