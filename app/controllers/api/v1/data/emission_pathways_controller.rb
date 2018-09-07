@@ -5,7 +5,6 @@ module Api
       class EmissionPathwaysController < ApiController
         include Streamable
         before_action :parametrise_filter, only: [:index, :download]
-        before_action :parametrise_metadata_filter, only: [:download]
 
         def index
           @records = paginate @filter.call
@@ -33,23 +32,12 @@ module Api
 
         # rubocop:disable Metrics/MethodLength
         def download
-          filename = 'emission_pathways'
-          models_filename = 'models.csv'
-          scenarios_filename = 'scenarios.csv'
-          zipped_download = Api::V1::Data::ZippedDownload.new(filename)
-          zipped_download.add_file_content(
-            Api::V1::Data::EmissionPathwaysCsvContent.new(@filter).call,
-            filename + '.csv'
-          )
-          zipped_download.add_file_content(
-            Api::V1::Data::ModelsCsvContent.new(@models_filter).call,
-            models_filename
-          )
-          zipped_download.add_file_content(
-            Api::V1::Data::ScenariosCsvContent.new(@scenarios_filter).call,
-            scenarios_filename
-          )
-          stream_file(filename) { zipped_download.call }
+          zipped_download =
+            Api::V1::Data::EmissionPathways::ZippedDownload.new(
+              @filter,
+              source_ids: params[:source_ids]
+            )
+          stream_file(zipped_download.filename) { zipped_download.call }
         end
         # rubocop:enable Metrics/MethodLength
 
@@ -57,15 +45,6 @@ module Api
 
         def parametrise_filter
           @filter = Data::EmissionPathwaysFilter.new(params)
-        end
-
-        def parametrise_metadata_filter
-          @models_filter = Api::V1::Data::ModelsFilter.new(
-            params.slice(:model_ids, :location_ids)
-          )
-          @scenarios_filter = Api::V1::Data::ScenariosFilter.new(
-            params.slice(:model_ids, :scenario_ids, :location_ids)
-          )
         end
 
         # rubocop:disable Naming/AccessorMethodName
