@@ -45,7 +45,7 @@ Rails.application.routes.draw do
 
       namespace :data do
         resources :emission_pathways, only: [:index] do
-          get :download, on: :collection, defaults: { format: 'csv' }
+          get :download, on: :collection, defaults: { format: 'zip' }
           get :meta, on: :collection
         end
         namespace :emission_pathways do

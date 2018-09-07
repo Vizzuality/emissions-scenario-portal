@@ -3,6 +3,7 @@ module Api
   module V1
     module Data
       class EmissionPathwaysController < ApiController
+        include Streamable
         before_action :parametrise_filter, only: [:index, :download]
 
         def index
@@ -30,19 +31,18 @@ module Api
         end
 
         def download
-          csv_string = Api::V1::Data::EmissionPathwaysCsvContent.new(@filter).
-            call
-          send_data(
-            csv_string,
-            type: 'text/csv; charset=utf-8; header=present',
-            disposition: 'attachment; filename=emission_pathways.csv'
-          )
+          zipped_download =
+            Api::V1::Data::EmissionPathways::ZippedDownload.new(
+              @filter,
+              source_ids: params[:source_ids]
+            )
+          stream_file(zipped_download.filename) { zipped_download.call }
         end
 
         private
 
         def parametrise_filter
-          @filter = Data::EmissionPathwaysFilter.new(params)
+          @filter = Data::EmissionPathways::Filter.new(params)
         end
 
         # rubocop:disable Naming/AccessorMethodName
