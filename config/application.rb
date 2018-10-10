@@ -19,5 +19,7 @@ Bundler.require(*Rails.groups)
 module EmissionsScenarioPortal
   class Application < Rails::Application
     config.load_defaults 5.1
+
+    config.active_record.schema_format = :sql
   end
 end

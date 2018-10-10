@@ -8,7 +8,7 @@ addons:
 env:
   - MAILER_DEFAULT_FROM=no-reply@example.com MAILER_DEFAULT_URL=example.com
 before_script:
-  - bundle exec rails db:drop db:create db:schema:load RAILS_ENV=test
+  - bundle exec rails db:drop db:create db:structure:load RAILS_ENV=test
 script:
   - bundle exec rails spec
 notifications:
