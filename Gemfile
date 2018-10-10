@@ -38,6 +38,7 @@ gem 'paperclip'
 gem 'pg_search'
 gem 'pundit'
 gem 'rubyzip'
+gem 'scenic'
 gem 'sidekiq'
 gem 'sparkpost_rails'
 
