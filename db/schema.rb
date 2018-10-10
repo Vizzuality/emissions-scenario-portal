@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180410161015) do
+ActiveRecord::Schema.define(version: 20181010120829) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -229,4 +229,44 @@ ActiveRecord::Schema.define(version: 20180410161015) do
   add_foreign_key "time_series_values", "locations"
   add_foreign_key "time_series_values", "scenarios"
   add_foreign_key "users", "teams"
+
+  create_view "searchable_time_series_values", materialized: true,  sql_definition: <<-SQL
+      SELECT row_number() OVER () AS id,
+      locations.id AS location_id,
+      locations.iso_code AS iso_code2,
+      locations.name AS location,
+      models.id AS model_id,
+      models.full_name AS model,
+      scenarios.id AS scenario_id,
+      scenarios.name AS scenario,
+      categories.id AS category_id,
+      categories.name AS category,
+      subcategories.id AS subcategory_id,
+      subcategories.name AS subcategory,
+      indicators.id AS indicator_id,
+      indicators.name AS indicator,
+      replace(indicators.composite_name, '|'::text, ' | '::text) AS composite_name,
+      indicators.unit,
+      indicators.definition,
+      jsonb_agg(jsonb_build_object('year', time_series_values.year, 'value', round(time_series_values.value, 2))) AS emissions,
+      jsonb_object_agg(time_series_values.year, round(time_series_values.value, 2)) AS emissions_dict
+     FROM ((((((time_series_values
+       JOIN locations ON ((locations.id = time_series_values.location_id)))
+       JOIN scenarios ON ((scenarios.id = time_series_values.scenario_id)))
+       JOIN models ON ((models.id = scenarios.model_id)))
+       JOIN indicators ON ((indicators.id = time_series_values.indicator_id)))
+       LEFT JOIN categories subcategories ON ((subcategories.id = indicators.subcategory_id)))
+       LEFT JOIN categories ON ((categories.id = subcategories.parent_id)))
+    GROUP BY locations.id, locations.iso_code, locations.name, models.id, models.full_name, scenarios.id, scenarios.name, categories.id, categories.name, subcategories.id, subcategories.name, indicators.id, indicators.name, (replace(indicators.composite_name, '|'::text, ' | '::text)), indicators.unit, indicators.definition
+    ORDER BY locations.name;
+  SQL
+
+  add_index "searchable_time_series_values", ["category_id"], name: "index_searchable_time_series_values_on_category_id"
+  add_index "searchable_time_series_values", ["indicator_id"], name: "index_searchable_time_series_values_on_indicator_id"
+  add_index "searchable_time_series_values", ["location"], name: "index_searchable_time_series_values_on_location"
+  add_index "searchable_time_series_values", ["location_id"], name: "index_searchable_time_series_values_on_location_id"
+  add_index "searchable_time_series_values", ["model_id"], name: "index_searchable_time_series_values_on_model_id"
+  add_index "searchable_time_series_values", ["scenario_id"], name: "index_searchable_time_series_values_on_scenario_id"
+  add_index "searchable_time_series_values", ["subcategory_id"], name: "index_searchable_time_series_values_on_subcategory_id"
+
 end
