@@ -4,7 +4,7 @@ language: ruby
 rvm:
   - 2.5.0
 addons:
-  postgresql: 9.5
+  postgresql: 9.6
 env:
   - MAILER_DEFAULT_FROM=no-reply@example.com MAILER_DEFAULT_URL=example.com
 before_script:
