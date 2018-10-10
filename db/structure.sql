@@ -36,6 +36,25 @@ CREATE EXTENSION IF NOT EXISTS tablefunc WITH SCHEMA public;
 COMMENT ON EXTENSION tablefunc IS 'functions that manipulate whole tables, including crosstab';
 
 
+--
+-- Name: emissions_filter_by_year_range(jsonb, integer, integer); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.emissions_filter_by_year_range(emissions jsonb, start_year integer, end_year integer) RETURNS jsonb
+    LANGUAGE sql IMMUTABLE
+    AS $$
+
+      SELECT TO_JSONB(ARRAY_AGG(e)) FROM (
+        SELECT e FROM (
+          SELECT JSONB_ARRAY_ELEMENTS(emissions) e
+        ) expanded_emissions
+        WHERE (start_year IS NULL OR (e->>'year')::int >= start_year) AND
+          (end_year IS NULL OR (e->>'year')::int <= end_year)
+      ) ee
+
+      $$;
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -1104,6 +1123,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180305160903'),
 ('20180307085137'),
 ('20180410161015'),
-('20181010120829');
+('20181010120829'),
+('20181010125231');
 
 
