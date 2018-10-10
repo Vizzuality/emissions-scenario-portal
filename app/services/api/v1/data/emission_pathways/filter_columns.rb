@@ -11,67 +11,74 @@ module Api
           def select_columns_map
             [
               {
-                column: 'indicators.id',
+                column: 'id',
                 alias: 'id',
                 visible: false
               },
               {
-                column: 'locations.iso_code',
+                column: 'iso_code2',
                 alias: 'iso_code2'
               },
               {
-                column: 'locations.name',
+                column: 'location',
                 alias: 'location',
                 display: 'Country / Region'
               },
               {
-                column: 'models.full_name',
+                column: 'model',
                 alias: 'model'
               },
               {
-                column: 'scenarios.name',
+                column: 'scenario',
                 alias: 'scenario'
               },
               {
-                column: 'categories.name',
+                column: 'category',
                 alias: 'category'
               },
               {
-                column: 'subcategories.name',
+                column: 'subcategory',
                 alias: 'subcategory'
               },
               {
-                column: 'indicators.name',
+                column: 'indicator',
                 alias: 'indicator'
               },
               {
-                column: "REPLACE(indicators.composite_name, '|', ' | ')",
+                column: 'composite_name',
                 alias: 'composite_name'
               },
               {
-                column: 'indicators.unit',
+                column: 'unit',
                 alias: 'unit'
               },
               {
-                column: 'indicators.definition',
+                column: 'definition',
                 alias: 'definition'
               },
               {
-                column: 'indicators.unit',
+                column: 'unit',
                 alias: 'unit'
               },
               {
-                # rubocop:disable Metrics/LineLength
-                column: "JSON_AGG(JSON_BUILD_OBJECT('year', time_series_values.year, 'value', ROUND(time_series_values.value, 2)))",
-                # rubocop:enable Metrics/LineLength
+                column: emissions_select_column,
                 alias: 'emissions',
                 order: false,
-                group: false,
                 visible: false
               }
             ]
           end
           # rubocop:enable Metrics/MethodLength
+
+          def emissions_select_column
+            return 'emissions' unless @start_year || @end_year
+            args_str = [
+              'emissions',
+              (@start_year || 'NULL').to_s + '::INT',
+              (@end_year || 'NULL').to_s + '::INT'
+            ].join(', ')
+            "emissions_filter_by_year_range(#{args_str})::JSONB"
+          end
         end
       end
     end

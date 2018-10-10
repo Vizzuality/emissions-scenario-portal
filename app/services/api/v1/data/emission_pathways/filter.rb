@@ -24,34 +24,28 @@ module Api
             initialize_filters(params)
             initialise_sorting(params[:sort_col], params[:sort_dir])
             @query = TimeSeriesValue.
-              joins(:location, {scenario: :model}, :indicator).
-              joins(
-                # rubocop:disable Metrics/LineLength
-                'LEFT JOIN categories subcategories ON subcategories.id = indicators.subcategory_id'
-                # rubocop:enable Metrics/LineLength
-              ).
-              joins(
-                # rubocop:disable Metrics/LineLength
-                'LEFT JOIN categories ON categories.id = subcategories.parent_id'
-                # rubocop:enable Metrics/LineLength
-              )
+              from('searchable_time_series_values time_series_values').
+              all
+            @years_query = TimeSeriesValue.
+              joins(scenario: :model).
+              all
           end
 
-          # rubocop:disable Metrics/AbcSize
           def call
-            apply_minimum_year_from
-            apply_filters
-            @years = @query.select(:year).distinct.pluck(:year).sort
+            @query = apply_filters(@query, mview: true)
+            @years_query = apply_filters(@years_query, mview: false)
+            @years = @years_query.distinct(:year).pluck(:year).sort
             @header_years = @years.dup
             @header_years.reject! { |y| y < @start_year } if @start_year
             @header_years.reject! { |y| y > @end_year } if @end_year
-            apply_year_filter
             @query.
               select(select_columns).
-              group(group_columns).
               order(sanitised_order)
           end
-          # rubocop:enable Metrics/AbcSize
+
+          def year_value_column(year)
+            Arel.sql("emissions_dict->'#{year}'")
+          end
 
           def meta
             {
@@ -62,6 +56,8 @@ module Api
 
           private
 
+          # rubocop:disable Metrics/AbcSize
+          # rubocop:disable Metrics/MethodLength
           def initialize_filters(params)
             # integer arrays
             [
@@ -78,22 +74,32 @@ module Api
               instance_variable_set(:"@#{param_name}", value)
             end
             @start_year = params[:start_year]&.to_i
+            unless @start_year.present? && @start_year > MINIMUM_YEAR_FROM
+              @start_year = MINIMUM_YEAR_FROM
+            end
             @end_year = params[:end_year]&.to_i
           end
+          # rubocop:enable Metrics/AbcSize
+          # rubocop:enable Metrics/MethodLength
 
-          def apply_filters
-            if @model_ids
-              @query = @query.where('scenarios.model_id' => @model_ids)
+          # rubocop:disable Metrics/CyclomaticComplexity
+          # rubocop:disable Metrics/PerceivedComplexity
+          def apply_filters(query, options)
+            if @model_ids && options[:mview]
+              query = query.where(model_id: @model_ids)
+            elsif @model_ids
+              query = query.where('scenarios.model_id' => @model_ids)
             end
-            @query = @query.where(scenario_id: @scenario_ids) if @scenario_ids
-            if @indicator_ids
-              @query = @query.where(indicator_id: @indicator_ids)
-            end
-            @query = @query.where(location_id: @location_ids) if @location_ids
-            apply_category_filter
+            query = query.where(scenario_id: @scenario_ids) if @scenario_ids
+            query = query.where(indicator_id: @indicator_ids) if @indicator_ids
+            query = query.where(location_id: @location_ids) if @location_ids
+            apply_category_filter(query)
+            query
           end
+          # rubocop:enable Metrics/CyclomaticComplexity
+          # rubocop:enable Metrics/PerceivedComplexity
 
-          def apply_category_filter
+          def apply_category_filter(query)
             return unless @category_ids
             top_level_category_ids = Category.top_level.
               where(id: @category_ids).
@@ -101,26 +107,10 @@ module Api
             subcategory_ids = @category_ids +
               Category.where(parent_id: top_level_category_ids).pluck(:id)
 
-            @query = @query.where(
-              'indicators.subcategory_id' => subcategory_ids
+            query.where(
+              subcategory_id: subcategory_ids
             )
           end
-
-          # rubocop:disable Style/GuardClause
-          def apply_year_filter
-            if @start_year
-              @query = @query.where('time_series_values.year >= ?', @start_year)
-            end
-            if @end_year
-              @query = @query.where('time_series_values.year <= ?', @end_year)
-            end
-          end
-
-          def apply_minimum_year_from
-            @query = @query.
-              where('time_series_values.year >= ?', MINIMUM_YEAR_FROM)
-          end
-          # rubocop:enable Style/GuardClause
         end
       end
     end

@@ -18,7 +18,7 @@ module Api
               @grouped_query.each do |record|
                 ary = @aliases.map { |h| record[h] }
                 ary += @years.map do |y|
-                  emission = record.emissions.find { |e| e['year'] == y }
+                  emission = record.emissions&.find { |e| e['year'] == y }
                   (emission && emission['value']) || 'N/A'
                 end
                 csv << ary
