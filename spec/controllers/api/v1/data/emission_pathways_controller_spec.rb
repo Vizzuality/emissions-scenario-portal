@@ -3,6 +3,10 @@ require 'rails_helper'
 describe Api::V1::Data::EmissionPathwaysController, type: :controller do
   include_context 'emission pathways'
 
+  before(:each) do
+    SearchableTimeSeriesValue.refresh
+  end
+
   let :params_for_get do
     {
       location_ids: [spain.id],
