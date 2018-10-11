@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.describe Api::V1::Data::EmissionPathways::CsvContent do
   include_context 'emission pathways'
 
+  before(:each) do
+    SearchableTimeSeriesValue.refresh
+  end
+
   describe :call do
     it 'Replaces nulls with N/A' do
       filter = Api::V1::Data::EmissionPathways::Filter.new({})
