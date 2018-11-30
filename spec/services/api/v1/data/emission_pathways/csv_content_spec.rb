@@ -13,7 +13,8 @@ RSpec.describe Api::V1::Data::EmissionPathways::CsvContent do
       parsed_csv = CSV.parse(
         Api::V1::Data::EmissionPathways::CsvContent.new(filter).call
       )
-      expect(parsed_csv.last.last).to eq('N/A')
+      # The position 9 is the one for year 2030
+      expect(parsed_csv.last[9]).to eq('N/A')
     end
   end
 end

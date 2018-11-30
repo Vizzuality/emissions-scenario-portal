@@ -16,10 +16,6 @@ module Api
                 visible: false
               },
               {
-                column: 'iso_code2',
-                alias: 'iso_code2'
-              },
-              {
                 column: 'location',
                 alias: 'location',
                 display: 'Country / Region'
@@ -47,10 +43,6 @@ module Api
               {
                 column: 'composite_name',
                 alias: 'composite_name'
-              },
-              {
-                column: 'unit',
-                alias: 'unit'
               },
               {
                 column: 'definition',
