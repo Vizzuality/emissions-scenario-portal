@@ -150,6 +150,7 @@ class UploadTimeSeriesValues
 
       update_indicator_counters
       update_scenario_counters
+      SearchableTimeSeriesValue.refresh
 
       csv_upload.update!(
         success: errors.blank?,
