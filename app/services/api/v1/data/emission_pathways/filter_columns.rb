@@ -11,7 +11,7 @@ module Api
           def select_columns_map
             [
               {
-                column: 'id',
+                column: 'time_series_values.id',
                 alias: 'id',
                 visible: false
               },
@@ -41,15 +41,15 @@ module Api
                 alias: 'indicator'
               },
               {
-                column: 'composite_name',
+                column: 'time_series_values.composite_name',
                 alias: 'composite_name'
               },
               {
-                column: 'definition',
+                column: 'time_series_values.definition',
                 alias: 'definition'
               },
               {
-                column: 'unit',
+                column: 'time_series_values.unit',
                 alias: 'unit'
               },
               {
