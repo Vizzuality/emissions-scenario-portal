@@ -93,23 +93,21 @@ module Api
             query = query.where(scenario_id: @scenario_ids) if @scenario_ids
             query = query.where(indicator_id: @indicator_ids) if @indicator_ids
             query = query.where(location_id: @location_ids) if @location_ids
-            apply_category_filter(query)
+            query = query.joins(:indicator).where(indicators: {subcategory_id: apply_category_filter}) if @category_ids
+            puts query.to_sql.inspect
             query
           end
           # rubocop:enable Metrics/CyclomaticComplexity
           # rubocop:enable Metrics/PerceivedComplexity
 
-          def apply_category_filter(query)
-            return unless @category_ids
+          def apply_category_filter
             top_level_category_ids = Category.top_level.
               where(id: @category_ids).
               pluck(:id)
             subcategory_ids = @category_ids +
               Category.where(parent_id: top_level_category_ids).pluck(:id)
 
-            query.where(
-              subcategory_id: subcategory_ids
-            )
+            subcategory_ids
           end
         end
       end
