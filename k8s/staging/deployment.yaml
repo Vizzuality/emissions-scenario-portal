@@ -1,9 +1,10 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
+  namespace: climate-watch
   labels:
-    name: {name}
-  name: {name}
+    name: emissions-scenario-portal
+  name: emissions-scenario-portal
 spec:
   revisionHistoryLimit: 0
   template:
@@ -11,7 +12,7 @@ spec:
       annotations:
         chaos.alpha.kubernetes.io/enabled: "true"
       labels:
-        name: {name}
+        name: emissions-scenario-portal
     spec:
       tolerations:
       - key: "type"
@@ -28,11 +29,11 @@ spec:
                 - key: name
                   operator: In
                   values:
-                  - {name}-staging
+                  - emissions-scenario-portal-staging
               topologyKey: kubernetes.io/hostname
       containers:
-      - name: {name}
-        image: vizzuality/{name}
+      - name: emissions-scenario-portal
+        image: vizzuality/emissions-scenario-portal
         imagePullPolicy: Always
         resources:
           requests:
@@ -88,8 +89,8 @@ spec:
 
         ports:
           - containerPort: 3000
-      - name: {name}-sidekiq
-        image: vizzuality/{name}
+      - name: emissions-scenario-portal-sidekiq
+        image: vizzuality/emissions-scenario-portal
         imagePullPolicy: Always
         resources:
           requests:
