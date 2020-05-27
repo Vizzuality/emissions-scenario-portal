@@ -4,6 +4,11 @@ module Api
       attribute :id
       attribute :full_name, key: :name
       attribute :logo
+      attribute :slug
+
+      def slug
+        object.full_name.parameterize
+      end
 
       def logo
         object.logo_file_name ?

@@ -45,9 +45,14 @@ module Api
       attribute :bioenergy_supply
       attribute :co2_storage_supply
       attribute :logo
+      attribute :slug
 
       attribute :scenario_ids
       attribute :indicator_ids
+
+      def slug
+        object.full_name.parameterize
+      end
 
       def indicator_ids
         object.indicators.pluck(:id)

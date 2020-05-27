@@ -5,6 +5,11 @@ module Api
       attribute :name
       attribute :iso_code
       attribute :region
+      attribute :slug
+
+      def slug
+        object.name.parameterize
+      end
     end
   end
 end
