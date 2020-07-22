@@ -45,7 +45,7 @@ spec:
           - name: MAILER_DEFAULT_URL
             value: data.emissionspathways.org
           - name: AWS_REGION
-            value: eu-west-1
+            value: us-east-1
           - name: RACK_ENV
             value: production
           - name: RAILS_ENV
@@ -106,7 +106,7 @@ spec:
           - name: MAILER_DEFAULT_URL
             value: data.emissionspathways.org
           - name: AWS_REGION
-            value: eu-west-1
+            value: us-east-1
           - name: RACK_ENV
             value: production
           - name: RAILS_ENV
