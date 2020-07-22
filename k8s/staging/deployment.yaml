@@ -62,17 +62,17 @@ spec:
           - name: AWS_ACCESS_KEY_ID
             valueFrom:
                 secretKeyRef:
-                  name: mssecrets
+                  name: appsecrets
                   key: EMISSIONS_AWS_ACCESS_KEY_ID
           - name: AWS_SECRET_ACCESS_KEY
             valueFrom:
                 secretKeyRef:
-                  name: mssecrets
+                  name: appsecrets
                   key: EMISSIONS_AWS_SECRET_ACCESS_KEY
           - name: SPARKPOST_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: mssecrets
+                name: appsecrets
                 key: EMISSIONS_SPARKPOST_PASSWORD
           - name: REDIS_URL
             value: redis://localhost:6379
@@ -84,7 +84,7 @@ spec:
           - name: APPSIGNAL_PUSH_API_KEY
             valueFrom:
               secretKeyRef:
-                name: mssecrets
+                name: appsecrets
                 key: EMISSIONS_APP_SIGNAL_PUSH_API_KEY
 
 
@@ -119,22 +119,22 @@ spec:
           - name: AWS_ACCESS_KEY_ID
             valueFrom:
                 secretKeyRef:
-                  name: mssecrets
+                  name: appsecrets
                   key: EMISSIONS_AWS_ACCESS_KEY_ID
           - name: AWS_SECRET_ACCESS_KEY
             valueFrom:
                 secretKeyRef:
-                  name: mssecrets
+                  name: appsecrets
                   key: EMISSIONS_AWS_SECRET_ACCESS_KEY
           - name: SECRET_KEY_BASE
             valueFrom:
                 secretKeyRef:
-                  name: mssecrets
+                  name: appsecrets
                   key: EMISSIONS_SECRET_KEY_BASE
           - name: SPARKPOST_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: mssecrets
+                name: appsecrets
                 key: EMISSIONS_SPARKPOST_PASSWORD
           - name: REDIS_URL
             value: redis://localhost:6379
