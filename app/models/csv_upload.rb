@@ -9,7 +9,7 @@ class CsvUpload < ApplicationRecord
 
   has_attached_file(
     :data,
-    path: "#{Rails.env}/:class/:id/:filename",
+    path: "emissionspathways.org/#{Rails.env.production? ? 'www': 'staging'}.emissionspathways.org/#{Rails.env}/:class/:id/:filename",
   )
 
   validates_attachment(
