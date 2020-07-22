@@ -5,7 +5,7 @@ class Team < ApplicationRecord
   validates :name, presence: true, uniqueness: true
 
   has_attached_file :image, storage: :s3,
-    path: "#{Rails.env}/:class/:id/:filename",
+    path: "emissionspathways.org/#{Rails.env.production? ? 'www': 'staging'}.emissionspathways.org/#{Rails.env}/:class/:id/:filename",
     styles: {
       thumb: '300x300>'
     }

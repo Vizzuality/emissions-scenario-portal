@@ -24,7 +24,7 @@ class Model < ApplicationRecord
   before_validation :ignore_blank_array_values
 
   has_attached_file :logo, storage: :s3,
-    path: "#{Rails.env}/:class/:id/:filename",
+    path: "emissionspathways.org/#{Rails.env.production? ? 'www': 'staging'}.emissionspathways.org/#{Rails.env}/:class/:id/:filename",
     styles: {
       thumb: '300x300>'
     }
