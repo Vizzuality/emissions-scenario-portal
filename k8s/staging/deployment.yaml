@@ -46,7 +46,7 @@ spec:
           - name: MAILER_DEFAULT_URL
             value: staging.emissionpathways.org
           - name: AWS_REGION
-            value: eu-west-1
+            value: us-east-1
           - name: RACK_ENV
             value: staging
           - name: RAILS_ENV
@@ -105,7 +105,7 @@ spec:
           - name: MAILER_DEFAULT_URL
             value: www.emissionspathways.org
           - name: AWS_REGION
-            value: eu-west-1
+            value: us-east-1
           - name: RACK_ENV
             value: staging
           - name: RAILS_ENV
