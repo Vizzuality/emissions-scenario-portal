@@ -5,6 +5,11 @@ module Api
         attribute :id
         attribute :name
         attribute :parent_id
+        attribute :slug
+
+        def slug
+          object.name.parameterize
+        end
       end
     end
   end

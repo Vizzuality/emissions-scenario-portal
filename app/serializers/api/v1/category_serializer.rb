@@ -6,6 +6,11 @@ module Api
 
       attribute :parent_id, unless: -> { object.parent.nil? }
       has_many :subcategories, if: -> { object.parent.nil? }
+      attribute :slug
+
+      def slug
+        object.name.parameterize
+      end
     end
   end
 end

@@ -17,10 +17,15 @@ module Api
       attribute :other_target
       attribute :burden_sharing
       attribute :discount_rates
+      attribute :slug
 
       belongs_to :model
       has_many :indicator_ids
       has_many :category_ids
+
+      def slug
+        object.name.parameterize
+      end
 
       def model
         {
