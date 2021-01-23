@@ -1,12 +1,22 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: climate-watch
   labels:
     name: emissions-scenario-portal
   name: emissions-scenario-portal
+  namespace: climate-watch
 spec:
+  progressDeadlineSeconds: 2147483647
+  replicas: 1
   revisionHistoryLimit: 0
+  selector:
+    matchLabels:
+      name: emissions-scenario-portal
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -23,133 +33,148 @@ spec:
                       - webapps
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            podAffinityTerm:
-              labelSelector:
-                matchExpressions:
-                - key: name
-                  operator: In
-                  values:
-                  - emissions-scenario-portal-staging
-              topologyKey: kubernetes.io/hostname
+            - podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: name
+                      operator: In
+                      values:
+                        - emissions-scenario-portal-staging
+                topologyKey: kubernetes.io/hostname
+              weight: 100
       containers:
-      - name: emissions-scenario-portal
-        image: vizzuality/emissions-scenario-portal
-        imagePullPolicy: Always
-        resources:
-          requests:
-            memory: "0Mi"
-            cpu: "0m"
-        env:
-          - name: MAILER_DEFAULT_FROM
-            value: no-reply@staging.emissionspathways.org
-          - name: MAILER_DEFAULT_URL
-            value: staging.emissionpathways.org
-          - name: AWS_REGION
-            value: us-east-1
-          - name: RACK_ENV
-            value: staging
-          - name: RAILS_ENV
-            value: staging
-          - name: RAILS_LOG_TO_STDOUT
-            value: "true"
-          - name: PORT
-            value: "3000"
-          - name: RAILS_SERVE_STATIC_FILES
-            value: "true"
-          - name: S3_BUCKET_NAME
-            value: wri-sites
-          - name: AWS_ACCESS_KEY_ID
-            valueFrom:
+        - env:
+            - name: MAILER_DEFAULT_FROM
+              value: no-reply@staging.emissionspathways.org
+            - name: MAILER_DEFAULT_URL
+              value: staging.emissionpathways.org
+            - name: AWS_REGION
+              value: us-east-1
+            - name: RACK_ENV
+              value: staging
+            - name: RAILS_ENV
+              value: staging
+            - name: RAILS_LOG_TO_STDOUT
+              value: "true"
+            - name: PORT
+              value: "3000"
+            - name: RAILS_SERVE_STATIC_FILES
+              value: "true"
+            - name: S3_BUCKET_NAME
+              value: wri-sites
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
                 secretKeyRef:
-                  name: appsecrets
                   key: EMISSIONS_AWS_ACCESS_KEY_ID
-          - name: AWS_SECRET_ACCESS_KEY
-            valueFrom:
-                secretKeyRef:
                   name: appsecrets
-                  key: EMISSIONS_AWS_SECRET_ACCESS_KEY
-          - name: SPARKPOST_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: appsecrets
-                key: EMISSIONS_SPARKPOST_PASSWORD
-          - name: REDIS_URL
-            value: redis://localhost:6379
-          - name: POSTGRES_URL
-            valueFrom:
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
                 secretKeyRef:
-                  name: dbsecrets
+                  key: EMISSIONS_AWS_SECRET_ACCESS_KEY
+                  name: appsecrets
+            - name: SPARKPOST_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: EMISSIONS_SPARKPOST_PASSWORD
+                  name: appsecrets
+            - name: REDIS_URL
+              value: redis://localhost:6379
+            - name: POSTGRES_URL
+              valueFrom:
+                secretKeyRef:
                   key: EMISSIONS_POSTGRES_URL
-          - name: APPSIGNAL_PUSH_API_KEY
-            valueFrom:
-              secretKeyRef:
-                name: appsecrets
-                key: EMISSIONS_APP_SIGNAL_PUSH_API_KEY
-
-
-        ports:
-          - containerPort: 3000
-      - name: emissions-scenario-portal-sidekiq
-        image: vizzuality/emissions-scenario-portal
-        imagePullPolicy: Always
-        resources:
-          requests:
-            memory: "128Mi"
-          limits:
-            memory: "512Mi"
-        command: ["bundle", "exec", "sidekiq"]
-        env:
-          - name: MAILER_DEFAULT_FROM
-            value: no-reply@emissionspathways.org
-          - name: MAILER_DEFAULT_URL
-            value: www.emissionspathways.org
-          - name: AWS_REGION
-            value: us-east-1
-          - name: RACK_ENV
-            value: staging
-          - name: RAILS_ENV
-            value: staging
-          - name: PORT
-            value: "3000"
-          - name: RAILS_SERVE_STATIC_FILES
-            value: "true"
-          - name: S3_BUCKET_NAME
-            value: wri-sites
-          - name: AWS_ACCESS_KEY_ID
-            valueFrom:
+                  name: dbsecrets
+            - name: APPSIGNAL_PUSH_API_KEY
+              valueFrom:
                 secretKeyRef:
+                  key: EMISSIONS_APP_SIGNAL_PUSH_API_KEY
                   name: appsecrets
+          image: vizzuality/emissions-scenario-portal
+          imagePullPolicy: Always
+          name: emissions-scenario-portal
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+          resources:
+            requests:
+              cpu: "0"
+              memory: "0"
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - command:
+            - bundle
+            - exec
+            - sidekiq
+          env:
+            - name: MAILER_DEFAULT_FROM
+              value: no-reply@emissionspathways.org
+            - name: MAILER_DEFAULT_URL
+              value: www.emissionspathways.org
+            - name: AWS_REGION
+              value: us-east-1
+            - name: RACK_ENV
+              value: staging
+            - name: RAILS_ENV
+              value: staging
+            - name: PORT
+              value: "3000"
+            - name: RAILS_SERVE_STATIC_FILES
+              value: "true"
+            - name: S3_BUCKET_NAME
+              value: wri-sites
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
                   key: EMISSIONS_AWS_ACCESS_KEY_ID
-          - name: AWS_SECRET_ACCESS_KEY
-            valueFrom:
-                secretKeyRef:
                   name: appsecrets
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
                   key: EMISSIONS_AWS_SECRET_ACCESS_KEY
-          - name: SECRET_KEY_BASE
-            valueFrom:
-                secretKeyRef:
                   name: appsecrets
+            - name: SECRET_KEY_BASE
+              valueFrom:
+                secretKeyRef:
                   key: EMISSIONS_SECRET_KEY_BASE
-          - name: SPARKPOST_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: appsecrets
-                key: EMISSIONS_SPARKPOST_PASSWORD
-          - name: REDIS_URL
-            value: redis://localhost:6379
-          - name: POSTGRES_URL
-            valueFrom:
+                  name: appsecrets
+            - name: SPARKPOST_PASSWORD
+              valueFrom:
                 secretKeyRef:
-                  name: dbsecrets
+                  key: EMISSIONS_SPARKPOST_PASSWORD
+                  name: appsecrets
+            - name: REDIS_URL
+              value: redis://localhost:6379
+            - name: POSTGRES_URL
+              valueFrom:
+                secretKeyRef:
                   key: EMISSIONS_POSTGRES_URL
-      - name: redis
-        image: redis
-        ports:
-         - containerPort: 6379
-        resources:
-         requests:
-           memory: 256Mi
-           cpu: 100m
-
+                  name: dbsecrets
+          image: vizzuality/emissions-scenario-portal
+          imagePullPolicy: Always
+          name: emissions-scenario-portal-sidekiq
+          resources:
+            limits:
+              memory: 512Mi
+            requests:
+              memory: 128Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - image: redis
+          imagePullPolicy: Always
+          name: redis
+          ports:
+            - containerPort: 6379
+              protocol: TCP
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+        - name: regcred
       restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: { }
+      terminationGracePeriodSeconds: 30
