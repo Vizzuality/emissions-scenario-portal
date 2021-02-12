@@ -149,7 +149,7 @@ spec:
                 secretKeyRef:
                   key: EMISSIONS_POSTGRES_URL
                   name: dbsecrets
-          image: vizzuality/emissions-scenario-portal
+          image: gfwdockerhub/emissions-scenario-portal
           imagePullPolicy: Always
           name: emissions-scenario-portal-sidekiq
           resources:

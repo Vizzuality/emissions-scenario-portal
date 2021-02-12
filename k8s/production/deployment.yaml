@@ -91,7 +91,7 @@ spec:
                 secretKeyRef:
                   key: EMISSIONS_APP_SIGNAL_PUSH_API_KEY
                   name: appsecrets
-          image: vizzuality/emissions-scenario-portal
+          image: gfwdockerhub/emissions-scenario-portal
           imagePullPolicy: Always
           name: emissions-scenario-portal
           ports:
