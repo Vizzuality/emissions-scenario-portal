@@ -1,4 +1,5 @@
 default: &defaults
+  active: false
   # Your push api key, it is possible to set this dynamically using ERB:
   push_api_key: "<%= ENV['APPSIGNAL_PUSH_API_KEY'] %>"
 
@@ -19,13 +20,10 @@ default: &defaults
 # to false to not push metrics for that environment.
 development:
   <<: *defaults
-  active: false
 
 staging:
   <<: *defaults
-  active: false
 
 production:
   <<: *defaults
-  active: true
 
